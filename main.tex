@@ -1,0 +1,360 @@
+\documentclass[12pt,a4paper,oneside,openright]{report} %tady bylo originálně twoside, změnil jsem na oneside, protože to přidávalo prázdné stránky v dokuentu
+\setlength\textwidth{145mm}
+\setlength\textheight{247mm}
+\setlength\oddsidemargin{14.2mm}
+\setlength\evensidemargin{0mm}
+\setlength\topmargin{0mm}
+\setlength\headsep{0mm}
+\setlength\headheight{0mm}
+\let\openright=\cleardoublepage
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{wrapfig}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+%Casey additions
+%\usepackage{mathtools}
+%\mathtoolsset{showonlyrefs} % I want all equations to be numbered, even if they are not referred in the text. It helps in revisions.
+%\newcommand{\p}{\partial}
+
+% PAGE DIMENSION
+\usepackage[scale=0.9]{geometry}
+
+% BIBLIOGRAPHY
+\usepackage{natbib}
+\usepackage{bibentry} % inline refereces
+
+% ENCODING, LANGUAGE
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+
+% GRAPHICS
+\usepackage{subfig}
+\usepackage{graphicx}
+
+% HYPERTEXT, SOURCE CODE SPECIALS
+\usepackage[unicode]{hyperref}
+\usepackage[active]{srcltx} % use TeX-souce-specials-mode
+
+% SYMBOLS, FONTS
+\usepackage{mathbbol}
+\usepackage{bm} % sophisticated \boldsymbol
+%\usepackage{stmaryrd}
+%\usepackage{MnSymbol} % \lsem, \rsem, tensor product :
+%\usepackage{gensymb}
+%\usepackage{eurosym}
+
+% UNITS, TYPESETTING TENSORS
+\usepackage{units}
+\usepackage{tensor}
+\usepackage{accents}
+
+
+%% Vytváříme PDF/A-2u
+\usepackage[a-2u]{pdfx}
+
+%%přidal jsem já
+\usepackage{float}
+
+%% Přepneme na českou sazbu a fonty Latin Modern
+\usepackage[czech]{babel}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+
+%% Použité kódování znaků: obvykle latin2, cp1250 nebo utf8:
+\usepackage[utf8]{inputenc}
+
+%%% Další užitečné balíčky (jsou součástí běžných distribucí LaTeXu)
+\usepackage{amsmath} % rozšíření pro sazbu matematiky
+\DeclareMathOperator{\arctanh}{arctanh}
+\DeclareMathOperator{\arccoth}{arccoth}
+\usepackage{amsfonts}       % matematické fonty
+\usepackage{amsthm}         % sazba vět, definic apod.
+\usepackage{bbding}         % balíček s nejrůznějšími symboly
+			    % (čtverečky, hvězdičky, tužtičky, nůžtičky, ...)
+\usepackage{bm}             % tučné symboly (příkaz \bm)
+\usepackage{graphicx}       % vkládání obrázků
+\usepackage{fancyvrb}       % vylepšené prostředí pro strojové písmo
+\usepackage{indentfirst}    % zavede odsazení 1. odstavce kapitoly
+\usepackage{natbib}         % zajištuje možnost odkazovat na literaturu
+			    % stylem AUTOR (ROK), resp. AUTOR [ČÍSLO]
+\setcitestyle{numbers,open={[},close={]}}
+\usepackage[nottoc]{tocbibind} % zajistí přidání seznamu literatury,
+                            % obrázků a tabulek do obsahu
+\usepackage{icomma}         % inteligetní čárka v matematickém módu
+\usepackage{dcolumn}        % lepší zarovnání sloupců v tabulkách
+\usepackage{booktabs}       % lepší vodorovné linky v tabulkách
+\usepackage{paralist}       % lepší enumerate a itemize
+\usepackage{xcolor}         % barevná sazba
+
+\def\NazevPrace{Vlastnosti Killingových vektorů v axiálně symetrických prostoročasech}
+
+
+\def\NazevPraceEN{
+Properties of Killing vectors in axially symmetric spacetimes}
+
+
+\def\AutorPrace{Oliver Křenek}
+
+
+\def\RokOdevzdani{2024}
+
+\def\Katedra{Ústav teoretické fyziky}
+\def\KatedraEN{Institute of Theoretical Physics}
+
+\def\TypPracoviste{Ústav Teoretické Fyziky}
+\def\TypPracovisteEN{Department}
+
+\def\Vedouci{prof. RNDr. Pavel Krtouš, Ph.D.}
+
+\def\KatedraVedouciho{Ústav teoretické fyziky}
+\def\KatedraVedoucihoEN{Institute of Theoretical Physics}
+
+
+\def\StudijniProgram{Fyzika}
+
+\def\Podekovani{%
+Rád bych poděkoval.
+}
+
+% Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
+\def\Abstrakt{%
+ffff
+}
+\def\AbstraktEN{%
+fffff
+}
+
+% 3 až 5 klíčových slov (doporučeno), každé uzavřeno ve složených závorkách
+\def\KlicovaSlova{%
+{metrika,} {Killingovy vektory,} {axiálně symetrické prostoročasy,} {Minkowského prostoročas,} {anti-de Sitterův prostoročas,} {asymptotické chování}
+}
+\def\KlicovaSlovaEN{%
+{Metric,} {Killing vectors,} {Axially symmetric spacetimes,} {Minkowski spacetime,} {Anti-de Sitter spacetime,} {Asymptotic properties}
+}
+
+%% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
+%% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
+%% Většinu nastavítek přednastaví balíček pdfx.
+\hypersetup{unicode}
+\hypersetup{breaklinks=true}
+
+
+
+
+\begin{document}
+
+\pagestyle{empty}
+\hypersetup{pageanchor=false}
+
+\begin{center}
+
+\centerline{\mbox{\includegraphics[width=166mm]{logo-cs.pdf}}}
+
+\vspace{-8mm}
+\vfill
+
+{\bf\Large DIPLOMOVÁ PRÁCE}
+
+\vfill
+
+{\LARGE\AutorPrace}
+
+\vspace{15mm}
+
+{\LARGE\bfseries\NazevPrace}
+
+\vfill
+
+\Katedra
+
+\vfill
+
+{
+\centerline{\vbox{\halign{\hbox to 0.45\hsize{\hfil #}&\hskip 0.5em\parbox[t]{0.45\hsize}{\raggedright #}\cr
+Vedoucí bakalářské práce:&\Vedouci \cr
+\noalign{\vspace{2mm}}
+Studijní program:&\StudijniProgram \cr
+}}}}
+
+\vfill
+
+Praha \RokOdevzdani
+
+\end{center}
+
+\newpage
+
+\noindent
+\Podekovani
+
+\openright
+\hypersetup{pageanchor=true}
+\pagestyle{plain}
+\pagenumbering{roman}
+\vglue 0pt plus 1fill
+
+\noindent
+Prohlašuji, že jsem tuto bakalářskou práci vypracoval samostatně a výhradně
+s~použitím citovaných pramenů, literatury a dalších odborných zdrojů.
+Tato práce nebyla využita k získání jiného nebo stejného titulu.
+
+\medskip\noindent
+Beru na~vědomí, že se na moji práci vztahují práva a povinnosti vyplývající
+ze zákona č. 121/2000 Sb., autorského zákona v~platném znění, zejména skutečnost,
+že Univerzita Karlova má právo na~uzavření licenční smlouvy o~užití této
+práce jako školního díla podle §60 odst. 1 autorského zákona.
+
+\vspace{10mm}
+
+\hbox{\hbox to 0.5\hsize{%
+V \hbox to 6em{\dotfill} dne \hbox to 6em{\dotfill}
+\hss}\hbox to 0.5\hsize{\dotfill\quad}}
+\smallskip
+\hbox{\hbox to 0.5\hsize{}\hbox to 0.5\hsize{\hfil Podpis autora\hfil}}
+
+\vspace{20mm}
+
+\vbox to 0.5\vsize{
+\setlength\parindent{0mm}
+\setlength\parskip{2.5mm}%% tady bylo predtim 5, upravil jsem
+
+Název:
+\NazevPrace
+
+Autor:
+\AutorPrace
+
+Katedra:
+\Katedra
+
+Vedoucí bakalářské práce:
+\Vedouci, \KatedraVedouciho
+
+Abstrakt:
+\Abstrakt
+
+Klíčová slova:
+\KlicovaSlova
+
+\vss}\nobreak\vbox to 0.49\vsize{
+\setlength\parindent{0mm}
+\setlength\parskip{5mm}
+
+Title:
+\NazevPraceEN
+
+Author:
+\AutorPrace
+
+\TypPracovisteEN:
+\KatedraEN
+
+Supervisor:
+\Vedouci, \KatedraVedoucihoEN
+
+Abstract:
+\AbstraktEN
+
+Keywords:
+\KlicovaSlovaEN
+
+\vss}
+
+\newpage
+
+\openright
+\pagestyle{plain}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\tableofcontents
+
+\newpage
+
+\chapter*{Úvod}
+\addcontentsline{toc}{chapter}{Úvod}
+\noindent
+V této práci se budeme zabývat...
+
+\chapter{}
+\noindent
+
+
+\chapter{}
+\noindent
+
+\begin{subequations}
+  \begin{align}
+    m_1 \frac{d^{\,2} x_1}{d \, t^{\,2}}  + k_1 x_1 + k_2 \left(x_1 - x_2\right) & = f, \\
+    m_2 \frac{d^{\,2} x_2}{d \, t^{\,2}}  + b \frac{d}{d \, t}(x_2 - x_1) + k_2 x_2 - k_2 x_1 & = 0,
+  \end{align}
+\end{subequations}
+
+\section{}
+\noindent
+
+
+
+\subsection*{}
+\noindent
+
+
+
+\section{}
+\noindent
+
+
+
+\chapter{}
+\noindent
+
+\section{}
+\noindent
+
+
+\section{}
+\noindent
+
+
+\chapter*{Závěr}
+\addcontentsline{toc}{chapter}{Závěr}
+\noindent
+V této práci jsme zkoumali...
+
+\begin{thebibliography}{99}
+
+\bibitem{cit1}
+   {\sc Krtouš,\;P.}
+   \emph{Interní materiály a konzultace}.
+   Univerzita Karlova, 
+   Ma\-te\-ma\-ticko-fyzikální fakulta,
+   Ústav teoretické fyziky, 2024.
+
+\bibitem{cit2}
+   {\sc Krtouš,\;P.}
+   \emph{Proseminář z teoretické fyziky}.
+   Záznamy přednášek, \hfill \\https://utf.mff.cuni.cz/vyuka/NOFY070/2022/prednasky7681.html,
+   2022.
+
+\bibitem{cit3}
+   {\sc Klozová,\;E.}
+   \emph{Geometrie 2+1 dimenzionálních černých děr}.
+   Bakalářská práce,
+   vedoucí Krtouš, Pavel. 
+   Univerzita Karlova, 
+   Matematicko-fyzikální fakulta,
+   Ústav teoretické fyziky, 2013.
+
+
+ \end{thebibliography}
+
+\appendix
+\openright
+\end{document}
