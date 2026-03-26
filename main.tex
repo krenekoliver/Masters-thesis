@@ -13,47 +13,8 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{wrapfig}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsthm}
-
-%Casey additions
-%\usepackage{mathtools}
-%\mathtoolsset{showonlyrefs} % I want all equations to be numbered, even if they are not referred in the text. It helps in revisions.
-%\newcommand{\p}{\partial}
-
-% PAGE DIMENSION
-\usepackage[scale=0.9]{geometry}
-
-% BIBLIOGRAPHY
-\usepackage{natbib}
-\usepackage{bibentry} % inline refereces
-
-% ENCODING, LANGUAGE
-\usepackage[english]{babel}
-\usepackage[utf8]{inputenc}
-
-% GRAPHICS
-\usepackage{subfig}
-\usepackage{graphicx}
-
-% HYPERTEXT, SOURCE CODE SPECIALS
-\usepackage[unicode]{hyperref}
-\usepackage[active]{srcltx} % use TeX-souce-specials-mode
-
-% SYMBOLS, FONTS
-\usepackage{mathbbol}
-\usepackage{bm} % sophisticated \boldsymbol
-%\usepackage{stmaryrd}
-%\usepackage{MnSymbol} % \lsem, \rsem, tensor product :
-%\usepackage{gensymb}
-%\usepackage{eurosym}
-
-% UNITS, TYPESETTING TENSORS
-\usepackage{units}
-\usepackage{tensor}
-\usepackage{accents}
-
+\usepackage{algpseudocode}
+\usepackage[ruled,linesnumbered,algoruled,boxed]{algorithm2e}
 
 %% Vytváříme PDF/A-2u
 \usepackage[a-2u]{pdfx}
@@ -62,7 +23,7 @@
 \usepackage{float}
 
 %% Přepneme na českou sazbu a fonty Latin Modern
-\usepackage[czech]{babel}
+\usepackage[english]{babel}
 \usepackage{lmodern}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
@@ -77,66 +38,64 @@
 \usepackage{amsfonts}       % matematické fonty
 \usepackage{amsthm}         % sazba vět, definic apod.
 \usepackage{bbding}         % balíček s nejrůznějšími symboly
-			    % (čtverečky, hvězdičky, tužtičky, nůžtičky, ...)
+% (čtverečky, hvězdičky, tužtičky, nůžtičky, ...)
 \usepackage{bm}             % tučné symboly (příkaz \bm)
 \usepackage{graphicx}       % vkládání obrázků
 \usepackage{fancyvrb}       % vylepšené prostředí pro strojové písmo
 \usepackage{indentfirst}    % zavede odsazení 1. odstavce kapitoly
 \usepackage{natbib}         % zajištuje možnost odkazovat na literaturu
-			    % stylem AUTOR (ROK), resp. AUTOR [ČÍSLO]
+% stylem AUTOR (ROK), resp. AUTOR [ČÍSLO]
 \setcitestyle{numbers,open={[},close={]}}
 \usepackage[nottoc]{tocbibind} % zajistí přidání seznamu literatury,
-                            % obrázků a tabulek do obsahu
+% obrázků a tabulek do obsahu
 \usepackage{icomma}         % inteligetní čárka v matematickém módu
 \usepackage{dcolumn}        % lepší zarovnání sloupců v tabulkách
 \usepackage{booktabs}       % lepší vodorovné linky v tabulkách
 \usepackage{paralist}       % lepší enumerate a itemize
 \usepackage{xcolor}         % barevná sazba
 
+
 \def\NazevPrace{Rate-type models for metamaterials}
 
 
 \def\NazevPraceEN{
-Rate-type models for metamaterials}
+	Rate-type models for metamaterials}
 
 
-\def\AutorPrace{Oliver Křenek}
+\def\AutorPrace{Bc. Oliver Křenek}
 
 
-\def\RokOdevzdani{2024}
+\def\RokOdevzdani{2026}
 
-\def\Katedra{Ústav teoretické fyziky}
-\def\KatedraEN{Institute of Theoretical Physics}
+\def\Katedra{Institute of Mathematics}
+\def\KatedraEN{Institute of Mathematics}
 
-\def\TypPracoviste{Ústav Teoretické Fyziky}
+\def\TypPracoviste{Matematický Ústav}
 \def\TypPracovisteEN{Department}
 
-\def\Vedouci{prof. RNDr. Pavel Krtouš, Ph.D.}
+\def\Vedouci{doc. Mgr. Vít Průša, Ph.D.}
 
-\def\KatedraVedouciho{Ústav teoretické fyziky}
-\def\KatedraVedoucihoEN{Institute of Theoretical Physics}
+\def\KatedraVedoucihoEN{Institute of Mathematics}
 
 
-\def\StudijniProgram{Fyzika}
+\def\StudijniProgram{FMPMP}
 
 \def\Podekovani{%
-Rád bych poděkoval.
-}
+	I would like to thank...
+
 
 % Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
-\def\Abstrakt{%
-ffff
+
 }
 \def\AbstraktEN{%
-fffff
+	Metamaterials are materials engineered to have properties that are not exhibited by materials common in nature. These exotic properties are usually related to the wave propagation phenomena in metamaterials, and these exotic properties usually stem from a carefully designed microstructure. A considerable effort has been invested into the developement of mathematical models capable of capturing such exotic response. The thesis will focus on a particular promising class of models for metamaterials behaviour -- both qualitative (refinement of models, qualitative features) and quantitative (numerical simulations) analysis is needed.
 }
 
 % 3 až 5 klíčových slov (doporučeno), každé uzavřeno ve složených závorkách
-\def\KlicovaSlova{%
-{metrika,} {Killingovy vektory,} {axiálně symetrické prostoročasy,} {Minkowského prostoročas,} {anti-de Sitterův prostoročas,} {asymptotické chování}
-}
+
+
 \def\KlicovaSlovaEN{%
-{Metric,} {Killing vectors,} {Axially symmetric spacetimes,} {Minkowski spacetime,} {Anti-de Sitter spacetime,} {Asymptotic properties}
+	{metamaterials,} {mathematical modelling,} {continuum mechanics,} {spectral methods,} {rate-type models}
 }
 
 %% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
@@ -149,198 +108,1289 @@ fffff
 
 
 \begin{document}
+	
+    \pagestyle{empty}
+    \hypersetup{pageanchor=false}
+	
+    \begin{center}
+		
+		\centerline{\mbox{\includegraphics[width=166mm]{logo-en.pdf}}}
+		
+		\vspace{-8mm}
+		\vfill
+		
+		{\bf\Large MASTER'S THESIS}
+		
+		\vfill
+		
+		{\LARGE\AutorPrace}
+		
+		\vspace{15mm}
+		
+		{\LARGE\bfseries\NazevPrace}
+		
+		\vfill
+		
+		\Katedra
+		
+		\vfill
+		
+		{
+			\centerline{\vbox{\halign{\hbox to 0.45\hsize{\hfil #}&\hskip 0.5em\parbox[t]{0.45\hsize}{\raggedright #}\cr
+						Supervisor:&\Vedouci \cr
+						\noalign{\vspace{2mm}}
+						Study programme:&\StudijniProgram \cr
+		}}}}
+		
+		\vfill
+		
+		Praha \RokOdevzdani
+		
+	\end{center}
+	
+	\newpage
+	
+	\noindent
+	\Podekovani
+	
+	\openright
+	\hypersetup{pageanchor=true}
+	\pagestyle{plain}
+	\pagenumbering{roman}
+	\vglue 0pt plus 1fill
+	
+	\noindent
+	I declare that I carried out this master thesis independently, and only with the
+	cited sources, literature and other professional sources.
+	
+	\medskip\noindent
+	I understand that my work relates to the rights and obligations under the Act
+	No. 121/2000 Sb., the Copyright Act, as amended, in particular the fact that the
+	Charles University has the right to conclude a license agreement on the use of
+	this work as a school work pursuant to Section 60 subsection 1 of the Copyright
+	Act.
+	
+	\vspace{10mm}
+	
+	\hbox{\hbox to 0.5\hsize{%
+			In \hbox to 6em{\dotfill} day \hbox to 6em{\dotfill}
+			\hss}\hbox to 0.5\hsize{\dotfill\quad}}
+	\smallskip
+	\hbox{\hbox to 0.5\hsize{}\hbox to 0.5\hsize{\hfil Signature of the author\hfil}}
+	
+	\vspace{20mm}
+	
+	\vbox to 0.5\vsize{
+		\setlength\parindent{0mm}
+		\setlength\parskip{2.5mm}%% tady bylo predtim 5, upravil jsem
+		
+		
+		\vss}\nobreak\vbox to 0.49\vsize{
+		\setlength\parindent{0mm}
+		\setlength\parskip{5mm}
+		
+		Title:
+		\NazevPraceEN
+		
+		Author:
+		\AutorPrace
+		
+		\TypPracovisteEN:
+		\KatedraEN
+		
+		Supervisor:
+		\Vedouci, \KatedraVedoucihoEN
+		
+		Abstract:
+		\AbstraktEN
+		
+		Keywords:
+		\KlicovaSlovaEN
+		
+		\vss}
+	
+	\newpage
+	
+	\openright
+	\pagestyle{plain}
+	\pagenumbering{arabic}
+	\setcounter{page}{1}
+	
+	\tableofcontents
+	
+	\newpage
+	
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+\noindent
+In this work, we will first focus on the eigenvalue computations of the Sturm-Liouville and Coffey-Evans equations using several different methods for the discretization of the operator of the second derivative. We will compute our data and compare it to one another.
 
-\pagestyle{empty}
-\hypersetup{pageanchor=false}
+Next, we will study the classical wave equation and test finite differences and fast fourier transform on their propagation.
 
+Finally, we will focus on rate-type models for metamaterials. Our goal will be to use them for simulations of wave propagation.
+
+Metamaterials are, by definition, “A synthetic composite material engineered to display properties not usually found in natural materials.”
+
+These exotic properties are usually related to wave propagation phenomena in metamaterials, and they typically stem from a carefully designed microstructure.  
+
+The thesis will focus on a particularly promising class of models (rate-type models) for metamaterials behavior. Both qualitative (refinement of models, qualitative features) and quantitative (numerical simulations) analyzes are needed.
+	
+
+\chapter{Theoretical framework}
+\noindent
+In this chapter, we will describe the core notions that will be used in the rest of this thesis. Concepts such as metamaterials, spectral methods, and rate-type models.
+
+\section{Metamaterials}
+\noindent
+Metamaterials are artificially engineered composite structures designed to exhibit extraordinary physical properties not typically found in natural materials.
+
+Examples of such properties include a negative refractive index, negative effective mass density, or negative bulk modulus, which enable phenomena like wave cloaking, superlensing, and band gap formation for controlling electromagnetic, acoustic, and elastic waves.
+
+These properties arise from the precise arrangement of subwavelength unit cells or microstructures, rather than the intrinsic characteristics of the constituent materials, allowing for tailored responses to external stimuli through geometric design and material selection.
+
+
+
+\section{Spectral methods}
+\noindent
+Spectral methods represent a class of numerical techniques for solving partial differential equations (PDEs) and other mathematical problems, characterized by their use of global basis functions to approximate solutions. Spectral methods expand the solution as a series of orthogonal polynomials or trigonometric functions, such as Fourier series for periodic problems or Chebyshev polynomials for non-periodic domains.
+
+This global approximation leads to high-order accuracy, often achieving exponential convergence for smooth functions, as the error decreases faster than any algebraic power of the number of basis functions.
+
+The core idea is to transform the problem into the spectral space, where differentiation becomes a simple algebraic operation via differentiation matrices, and then solve the resulting system efficiently \cite{cit2}.
+
+One of the key advantages of spectral methods lies in their efficiency for problems with smooth solutions, where they require fewer degrees of freedom compared to low-order methods to achieve comparable accuracy.
+
+For instance, in the context of wave propagation or elastodynamics, spectral methods preserve essential wave properties, such as phase and group velocities, without introducing artificial dissipation or dispersion that plagues finite difference schemes. 
+
+In applications to metamaterials and elastic wave modeling, spectral methods excel in capturing dispersive behaviors and band gaps inherent to these engineered structures. By leveraging Fourier transforms for periodic lattices or Chebyshev expansions for bounded domains, they accurately resolve high-frequency modes without the numerical artifacts that could distort physical interpretations. As illustrated in \cite{cit2}, examples like the one-dimensional wave equation solved via Fourier spectral methods highlight their ability to maintain energy conservation and spectral accuracy over long simulation times.
+
+This makes spectral methods an ideal choice for theoretical and computational studies in applied mathematics and materials science, providing a robust framework for validating continuum models against discrete lattice systems.
+
+
+
+\section{Rate-type models}
+\noindent
+Rate-type constitutive models, also known as rate-dependent constitutive relations, represent a class of material descriptions in continuum mechanics where the stress (or force) is expressed as a function of the rate of deformation, its time derivatives, and possibly the stress itself, rather than solely depending on the current deformation state as in classical hyperelasticity.
+
+Originating from the works of Truesdell (1955) and Oldroyd (1950), these models incorporate objective time derivatives of the stress tensor to ensure frame-indifference, making them particularly suitable for capturing dynamic and viscoelastic behaviors in complex materials without violating fundamental physical principles like positive definite mass density.
+
+In the context of metamaterials, as demonstrated in \cite{cit1}, rate-type relations avoid the unphysical notion of negative effective mass by embedding the effects of internal microstructures—such as local resonances in mass-in-mass systems—into the constitutive equation for stress $\sigma$, which includes second-order time derivatives of $\sigma$ coupled with spatial derivatives of displacement. This approach maintains Newton's second law in its standard form while accurately reproducing dispersive wave propagation and band gaps, providing a physically consistent framework for modeling elastic waves in engineered structures like those considered in this thesis.
+
+
+\chapter{Eigenvalue computations}
+\noindent
+The aim of this chapter is, first, to introduce two test problems, namely the Sturm-Liouville and the Coffey-Evans equations. Then we will describe methods that discretize these problems and allow us to solve them approximately. Mainly, we will focus on how to discretize the operator of the second derivative.
+
+The methods that will be described and used are: finite differences, Chebyshev differentiation, Mapped barycentric Chebyshev differentiation, Discrete sine transform, Numerov, and the Legendre-Galerkin-Chebyshev collocation. 
+
+Our goal is to compare all of these methods. We will do this by applying the discretizations and computing eigenvalues. For our comparison, we need some reference values. These will be computed using the Matslise program.
+
+So, we will judge how close each discretization was to the reference values computed by Matslise.
+
+\section{Test problems}
+\noindent
+In this section, we will introduce two test problems on which we will apply the discretizations. The general form of these problems is
+\begin{equation}\label{eq_general_test_problem}
+    -u''(x) + q(x) \, u(x) = \lambda \, u(x) \, , \quad x \in (a, \, b) \, , \quad u(a) = u(b) = 0 \, .
+\end{equation}
+
+
+
+\subsection{Sturm-Liouville equation}
+\noindent
+The first of the two is the Sturm-Liouville (SL) equation, in one special case where
+\begin{equation}
+    \begin{split}
+        q(x) & = e^x \, , \\[4pt]
+        a & = 0 \, , \\[2pt]
+        b & = \pi \ . \\[2pt]
+    \end{split}
+\end{equation}
+So, by substituting these values to \ref{eq_general_test_problem} the resulting equation has the form
+\begin{equation}\label{eq_SL}
+    -u''(x) + e^x \, u(x) = \lambda \, u(x) \, , \quad x \in (0, \, \pi) \, , \quad u(0) = u(\pi) = 0 \, .
+\end{equation}
+
+
+
+\subsection{Coffey-Evans equation}
+\noindent 
+The second one is the Coffey-Evans (CE) equation with
+\begin{equation}\label{eq_CE_coeffs}
+    \begin{split}
+        q(x) & = \beta^2 \, \sin^2{(2 \, x)} -2 \, \beta \, \cos{(2 \, x)} \, , \\[4pt]
+        a & = -\pi/2 \, , \\[2pt]
+        b & = \pi/2 \, . \\[2pt]
+    \end{split}
+\end{equation}
+If we substitute \ref{eq_CE_coeffs} in \ref{eq_general_test_problem} we get
+\begin{equation}\label{eq_CE}
+    \begin{split}
+    -u''(x) + \left[\beta^2 \, \sin^2{(2 \, x)} -2 \, \beta \, \cos{(2 \, x)} \right] \, u(x) & = \lambda \, u(x) \, , \\
+     u(-\pi/2) = u(\pi/2) & = 0 \, , \\
+    -\pi/2 < x & < \pi/2  \, .\\
+    \end{split}
+\end{equation}
+In the whole text, we will use the value of $\beta = 30$.
+
+
+
+\section{Discretization methods}
+\noindent
+In this section, discretization methods that will be used for computations of the eigenvalues of the abovementioned test problems will be described.
+
+Our aim is to discretize the operator of the second derivative by using an approximation matrix
+\begin{equation}
+    \frac{\partial^2}{\partial \, x^2} \approx D \, .
+\end{equation}
+And in all cases, use MATLAB's \texttt{eig} function for the computation of eigenvalues.
+
+In both cases, our goal will be to rewrite the main equation \ref{eq_general_test_problem} to the form
+\begin{equation}
+    \left( -D + A  \right) \, u(x) = \lambda \, u(x) \, ,
+\end{equation}
+where for the SL equation, we will take 
+\begin{equation}
+    A = E = \operatorname{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_N}) \, ,
+\end{equation}
+so we get
+\begin{equation}
+    \left( -D + E  \right) \, u(x) = \lambda \, u(x) \, .
+\end{equation}
+And in the case of CE equation, the situation will be analogous 
+\begin{equation}
+    \begin{split}
+    A = Q = \operatorname{diag}(-2 \, \beta \, \cos{(2 \, x_1)} + \beta^2 \, \sin^2{(2 \, x_1)} \, , \dots, \\ -2 \, \beta \, \cos{(2 \, x_N)} + \beta^2 \, \sin^2{(2 \, x_N)} ) \, ,
+    \end{split}
+\end{equation}
+so we get
+\begin{equation}
+    \left( -D + Q  \right) \, u(x) = \lambda \, u(x) \, .
+\end{equation} 
+
+
+
+\subsection{Matslise application}
+\noindent
+To obtain highly accurate reference eigenvalues of our test problems, a MATLAB program named Matslise has been implemented. Matslise is based on shooting and piecewise perturbation methods. In this thesis, it serves as the primary reference solver for computing benchmark eigenvalues and for validating results obtained by other numerical methods \cite{matslise}.
+
+
+
+\subsection{Finite difference method}
+\noindent
+The first numerical method on our list is the finite difference method (FD). The case of this method, which we will be using, approximates the second derivative on a discrete grid using the second-order central finite difference formula
+\begin{equation}
+    u''(x_i) \approx \frac{u(x_i - h) - 2 \, u(x_i) + u(x_i + h) }{h^2} \; .
+\end{equation}
+It's matrix form is
+\begin{equation}
+D = \frac{1}{h^2} \begin{bmatrix}
+    2 & -1 & 0 & 0 & \cdots & 0 \\
+    -1 & 2 & -1 & 0 & \cdots & 0 \\
+    0 & -1 & 2 & -1 & \cdots & 0 \\ 
+    0 & 0 & -1 & 2 & \cdots & \vdots \\
+    \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & 0 & 0 & \cdots & 2 \\ 
+\end{bmatrix}
+\end{equation}
+and the implementation of the finite difference method is in algorithms \ref{alg_1} and \ref{alg_2}.
+
+\begin{algorithm}[H]
+\caption{Finite difference method - SL}
+\label{alg_1}  
+\begin{algorithmic}[1]
+\State \textbf{input} $N$
+\State $h = \pi / (N + 1)$
+\State $x_i = i \cdot h$ \quad for $i = 1$ to $N$
+\BlankLine
+\State Create tridiagonal matrix $D}$ of size $N \times N$:
+\State \quad $D_{i,i} = 2 / h^2$ \quad \quad for $i=1$ to $N$
+\State \quad $D_{i,i+1} = D_{i+1,i} = -1 / h^2$ \quad for $i = 1$ to $N-1$
+\BlankLine
+\State $E = \operatorname{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_N})$
+\State $A = -D + E$
+\BlankLine
+\State eig(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$ 
+\State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{Finite difference method - CE}
+\label{alg_2}
+\begin{algorithmic}[1]
+\State \textbf{input} $N$, $\beta$
+\State $h = \pi/(N+1)$
+\State $x_i = -\pi/2 + i \cdot h$ \quad for $i = 1$ to $N$
+\BlankLine
+\State Create tridiagonal matrix $D$ of size $N \times N$:
+\State \quad $D_{i,i}   = 2/h^2$  \quad \quad for $i=1$ to $N$
+\State \quad $D_{i,i+1} = D_{i+1,i} = -1/h^2$  \quad for $i=1$ to $N-1$
+\BlankLine
+\State $q_i = \beta^2 \, \sin^2(2 \, x_i) - 2 \, \beta \, \cos(2 \, x_i)$ \quad for $i=1$ to $N$
+\State $Q = \operatorname{diag}(q_1, q_2, \dots, q_N)$
+\State $A = -D + Q$
+\BlankLine
+\State eig(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Numerov method}
+\noindent
+Numerov's method \cite{numerov} uses higher-order finite differences and approximates the eigenvalues of the equation \ref{eq_general_test_problem} with an equation in the form
+\begin{equation}
+    \begin{split}
+    b \, u(x_{i-1}) + a \, u(x_i ) + c \, u(x_{i+1}) = h^2 \, \lambda \, \left[u(x_{i-1}) + 10 \, u(x_i) + u(x_{i+1}) \right] \, ,
+    \end{split}
+\end{equation}
+with coefficients
+\begin{equation}
+    \begin{split}
+        a & = + 24 + 10 \, h^2 \, q(x_i) \, ,   \\
+        b & = -12 + h^2 \, q(x_{i-1}) \, ,  \\
+    c & = -12 + h^2 \, q(x_{i+1}) \, .
+    \end{split}
+\end{equation}
+This approximation can be rewritten in matrix form
+\begin{equation}
+    A \, u(x) = \lambda \, B \, u(x)
+\end{equation}
+where matrices A and B are
+\begin{equation}
+A = \begin{bmatrix}
+    a & c & 0 & 0 & \cdots & 0 \\
+    b & a & c & 0 & \cdots & 0 \\
+    0 & b & a & c & \cdots & 0 \\
+    0 & 0 & b & a & \cdots & \vdots \\
+    \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & 0 & 0 & \cdots & a  \\
+\end{bmatrix} ,
+\label{}
+\end{equation}
+\begin{equation}
+B = h^2\begin{bmatrix}
+    10 & 1 & 0 & \cdots & 0 \\
+    1 & 10 & 1 & \cdots & 0 \\
+    0 & 1 & 10 & \cdots & 0 \\
+    \vdots & \vdots  & \vdots & \ddots & \vdots \\
+    0 & 0 & 0 & \cdots & 10  \\
+\end{bmatrix} .
+\label{}
+\end{equation}
+
+
+
+
+\begin{algorithm}[H]
+\caption{Numerov method - SL}
+\label{alg_3}
+\begin{algorithmic}[1]
+\State \textbf{input} $N$
+\State $h = \pi / (N + 1)$
+\State $x_i = i \cdot h$ \quad for $i = 1$ to $N$
+\State $q_i = \exp(x_i)$ \quad for $i = 1$ to $N$
+\BlankLine
+\State Create tridiagonal matrix $A$ of size $N \times N$:
+\State \quad $A_{i,i} = 24 + 10 h^2 q_i$ \quad \quad for $i=1$ to $N$
+\State \quad $A_{i,i+1} = - 12 + h^2 q_i$ \quad for $i=1$ to $N-1$
+\State \quad $A_{i+1,i} = - 12 + h^2 q_i$ \quad for $i=1$ to $N-1$
+\BlankLine
+\State Create tridiagonal matrix $B$ of size $N \times N$:
+\State \quad $B_{i,i} = 10 h^2$ \quad for $i=1$ to $N$
+\State \quad $B_{i,i+1} = h^2$ \quad for $i=1$ to $N-1$
+\State \quad $B_{i+1,i} = h^2$ \quad for $i=1$ to $N-1$
+\BlankLine
+\State eig(A, B) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
+\BlankLine
+\State Asymptotic correction:
+\State \quad for $k = 1$ to $N$:
+\State \quad \quad $s_k^2 = \sin^2(k h / 2)$
+\State \quad \quad $\varepsilon_k^2 = k^2 - 12  s_k^2  /  (h^2  (3 - s_k^2))$
+\State \quad \quad $\lambda_k^{\text{corrected}} = \lambda_k + \varepsilon_k^2$
+\State \textbf{output} $\lambda_1^{\text{corrected}} \leq \lambda_2^{\text{corrected}} \leq \dots \leq \lambda_N^{\text{corrected}}$
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\begin{algorithm}[H]
+\caption{Numerov method - CE}
+\label{alg_4}
+\begin{algorithmic}[1]
+\State \textbf{input} $N$, $\beta$
+\State $h = \pi/(N + 1)$
+\State $x_i = -\pi/2 + i \cdot h$ \quad for $i = 1$ to $N$
+\State $q_i = \beta^2 \, \sin^2(2 \, x_i) - 2 \, \beta \, \cos(2 \, x_i)$ \quad for $i = 1$ to $N$
+\BlankLine
+\State Create tridiagonal matrix $A$ of size $N \times N$:
+\State \quad $A_{i,i} = 24 + 10 h^2 q_i$ \quad \quad for $i = 1$ to $N$
+\State \quad $A_{i,i+1} = - 12 + h^2 q_i$ \quad for $i = 1$ to $N-1$
+\State \quad $A_{i+1,i} = - 12 + h^2 q_i$ \quad for $i = 1$ to $N-1$
+\BlankLine
+\State Create tridiagonal matrix $B$ of size $N \times N$:
+\State \quad $B_{i,i} = 10 h^2$ \quad for $i = 1$ to $N$
+\State \quad $B_{i,i+1} = h^2$ \quad for $i = 1$ to $N-1$
+\State \quad $B_{i+1,i} = h^2$ \quad for $i = 1$ to $N-1$
+\BlankLine
+\State eig(A, B) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
+\BlankLine
+\State Asymptotic correction:
+\State \quad for $k = 1$ to $N$:
+\State \quad \quad $s_k^2 = \sin^2(k h / 2)$
+\State \quad \quad $\varepsilon_k^2 = k^2 - 12 s_k^2 / (h^2 (3 - s_k^2))$
+\State \quad \quad $\lambda_k^{\text{corrected}} = \lambda_k + \varepsilon_k^2$
+\State \textbf{output} $\lambda_1^{\text{corrected}} \leq \lambda_2^{\text{corrected}} \leq \dots \leq \lambda_N^{\text{corrected}}$
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\subsection{Chebyshev differentiation matrix method}
+\noindent
+The Chebyshev differentiation matrix method (CDM) is a high-order spectral collocation technique that approximates the derivatives of a function at specific collocation points using global polynomial interpolation \cite{cdm}, \cite{trefethen}. It will be implemented using the MATLAB chebfun package.
+
+In this approach, we first generate the Chebyshev points of the second kind via \texttt{chebpts} on the interval $[-1,1]$ using the Chebfun package. 
+
+Then, the full differentiation matrix $D_{\text{full}}$ of the second order is computed using the \texttt{diffmat} function.
+
+For problems with homogeneous Dirichlet boundary conditions $u(0)=u(\pi)=0$ or $u(-\pi/2)=u(\pi/2)=0$, the boundary rows and columns are removed to obtain the reduced interior differentiation matrix $D_{\text{Cheb}}$.
+
+After mapping the interior Chebyshev nodes from $[-1, \, 1]$ to the desired physical interval ($[0, \, \pi]$ or $[-\pi/2, \, \pi/2]$) with an appropriate scaling factor, the discrete second-derivative operator is formed.
+
+Finally, the differential equation is converted into a matrix eigenvalue problem of the form $A\mathbf{u} = \lambda \mathbf{u}$, where the matrix $A$ combines the scaled differentiation matrix with the potential term. The eigenvalues are obtained by solving this eigenvalue problem.
+
+\begin{algorithm}[H]
+\caption{Chebyshev differentiation matrix - SL}
+\label{alg_5}
+\begin{algorithmic}[1]
+\State \textbf{input} $N$
+\State $M = N + 1$
+\State $t =$ chebpts(M, 2)
+\State $D_{\text{full}} =$ diffmat(M, 2)
+\State $D_{\text{Cheb}} = D_{\text{full}}[2:M-1, \; 2:M-1]$
+\State $t_{\text{int}} = t[2:M-1]$
+\State $x_i = \frac{\pi}{2} \, (t_{\text{int},i} + 1)$ \quad for $i=1$ to $N$
+\State $D = (2 / \pi)^2 \cdot D_{\text{Cheb}}$
+\State $E = \operatorname{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_N})$
+\State $A = -D + E$
+\BlankLine
+\State eig(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{Chebyshev differentiation matrix – CE}
+\label{alg_6}
+\begin{algorithmic}[1]
+\State \textbf{input} $N$, $\beta$
+\State $M = N + 1$
+\State $t =$ chebpts(M, 2)
+\State $D_{\text{full}} =$ diffmat(M, 2)
+\State $D_{Cheb} = D_{\text{full}}[2:M-1, 2:M-1]$ 
+\State $t_{\text{int}} = t[2:M-1]$
+\State $x_i = \frac{\pi}{2} \cdot t_{\text{int},i}$ \quad for $i=1$ to $N$
+\State $q_i =  \beta^2 \, \sin^2(2 \, x_i) - 2 \, \beta \, \cos(2x_i) $ \quad for $i=1$ to $N$
+\State $Q = \operatorname{diag}(q_1, q_2, \dots, q_N)$
+\State $D = (2 / \pi)^2 \cdot D_{Cheb}$
+\State $A = -D + Q$
+\BlankLine
+\State eig(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
+\end{algorithmic}
+\end{algorithm}
+
+
+
+\subsection{Mapped barycentric Chebyshev differentiation matrix method}
+\noindent
+text \cite{cdm}
+
+
+
+
+
+
+
+
+
+\subsection{Legendre-Galerkin-Chebyshev collocation method}
+\noindent
+The Legendre-Galerkin-Chebyshev collocation (LGCC) method combines spectral Galerkin projection with Chebyshev collocation to solve eigenvalue problems of the form \ref{eq_general_test_problem}.
+
+The method uses the change of variables $t = \frac{2x - (b+a)}{b-a} \in [-1,1]$ to map the interval to the standard domain. The test functions are chosen as
+\begin{equation}
+    \phi_k(t) = L_k(t) - L_{k+2}(t), \quad k = 0,1,\dots,m-1,
+\end{equation}
+where $L_k(t)$ denotes the Legendre polynomial of degree $k$, computed with the chebfun \texttt{legpoly} function. These basis functions automatically satisfy the homogeneous Dirichlet boundary conditions.
+
+The weak form of the problem is projected onto this basis, leading to the generalized matrix eigenvalue problem
+\begin{equation}
+    (S + \hat{M}) \, \mathbf{v} = \mu \, T \, \mathbf{v},
+\end{equation}
+where $S$ is the (diagonal) stiffness matrix, $T$ is the mass matrix (penta-diagonal), and $\hat{M}$ is the symmetrized potential matrix obtained via Chebyshev interpolation of $q(t) \, \phi_j(t)$ followed by extraction of Legendre coefficients.
+
+The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = \frac{4}{\pi^2} \mu_k$ (for the standard interval length $\pi$). The method achieves high accuracy for smooth potentials thanks to the spectral convergence of Legendre and Chebyshev expansions, while the basis choice ensures exact enforcement of boundary conditions \cite{legendre_galerkin}. 
+
+\begin{algorithm}[H]
+\caption{Legendre-Galerkin-Chebyshev collocation - SL}
+\label{}
+\begin{algorithmic}[1]
+\State \textbf{input} $N$
+\State $m = N - 1$
+\State $k=0,1,\dots,m-1$
+\BlankLine
+\State Stiffness matrix $S$ (diagonal):
+\State \quad $S_{k, \, k} = 4 \, k + 6$ \quad for $k = 0$ to $m-1$
+\BlankLine
+\State Mass matrix $T$ (penta-diagonal):
+\State \quad $T_{k,k} = \frac{2}{2 \, k+1} + \frac{2}{2 \, k+5}$ \quad for $k = 0$ to $m-1$
+\State \quad $T_{k, \, k+2} = T_{k+2, \, k} = -\frac{2}{2 \,k+5}$ \quad for $k = 0$ to $m-3$
+\BlankLine
+\State \quad $q(t) = \frac{\pi^2}{4} \exp\left( \frac{\pi}{2} (t + 1) \right)$
+\BlankLine
+\State \quad $\phi_k(t) = L_{k}(t) - L_{k+2}(t)$ \quad for $k = 0$ to $m-1$
+\BlankLine
+\State Matrix $M$ (Galerkin projection of potential):
+\State \quad for $j = 0$ to $m-1$:
+\State \quad \quad $f_j(t) = q(t) \cdot \phi_j(t)$
+\State \quad \quad $I_{f_j} =$ chebfun($f_j$,$N+1$) 
+\State \quad \quad legcoeffs($I_{f_j}$) $ \to c_0, c_1, \dots, c_N$
+\State \quad \quad for $i = 0$ to $m-1$ ($k=i$):
+\State \quad \quad \quad $M_{i,j} = c_{k+1} \cdot \frac{2}{2 \, k+1} - c_{k+3} \cdot \frac{2}{2 \, k+5}$ \quad (if $k+3 \leq N$)
+\BlankLine
+\State $\hat{M} = \operatorname{triu}(M) + \operatorname{triu}(M, \, 1)^T$
+\State $A = S + \hat{M}$
+\BlankLine
+\State eig(A,T) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
+\State$\lambda_k = 4 \mu_k / \pi^2$ \quad for $k = 1$ to $m$
+\State \textbf{output} $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N-1}$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{Legendre-Galerkin-Chebyshev collocation - CE}
+\label{}
+
+\begin{algorithmic}[1]
+\State \textbf{input} $N$, $\beta$
+\State $m = N - 1$
+\State $k = 0,1,\dots,m-1$
+\BlankLine
+\State Stiffness matrix $S$ (diagonal):
+\State \quad $S_{k,k} = 4 \, k + 6$ \quad for $k = 0$ to $m-1$
+\BlankLine
+\State Mass matrix $T$ (penta-diagonal):
+\State \quad $T_{k,} = \frac{2}{2k+1} + \frac{2}{2k+5}$ \quad for $k = 0$ to $m-1$
+\State \quad $T_{k,k+2} = T_{k+2,k} = -\frac{2}{2 \, k+5}$ \quad for $k = 0$ to $m-3$
+\BlankLine
+\State $q(t) = \frac{\pi^2}{4} \, (\beta^2 \, \sin^2(\pi \, t) -2 \, \beta \, \cos(\pi \, t))$
+\BlankLine
+\State $\phi_k(t) = L_{k}(t) - L_{k+2}(t)$ for $k = 0$ to $m-1$
+\BlankLine
+\State Matrix $M$ (Galerkin projection of potential):
+\State \quad for $j = 0$ to $m-1$:
+\State \quad \quad $f_j(t) = q(t) \cdot \phi_j(t)$
+\State \quad \quad $I_{f_j} =$ chebfun($f_j$,$N+1$) 
+\State \quad \quad legcoeffs($I_{f_j}$) $ \to c_0, c_1, \dots, c_N$
+\State \quad \quad for $i = 0$ to $m-1$ ($k=i$):
+\State \quad \quad \quad $M_{i,j} = c_{k+1} \cdot \frac{2}{2 \, k+1} - c_{k+3} \cdot \frac{2}{2 \, k+5}$ \quad (if $k+3 \leq N$)
+\BlankLine
+\State $\hat{M} = \operatorname{triu}(M) + \operatorname{triu}(M,1)^T$
+\State $A = S + \hat{M}$
+\BlankLine
+\State eig(A,T) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
+\State$\lambda_k = 4 \mu_k / \pi^2$ \quad for $k = 1$ to $m$
+\State \textbf{output} $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N-1}$
+\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Discrete sine transform}
+\noindent
+The discrete sine transform (DST) provides a natural basis for solving problems with homogeneous Dirichlet boundary conditions on a finite interval. 
+ 
+The second derivative operator becomes diagonal in the DST domain. Specifically, the discrete Laplacian applied to a vector $\mathbf{y} = (y_1, \dots, y_N)^T$ of interior grid values is realized by
+\[
+(-\Delta_h \, \mathbf{y})_j = \operatorname{idst}\bigl(k_j^2 \cdot \operatorname{dst}(\mathbf{y})\bigr)_j \, , \quad j=1,\dots,N,
+\]
+where $\texttt{dst}$ and $\texttt{idst}$ denote the discrete sine transform and its inverse, respectively, and $k_j$ are the associated wave numbers. 
+
+The full discrete operator $-\Delta_h + q(x)$ is then assembled by transforming to the spectral domain, performing element-wise multiplication by the potential (its discretization), and transforming back. This approach yields a matrix-free implementation (or an explicitly formed matrix when desired) whose eigenvalues approximate the continuous spectrum with spectral accuracy for sufficiently smooth potentials.
+
+\begin{algorithm}[H]
+\caption{Discrete sine transform - SL}
+\label{}
+\begin{algorithmic}[1]
+\State \textbf{input} $N$, $q(x)$
+\State $x_i = \frac{\pi}{N+1} \cdot i$ \quad for $i = 1$ to $N$
+\State $k = [-(1)^2, -(2)^2, \dots, -(N)^2]^T$
+\State $D_{op}(y) = \operatorname{idst}(k \odot \operatorname{dst}(y))$
+\State $Q_{op}(y) = q(x) \odot y$
+\State $L_{op}(y) = -D_{op}(y) + Q_{op}(y)$
+\State $A = L_{op}(I_{N})$
+\BlankLine
+\State eig(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
+\State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_{N}$
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}[H]
+\caption{Discrete sine transform - CE}
+\label{}
+\begin{algorithmic}[1]
+\State \textbf{input} $N$, $q(x)$, $\beta$
+\State $x_i = -\pi/2 + \frac{\pi}{N+1} \cdot i$ \quad for $i = 1$ to $N$
+\State $k = [-(1)^2, -(2)^2, \dots, -(N)^2]^T$
+\State $D_{op}(y) = \operatorname{idst}(k \odot \operatorname{dst}(y))$
+\State $Q_{op}(y) = q(x) \odot y$
+\State $L_{op}(y) = -D_{op}(y) + Q_{op}(y)$
+\State $A = L_{op}(I_{N})$
+\BlankLine
+\State eig(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
+\State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_{N}$
+\end{algorithmic}
+\end{algorithm}
+
+
+
+
+\section{Results}
+\noindent
+Now we present the computed data.
+
+\subsection{Sturm-Liouville equation}
+\noindent
+First, below are the computed data for the Sturm-Liouville equation. We have included the CPU time of each computation. The number in the brackets represents the size of the differentiation matrix ($N \times N$).
+
+
+\begin{table}[H]
+\caption{Comparison of data for eigenvalues of Sturm-Liouville equation computed with finite difference method (FD).}
 \begin{center}
-
-\centerline{\mbox{\includegraphics[width=166mm]{logo-en.pdf}}}
-
-\vspace{-8mm}
-\vfill
-
-{\bf\Large MASTER THESIS}
-
-\vfill
-
-{\LARGE\AutorPrace}
-
-\vspace{15mm}
-
-{\LARGE\bfseries\NazevPrace}
-
-\vfill
-
-\Katedra
-
-\vfill
-
-{
-\centerline{\vbox{\halign{\hbox to 0.45\hsize{\hfil #}&\hskip 0.5em\parbox[t]{0.45\hsize}{\raggedright #}\cr
-Vedoucí bakalářské práce:&\Vedouci \cr
-\noalign{\vspace{2mm}}
-Studijní program:&\StudijniProgram \cr
-}}}}
-
-\vfill
-
-Praha \RokOdevzdani
-
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$\lambda$ & Matslise & FD (500)  & FD (1 000) & FD (10 000) \\
+\hline
+1 & 4,897 & 4,897 & 4,897 & 4,897  \\
+\hline
+50 & 2 507 & 2 487 & 2 502 & 2 507 \\
+\hline
+100 & 10 007 & 9 684 & 9 925 & 10 006 \\
+\hline
+150 & 22 507 & 20 896 & 22 095 & 22 503 \\
+\hline
+200 & 40 007 & 35 032 & 38 711 & 39 994 \\
+\hline
+250 & 62 507 & 50 711 & 59 366 & 62 475 \\
+\hline
+300 & 90 007 & 66 406 & 83 552 & 89 940 \\
+\hline
+350 & 122 507 & 80 586 & 110 674 & 122 384 \\
+\hline
+400 & 160 007 & 91 869 & 140 067 & 159 797 \\
+\hline
+450 & 202 507 & 99 155 & 171 008 & 202 170 \\
+\hline
+500 & 250 007 & 101 735 & 202 736 & 249 494 \\
+\hline
+CPU(s) & 0,7 & 0,02 & 0,05 & 3,1 \\
+\hline
+\end{tabular}
 \end{center}
+\end{table}
 
-\newpage
+\begin{table}[H]
+\caption{Comparison of data for eigenvalues of Sturm-Liouville equation computed with Numerov (Num) and Numerov with correction (NumC).}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+$\lambda$ & Matslise & Num (500)  & NumC (500) & Num (1 000) & NumC (1 000) \\
+\hline
+1 & 4,897 & 4,897 & 4,897 & 4,897  & 4,897 \\
+\hline
+50 & 2 507 & 2 507 & 2 507 & 2 507 & 2 507 \\
+\hline
+100 & 10 007 & 10 001 & 10 007 & 10 007 & 10 007 \\
+\hline
+150 & 22 507 & 22 431 & 22 507 & 22 502 & 22 507 \\
+\hline
+200 & 40 007 & 39 572 & 40 007 & 39 981 & 40 007\\
+\hline
+250 & 62 507 & 60 814 & 62 507 & 62 406 & 62 507 \\
+\hline
+300 & 90 007 & 84 870 & 90 007 & 89 703 & 90 007 \\
+\hline
+350 & 122 507 & 109 495 & 122 507 & 121 732 & 122 507 \\
+\hline
+400 & 160 007 & 131 429 & 160 007 & 158 261 & 160 007 \\
+\hline
+450 & 202 507 & 146 867 & 202 507 & 198 929 & 202 507 \\
+\hline
+500 & 250 007 & 152 595 & 250 007 & 243 206 & 250 007 \\
+\hline
+CPU(s) & 0,7 & 0,7 & 0,7 & 4,0 & 4,0 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
 
+\begin{table}[H]
+\caption{Comparison of data for eigenvalues of Sturm-Liouville equation computed with Chebyshev differentiation matrix (CDM) and Mapped barycentric Chebyshev differentiation matrix (MBCDM). For MBCDM we choose parameter $\alpha = 0.999$.}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+$\lambda$ & Matslise & CDM (500)  & CDM (1 000) & MBCDM (500) & MBCDM (1 000) \\
+\hline
+1 & 4,897 & 4,897 & 4,897 & 4,897 & 4,897 \\
+\hline
+50 & 2 507 & 2 507 & 2 507 & 2 507 & 2 507 \\
+\hline
+100 & 10 007 & 10 007 & 10 007 & 10 007 & 10 007 \\
+\hline
+150 & 22 507 & 22 507 & 22 507 & 22 507 & 22 507 \\
+\hline
+200 & 40 007 & 40 007 & 40 007 & 40 007 &  40 007 \\
+\hline
+250 & 62 507 & 62 507 & 62 507 & 62 507 &  62 507 \\
+\hline
+300 & 90 007 & 90 007 & 90 007 & 90 007 &  90 007 \\
+\hline
+350 & 122 507 & 133 274 & 122 507 & 122 507 &  122 507 \\
+\hline
+400 & 160 007 & 269 438 & 160 007 & 160 007 &  160 007 \\
+\hline
+450 & 202 507 & 992 720 & 202 507 & 202 507 &  202 507 \\
+\hline
+500 & 250 007 & 1 209 407 472 & 250 007 & 5 768 515 & 250 007  \\
+\hline
+CPU(s) & 0,7 & 0,3 & 1,0 & 0,5  &  1,3 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\caption{Comparison of data for eigenvalues of Sturm-Liouville equation computed with Discrete sine transform (DST) and Legendre-Galerkin-Chebyshev collocation method (LGCC).}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+$\lambda$ & Matslise & DST (500)  & DST (1 000) & LGCC (500) & LGCC (1 000) \\
+\hline
+1 & 4,897 & 4,897 & 4,897 &  4,897 & 4,897 \\
+\hline
+50 & 2 507 & 2 507 & 2 507 & 2 507 & 2 507 \\
+\hline
+100 & 10 007 & 10 007 & 10 007 & 10 007 & 10 007 \\
+\hline
+150 & 22 507 & 22 507 & 22 507 & 22 507 &  22 507\\
+\hline
+200 & 40 007 & 40 007 & 40 007 & 40 007 & 40 007 \\
+\hline
+250 & 62 507 & 62 507 & 62 507 & 62 507 & 62 507\\
+\hline
+300 & 90 007 & 90 007 & 90 007 & 90 007 & 90 007\\
+\hline
+350 & 122 507 & 122 507 & 122 507 & 133 996 & 122 507\\
+\hline
+400 & 160 007 & 160 007 & 160 007 & 270 077 &  160 007\\
+\hline
+450 & 202 507 & 202 507 & 202 507 & 985 663 &  202 507\\
+\hline
+500 & 250 007 & 250 006 & 250 007 & 654 568 706 &  250 007\\
+\hline
+CPU(s) & 0,7 & 0,4 & 1,5 & 32,8 & 208,3 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+From our results, we can see that the discrete sine transform is a clear winner.
+
+\subsection{Coffey-Evans equation}
 \noindent
-\Podekovani
+Here we present the data computed for Coffey-Evans equation.
 
-\openright
-\hypersetup{pageanchor=true}
-\pagestyle{plain}
-\pagenumbering{roman}
-\vglue 0pt plus 1fill
+\begin{table}[H]
+\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with finite difference method (FD).}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$\lambda$ & Matslise & FD (500)  & FD (1 000) & FD (10 000) \\
+\hline
+1 & 117,946 & 117,905 & 117,936  &  117,946 \\
+\hline
+2 & 231,665 & 231,564 & 231,640 & 231,665 \\
+\hline
+3 & 231,665 & 231,627 & 231,655 &  231,665 \\
+\hline
+4 & 231,665 & 231,627 & 231,655 & 231,665 \\
+\hline
+50 & 3 061 &  3 039 & 3 055 & 3 061 \\
+\hline
+100 & 10 654 & 10 317 & 10 569 & 10 653 \\
+\hline
+150 & 23 252 & 21 598 & 22 829 & 23 248 \\
+\hline
+200 & 40 852 & 35 778 & 39 532 & 40 838 \\
+\hline
+250 & 63 451 & 51 473 & 60 266 & 63 419 \\
+\hline
+300 & 91 051 & 67 152 & 84 523 & 90 984 \\
+\hline
+350 & 123 651 & 81 287 & 111 708 & 123 526 \\
+\hline
+400 & 161 251 & 92 498 & 141 155 & 161 039 \\
+\hline
+450 & 203 851 & 99 687 & 172 140 & 203 511 \\
+\hline
+500 & 251 451 & 102 975 & 203 904 & 250 934 \\
+\hline
+CPU(s) & 1,3 & 0,04 & 0,05 & 2,0 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
 
+\begin{table}[H]
+\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Numerov (Num) and Numerov with correction (NumC).}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+$\lambda$ & Matslise & Num (500)  & NumC (500) & Num (1 000) & NumC (1 000) \\
+\hline
+1 & 117,946 & 117,946 & 117,946 & 117,946 &  117,946 \\
+\hline
+2 & 231,665 & 231,665 & 231,665 & 231,665 & 231,665 \\
+\hline
+3 & 231,665 & 231,665 & 231,665 & 231,665 &  231,665 \\
+\hline
+4 & 231,665 & 231,665 & 231,665 & 231,665 & 231,665 \\
+\hline
+50 & 3 061 & 3 061 & 3 061 & 3 061 & 3 061 \\
+\hline
+100 & 10 654 & 10 647 & 10 654 & 10 653 & 10 654 \\
+\hline 
+150 & 23 252 & 23 174 & 23 252 & 23 247 & 23 252 \\
+\hline
+200 & 40 852 & 40 407 & 40 852 & 40 825 & 40 852 \\
+\hline
+250 & 63 451 & 61 730 & 63 451 & 63 348 &  63 451 \\
+\hline
+300 & 91 051 & 85 851 & 91 051 & 90 742 & 91 051 \\
+\hline
+350 & 123 651 & 110 520 & 123 651 & 122 866 & 123 651 \\
+\hline
+400 & 161 251 & 132 474 & 161 250 & 159 486 & 161 251 \\
+\hline
+450 & 203 851 & 147 915 & 203 847 & 200 239 &  203 851\\
+\hline
+500 & 251 451 & 154 013 & 251 817 & 244 595 & 251 451 \\
+\hline
+CPU(s) & 1,3 & 0,8 & 0,8 & 3,9 & 3,9 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+
+\begin{table}[H]
+\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Chebyshev differentiation matrix (CDM) and Mapped barycentric Chebyshev differentiation matrix (MBCDM). For MBCDM we choose parameter $\alpha = 1$.}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+$\lambda$ & Matslise & CDM (500)  & CDM (1 000) & MBCDM (500) & MBCDM (1 000) \\
+\hline
+1 & 117,946 & 117,946 & 117,946 & 117,946  &  117,946 \\
+\hline
+2 & 231,665 & 231,665 & 231,665 & 231,665 & 231,665 \\
+\hline
+3 & 231,665 & 231,665 & 231,665 & 232,878 & 232,272 \\
+\hline
+4 & 231,665 & 231,665 & 231,665 & 232,878 & 232,272 \\
+\hline
+50 & 3 061 & 3 061 & 3 061 & 3 065 & 3 063 \\
+\hline
+100 & 10 654 & 10 654 & 10 654 & 10 670 &  10 662\\
+\hline
+150 & 23 252 & 23 252 & 23 252 & 23 290 & 23 271 \\
+\hline
+200 & 40 852 & 40 852 & 40 852 & 40 920 & 40 885 \\
+\hline
+250 & 63 451 & 63 451 & 63 451 & 63 559 &  63 503 \\
+\hline
+300 & 91 051 & 91 051 & 91 051 & 91 211 & 91 126 \\
+\hline
+350 & 123 651 & 134 724 & 123 651 & 123 877 & 123 754 \\
+\hline
+400 & 161 251 & 271 674 & 161 251 & 161 563 & 161 386 \\
+\hline
+450 & 203 851 & 1 000 648 & 203 851 & 204 284 & 204 023 \\
+\hline
+500 & 251 451 & 1 219 092 308 & 251 451 & 252 355 &  251 666\\
+\hline
+CPU(s) & 1,3 & 0,3 & 0,9 & 0,5 & 1,2 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\begin{table}[H]
+\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Discrete sine transform (DST) and Legendre-Galerkin-Chebyshev collocation method (LGCC).}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+$\lambda$ & Matslise & DST (500)  & DST (1 000) & LGCC (500) & LGCC (1 000) \\
+\hline
+1 & 117,946 & 117,946 & 117,946 & 117,946 &  117,946 \\
+\hline
+2 & 231,665 & 231,665 & 231,665 & 231,665 &  231,665\\
+\hline
+3 & 231,665 & 231,665 & 231,665 & 231,665 & 231,665\\
+\hline
+4 & 231,665 & 231,665 & 231,665 & 231,665 &  231,665\\
+\hline
+50 & 3 061 & 3 061 & 3 061 & 3 061 & 3 061 \\
+\hline
+100 & 10 654 & 10 654 & 10 654 & 10 654 & 10 654 \\
+\hline
+150 & 23 252 & 23 252 & 23 252 & 23 252 &  23 252\\
+\hline
+200 & 40 852 & 40 852 & 40 852 & 40 852 & 40 852 \\
+\hline
+250 & 63 451 & 63 451 & 63 451 & 63 451 &  63 451 \\
+\hline
+300 & 91 051 & 91 051 & 91 051 & 91 051 & 91 051 \\
+\hline
+350 & 123 651 & 123 651 & 123 651 & 136 400 & 123 651 \\
+\hline
+400 & 161 251 & 161 251 & 161 251 & 278 197 & 161 251 \\
+\hline
+450 & 203 851 & 203 851 & 203 851 & 1 056 327 & 203 851 \\
+\hline
+500 & 251 451 & 251 466 & 251 451 & 659 794 760 & 251 451 \\
+\hline
+CPU(s) & 1,3 & 0,4 & 1,5 & 32,4 & 226,4 \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+From our results, we can see that the discrete sine transform is a clear winner.
+
+\section{Asymptotic behaviour}
 \noindent
-Prohlašuji, že jsem tuto bakalářskou práci vypracoval samostatně a výhradně
-s~použitím citovaných pramenů, literatury a dalších odborných zdrojů.
-Tato práce nebyla využita k získání jiného nebo stejného titulu.
+Next, we want to test the asymptotic equation from the paper \cite{fix} for both the Sturm-Liouville and Coffey-Evans equations and to compare them to our eigenvalues from above.
 
-\medskip\noindent
-Beru na~vědomí, že se na moji práci vztahují práva a povinnosti vyplývající
-ze zákona č. 121/2000 Sb., autorského zákona v~platném znění, zejména skutečnost,
-že Univerzita Karlova má právo na~uzavření licenční smlouvy o~užití této
-práce jako školního díla podle §60 odst. 1 autorského zákona.
-
-\vspace{10mm}
-
-\hbox{\hbox to 0.5\hsize{%
-V \hbox to 6em{\dotfill} dne \hbox to 6em{\dotfill}
-\hss}\hbox to 0.5\hsize{\dotfill\quad}}
-\smallskip
-\hbox{\hbox to 0.5\hsize{}\hbox to 0.5\hsize{\hfil Podpis autora\hfil}}
-
-\vspace{20mm}
-
-\vbox to 0.5\vsize{
-\setlength\parindent{0mm}
-\setlength\parskip{2.5mm}%% tady bylo predtim 5, upravil jsem
-
-Název:
-\NazevPrace
-
-Autor:
-\AutorPrace
-
-Katedra:
-\Katedra
-
-Vedoucí bakalářské práce:
-\Vedouci, \KatedraVedouciho
-
-Abstrakt:
-\Abstrakt
-
-Klíčová slova:
-\KlicovaSlova
-
-\vss}\nobreak\vbox to 0.49\vsize{
-\setlength\parindent{0mm}
-\setlength\parskip{5mm}
-
-Title:
-\NazevPraceEN
-
-Author:
-\AutorPrace
-
-\TypPracovisteEN:
-\KatedraEN
-
-Supervisor:
-\Vedouci, \KatedraVedoucihoEN
-
-Abstract:
-\AbstraktEN
-
-Keywords:
-\KlicovaSlovaEN
-
-\vss}
-
-\newpage
-
-\openright
-\pagestyle{plain}
-\pagenumbering{arabic}
-\setcounter{page}{1}
-
-\tableofcontents
-
-\newpage
-
-\chapter*{Úvod}
-\addcontentsline{toc}{chapter}{Úvod}
-\noindent
-V této práci se budeme zabývat...
-
-\chapter{}
-\noindent
+The general form of the asymptotic equation can be found in the abovementioned paper, but the special case for Sturm-Liouville equation has the following form
+\begin{equation}
+    \lambda_k^{1/2} = k + \frac{e^{\pi} - 1}{2 \, \pi \, k} + \frac{1}{4 \, \pi \, k^3} \left( \frac{e^{2 \, \pi} -1}{4} - \frac{(e^{\pi}-1)^2}{\pi} + \frac{e^{\pi}}{2} - \frac{1}{2} \right) + O(k^{-4}) \, ,
+\end{equation}
+and for the Coffey-Evans equation, it is
+\begin{equation}
+    \lambda_k^{1/2} = k + \frac{225}{k} + \frac{38 192,75}{k^3} - \frac{50625}{k^3} + O(k^{-4})
+\end{equation}
 
 
-\chapter{}
-\noindent
 
-\begin{subequations}
-  \begin{align}
-    m_1 \frac{d^{\,2} x_1}{d \, t^{\,2}}  + k_1 x_1 + k_2 \left(x_1 - x_2\right) & = f, \\
-    m_2 \frac{d^{\,2} x_2}{d \, t^{\,2}}  + b \frac{d}{d \, t}(x_2 - x_1) + k_2 x_2 - k_2 x_1 & = 0,
-  \end{align}
-\end{subequations}
-
-\section{}
+\subsection{Sturm-Liouville equation}
 \noindent
 
 
 
-\chapter{}
+\begin{figure}[H]
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{pic_6.png}
+    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [1, \, 500]$.}}
+    \label{}
+\end{subfigure}
+~ 
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{pic_7.png}
+    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [1, \, 10]$.}}
+    \label{}
+\end{subfigure}
+~
+\centering
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{pic_8.png}
+    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [1, \, 50]$.}}
+    \label{}
+\end{subfigure}
+~
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{pic_9.png}
+    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [490, \, 500]$.}}
+    \label{}
+\end{subfigure}
+\caption{Asymptotic approximation of $\lambda_k$ for Sturm-Liouville equation.}
+\label{}
+\end{figure}
+
+
+\subsection{Coffey-Evans equation}
+
+
+\begin{figure}[H]
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{pic_12.png}
+    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [1, \, 500]$.}}
+    \label{}
+\end{subfigure}
+~ 
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{pic_10.png}
+    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [1, \, 10]$.}}
+    \label{}
+\end{subfigure}
+~
+\centering
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{pic_11.png}
+    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [1, \, 50]$.}}
+    \label{}
+\end{subfigure}
+~
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=0.9\linewidth]{pic_13.png}
+    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [490, \, 500]$.}}
+    \label{}
+\end{subfigure}
+\caption{Asymptotic approximation of $\lambda_k$ for Coffey-Evans equation.}
+\label{}
+\end{figure}
+
+
+
+
+
+\chapter{Wave propagation}
+\noindent
+We are interested in the classical wave equation
+\begin{equation}
+    \frac{\partial^2 \; u}{\partial \; t^2 } = c^2 \; \frac{\partial^2 \; u}{\partial \; x^2}
+\end{equation}
+
+For higher wave numbers $k$, the FD is systematically slower than the FFT. For example, if we want to see the time evolution of 
+\begin{equation}
+    u = \sin{(k x - \omega t)}
+\end{equation}
+
+\begin{figure}[H]
+\centering
+
+% Obrázek (a)
+\begin{minipage}[H]{0.62\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{pic_2.png}
+    \subcaption{}
+    \label{}
+\end{minipage}
+\vspace{8pt}
+
+% Obrázek (b)
+\begin{minipage}[H]{0.62\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{pic_3.png}
+    \subcaption{}
+    \label{}
+\end{minipage}
+\vspace{8pt}
+
+% Obrázek (c)
+\begin{minipage}[H]{0.62\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{pic_4.png}
+    \subcaption{}
+    \label{}
+\end{minipage}
+
+\caption{Comparison of wave propagation using FD, FFT and analytic solution.}
+\label{}
+\end{figure}
+
+
+\section{Dispersion relation}
+\noindent
+Lets look at that in more detail.
+
+\begin{equation}
+    \frac{\partial^2 \; u}{\partial \; t^2 } = c^2 \; \frac{\partial^2 \; u}{\partial \; x^2}
+\end{equation}
+On uniform grid we have $x_j = j \; \Delta x$, $t_n = n \; \Delta t$
+\begin{equation}
+    \left. \frac{\partial^2 u}{\partial t^2} \right|_{j,n} \approx \frac{u_{j}^{n+1} - 2 \; u_j^n + u_j^{n-1}}{(\Delta t)^2}
+\end{equation}
+\begin{equation}
+    \left. \frac{\partial^2 u}{\partial x^2} \right|_{j,n} \approx \frac{u_{j+1}^{n} - 2 \; u_j^n + u_{j-1}^{n}}{(\Delta x)^2}
+\end{equation}
+Substituting into the wave equation, we get the discrete scheme (leap frog)
+\begin{equation}
+    u_{j}^{n+1} - 2 \, u_j^n + u_j^{n-1} = c^2 \, \frac{(\Delta t)^2}{(\Delta x)^2} \, \left( u_{j+1}^{n} - 2 \, u_j^n + u_{j-1}^{n} \right)
+\end{equation}    
+\begin{equation}
+    u_{j}^{n+1} = 2 \, u_j^n - u_j^{n-1} + r^2 \, \left( u_{j+1}^{n} - 2 \, u_j^n + u_{j-1}^{n} \right)
+\end{equation}
+\begin{equation}
+    u_j^n = e^{i \, (k \, j \, \Delta x \, - \, \omega \, n \, \Delta t)}
+\end{equation}
+Substitute 
+\begin{equation}
+    e^{-i \omega \Delta t} - 2 + e^{i \omega \Delta t} = r^2 (e^{-i k \Delta x} - 2 + e^{i k \Delta x})
+\end{equation}
+\begin{equation}
+    -4 \sin^2{\frac{\omega \Delta t}{2}} = r^2 (-4\sin{\frac{k \Delta x}{2}})
+\end{equation}
+$r>0, \omega >0$
+\begin{equation}
+    \sin{\frac{\omega \Delta t}{2}} = r \left| \sin{\frac{k \Delta x}{2}} \right|
+\end{equation}
+\begin{equation}
+\omega = \frac{2}{\Delta t} \arcsin{(r \sin{(\frac{k \Delta x}{2})})}
+\end{equation}
+\begin{equation}
+\omega = \frac{2}{\Delta t} \arcsin{(c\frac{\Delta t}{\Delta x} \sin{(\frac{k \Delta x}{2})})} \approx \frac{2c}{\Delta x} |\sin{(\frac{k \Delta x}{2})}|
+\end{equation}
+
+\begin{equation}
+    \omega_{num}(k) = \frac{2c}{\Delta x} \left| \sin{\frac{k \Delta x}{2}} \right|
+\end{equation}
+\begin{equation}
+    \omega_{exact}(k) = c \left| k \right| 
+\end{equation}
+\begin{equation}
+    |\sin{\frac{k \Delta x}{2}}| \leq |\frac{k \Delta x}{2}|
+\end{equation}
+\begin{equation}
+    \omega_{num}(k) \leq c |k| = \omega_{exact}(k)
+\end{equation}
+Equation holds only for $k \rightarrow 0$. Numerical wave propagate slower.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{pic_5.png}
+    \caption{}
+    \label{}
+\end{figure}
+
+
+\chapter{Wave propagation in metamaterials}
 \noindent
 
+\section{Standard equations}
+Basic description based on classical newton motion equations is in \ref{eq1}
 
-\section{}
+
+
+\begin{equation}\label{eq1}
+    \begin{split}
+        m_1^{(j)} \frac{d^2 u_1^{(j)}}{dt^2} + k_1 \left( u_1^{(j)} - u_1^{(j+1)}\right) + k_1 \left( u_1^{(j)} - u_1^{(j-1)} \right) + k_2 \left( u_1^{(j)} - u_2^{(j)} \right) & = 0 \\
+        m_2^{(j)} \frac{d^2 u_2^{(j)}}{d t^2} +  k_2 \left( u_2^{(j)} - u_1^{(j)}  \right) & = 0
+    \end{split}
+\end{equation}
+
+
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{pic_1.png}
+    \caption{}
+    \label{}
+\end{figure}
+
+
+
+\section{Rate-type equations}
 \noindent
+Let's now show how can we derive rate-type equations from classical newtonian description in \ref{eq1}. We will follow the derivation described in \cite{cit1}.
+
+We define
+
+\begin{equation}
+    \sigma^{(j)} = k_1 \; \left(u_1^{(j+1)} - 2u_1^{(j)} + u_1^{(j-1)} \right) - k_2 \; \left(u_1^{(j)} - u_2^{(j)} \right)
+\end{equation}
+
+So the 
 
 
-\chapter*{Závěr}
-\addcontentsline{toc}{chapter}{Závěr}
+\begin{equation}
+    \begin{split}
+        m_1^{(j)} \frac{d^2 u_1^{(j)}}{d t^2} - \sigma^{(j)} & = 0\; \\
+        \frac{m_2^{(j)}}{k_2} \frac{d^2 \sigma^{(j)}}{d t^2}  + \left(1 + \frac{m_2^{(j)}}{m_1^{(j)}} \right) \sigma^{(j)} & = \frac{m_2^{(j)} k_1}{k_2} \frac{d^2 }{d t^2 } \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \; \\
+        & + k_1 \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \; \\
+    \end{split}
+\end{equation}
+
+
+
+
+
+
+
+
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
 \noindent
-V této práci jsme zkoumali...
+In this work...
+
+
+
+
+
+
 
 \begin{thebibliography}{99}
 
-\bibitem{cit1}
-   {\sc Krtouš,\;P.}
-   \emph{Interní materiály a konzultace}.
-   Univerzita Karlova, 
-   Ma\-te\-ma\-ticko-fyzikální fakulta,
-   Ústav teoretické fyziky, 2024.
+    \bibitem{matslise}
+    {\sc Ledoux, V.}
+    \emph{Matslise 2.0: A Matlab toolbox for Sturm--Liouville computations}.
+    ACM Transactions on Mathematical Software \textbf{42} (2016), Article 29.
 
-\bibitem{cit2}
-   {\sc Krtouš,\;P.}
-   \emph{Proseminář z teoretické fyziky}.
-   Záznamy přednášek, \hfill \\https://utf.mff.cuni.cz/vyuka/NOFY070/2022/prednasky7681.html,
-   2022.
+    \bibitem{numerov}
+    {\sc Andrew, A.\;L.}
+    \emph{Asymptotic correction of Numerov's eigenvalue estimates with natural boundary conditions}.
+    Journal of Computational and Applied Mathematics 125 (2000) 359--366.
 
-\bibitem{cit3}
-   {\sc Klozová,\;E.}
-   \emph{Geometrie 2+1 dimenzionálních černých děr}.
-   Bakalářská práce,
-   vedoucí Krtouš, Pavel. 
-   Univerzita Karlova, 
-   Matematicko-fyzikální fakulta,
-   Ústav teoretické fyziky, 2013.
+    \bibitem{cdm}
+    {\sc Zhang, X.}
+    \emph{Mapped barycentric Chebyshev differentiation matrix method for the solution of regular Sturm--Liouville problems}.
+    Applied Mathematics and Computation 217 (2010) 2266--2276.
 
+    \bibitem{trefethen}
+    {\sc Trefethen,\;L.\;N.}
+    \emph{Spectral Methods in MATLAB}.
+    SIAM, Philadelphia, 2000.
 
- \end{thebibliography}
+    \bibitem{legendre_galerkin}
+    {\sc Chen, L., and Ma, H.\;-P.}
+    \emph{Approximate solution of the Sturm--Liouville problems with Legendre--Galerkin--Chebyshev collocation method}.
+    Applied Mathematics and Computation 206 (2008) 748--754.
+
+    \bibitem{fix}
+    {\sc Fix, G.}
+    \emph{Asymptotic eigenvalues of Sturm-Liouville systems}.
+    Journal of Mathematical Analysis and Applications 19 (1967) 519--525.
+
+    \bibitem{cit1}
+    {\sc Cichra,\;D., Průša,\;V., Rajagopal,\;K.\;R., Rodriguez,\;C., and Vejvoda,\;M.}
+    \emph{The conclusion that metamaterials could have negative mass is a consequence of improper constitutive characterisation}.
+    arXiv preprint arXiv:2409.05906 [cond-mat.mtrl-sci], 2024.
+
+    
+    
+\end{thebibliography}
 
 \appendix
 \openright
