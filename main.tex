@@ -378,7 +378,7 @@ To obtain highly accurate reference eigenvalues of our test problems, a MATLAB p
 
 \subsection{Finite difference method}
 \noindent
-The first numerical method on our list is the finite difference method (FD). The case of this method, which we will be using, approximates the second derivative on a discrete grid using the second-order central finite difference formula
+The first numerical method on our list is the Finite Difference method (FD). The case of this method, which we will be using, approximates the second derivative on a discrete grid using the second-order central finite difference formula
 \begin{equation}
     u''(x_i) \approx \frac{u(x_i - h) - 2 \, u(x_i) + u(x_i + h) }{h^2} \; .
 \end{equation}
@@ -407,10 +407,10 @@ and the implementation of the finite difference method is in algorithms \ref{alg
 \State \quad $D_{i,i} = 2 / h^2$ \quad \quad for $i=1$ to $N$
 \State \quad $D_{i,i+1} = D_{i+1,i} = -1 / h^2$ \quad for $i = 1$ to $N-1$
 \BlankLine
-\State $E = \operatorname{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_N})$
+\State $E = \texttt{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_N})$
 \State $A = -D + E$
 \BlankLine
-\State eig(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$ 
+\State \texttt{eig}(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$ 
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
@@ -428,10 +428,10 @@ and the implementation of the finite difference method is in algorithms \ref{alg
 \State \quad $D_{i,i+1} = D_{i+1,i} = -1/h^2$  \quad for $i=1$ to $N-1$
 \BlankLine
 \State $q_i = \beta^2 \, \sin^2(2 \, x_i) - 2 \, \beta \, \cos(2 \, x_i)$ \quad for $i=1$ to $N$
-\State $Q = \operatorname{diag}(q_1, q_2, \dots, q_N)$
+\State $Q = \texttt{diag}(q_1, q_2, \dots, q_N)$
 \State $A = -D + Q$
 \BlankLine
-\State eig(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
@@ -501,7 +501,7 @@ B = h^2\begin{bmatrix}
 \State \quad $B_{i,i+1} = h^2$ \quad for $i=1$ to $N-1$
 \State \quad $B_{i+1,i} = h^2$ \quad for $i=1$ to $N-1$
 \BlankLine
-\State eig(A, B) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}(A, B) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \BlankLine
 \State Asymptotic correction:
@@ -534,7 +534,7 @@ B = h^2\begin{bmatrix}
 \State \quad $B_{i,i+1} = h^2$ \quad for $i = 1$ to $N-1$
 \State \quad $B_{i+1,i} = h^2$ \quad for $i = 1$ to $N-1$
 \BlankLine
-\State eig(A, B) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}(A, B) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \BlankLine
 \State Asymptotic correction:
@@ -550,7 +550,7 @@ B = h^2\begin{bmatrix}
 
 \subsection{Chebyshev differentiation matrix method}
 \noindent
-The Chebyshev differentiation matrix method (CDM) is a high-order spectral collocation technique that approximates the derivatives of a function at specific collocation points using global polynomial interpolation \cite{cdm}, \cite{trefethen}. It will be implemented using the MATLAB chebfun package.
+The Chebyshev Differentiation Datrix method (CDM) is a high-order spectral collocation technique that approximates the derivatives of a function at specific collocation points using global polynomial interpolation \cite{cdm}, \cite{trefethen}. It will be implemented using the MATLAB chebfun package.
 
 In this approach, we first generate the Chebyshev points of the second kind via \texttt{chebpts} on the interval $[-1,1]$ using the Chebfun package. 
 
@@ -567,17 +567,16 @@ Finally, the differential equation is converted into a matrix eigenvalue problem
 \label{alg_5}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$
-\State $M = N + 1$
-\State $t =$ chebpts(M, 2)
-\State $D_{\text{full}} =$ diffmat(M, 2)
-\State $D_{\text{Cheb}} = D_{\text{full}}[2:M-1, \; 2:M-1]$
-\State $t_{\text{int}} = t[2:M-1]$
+\State $t =$ \texttt{chebpts}(N+2, 2)
+\State $D_{\text{full}} =$ \texttt{diffmat}(N+2, 2)
+\State $D_{\text{Cheb}} = D_{\text{full}}[2:N+1, \; 2:N+1]$
+\State $t_{\text{int}} = t[2:N+1]$
 \State $x_i = \frac{\pi}{2} \, (t_{\text{int},i} + 1)$ \quad for $i=1$ to $N$
 \State $D = (2 / \pi)^2 \cdot D_{\text{Cheb}}$
-\State $E = \operatorname{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_N})$
+\State $E = \texttt{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_N})$
 \State $A = -D + E$
 \BlankLine
-\State eig(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
@@ -587,18 +586,17 @@ Finally, the differential equation is converted into a matrix eigenvalue problem
 \label{alg_6}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
-\State $M = N + 1$
-\State $t =$ chebpts(M, 2)
-\State $D_{\text{full}} =$ diffmat(M, 2)
-\State $D_{Cheb} = D_{\text{full}}[2:M-1, 2:M-1]$ 
-\State $t_{\text{int}} = t[2:M-1]$
+\State $t =$ \texttt{chebpts}(N+2, 2)
+\State $D_{\text{full}} =$ \texttt{diffmat}(N+2, 2)
+\State $D_{Cheb} = D_{\text{full}}[2:N+1, 2:N+1]$ 
+\State $t_{\text{int}} = t[2:N+1]$
 \State $x_i = \frac{\pi}{2} \cdot t_{\text{int},i}$ \quad for $i=1$ to $N$
 \State $q_i =  \beta^2 \, \sin^2(2 \, x_i) - 2 \, \beta \, \cos(2x_i) $ \quad for $i=1$ to $N$
-\State $Q = \operatorname{diag}(q_1, q_2, \dots, q_N)$
+\State $Q = \texttt{diag}(q_1, q_2, \dots, q_N)$
 \State $D = (2 / \pi)^2 \cdot D_{Cheb}$
 \State $A = -D + Q$
 \BlankLine
-\State eig(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
@@ -607,12 +605,73 @@ Finally, the differential equation is converted into a matrix eigenvalue problem
 
 \subsection{Mapped barycentric Chebyshev differentiation matrix method}
 \noindent
-text \cite{cdm}
+The Mapped barycentric Chebyshev differentiation matrix (MBCDM) method is a high-order spectral collocation technique designed for solving Sturm-Liouville and Coffey-Evans eigenvalue equations on a finite interval with homogeneous Dirichlet boundary conditions. 
+
+It employs a Kosloff-Tal-Ezer (KTE) mapping with parameter $\alpha$ to redistribute the Chebyshev nodes, providing better resolution near the boundaries and improved numerical stability for problems with steep gradients or highly oscillatory solutions.
+
+The second derivative is constructed in the computational domain using barycentric differentiation matrices and then transformed to the physical domain $[0,\, \pi]$ or $[-\pi/2, \, \pi/2]$ via the chain rule. After incorporating the potential term, the discrete operator is reduced by imposing the boundary conditions, resulting in a standard matrix eigenvalue problem whose eigenvalues approximate the continuous spectrum with spectral accuracy \cite{cdm}.
+
+\begin{algorithm}[H]
+\caption{Mapped barycentric Chebyshev differentiation - SL}
+\label{}
+\begin{algorithmic}[1]
+
+\State \textbf{input} $N$, $\alpha$
+\State $s =$ \texttt{chebpts}(N+2)
+\State $\text{asin}_\alpha = \arcsin(\alpha)$
+\State $g(s) = \arcsin(\alpha \cdot s) / \text{asin}_\alpha$ 
+\State $x = (g(s) + 1) \cdot \pi/2$
+\BlankLine
+\State \quad $g'(s) = \dfrac{\alpha}{\sqrt{1-(\alpha s)^2} \cdot \text{asin}_\alpha}$
+\State \quad $g''(s) = \dfrac{\alpha^3 s}{(1-\alpha^2 s^2)^{3/2} \cdot \text{asin}_\alpha}$
+\BlankLine
+\State $dx/ds = \pi/2 \cdot g'(s)$
+\State $d^2x/ds^2 = \pi/2 \cdot g''(s)$
+\State $D_s =$ \texttt{diffmat}(N+2, \, 1)
+\State $D_s^{2} = $ \texttt{diffmat}(N+2, \, 2) 
+\BlankLine
+\State $D_2 = \texttt{diag}\left[1/(dx/ds)^2\right] \cdot D_s^{2} - \texttt{diag}\left[(d^2x/ds^2)/(dx/ds)^3\right] \cdot D_s$
+\State $E = \texttt{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_{N+2}})$
+\State $A = -D_2 + E$
+\State $A_{\text{int}} = A(2:N+1, 2:N+1)$
+\BlankLine
+\State \texttt{eig}($A_{init}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
+
+\end{algorithmic}
+\end{algorithm}
 
 
+\begin{algorithm}[H]
+\caption{Mapped barycentric Chebyshev differentiation - CE}
+\label{}
+\begin{algorithmic}[1]
 
+\Require $N$, $\beta$, $\alpha$
+\State $s =$ \texttt{chebpts}(N+2)
+\State $\text{asin}_\alpha = \arcsin(\alpha)$
+\State $g(s) = \arcsin(\alpha \cdot s) / \text{asin}_\alpha$ 
+\State $x = g(s) \cdot \pi/2$
+\BlankLine
+\State $g'(s) = \dfrac{\alpha}{\sqrt{1-(\alpha s)^2} \cdot \text{asin}_\alpha}$
+\State $g''(s) = \dfrac{\alpha^3 s}{(1-\alpha^2 s^2)^{3/2} \cdot \text{asin}_\alpha}$
+\BlankLine
+\State $dx/ds = \pi/2 \cdot g'(s)$
+\State $d^2x/ds^2 = \pi/2 \cdot g''(s)$
+\State $D_s =$ \texttt{diffmat}(N+2, \, 1)
+\State $D_s^{2} = $ \texttt{diffmat}(N+2, \, 2) 
+\BlankLine
+\State $D_2 = \texttt{diag}\left[1/(dx/ds)^2\right] \cdot D_s^{2} - \texttt{diag}\left[(d^2x/ds^2)/(dx/ds)^3\right] \cdot D_s$
+\State $q_i =  \beta^2 \, \sin^2(2 \, x_i) - 2 \, \beta \, \cos(2x_i) $ \quad for $i=1$ to $N+2$
+\State $Q = \texttt{diag}(q_1, q_2, \dots, q_{N+2})$
+\State $A = -D_2 + Q$
+\State $A_{\text{int}} = A(2:N+1, 2:N+1)$
+\BlankLine
+\State \texttt{eig}($A_{init}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 
-
+\end{algorithmic}
+\end{algorithm}
 
 
 
@@ -657,15 +716,15 @@ The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = \
 \State Matrix $M$ (Galerkin projection of potential):
 \State \quad for $j = 0$ to $m-1$:
 \State \quad \quad $f_j(t) = q(t) \cdot \phi_j(t)$
-\State \quad \quad $I_{f_j} =$ chebfun($f_j$,$N+1$) 
-\State \quad \quad legcoeffs($I_{f_j}$) $ \to c_0, c_1, \dots, c_N$
+\State \quad \quad $I_{f_j} =$ \texttt{chebfun}($f_j$,$N+1$) 
+\State \quad \quad \texttt{legcoeffs}($I_{f_j}$) $ \to c_0, c_1, \dots, c_N$
 \State \quad \quad for $i = 0$ to $m-1$ ($k=i$):
 \State \quad \quad \quad $M_{i,j} = c_{k+1} \cdot \frac{2}{2 \, k+1} - c_{k+3} \cdot \frac{2}{2 \, k+5}$ \quad (if $k+3 \leq N$)
 \BlankLine
-\State $\hat{M} = \operatorname{triu}(M) + \operatorname{triu}(M, \, 1)^T$
+\State $\hat{M} = \texttt{triu}(M) + \texttt{triu}(M, \, 1)^T$
 \State $A = S + \hat{M}$
 \BlankLine
-\State eig(A,T) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
+\State \texttt{eig}(A,T) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
 \State$\lambda_k = 4 \mu_k / \pi^2$ \quad for $k = 1$ to $m$
 \State \textbf{output} $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N-1}$
 \end{algorithmic}
@@ -694,24 +753,24 @@ The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = \
 \State Matrix $M$ (Galerkin projection of potential):
 \State \quad for $j = 0$ to $m-1$:
 \State \quad \quad $f_j(t) = q(t) \cdot \phi_j(t)$
-\State \quad \quad $I_{f_j} =$ chebfun($f_j$,$N+1$) 
-\State \quad \quad legcoeffs($I_{f_j}$) $ \to c_0, c_1, \dots, c_N$
+\State \quad \quad $I_{f_j} =$ \texttt{chebfun}($f_j$,$N+1$) 
+\State \quad \quad \texttt{legcoeffs}($I_{f_j}$) $ \to c_0, c_1, \dots, c_N$
 \State \quad \quad for $i = 0$ to $m-1$ ($k=i$):
 \State \quad \quad \quad $M_{i,j} = c_{k+1} \cdot \frac{2}{2 \, k+1} - c_{k+3} \cdot \frac{2}{2 \, k+5}$ \quad (if $k+3 \leq N$)
 \BlankLine
-\State $\hat{M} = \operatorname{triu}(M) + \operatorname{triu}(M,1)^T$
+\State $\hat{M} = \texttt{triu}(M) + \texttt{triu}(M,1)^T$
 \State $A = S + \hat{M}$
 \BlankLine
-\State eig(A,T) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
+\State \texttt{eig}(A,T) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
 \State$\lambda_k = 4 \mu_k / \pi^2$ \quad for $k = 1$ to $m$
 \State \textbf{output} $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N-1}$
 \end{algorithmic}
 \end{algorithm}
 
 
-\subsection{Discrete sine transform}
+\subsection{Discrete Sine Transform}
 \noindent
-The discrete sine transform (DST) provides a natural basis for solving problems with homogeneous Dirichlet boundary conditions on a finite interval. 
+The Discrete Sine Transform (DST) provides a natural basis for solving problems with homogeneous Dirichlet boundary conditions on a finite interval. 
  
 The second derivative operator becomes diagonal in the DST domain. Specifically, the discrete Laplacian applied to a vector $\mathbf{y} = (y_1, \dots, y_N)^T$ of interior grid values is realized by
 \[
@@ -722,36 +781,36 @@ where $\texttt{dst}$ and $\texttt{idst}$ denote the discrete sine transform and 
 The full discrete operator $-\Delta_h + q(x)$ is then assembled by transforming to the spectral domain, performing element-wise multiplication by the potential (its discretization), and transforming back. This approach yields a matrix-free implementation (or an explicitly formed matrix when desired) whose eigenvalues approximate the continuous spectrum with spectral accuracy for sufficiently smooth potentials.
 
 \begin{algorithm}[H]
-\caption{Discrete sine transform - SL}
+\caption{Discrete Sine Transform - SL}
 \label{}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $q(x)$
 \State $x_i = \frac{\pi}{N+1} \cdot i$ \quad for $i = 1$ to $N$
 \State $k = [-(1)^2, -(2)^2, \dots, -(N)^2]^T$
-\State $D_{op}(y) = \operatorname{idst}(k \odot \operatorname{dst}(y))$
+\State $D_{op}(y) = \texttt{idst}(k \odot \texttt{dst}(y))$
 \State $Q_{op}(y) = q(x) \odot y$
 \State $L_{op}(y) = -D_{op}(y) + Q_{op}(y)$
 \State $A = L_{op}(I_{N})$
 \BlankLine
-\State eig(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
+\State \texttt{eig}(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_{N}$
 \end{algorithmic}
 \end{algorithm}
 
 
 \begin{algorithm}[H]
-\caption{Discrete sine transform - CE}
+\caption{Discrete Sine Transform - CE}
 \label{}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $q(x)$, $\beta$
 \State $x_i = -\pi/2 + \frac{\pi}{N+1} \cdot i$ \quad for $i = 1$ to $N$
 \State $k = [-(1)^2, -(2)^2, \dots, -(N)^2]^T$
-\State $D_{op}(y) = \operatorname{idst}(k \odot \operatorname{dst}(y))$
+\State $D_{op}(y) = \texttt{idst}(k \odot \texttt{dst}(y))$
 \State $Q_{op}(y) = q(x) \odot y$
 \State $L_{op}(y) = -D_{op}(y) + Q_{op}(y)$
 \State $A = L_{op}(I_{N})$
 \BlankLine
-\State eig(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
+\State \texttt{eig}(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_{N}$
 \end{algorithmic}
 \end{algorithm}
@@ -771,7 +830,7 @@ Now we present the computed data. Where the relative error is computed with this
 First, below are the computed data for the Sturm-Liouville equation. We have included the CPU time for each computation. The number in the brackets represents the size of the differentiation matrix ($N \times N$) and hence the number of grid points in an interval.
 
 \begin{table}[H]
-\caption{Comparison of data for eigenvalues of Sturm-Liouville equation computed with finite difference method (FD).}
+\caption{Comparison of data for eigenvalues of Sturm-Liouville equation computed with Finite Difference method (FD).}
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -845,7 +904,7 @@ CPU(s) & 0,7 & 0,7 & 0,7 & 4,0 & 4,0 \\
 \end{table}
 
 \begin{table}[H]
-\caption{Comparison of data for eigenvalues of Sturm-Liouville equation computed with Chebyshev differentiation matrix (CDM) and Mapped barycentric Chebyshev differentiation matrix (MBCDM). For MBCDM we choose parameter $\alpha = 0.999$.}
+\caption{Comparison of data for eigenvalues of Sturm-Liouville equation computed with Chebyshev Differentiation Matrix (CDM) and Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM). For MBCDM we choose parameter $\alpha = 0.999$.}
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|}
 \hline
@@ -882,7 +941,7 @@ CPU(s) & 0,7 & 0,3 & 1,0 & 0,5  &  1,3 \\
 \end{table}
 
 \begin{table}[H]
-\caption{Comparison of data for eigenvalues of Sturm-Liouville equation computed with Discrete sine transform (DST) and Legendre-Galerkin-Chebyshev collocation method (LGCC).}
+\caption{Comparison of data for eigenvalues of Sturm-Liouville equation computed with Discrete Sine Transform (DST) and Legendre-Galerkin-Chebyshev Collocation method (LGCC).}
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
@@ -926,7 +985,7 @@ From the results above, we can see that the discrete sine transform is a clear w
 Here we present the data computed for Coffey-Evans equation.
 
 \begin{table}[H]
-\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with finite difference method (FD).}
+\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Finite Difference method (FD).}
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|}
 \hline
@@ -1013,7 +1072,7 @@ CPU(s) & 1,3 & 0,8 & 0,8 & 3,9 & 3,9 \\
 
 
 \begin{table}[H]
-\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Chebyshev differentiation matrix (CDM) and Mapped barycentric Chebyshev differentiation matrix (MBCDM). For MBCDM we choose parameter $\alpha = 1$.}
+\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Chebyshev Differentiation Matrix (CDM) and Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM). For MBCDM we choose parameter $\alpha = 1$.}
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
@@ -1056,7 +1115,7 @@ CPU(s) & 1,3 & 0,3 & 0,9 & 0,5 & 1,2 \\
 \end{table}
 
 \begin{table}[H]
-\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Discrete sine transform (DST) and Legendre-Galerkin-Chebyshev collocation method (LGCC).}
+\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Discrete Sine Transform (DST) and Legendre-Galerkin-Chebyshev collocation method (LGCC).}
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
 \hline
