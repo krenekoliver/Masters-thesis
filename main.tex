@@ -1247,18 +1247,23 @@ We can see graphs for both of them in the figures below. We looked closer at int
 
 
 
-
 \chapter{Wave propagation}
 \noindent
-We are interested in the classical wave equation
-\begin{equation}
-    \frac{\partial^2 \; u}{\partial \; t^2 } = c^2 \; \frac{\partial^2 \; u}{\partial \; x^2}
+The focus of this chapter will be the time evolution of the wave equation. So, our main focus will be on the equation
+\begin{equation}\label{eq_wave}
+    \frac{\partial^2 \; u (x, t)}{\partial \; t^2 } = c^2 \; \frac{\partial^2 \; u (x, t)}{\partial \; x^2} \, .
 \end{equation}
 
-For higher wave numbers $k$, the FD is systematically slower than the FFT. For example, if we want to see the time evolution of 
+We will use finite differences (FD) and the fast Fourier transform (FFT) for the discretization of the second derivative present in the equation \ref{eq_wave} and then compare the two methods.
+
+\section{One wave}
+\noindent
+First, we will test how one wave in this specific form behaves
 \begin{equation}
-    u = \sin{(k x - \omega t)}
+    u(x,t) = \sin{(k x - \omega t)} \, .
 \end{equation}
+The figures of time evolution can be seen in \ref{fig_one_wave}. These numerical experiments clearly show that at higher wave numbers $k$, the FD is systematically slower than the FFT. And that there is no visible difference between the analytic solution and the FFT one.
+
 
 \begin{figure}[H]
 \centering
@@ -1267,7 +1272,7 @@ For higher wave numbers $k$, the FD is systematically slower than the FFT. For e
 \begin{minipage}[H]{0.62\textwidth}
     \centering
     \includegraphics[width=\textwidth]{pic_2.png}
-    \subcaption{}
+    \subcaption{\footnotesize{t = 0 s}}
     \label{}
 \end{minipage}
 \vspace{8pt}
@@ -1276,7 +1281,7 @@ For higher wave numbers $k$, the FD is systematically slower than the FFT. For e
 \begin{minipage}[H]{0.62\textwidth}
     \centering
     \includegraphics[width=\textwidth]{pic_3.png}
-    \subcaption{}
+    \subcaption{\footnotesize{t = 5 s}}
     \label{}
 \end{minipage}
 \vspace{8pt}
@@ -1285,43 +1290,41 @@ For higher wave numbers $k$, the FD is systematically slower than the FFT. For e
 \begin{minipage}[H]{0.62\textwidth}
     \centering
     \includegraphics[width=\textwidth]{pic_4.png}
-    \subcaption{}
+    \subcaption{\footnotesize{t = 10 s}}
     \label{}
 \end{minipage}
-
 \caption{Comparison of wave propagation using FD, FFT and analytic solution.}
-\label{}
+\label{fig_one_wave}
 \end{figure}
 
 
-\section{Dispersion relation}
-\noindent
-Lets look at that in more detail.
 
+\subsection{Dispersion relation}
+\noindent
+Lets look in more detail at why that could be happening. On a uniform grid, we have $x_j = j \; \Delta x$, $t_n = n \; \Delta t$ so that means we can approximate
 \begin{equation}
-    \frac{\partial^2 \; u}{\partial \; t^2 } = c^2 \; \frac{\partial^2 \; u}{\partial \; x^2}
-\end{equation}
-On uniform grid we have $x_j = j \; \Delta x$, $t_n = n \; \Delta t$
-\begin{equation}
-    \left. \frac{\partial^2 u}{\partial t^2} \right|_{j,n} \approx \frac{u_{j}^{n+1} - 2 \; u_j^n + u_j^{n-1}}{(\Delta t)^2}
-\end{equation}
-\begin{equation}
-    \left. \frac{\partial^2 u}{\partial x^2} \right|_{j,n} \approx \frac{u_{j+1}^{n} - 2 \; u_j^n + u_{j-1}^{n}}{(\Delta x)^2}
-\end{equation}
-Substituting into the wave equation, we get the discrete scheme (leap frog)
-\begin{equation}
-    u_{j}^{n+1} - 2 \, u_j^n + u_j^{n-1} = c^2 \, \frac{(\Delta t)^2}{(\Delta x)^2} \, \left( u_{j+1}^{n} - 2 \, u_j^n + u_{j-1}^{n} \right)
-\end{equation}    
-\begin{equation}
-    u_{j}^{n+1} = 2 \, u_j^n - u_j^{n-1} + r^2 \, \left( u_{j+1}^{n} - 2 \, u_j^n + u_{j-1}^{n} \right)
+    \left. \frac{\partial^2 u}{\partial t^2} \right|_{j,n} \approx \frac{u_{j}^{n+1} - 2 \; u_j^n + u_j^{n-1}}{(\Delta t)^2} \, ,
 \end{equation}
 \begin{equation}
-    u_j^n = e^{i \, (k \, j \, \Delta x \, - \, \omega \, n \, \Delta t)}
+    \left. \frac{\partial^2 u}{\partial x^2} \right|_{j,n} \approx \frac{u_{j+1}^{n} - 2 \; u_j^n + u_{j-1}^{n}}{(\Delta x)^2} \, .
 \end{equation}
-Substitute 
+Substituting into the wave equation \ref{eq_wave}, we get the leapfrog discrete scheme
 \begin{equation}
-    e^{-i \omega \Delta t} - 2 + e^{i \omega \Delta t} = r^2 (e^{-i k \Delta x} - 2 + e^{i k \Delta x})
+    u_{j}^{n+1} - 2 \, u_j^n + u_j^{n-1} = c^2 \, \frac{(\Delta t)^2}{(\Delta x)^2} \, \left( u_{j+1}^{n} - 2 \, u_j^n + u_{j-1}^{n} \right) \, ,
 \end{equation}
+which we can rewrite as
+\begin{equation}
+    u_{j}^{n+1} = 2 \, u_j^n - u_j^{n-1} + r^2 \, \left( u_{j+1}^{n} - 2 \, u_j^n + u_{j-1}^{n} \right) \, .
+\end{equation}
+Next, choose a solution in the form
+\begin{equation}
+    u_j^n = e^{i \, (k \, j \, \Delta x \, - \, \omega \, n \, \Delta t)} \, ,
+\end{equation}
+which, after substitution, gives
+\begin{equation}
+    e^{-i \omega \Delta t} - 2 + e^{i \omega \Delta t} = r^2 (e^{-i k \Delta x} - 2 + e^{i k \Delta x}) \, .
+\end{equation}
+Using Euler's formula
 \begin{equation}
     -4 \sin^2{\frac{\omega \Delta t}{2}} = r^2 (-4\sin{\frac{k \Delta x}{2}})
 \end{equation}
@@ -1348,21 +1351,104 @@ $r>0, \omega >0$
 \begin{equation}
     \omega_{num}(k) \leq c |k| = \omega_{exact}(k)
 \end{equation}
-Equation holds only for $k \rightarrow 0$. Numerical wave propagate slower.
+The equation holds only for $k \rightarrow 0$. Thus, numerical waves propagate slower. The graphical form of this result can be seen in the figure \ref{fig_dispersion}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{pic_5.png}
-    \caption{}
-    \label{}
+    \caption{Comparison of exact dispersion relation and numerical dispersion relation for wave equation.}
+    \label{fig_dispersion}
 \end{figure}
+
+
+
+\section{Two waves - same direction}
+\noindent
+Next, we will test how two waves that propagate in the same direction behave
+\begin{equation}
+    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x - \omega_l t)} \, .
+\end{equation}
+
+\begin{figure}[H]
+\centering
+
+% Obrázek (a)
+\begin{minipage}[H]{0.95\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{pic_14.png}
+    \subcaption{\footnotesize{t = 0 s}}
+    \label{}
+\end{minipage}
+\vspace{8pt}
+
+% Obrázek (b)
+\begin{minipage}[H]{0.95\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{pic_15.png}
+    \subcaption{\footnotesize{t = 25 s}}
+    \label{}
+\end{minipage}
+\vspace{8pt}
+
+% Obrázek (c)
+\begin{minipage}[H]{0.95\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{pic_16.png}
+    \subcaption{\footnotesize{t = 50 s}}
+    \label{}
+\end{minipage}
+\caption{Comparison of wave propagation using FD, FFT and analytic solution.}
+\label{}
+\end{figure}
+
+
+
+\section{Two waves - opposite direction}
+\noindent
+And lastly, we will test how two waves that propagate in the opposite direction behave
+\begin{equation}
+    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x + \omega_l t)} \, .
+\end{equation}
+
+\begin{figure}[H]
+\centering
+
+% Obrázek (a)
+\begin{minipage}[H]{0.95\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{pic_17.png}
+    \subcaption{\footnotesize{t = 0 s}}
+    \label{}
+\end{minipage}
+\vspace{8pt}
+
+% Obrázek (b)
+\begin{minipage}[H]{0.95\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{pic_18.png}
+    \subcaption{\footnotesize{t = 26 s}}
+    \label{}
+\end{minipage}
+\vspace{8pt}
+
+% Obrázek (c)
+\begin{minipage}[H]{0.95\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{pic_19.png}
+    \subcaption{\footnotesize{t = 50 s}}
+    \label{}
+\end{minipage}
+\caption{Comparison of wave propagation using FD, FFT and analytic solution.}
+\label{}
+\end{figure}
+
 
 
 \chapter{Wave propagation in metamaterials}
 \noindent
 
 \section{Standard equations}
-Basic description based on classical newton motion equations is in \ref{eq1}
+A basic description based on classical newton motion equations is in \ref{eq1}
 
 
 
