@@ -1251,10 +1251,9 @@ We can see graphs for both of them in the figures below. We looked closer at int
 \noindent
 The focus of this chapter will be the time evolution of the wave equation. So, our main focus will be on the equation
 \begin{equation}\label{eq_wave}
-    \frac{\partial^2 \; u (x, t)}{\partial \; t^2 } = c^2 \; \frac{\partial^2 \; u (x, t)}{\partial \; x^2} \, .
+    \frac{\partial^2 \; u (x, t)}{\partial \; t^2 } = c^2 \; \frac{\partial^2 \; u (x, t)}{\partial \; x^2} \, ,
 \end{equation}
-
-We will use finite differences (FD) and the fast Fourier transform (FFT) for the discretization of the second derivative present in the equation \ref{eq_wave} and then compare the two methods. We will look at two different cases of boundary conditions: periodic boundary conditions and dirichlet boundary conditions.
+where we will take $c = 1$. We will again use approximation techniques for the discretization of the second derivative present in the equation \ref{eq_wave}. Two different cases of boundary conditions will be of interest to us: periodic boundary conditions and dirichlet boundary conditions.
 
 \section{Periodic boundary conditions}
 
@@ -1264,7 +1263,9 @@ First, we will test how one wave in this form
 \begin{equation}
     u(x,t) = \sin{(k x - \omega t)} \, 
 \end{equation}
-behaves. The figures of time evolution can be seen in \ref{fig_one_wave}. These numerical experiments clearly show that the FD is systematically slower than the FFT. And there is no visible difference between the analytic solution and the FFT solution.
+behaves. And where $k = 48$, $N = 64$ and $L = \pi/8$.
+
+The figures of time evolution can be seen in \ref{fig_one_wave}. These numerical experiments clearly show that the FD is systematically slower than the FFT. And there is no visible difference between the analytic solution and the FFT solution.
 
 \begin{figure}[H]
 \centering
@@ -1368,8 +1369,9 @@ The equation holds only for $k \rightarrow 0$. Thus, waves approximated by FD pr
 \noindent
 Next, we will test how two waves that propagate in the same direction behave
 \begin{equation}
-    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x - \omega_l t)} \, .
+    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x - \omega_l t)} \, ,
 \end{equation}
+where $k = 5$, $l = 6$, $N = 128$ and $L = 2\pi$.
 
 \begin{figure}[H]
 \centering
@@ -1399,7 +1401,7 @@ Next, we will test how two waves that propagate in the same direction behave
     \subcaption{\footnotesize{$t \approx 50$ s}}
     \label{}
 \end{minipage}
-\caption{Comparison of wave propagation using FD, FFT and analytic solution.}
+\caption{Comparison of wave propagation using FD, FFT and analytic solution. Blue is FD, red is FFT and black is exact analytic solution. The two waves travel in the same direction.}
 \label{}
 \end{figure}
 
@@ -1409,8 +1411,9 @@ Next, we will test how two waves that propagate in the same direction behave
 \noindent
 And lastly, we will test how two waves that propagate in the opposite direction behave
 \begin{equation}
-    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x + \omega_l t)} \, .
+    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x + \omega_l t)} \, ,
 \end{equation}
+where $k = 5$, $l = 6$, $N = 128$ and $L = 2\pi$.
 
 \begin{figure}[H]
 \centering
@@ -1419,7 +1422,7 @@ And lastly, we will test how two waves that propagate in the opposite direction 
 \begin{minipage}[H]{0.95\textwidth}
     \centering
     \includegraphics[width=\textwidth]{pic_17.png}
-    \subcaption{\footnotesize{t = 0 s}}
+    \subcaption{\footnotesize{$t \approx 0$ s}}
     \label{}
 \end{minipage}
 \vspace{8pt}
@@ -1428,7 +1431,7 @@ And lastly, we will test how two waves that propagate in the opposite direction 
 \begin{minipage}[H]{0.95\textwidth}
     \centering
     \includegraphics[width=\textwidth]{pic_18.png}
-    \subcaption{\footnotesize{t = 26 s}}
+    \subcaption{\footnotesize{$t \approx 24$ s}}
     \label{}
 \end{minipage}
 \vspace{8pt}
@@ -1437,10 +1440,10 @@ And lastly, we will test how two waves that propagate in the opposite direction 
 \begin{minipage}[H]{0.95\textwidth}
     \centering
     \includegraphics[width=\textwidth]{pic_19.png}
-    \subcaption{\footnotesize{t = 50 s}}
+    \subcaption{\footnotesize{$t \approx 48$ s}}
     \label{}
 \end{minipage}
-\caption{Comparison of wave propagation using FD, FFT and analytic solution.}
+\caption{Comparison of wave propagation using FD, FFT and analytic solution. Blue is FD, red is FFT and black is exact analytic solution. The two waves propagate against each other.}
 \label{}
 \end{figure}
 
@@ -1481,15 +1484,8 @@ A basic description based on classical newton motion equations is in \ref{eq1}
 
 \subsection*{Rate-type equations}
 \noindent
-Let's now show how can we derive rate-type equations from classical newtonian description in \ref{eq1}. We will follow the derivation described in \cite{cit1}.
+Derivation of rate-type equations from classical newtonian description in \ref{eq1} was shown in \cite{cit1}.
 
-We define
-
-\begin{equation}
-    \sigma^{(j)} = k_1 \; \left(u_1^{(j+1)} - 2u_1^{(j)} + u_1^{(j-1)} \right) - k_2 \; \left(u_1^{(j)} - u_2^{(j)} \right)
-\end{equation}
-
-So the 
 
 
 \begin{equation}
