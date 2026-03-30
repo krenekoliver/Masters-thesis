@@ -351,7 +351,7 @@ In both cases, our goal will be to rewrite the main equation \ref{eq_general_tes
 \end{equation}
 where for the SL equation, we will take 
 \begin{equation}
-    A = E = \operatorname{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_N}) \, ,
+    A = E = \texttt{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_N}) \, ,
 \end{equation}
 so we get
 \begin{equation}
@@ -360,7 +360,7 @@ so we get
 And in the case of CE equation, the situation will be analogous 
 \begin{equation}
     \begin{split}
-    A = Q = \operatorname{diag}(-2 \, \beta \, \cos{(2 \, x_1)} + \beta^2 \, \sin^2{(2 \, x_1)} \, , \dots, \\ -2 \, \beta \, \cos{(2 \, x_N)} + \beta^2 \, \sin^2{(2 \, x_N)} ) \, ,
+    A = Q = \texttt{diag}(-2 \, \beta \, \cos{(2 \, x_1)} + \beta^2 \, \sin^2{(2 \, x_1)} \, , \dots, \\ -2 \, \beta \, \cos{(2 \, x_N)} + \beta^2 \, \sin^2{(2 \, x_N)} ) \, ,
     \end{split}
 \end{equation}
 so we get
@@ -1257,6 +1257,9 @@ where we will take $c = 1$. We will again use approximation techniques for the d
 
 \section{Periodic boundary conditions}
 
+Když máme exaktní čas, tak celková chyba metody závisí jen na prostorové diskretizaci.
+
+
 \subsection{One wave}
 \noindent
 First, we will test how one wave in this form
@@ -1269,40 +1272,37 @@ The figures of time evolution can be seen in \ref{fig_one_wave}. These numerical
 
 \begin{figure}[H]
 \centering
-
 % Obrázek (a)
-\begin{minipage}[H]{0.62\textwidth}
+\begin{minipage}[H]{0.72\textwidth}
     \centering
     \includegraphics[width=\textwidth]{figures/pic_2.png}
     \subcaption{\footnotesize{$t \approx 0$ s}}
     \label{}
 \end{minipage}
 \vspace{8pt}
-
 % Obrázek (b)
-\begin{minipage}[H]{0.62\textwidth}
+\begin{minipage}[H]{0.72\textwidth}
     \centering
     \includegraphics[width=\textwidth]{figures/pic_3.png}
-    \subcaption{\footnotesize{$t \approx 5$ s}}
+    \subcaption{\footnotesize{$t \approx 18$ s}}
     \label{}
 \end{minipage}
 \vspace{8pt}
-
 % Obrázek (c)
-\begin{minipage}[H]{0.62\textwidth}
+\begin{minipage}[H]{0.72\textwidth}
     \centering
     \includegraphics[width=\textwidth]{figures/pic_4.png}
-    \subcaption{\footnotesize{$t \approx 10$ s}}
+    \subcaption{\footnotesize{$t \approx 4 \, 000$ s}}
     \label{}
 \end{minipage}
-\caption{Comparison of wave propagation using FD, FFT and analytic solution. Blue represents FD approximation, red represents FFT and black is exact solution.}
+\caption{Comparison of wave propagation using FD (blue), Numerov (red), DFT (magenta) and analytic solution (black).}
 \label{fig_one_wave}
 \end{figure}
 
 In our experiments, we saw that for higher wave numbers $k$, the effect was greater. We will shed some light on this phenomenon below.
 
 
-\subsubsection{Dispersion relation}
+\subsubsection{Dispersion relation - V PROCESU}
 \noindent
 So, lets now look in more detail at why for higher wave numbers $k$ the slowing effect is greater for FD approximation. On a uniform grid, we have $x_j = j \; \Delta x$, $t_n = n \; \Delta t$ so that means we can approximate
 \begin{equation}
@@ -1377,7 +1377,7 @@ where $k = 5$, $l = 6$, $N = 128$ and $L = 2\pi$.
 \centering
 
 % Obrázek (a)
-\begin{minipage}[H]{0.95\textwidth}
+\begin{minipage}[H]{0.75\textwidth}
     \centering
     \includegraphics[width=\textwidth]{figures/pic_14.png}
     \subcaption{\footnotesize{$t \approx 0$ s}}
@@ -1386,22 +1386,22 @@ where $k = 5$, $l = 6$, $N = 128$ and $L = 2\pi$.
 \vspace{8pt}
 
 % Obrázek (b)
-\begin{minipage}[H]{0.95\textwidth}
+\begin{minipage}[H]{0.75\textwidth}
     \centering
     \includegraphics[width=\textwidth]{figures/pic_15.png}
-    \subcaption{\footnotesize{$t \approx 25$ s}}
+    \subcaption{\footnotesize{$t \approx 45$ s}}
     \label{}
 \end{minipage}
 \vspace{8pt}
 
 % Obrázek (c)
-\begin{minipage}[H]{0.95\textwidth}
+\begin{minipage}[H]{0.75\textwidth}
     \centering
     \includegraphics[width=\textwidth]{figures/pic_16.png}
-    \subcaption{\footnotesize{$t \approx 50$ s}}
+    \subcaption{\footnotesize{$t \approx 6 \,000$ s}}
     \label{}
 \end{minipage}
-\caption{Comparison of wave propagation using FD, FFT and analytic solution. Blue is FD, red is FFT and black is exact analytic solution. The two waves travel in the same direction.}
+\caption{Comparison of wave propagation using FD (blue), Numerov (red), DFT (magenta) and analytic solution (black). The two waves travel in the same direction.}
 \label{}
 \end{figure}
 
