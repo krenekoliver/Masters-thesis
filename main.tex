@@ -1393,7 +1393,10 @@ And again, the simulation with DFT (magenta) and the exact solution (black), whi
 
 \section{Dirichlet boundary conditions}
 \noindent
-In this section, we can apply all of the methods from the chapter about eigenvalues (FD, Numerov, DST, CDM, MBCDM, LGCC).
+In this section, we can apply all of the methods from the chapter about eigenvalues (FD, Numerov, DST, CDM, MBCDM, LGCC) because we have dirichlet boundary conditions
+\begin{equation}
+    u(0,t) = u(\pi,t) = 0 \, .
+\end{equation}
  
 
 \subsection{One wave}
@@ -1404,12 +1407,12 @@ First we will focus on wave in the form
 \end{equation}
 And where $\omega = c \cdot k $,
 
-All $L = \pi$
+All is on interval $L = \pi$
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_same_initial.png}
+    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_initial.png}
     \caption{All of the waves at $t \approx 0$ s.  $N = 50$ }
     \label{}
 \end{figure}
@@ -1417,47 +1420,50 @@ All $L = \pi$
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_same_FD.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t \approx 19$ s.  $N = 50$ }
+    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_FD.png}
+    \caption{FD (blue) method separates from exact solution (black) after $t \approx 25$ s.  $N = 50$ }
     \label{}
 \end{figure}
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_same_Numerov.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 3 \, 500$ s.  $N = 50$ }
+    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_Numerov.png}
+    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 3 \, 400$ s.  $N = 50$ }
     \label{}
 \end{figure}
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_same_CDM.png}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 405 \, 000$ s. $N = 20$}
+    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_CDM.png}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 446 \, 000$ s. $N = 20$}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_one_MBCDM.png}
-    \caption{Simulation with MBCDM (cyan) and exact solution (black) that ran for $t \approx 405 \, 000$ s. $N = 20$}
+    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_MBCDM.png}
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 446 \, 000$ s. $N = 20$}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/pic_.png}
-    \caption{Simulation with DFT (magenta) and exact solution (black) that ran for $t \approx 1$ year. They never separated.}
+    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_LGCC.png}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 446 \, 000$ s. $N = 20$}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/pic_.png}
-    \caption{Simulation with DFT (magenta) and exact solution (black) that ran for $t \approx 1$ year. They never separated.}
+    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_DST.png}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 446 \, 000$ s. $N = 20$}
     \label{}
 \end{figure}
+
+We can see that DST is again the best. 
+
 
 \subsection{Two waves - same direction}
 \noindent
