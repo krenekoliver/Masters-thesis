@@ -1268,9 +1268,9 @@ First, we will test how one wave in this form
 \end{equation}
 behaves. And where $\omega = c \cdot k $, $k = 48$, $N = 64$ and $L = \pi/8$.
 
-The figures of time evolution can be seen in \ref{fig_one_wave}. These numerical experiments clearly show that the FD is systematically slower than the FFT. And there is no visible difference between the analytic solution and the FFT solution.
+The time evolution can be seen in figures below. These numerical experiments clearly show that the FD is systematically slower than the FFT. And there is no visible difference between the analytic solution and the FFT solution.
 
-We can see on figures \ref{fig_one_wave}, that FD separated from the exact solution after $t \approx 18$ s and Numerov separated after $t \approx 4 \, 000$ s. We expected this, because Numerov is higher order method than FD.
+We can see on figures \ref{fig_one_wave_FD}, that FD separated from the exact solution after $t \approx 10$ s and Numerov separated after $t \approx 4 \, 000$ s. We expected this, because Numerov is higher order method than FD.
 
 Just to make sure, we ran a simulation with only DFT and the exact solution to check whether, after some time, they also dont separate. This simulation, which ran for one year, is shown in the figure \ref{fig_one_periodic_infinite}.
 
@@ -1278,7 +1278,7 @@ Just to make sure, we ran a simulation with only DFT and the exact solution to c
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_2.png}
-    \caption{All of the waves at $t \approx 0$ s. }
+    \caption{Exact solution at $t \approx 0$ s. }
     \label{}
 \end{figure}
 
@@ -1287,7 +1287,7 @@ Just to make sure, we ran a simulation with only DFT and the exact solution to c
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_one_periodic_FD.png}
     \caption{FD (blue) method separates from exact solution (black) after $t \approx 10$ s. }
-    \label{}
+    \label{fig_one_wave_FD}
 \end{figure}
 
 
@@ -1326,8 +1326,8 @@ We can see on figures below, that using FD the wave package separated after $t \
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/pic_14.png}
-    \caption{All of the waves at $t \approx 0$ s. }
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_periodic_same_initial.png}
+    \caption{Exact solution at $t \approx 0$ s. }
     \label{fig_two_same_all}
 \end{figure}
 
@@ -1346,6 +1346,12 @@ We can see on figures below, that using FD the wave package separated after $t \
     \label{}
 \end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_periodic_same_DST.png}
+    \caption{DST (magenta) method never separates from exact solution (black), $t \approx 45 \, 000$ s. }
+    \label{}
+\end{figure}
 
 And again, the simulation with DFT (magenta) and the exact solution (black), which ran for $t \approx 1$ year, never separated (figure is identical to \ref{fig_two_same_all}).
 
@@ -1366,8 +1372,8 @@ Again on figures below, using FD the wave package separated after $t \approx 24$
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figures/pic_17.png}
-    \caption{All of the waves at $t \approx 0$ s. }
+    \includegraphics[width=0.79\linewidth]{figures/pic_two_periodic_opposite_initial.png}
+    \caption{Exact solution at $t \approx 0$ s. }
     \label{fig_two_opposite_all}
 \end{figure}
 
@@ -1387,6 +1393,13 @@ Again on figures below, using FD the wave package separated after $t \approx 24$
 \end{figure}
 
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_periodic_opposite_DST.png}
+    \caption{DST (magenta) method never separates from exact solution (black) $t \approx 45 \, 000$ s. }
+    \label{}
+\end{figure}
+
 And again, the simulation with DFT (magenta) and the exact solution (black), which ran for $t \approx 1$ year, never separated (figure would be identical to \ref{fig_two_opposite_all}).
 
 
@@ -1401,9 +1414,12 @@ In this section, we can apply all of the methods from the chapter about eigenval
 
 \subsection{One wave}
 \noindent
-First we will focus on wave in the form
+First we will focus on wave on the interval $[0, \pi]$ in the initial form at time $t = 0$ s
 \begin{equation}
-    u(x,t) = \sin{(k x - \omega t)} \, 
+    \begin{split}
+    u(x,t) & = \sin{(k x - \omega t)} \quad \text{on} \; [0, \, \pi/2] \, , \\
+    u(x,t) & = 0 \quad \text{on} \; [\pi/2, \, \pi] \, .
+    \end{split}
 \end{equation}
 And where $\omega = c \cdot k $,
 
@@ -1462,7 +1478,7 @@ All is on interval $L = \pi$
     \label{}
 \end{figure}
 
-We can see that DST is again the best. 
+We can see that DST is, again, the best. 
 
 
 \subsection{Two waves - same direction}
@@ -1475,6 +1491,61 @@ We can see that DST is again the best.
 where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $,
 
 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_initial.png}
+    \caption{Exact solution at $t \approx 0$ s.  $N = 100$ }
+    \label{}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_FD.png}
+    \caption{FD (blue) method separates from exact solution (black) after $t \approx 14$ s.  $N = 100$ }
+    \label{}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_Numerov.png}
+    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 460$ s.  $N = 100$ }
+    \label{}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_CDM.png}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 446 \, 000$ s. $N = 100$}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_MBCDM.png}
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 466 \, 000$ s. $N = 100$}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_LGCC.png}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 466 \, 000$ s. $N = 100$}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_DST.png}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 466 \, 000$ s. $N = 100$}
+    \label{}
+\end{figure}
+
+We can see that DST is, again, the best.
+
 \subsection{Two waves - opposite direction}
 \noindent
 
@@ -1482,6 +1553,65 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $,
     u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x + \omega_l t)} \, ,
 \end{equation}
 where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $,
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_dirichlet_initial.png}
+    \caption{Exact solution at $t \approx 0$ s.  $N = 100$ }
+    \label{}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_dirichlet_FD.png}
+    \caption{FD (blue) method separates from exact solution (black) after $t \approx 13$ s.  $N = 100$ }
+    \label{}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_dirichlet_Numerov.png}
+    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 470$ s.  $N = 100$ }
+    \label{}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_dirichlet_CDM.png}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 470 \, 000$ s. $N = 100$}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_dirichlet_MBCDM.png}
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 470 \, 000$ s. $N = 100$}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_dirichlet_LGCC.png}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 470 \, 000$ s. $N = 100$}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_dirichlet_DST.png}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 470 \, 000$ s. $N = 100$}
+    \label{}
+\end{figure}
+
+We can see that DST is, again, the best.
+
+
+
+
+
 
 \chapter{Wave propagation in metamaterials}
 \noindent
