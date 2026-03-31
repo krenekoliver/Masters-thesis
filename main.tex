@@ -279,7 +279,7 @@ In the context of metamaterials, as demonstrated in \cite{cit1}, rate-type relat
 
 \chapter{Eigenvalue computations}
 \noindent
-The aim of this chapter is, first, to introduce two test problems, namely the Sturm-Liouville and the Coffey-Evans equations. Then we will describe methods that discretize these problems and allow us to solve them approximately. Mainly, we will focus on how to discretize the operator of the second derivative.
+The aim of this chapter is, first, to introduce two test problems: namely, the Sturm-Liouville and the Coffey-Evans equations. Then, we will describe methods that discretize these problems and allow us to solve them approximately. Mainly, we will focus on how to discretize the operator of the second derivative.
 
 The methods that will be described and used are: finite differences, Chebyshev differentiation, Mapped barycentric Chebyshev differentiation, Discrete sine transform, Numerov, and the Legendre-Galerkin-Chebyshev collocation. 
 
@@ -1266,43 +1266,222 @@ First, we will test how one wave in this form
 \begin{equation}
     u(x,t) = \sin{(k x - \omega t)} \, 
 \end{equation}
-behaves. And where $k = 48$, $N = 64$ and $L = \pi/8$.
+behaves. And where $\omega = c \cdot k $, $k = 48$, $N = 64$ and $L = \pi/8$.
 
 The figures of time evolution can be seen in \ref{fig_one_wave}. These numerical experiments clearly show that the FD is systematically slower than the FFT. And there is no visible difference between the analytic solution and the FFT solution.
 
+We can see on figures \ref{fig_one_wave}, that FD separated from the exact solution after $t \approx 18$ s and Numerov separated after $t \approx 4 \, 000$ s. We expected this, because Numerov is higher order method than FD.
+
+Just to make sure, we ran a simulation with only DFT and the exact solution to check whether, after some time, they also dont separate. This simulation, which ran for one year, is shown in the figure \ref{fig_one_periodic_infinite}.
+
+
 \begin{figure}[H]
-\centering
-% Obrázek (a)
-\begin{minipage}[H]{0.72\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{figures/pic_2.png}
-    \subcaption{\footnotesize{$t \approx 0$ s}}
+    \includegraphics[width=0.8\linewidth]{figures/pic_2.png}
+    \caption{All of the waves at $t \approx 0$ s. }
     \label{}
-\end{minipage}
-\vspace{8pt}
-% Obrázek (b)
-\begin{minipage}[H]{0.72\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{figures/pic_3.png}
-    \subcaption{\footnotesize{$t \approx 18$ s}}
-    \label{}
-\end{minipage}
-\vspace{8pt}
-% Obrázek (c)
-\begin{minipage}[H]{0.72\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{figures/pic_4.png}
-    \subcaption{\footnotesize{$t \approx 4 \, 000$ s}}
-    \label{}
-\end{minipage}
-\caption{Comparison of wave propagation using FD (blue), Numerov (red), DFT (magenta) and analytic solution (black).}
-\label{fig_one_wave}
 \end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_one_periodic_FD.png}
+    \caption{FD (blue) method separates from exact solution (black) after $t \approx 10$ s. }
+    \label{}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_one_periodic_Numerov.png}
+    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 2 \, 000$ s. }
+    \label{}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_20.png}
+    \caption{Simulation with DFT (magenta) and exact solution (black) that ran for $t \approx 1$ year. They never separated.}
+    \label{fig_one_periodic_infinite}
+\end{figure}
+
+
 
 In our experiments, we saw that for higher wave numbers $k$, the effect was greater. We will shed some light on this phenomenon below.
 
 
-\subsubsection{Dispersion relation - V PROCESU}
+
+
+\subsection{Two waves - same direction}
+\noindent
+Next, we will test how two waves that propagate in the same direction behave
+\begin{equation}
+    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x - \omega_l t)} \, ,
+\end{equation}
+where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 5$, $l = 6$, $N = 128$ and $L = 2\pi$.
+
+We can see on figures below, that using FD the wave package separated after $t \approx 45$ s and using Numerov the same happened after $t \approx 6 \,000$ s. And again, as we would expect, the DFT method holds best of the three.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_14.png}
+    \caption{All of the waves at $t \approx 0$ s. }
+    \label{fig_two_same_all}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_same_FD.png}
+    \caption{FD (blue) method separates from exact solution (black) after $t \approx 45$ s. }
+    \label{}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_same_Numerov.png}
+    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 6 \, 300$ s. }
+    \label{}
+\end{figure}
+
+
+And again, the simulation with DFT (magenta) and the exact solution (black), which ran for $t \approx 1$ year, never separated (figure is identical to \ref{fig_two_same_all}).
+
+
+
+
+
+\subsection{Two waves - opposite direction}
+\noindent
+And lastly, we will test how two waves that propagate in the opposite direction behave
+\begin{equation}
+    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x + \omega_l t)} \, ,
+\end{equation}
+where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 5$, $l = 6$, $N = 128$ and $L = 2\pi$.
+
+Again on figures below, using FD the wave package separated after $t \approx 24$ s and using Numerov the same happened after $t \approx 2 \,000$ s. And again, as we would expect, the DFT method holds best of the three.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_17.png}
+    \caption{All of the waves at $t \approx 0$ s. }
+    \label{fig_two_opposite_all}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_FD.png}
+    \caption{FD (blue) method separates from exact solution (black) after $t \approx 10$ s. }
+    \label{}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_Numerov.png}
+    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 3 \, 000$ s. }
+    \label{}
+\end{figure}
+
+
+And again, the simulation with DFT (magenta) and the exact solution (black), which ran for $t \approx 1$ year, never separated (figure would be identical to \ref{fig_two_opposite_all}).
+
+
+
+\section{Dirichlet boundary conditions}
+\noindent
+In this section we can apply all of the methods from the chapter about eigenvalues (FD, Numerov, DST, CDM, MBCDM, LGCC).
+
+
+\subsection{One wave}
+\noindent
+
+\begin{equation}
+    u(x,t) = \sin{(k x - \omega t)} \, 
+\end{equation}
+And where $\omega = c \cdot k $,
+
+
+\subsection{Two waves - same direction}
+\noindent
+
+
+\begin{equation}
+    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x - \omega_l t)} \, ,
+\end{equation}
+where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $,
+
+
+\subsection{Two waves - opposite direction}
+\noindent
+
+\begin{equation}
+    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x + \omega_l t)} \, ,
+\end{equation}
+where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $,
+
+\chapter{Wave propagation in metamaterials}
+\noindent
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figures/pic_1.png}
+    \caption{Figure of one dimensional infinite lattice metamaterial.}
+    \label{}
+\end{figure}
+
+\subsection*{Standard equations}
+A basic description based on classical newton motion equations is in \ref{eq1}
+
+
+
+\begin{equation}\label{eq1}
+    \begin{split}
+        m_1^{(j)} \frac{d^2 u_1^{(j)}}{dt^2} + k_1 \left( u_1^{(j)} - u_1^{(j+1)}\right) + k_1 \left( u_1^{(j)} - u_1^{(j-1)} \right) + k_2 \left( u_1^{(j)} - u_2^{(j)} \right) & = 0 \\
+        m_2^{(j)} \frac{d^2 u_2^{(j)}}{d t^2} +  k_2 \left( u_2^{(j)} - u_1^{(j)}  \right) & = 0
+    \end{split}
+\end{equation}
+
+
+
+
+\subsection*{Rate-type equations}
+\noindent
+Derivation of rate-type equations from classical newtonian description in \ref{eq1} was shown in \cite{cit1}.
+
+
+
+\begin{equation}
+    \begin{split}
+        m_1^{(j)} \frac{d^2 u_1^{(j)}}{d t^2} - \sigma^{(j)} & = 0\; \\
+        \frac{m_2^{(j)}}{k_2} \frac{d^2 \sigma^{(j)}}{d t^2}  + \left(1 + \frac{m_2^{(j)}}{m_1^{(j)}} \right) \sigma^{(j)} & = \frac{m_2^{(j)} k_1}{k_2} \frac{d^2 }{d t^2 } \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \; \\
+        & + k_1 \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \; \\
+    \end{split}
+\end{equation}
+
+
+\section{Periodic boundary conditions}
+
+\section{Dirichlet boundary conditions}
+
+
+
+
+
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
+\noindent
+In this work...
+
+
+
+\chapter*{Appendix}
+
+\subsection{Dispersion relation - V PROCESU}
 \noindent
 So, lets now look in more detail at why for higher wave numbers $k$ the slowing effect is greater for FD approximation. On a uniform grid, we have $x_j = j \; \Delta x$, $t_n = n \; \Delta t$ so that means we can approximate
 \begin{equation}
@@ -1362,157 +1541,6 @@ The equation holds only for $k \rightarrow 0$. Thus, waves approximated by FD pr
     \caption{Comparison of exact dispersion relation and numerical dispersion relation for wave equation.}
     \label{fig_dispersion}
 \end{figure}
-
-
-
-\subsection{Two waves - same direction}
-\noindent
-Next, we will test how two waves that propagate in the same direction behave
-\begin{equation}
-    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x - \omega_l t)} \, ,
-\end{equation}
-where $k = 5$, $l = 6$, $N = 128$ and $L = 2\pi$.
-
-\begin{figure}[H]
-\centering
-
-% Obrázek (a)
-\begin{minipage}[H]{0.75\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{figures/pic_14.png}
-    \subcaption{\footnotesize{$t \approx 0$ s}}
-    \label{}
-\end{minipage}
-\vspace{8pt}
-
-% Obrázek (b)
-\begin{minipage}[H]{0.75\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{figures/pic_15.png}
-    \subcaption{\footnotesize{$t \approx 45$ s}}
-    \label{}
-\end{minipage}
-\vspace{8pt}
-
-% Obrázek (c)
-\begin{minipage}[H]{0.75\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{figures/pic_16.png}
-    \subcaption{\footnotesize{$t \approx 6 \,000$ s}}
-    \label{}
-\end{minipage}
-\caption{Comparison of wave propagation using FD (blue), Numerov (red), DFT (magenta) and analytic solution (black). The two waves travel in the same direction.}
-\label{}
-\end{figure}
-
-
-
-\subsection{Two waves - opposite direction}
-\noindent
-And lastly, we will test how two waves that propagate in the opposite direction behave
-\begin{equation}
-    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x + \omega_l t)} \, ,
-\end{equation}
-where $k = 5$, $l = 6$, $N = 128$ and $L = 2\pi$.
-
-\begin{figure}[H]
-\centering
-
-% Obrázek (a)
-\begin{minipage}[H]{0.95\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{figures/pic_17.png}
-    \subcaption{\footnotesize{$t \approx 0$ s}}
-    \label{}
-\end{minipage}
-\vspace{8pt}
-
-% Obrázek (b)
-\begin{minipage}[H]{0.95\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{figures/pic_18.png}
-    \subcaption{\footnotesize{$t \approx 24$ s}}
-    \label{}
-\end{minipage}
-\vspace{8pt}
-
-% Obrázek (c)
-\begin{minipage}[H]{0.95\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{figures/pic_19.png}
-    \subcaption{\footnotesize{$t \approx 48$ s}}
-    \label{}
-\end{minipage}
-\caption{Comparison of wave propagation using FD, FFT and analytic solution. Blue is FD, red is FFT and black is exact analytic solution. The two waves propagate against each other.}
-\label{}
-\end{figure}
-
-\section{Dirichlet boundary conditions}
-
-\subsection{One wave}
-
-\subsection{Two waves - same direction}
-
-\subsection{Two waves - opposite direction}
-
-
-\chapter{Wave propagation in metamaterials}
-\noindent
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\linewidth]{figures/pic_1.png}
-    \caption{Figure of one dimensional infinite lattice metamaterial.}
-    \label{}
-\end{figure}
-
-\subsection*{Standard equations}
-A basic description based on classical newton motion equations is in \ref{eq1}
-
-
-
-\begin{equation}\label{eq1}
-    \begin{split}
-        m_1^{(j)} \frac{d^2 u_1^{(j)}}{dt^2} + k_1 \left( u_1^{(j)} - u_1^{(j+1)}\right) + k_1 \left( u_1^{(j)} - u_1^{(j-1)} \right) + k_2 \left( u_1^{(j)} - u_2^{(j)} \right) & = 0 \\
-        m_2^{(j)} \frac{d^2 u_2^{(j)}}{d t^2} +  k_2 \left( u_2^{(j)} - u_1^{(j)}  \right) & = 0
-    \end{split}
-\end{equation}
-
-
-
-
-\subsection*{Rate-type equations}
-\noindent
-Derivation of rate-type equations from classical newtonian description in \ref{eq1} was shown in \cite{cit1}.
-
-
-
-\begin{equation}
-    \begin{split}
-        m_1^{(j)} \frac{d^2 u_1^{(j)}}{d t^2} - \sigma^{(j)} & = 0\; \\
-        \frac{m_2^{(j)}}{k_2} \frac{d^2 \sigma^{(j)}}{d t^2}  + \left(1 + \frac{m_2^{(j)}}{m_1^{(j)}} \right) \sigma^{(j)} & = \frac{m_2^{(j)} k_1}{k_2} \frac{d^2 }{d t^2 } \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \; \\
-        & + k_1 \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \; \\
-    \end{split}
-\end{equation}
-
-
-\section{Periodic boundary conditions}
-
-\section{Dirichlet boundary conditions}
-
-
-
-
-\chapter*{Conclusion}
-\addcontentsline{toc}{chapter}{Conclusion}
-\noindent
-In this work...
-
-
-
-
-
 
 
 \begin{thebibliography}{99}
