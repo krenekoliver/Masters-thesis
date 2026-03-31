@@ -1255,9 +1255,9 @@ The focus of this chapter will be the time evolution of the wave equation. So, o
 \end{equation}
 where we will take $c = 1$. We will again use approximation techniques for the discretization of the second derivative present in the equation \ref{eq_wave}. Two different cases of boundary conditions will be of interest to us: periodic boundary conditions and dirichlet boundary conditions.
 
-\section{Periodic boundary conditions}
+For every simulation the time is exact. We discretize only in space to fairly compare our discretization techniques.
 
-Když máme exaktní čas, tak celková chyba metody závisí jen na prostorové diskretizaci.
+\section{Periodic boundary conditions}
 
 
 \subsection{One wave}
@@ -1393,17 +1393,71 @@ And again, the simulation with DFT (magenta) and the exact solution (black), whi
 
 \section{Dirichlet boundary conditions}
 \noindent
-In this section we can apply all of the methods from the chapter about eigenvalues (FD, Numerov, DST, CDM, MBCDM, LGCC).
-
+In this section, we can apply all of the methods from the chapter about eigenvalues (FD, Numerov, DST, CDM, MBCDM, LGCC).
+ 
 
 \subsection{One wave}
 \noindent
-
+First we will focus on wave in the form
 \begin{equation}
     u(x,t) = \sin{(k x - \omega t)} \, 
 \end{equation}
 And where $\omega = c \cdot k $,
 
+All $L = \pi$
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_same_initial.png}
+    \caption{All of the waves at $t \approx 0$ s.  $N = 50$ }
+    \label{}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_same_FD.png}
+    \caption{FD (blue) method separates from exact solution (black) after $t \approx 19$ s.  $N = 50$ }
+    \label{}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_same_Numerov.png}
+    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 3 \, 500$ s.  $N = 50$ }
+    \label{}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_same_CDM.png}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 405 \, 000$ s. $N = 20$}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_one_MBCDM.png}
+    \caption{Simulation with MBCDM (cyan) and exact solution (black) that ran for $t \approx 405 \, 000$ s. $N = 20$}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_.png}
+    \caption{Simulation with DFT (magenta) and exact solution (black) that ran for $t \approx 1$ year. They never separated.}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{figures/pic_.png}
+    \caption{Simulation with DFT (magenta) and exact solution (black) that ran for $t \approx 1$ year. They never separated.}
+    \label{}
+\end{figure}
 
 \subsection{Two waves - same direction}
 \noindent
