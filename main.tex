@@ -1266,7 +1266,7 @@ First, we will test how one wave in this form
 \begin{equation}
     u(x,t) = \sin{(k x - \omega t)} \, 
 \end{equation}
-behaves. And where $\omega = c \cdot k $, $k = 48$, $N = 64$ and $L = \pi/8$.
+behaves. And where $\omega = c \cdot k $, $k = 6$, $N = 64$ and $L = \pi$.
 
 The time evolution can be seen in figures below. These numerical experiments clearly show that the FD is systematically slower than the FFT. And there is no visible difference between the analytic solution and the FFT solution.
 
@@ -1286,7 +1286,7 @@ Just to make sure, we ran a simulation with only DFT and the exact solution to c
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_one_periodic_FD.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t \approx 6$ s. }
+    \caption{FD (blue) method separates from exact solution (black) after $t \approx 47$ s. }
     \label{fig_one_wave_FD}
 \end{figure}
 
@@ -1294,7 +1294,7 @@ Just to make sure, we ran a simulation with only DFT and the exact solution to c
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_one_periodic_Numerov.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 1 \, 938$ s. }
+    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 9 \, 880$ s. }
     \label{}
 \end{figure}
 
@@ -1423,13 +1423,13 @@ First we will focus on wave on the interval $[0, \pi]$ in the initial form at ti
 \end{equation}
 And where $\omega = c \cdot k $,
 
-All is on interval $L = \pi$
+All is on interval $L = \pi$, $k = 10$
 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_initial_2.png}
-    \caption{Exact solution at $t \approx 0$ s.  $N = 40$ }
+    \caption{Exact solution at $t \approx 0$ s. }
     \label{}
 \end{figure}
 
@@ -1488,14 +1488,12 @@ We can see that DST is, again, the best.
 \begin{equation}
     u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x - \omega_l t)} \, ,
 \end{equation}
-where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $,
-
-
+where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 8$, $l = 12$, $N = 40$ and $L = \pi$.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_initial.png}
-    \caption{Exact solution at $t \approx 0$ s.  $N = 100$ }
+    \caption{Exact solution at $t \approx 0$ s. }
     \label{}
 \end{figure}
 
@@ -1503,7 +1501,7 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $,
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_FD.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t \approx 14$ s.  $N = 100$ }
+    \caption{FD (blue) method separates from exact solution (black) after $t \approx 8$ s.}
     \label{}
 \end{figure}
 
@@ -1511,7 +1509,7 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $,
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_Numerov.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 460$ s.  $N = 100$ }
+    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 83$ s. }
     \label{}
 \end{figure}
 
@@ -1519,28 +1517,28 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $,
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_CDM.png}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 446 \, 000$ s. $N = 100$}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 466 \, 000$ s.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_MBCDM.png}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 466 \, 000$ s. $N = 100$}
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 466 \, 000$ s.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_LGCC.png}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 466 \, 000$ s. $N = 100$}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 466 \, 000$ s.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_DST.png}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 466 \, 000$ s. $N = 100$}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 466 \, 000$ s.}
     \label{}
 \end{figure}
 
@@ -1552,12 +1550,12 @@ We can see that DST is, again, the best.
 \begin{equation}
     u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x + \omega_l t)} \, ,
 \end{equation}
-where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $,
+where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 8$, $l = 12$, $N = 40$ and $L = \pi$.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_dirichlet_initial.png}
-    \caption{Exact solution at $t \approx 0$ s.  $N = 100$ }
+    \caption{Exact solution at $t \approx 0$ s.}
     \label{}
 \end{figure}
 
@@ -1565,7 +1563,7 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $,
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_dirichlet_FD.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t \approx 13$ s.  $N = 100$ }
+    \caption{FD (blue) method separates from exact solution (black) after $t \approx 7$ s.}
     \label{}
 \end{figure}
 
@@ -1573,7 +1571,7 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $,
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_dirichlet_Numerov.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 470$ s.  $N = 100$ }
+    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 76$ s.   }
     \label{}
 \end{figure}
 
@@ -1581,28 +1579,28 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $,
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_dirichlet_CDM.png}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 470 \, 000$ s. $N = 100$}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 470 \, 000$ s.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_dirichlet_MBCDM.png}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 470 \, 000$ s. $N = 100$}
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 470 \, 000$ s. }
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_dirichlet_LGCC.png}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 470 \, 000$ s. $N = 100$}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 470 \, 000$ s.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_opposite_dirichlet_DST.png}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 470 \, 000$ s. $N = 100$}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 470 \, 000$ s.}
     \label{}
 \end{figure}
 
