@@ -1251,153 +1251,158 @@ We can see graphs for both of them in the figures below. We looked closer at int
 \noindent
 The focus of this chapter will be the time evolution of the wave equation. So, our main focus will be on the equation
 \begin{equation}\label{eq_wave}
-    \frac{\partial^2 \; u (x, t)}{\partial \; t^2 } = c^2 \; \frac{\partial^2 \; u (x, t)}{\partial \; x^2} \, ,
+    \frac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \frac{\partial^2 u (x, t)}{\partial x^2} \, ,
 \end{equation}
-where we will take $c = 1$. We will again use approximation techniques for the discretization of the second derivative present in the equation \ref{eq_wave}. Two different cases of boundary conditions will be of interest to us: periodic boundary conditions and dirichlet boundary conditions.
+where we will choose $c = 1$.
 
-For every simulation the time is exact. We discretize only in space to fairly compare our discretization techniques.
+We will again use approximation techniques for the discretization of the second space derivative present in the equation \ref{eq_wave}. In every simulation, the time evolution is exact. We discretize only in space to fairly compare our discretization techniques.
+
+Two different cases of boundary conditions will be of interest to us: periodic boundary conditions and dirichlet boundary conditions. And three cases of wave evolution: one wave, two waves propagating in the same direction, and two waves propagating in the opposite direction.
+
+\section{Exact time evolution}
+\noindent
+
 
 \section{Periodic boundary conditions}
-
+\noindent
+In this section, we will compare finite differences, the Numerov approximation, and the discrete Fourier transform. Other methods based on chebyshev collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of problem.
 
 \subsection{One wave}
 \noindent
-First, we will test how one wave in this form
-\begin{equation}
-    u(x,t) = \sin{(k x - \omega t)} \, 
+First, let's look at how one wave in form
+\begin{equation}\label{eq_periodic_one}
+    u(x,t) = \sin{(k  x - \omega  t)} \, 
 \end{equation}
-behaves. And where $\omega = c \cdot k $, $k = 6$, $N = 64$ and $L = \pi$.
+behaves under the influence of the wave equation \ref{eq_wave}. Parameters are chosen such that $\omega = c k $, the wavenumber is $k = 6$, the number of points in an interval is $N = 64$, and the length of the interval is $L = \pi$.
 
-The time evolution can be seen in figures below. These numerical experiments clearly show that the FD is systematically slower than the FFT. And there is no visible difference between the analytic solution and the FFT solution.
-
-We can see on figures \ref{fig_one_wave_FD}, that FD separated from the exact solution after $t \approx 10$ s and Numerov separated after $t \approx 4 \, 000$ s. We expected this, because Numerov is higher order method than FD.
-
-Just to make sure, we ran a simulation with only DFT and the exact solution to check whether, after some time, they also dont separate. This simulation, which ran for one year, is shown in the figure \ref{fig_one_periodic_infinite}.
-
+The shape of the wave \ref{eq_periodic_one} at time $t = 0$ s is shown in figure \ref{fig_periodic_one_initial}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_2.png}
-    \caption{Exact solution at $t \approx 0$ s. }
-    \label{}
+    \caption{Initial exact wave at $t = 0$ s. }
+    \label{fig_periodic_one_initial}
 \end{figure}
 
+In figure \ref{fig_periodic_one_FD} is shown frame $t = 47 \; s$, where we can see the approximation of wave evolution using finite differences (blue wave). In our numerical experiments, we have observed that the finite difference approximation is systematically slower in wave propagation compared to the exact wave (black dashed wave).
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_one_periodic_FD.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t \approx 47$ s. }
-    \label{fig_one_wave_FD}
+    \caption{Comparison of finite difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 47 \; s$.}
+    \label{fig_periodic_one_FD}
 \end{figure}
 
+The next experiment was conducted using the Numerov approximation, and one frame of the time evolution is shown in figure \ref{fig_periodic_one_Numerov}.  The Numerov method (red wave) was better than finite differences, and we can see separation from the exact solution after roughly $t = 9 \, 880 \; s$. We expected that Numerov would be better than finite differences because it is a higher order method.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_one_periodic_Numerov.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 9 \, 880$ s. }
-    \label{}
+    \caption{Comparison of Numerov approximation (red wave) and exact solution (black dashed wave) at time frame $t = 9 \, 880 \; s$.}
+    \label{fig_periodic_one_Numerov}
 \end{figure}
 
+Next, we ran a simulation with the discrete fourier transform (magenta wave) and the exact solution to check whether, after some time, they also dont separate. This simulation, which ran for one year, is shown in the figure \ref{fig_periodic_one_dft}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_20.png}
-    \caption{Simulation with DFT (magenta) and exact solution (black) that ran for $t \approx 1$ year. They never separated.}
-    \label{fig_one_periodic_infinite}
+    \caption{Comparison of discrete fourier transform (magenta wave) and exact solution (black dashed wave) at time frame $t \approx 1 $ year. They never separated.}
+    \label{fig_periodic_one_dft}
 \end{figure}
 
-
-
-In our experiments, we saw that for higher wave numbers $k$, the effect was greater. We will shed some light on this phenomenon below.
-
+The conclusion of our experiments is that the worst approximation method is finite differences, the slightly better method is the Numerov method, and the absolute best method is the discrete fourier transform.
 
 
 
 \subsection{Two waves - same direction}
 \noindent
-Next, we will test how two waves that propagate in the same direction behave
+Next, we will test how wave in form
 \begin{equation}
     u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x - \omega_l t)} \, ,
 \end{equation}
-where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 5$, $l = 6$, $N = 128$ and $L = 2\pi$.
+which is a superposition of two waves, behaves under the influence of \ref{eq_wave}. Parameters are $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 5$, $l = 6$, $N = 128$ and $L = 2\pi$.
 
-We can see on figures below, that using FD the wave package separated after $t \approx 45$ s and using Numerov the same happened after $t \approx 6 \,000$ s. And again, as we would expect, the DFT method holds best of the three.
-
+The initial wave at time $t = 0 \; s$ can be seen in figure \ref{fig_two_periodic_same_initial}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_initial.png}
-    \caption{Exact solution at $t \approx 0$ s. }
-    \label{fig_two_same_all}
+    \caption{Initial exact wave at $t = 0 \; s$. }
+    \label{fig_two_periodic_same_initial}
 \end{figure}
+
+In figure \ref{fig_two_priodic_same_FD} is a comparison of finite differences with the exact solution at time $t = 44 \; s$. We can see that after this short time, the wave approximation has already separated from the exact solution.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_FD.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t \approx 44$ s. }
-    \label{}
+    \caption{Comparison of finite difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 44 \; s$. }
+    \label{fig_two_priodic_same_FD}
 \end{figure}
 
+Simulation Using Numerov is shown in figure \ref{fig_two_periodic_same_Numerov} at the frame $t = 6 \, 421 \; s$. Again, the Numerov method is better than the finite difference approximation.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_Numerov.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 6 \, 421$ s. }
-    \label{}
+    \caption{Comparison of Numerov approximation (red wave) and exact solution (black dashed wave) at time frame $t = 6 \, 421 \; s$. }
+    \label{fig_two_periodic_same_Numerov}
 \end{figure}
+
+And lastly, the comparison of the discrete Fourier transform and the exact solution is shown in figure \ref{fig_two_periodic_same_dft}. Discrete fourier transform is again the best of the three.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_periodic_same_DFT.png}
-    \caption{DFT (magenta) method never separates from exact solution (black), $t \approx 513 \, 211$ s. }
-    \label{}
+    \caption{Comparison of discrete fourier transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 513 \, 211 \; s$.}
+    \label{fig_two_periodic_same_dft}
 \end{figure}
-
-And again, the simulation with DFT (magenta) and the exact solution (black), which ran for $t \approx 1$ year, never separated (figure is identical to \ref{fig_two_same_all}).
-
-
 
 
 
 \subsection{Two waves - opposite direction}
 \noindent
-And lastly, we will test how two waves that propagate in the opposite direction behave
+The last case for periodic boundary conditions is the evolution of a wave that has the form
 \begin{equation}
     u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x + \omega_l t)} \, ,
 \end{equation}
-where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 5$, $l = 6$, $N = 128$ and $L = 2\pi$.
+which is the superposition of two waves that propagate in the opposite direction. Parameters are $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 5$, $l = 6$, $N = 128$ and $L = 2\pi$.
 
-Again on figures below, using FD the wave package separated after $t \approx 24$ s and using Numerov the same happened after $t \approx 2 \,000$ s. And again, as we would expect, the DFT method holds best of the three.
-
+The initial wave at time $t = 0 \; s$ can be seen in figure \ref{fig_two_periodic_oppo_initial}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_periodic_opposite_initial.png}
-    \caption{Exact solution at $t \approx 0$ s. }
-    \label{fig_two_opposite_all}
+    \caption{Initial exact wave at $t = 0$ s. }
+    \label{ig_two_periodic_oppo_initial}
 \end{figure}
+
+The simulation for finite differences is shown in figure \ref{fig_two_periodic_oppo_FD}. The wave package separated after roughly $t \approx 15 \; s$.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_FD.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t \approx 15$ s. }
-    \label{}
+    \caption{Comparison of finite difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t \approx 15 \; s$. }
+    \label{fig_two_periodic_oppo_FD}
 \end{figure}
 
+Numerov simulation is in figure \ref{fig_two_periodic_oppo_Numerov} the separation of waves is well visible at $t \approx 2 \,000 \; s$.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_Numerov.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 3\, 365$ s. }
-    \label{}
+    \caption{Comparison of Numerov approximation (red wave) and exact solution (black dashed wave) at time frame $t \approx 3\, 365 \; s$. }
+    \label{fig_two_periodic_oppo_Numerov}
 \end{figure}
 
+And again, as we would expect, the discrete fourier transform holds best of the three. and is shown in figure \ref{fig_two_periodic_oppo_dft}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_periodic_opposite_DFT.png}
-    \caption{DFT (magenta) method never separates from exact solution (black) $t \approx 46 \, 656$ s. }
-    \label{}
+    \caption{Comparison of discrete fourier transform (magenta wave) and exact solution (black dashed wave) at time frame $t \approx 46 \, 656 \; s$. }
+    \label{fig_two_periodic_oppo_dft}
 \end{figure}
 
 And again, the simulation with DFT (magenta) and the exact solution (black), which ran for $t \approx 1$ year, never separated (figure would be identical to \ref{fig_two_opposite_all}).
