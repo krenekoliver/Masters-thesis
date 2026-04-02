@@ -1423,7 +1423,7 @@ First we will focus on wave on the interval $[0, \pi]$ in the initial form at ti
 \end{equation}
 And where $\omega = c \cdot k $,
 
-All is on interval $L = \pi$, $k = 10$
+All is on interval $L = \pi$, $k = 20$, $N = 40$
 
 
 \begin{figure}[H]
@@ -1437,7 +1437,7 @@ All is on interval $L = \pi$, $k = 10$
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_FD_2.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t \approx 4$ s.  $N = 40$ }
+    \caption{FD (blue) method separates from exact solution (black) after $t \approx 4$ s. }
     \label{}
 \end{figure}
 
@@ -1445,7 +1445,7 @@ All is on interval $L = \pi$, $k = 10$
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_Numerov_2.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 29$ s.  $N = 40$ }
+    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 29$ s.   }
     \label{}
 \end{figure}
 
@@ -1453,28 +1453,28 @@ All is on interval $L = \pi$, $k = 10$
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_CDM_2.png}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 18 \, 200$ s. $N = 40$}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 18 \, 200$ s. }
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_MBCDM_2.png}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 18 \, 200$ s. $N = 40$}
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 18 \, 200$ s.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_LGCC_2.png}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 18 \, 200$ s. $N = 40$}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 18 \, 200$ s. }
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_one_dirichlet_DST_2.png}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 18 \, 200$ s. $N = 40$}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 18 \, 200$ s. }
     \label{}
 \end{figure}
 
@@ -1488,7 +1488,17 @@ We can see that DST is, again, the best.
 \begin{equation}
     u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x - \omega_l t)} \, ,
 \end{equation}
-where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 8$, $l = 12$, $N = 40$ and $L = \pi$.
+where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 16$, $l = 24$, $N = 50$ and $L = \pi$.
+
+\begin{equation}
+u(x,t) =
+\begin{cases}
+\sin(kx - \omega_k t ) + \sin(lx - \omega_l t)  & 0 \leq x \leq \dfrac{\pi}{2} \\[10pt]
+0                      & \dfrac{\pi}{2} < x \leq \pi
+\end{cases}
+\end{equation}
+
+
 
 \begin{figure}[H]
     \centering
@@ -1509,7 +1519,7 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 8$, $l = 12$, $N = 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_Numerov.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 83$ s. }
+    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 70$ s. }
     \label{}
 \end{figure}
 
@@ -1517,28 +1527,28 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 8$, $l = 12$, $N = 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_CDM.png}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 466 \, 000$ s.}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 472 \, 000$ s.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_MBCDM.png}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 466 \, 000$ s.}
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 472 \, 000$ s.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_LGCC.png}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 466 \, 000$ s.}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 472 \, 000$ s.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{figures/pic_two_same_dirichlet_DST.png}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 466 \, 000$ s.}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 472 \, 000$ s.}
     \label{}
 \end{figure}
 
