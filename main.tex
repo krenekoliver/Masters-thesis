@@ -1249,15 +1249,32 @@ We can see graphs for both of them in the figures below. We looked closer at int
 
 \chapter{Wave propagation}
 \noindent
-The focus of this chapter will be the time evolution of the wave equation. So, our main focus will be on the equation
+The focus of this chapter will be on the time evolution of the wave equation
 \begin{equation}\label{eq_wave}
     \frac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \frac{\partial^2 u (x, t)}{\partial x^2} \, ,
 \end{equation}
-where we will choose $c = 1$.
+where we choose $c = 1$.
 
-We will again use approximation techniques for the discretization of the second space derivative present in the equation \ref{eq_wave}. In every simulation, the time evolution is exact. We discretize only in space to fairly compare our discretization techniques.
+And we will be mainly interested in the time evolution of some combination of functions in the form
+\begin{equation}\label{eq_wave_general}
+    u(x,t) = \sin{(kx - \omega_k t)} + \sin{(lx \pm \omega_l t )} \, ,
+\end{equation}
+where the relation between wave number and angular frequency is $\omega_k = c k$ and $\omega_l = cl$.
 
-Two different cases of boundary conditions will be of interest to us: periodic boundary conditions and dirichlet boundary conditions. And three cases of wave evolution: one wave, two waves propagating in the same direction, and two waves propagating in the opposite direction.
+We will use approximation techniques for the discretization of the second space derivative present in the equation \ref{eq_wave}. In every simulation, the time evolution is exact. We discretize only in space to fairly compare our discretization techniques. Two different cases of boundary conditions will be of interest to us: 
+\begin{itemize}
+    \item periodic boundary conditions,
+    \item dirichlet boundary conditions.
+\end{itemize}
+And time evolution of three cases of wave \ref{eq_wave_general} 
+\begin{itemize}
+    \item one wave  $\to \sin{(kx - \omega_k t)}$,
+    \item two waves (same direction) $\to \sin{(kx - \omega_k t)} + \sin{(lx - \omega_l t )}$,
+    \item two waves (opposite direction) $\to \sin{(kx - \omega_k t)} + \sin{(lx + \omega_l t )}$.
+\end{itemize}
+
+
+
 
 \section{Exact time evolution}
 \noindent
@@ -1269,13 +1286,11 @@ In this section, we will compare finite differences, the Numerov approximation, 
 
 \subsection{One wave}
 \noindent
-First, let's look at how one wave in form
+First, let's look at the special case of \ref{eq_wave_general}, specifically a wave in its initial form
 \begin{equation}\label{eq_periodic_one}
-    u(x,t) = \sin{(k  x - \omega  t)} \, 
+    u(x,0) = \sin{(6 x)} \, 
 \end{equation}
-behaves under the influence of the wave equation \ref{eq_wave}. Parameters are chosen such that $\omega = c k $, the wavenumber is $k = 6$, the number of points in an interval is $N = 64$, and the length of the interval is $L = \pi$.
-
-The shape of the wave \ref{eq_periodic_one} at time $t = 0$ s is shown in figure \ref{fig_periodic_one_initial}.
+and how it behaves under the influence of the wave equation \ref{eq_wave}. The graph of the wave \ref{eq_periodic_one} is shown in figure \ref{fig_periodic_one_initial}. The number of points in an interval is $N = 64$, and the length of the interval is $L = \pi$.
 
 \begin{figure}[H]
     \centering
@@ -1317,13 +1332,11 @@ The conclusion of our experiments is that the worst approximation method is fini
 
 \subsection{Two waves - same direction}
 \noindent
-Next, we will test how wave in form
+Next, we will test how wave in initial form
 \begin{equation}
-    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x - \omega_l t)} \, ,
+    u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, ,
 \end{equation}
-which is a superposition of two waves, behaves under the influence of \ref{eq_wave}. Parameters are $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 5$, $l = 6$, $N = 128$ and $L = 2\pi$.
-
-The initial wave at time $t = 0 \; s$ can be seen in figure \ref{fig_two_periodic_same_initial}.
+behaves under the influence of equation \ref{eq_wave}. The number of points in an interval $N = 128$ and the length of the interval $L = 2\pi$. The graph of initial wave is in figure \ref{fig_two_periodic_same_initial}.
 
 \begin{figure}[H]
     \centering
@@ -1363,13 +1376,11 @@ And lastly, the comparison of the discrete Fourier transform and the exact solut
 
 \subsection{Two waves - opposite direction}
 \noindent
-The last case for periodic boundary conditions is the evolution of a wave that has the form
+The last case for periodic boundary conditions is the evolution of a wave that in initial form
 \begin{equation}
-    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x + \omega_l t)} \, ,
+    u(x,t) = \sin{(5 x)} + \sin{(6 x)} \, ,
 \end{equation}
-which is the superposition of two waves that propagate in the opposite direction. Parameters are $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 5$, $l = 6$, $N = 128$ and $L = 2\pi$.
-
-The initial wave at time $t = 0 \; s$ can be seen in figure \ref{fig_two_periodic_oppo_initial}.
+which is the superposition of two waves that propagate in the opposite direction. Parameters are $N = 128$ and $L = 2\pi$. The initial wave can be seen in figure \ref{fig_two_periodic_oppo_initial}.
 
 \begin{figure}[H]
     \centering
@@ -1378,21 +1389,21 @@ The initial wave at time $t = 0 \; s$ can be seen in figure \ref{fig_two_periodi
     \label{ig_two_periodic_oppo_initial}
 \end{figure}
 
-The simulation for finite differences is shown in figure \ref{fig_two_periodic_oppo_FD}. The wave package separated after roughly $t \approx 15 \; s$.
+The simulation for finite differences is shown in figure \ref{fig_two_periodic_oppo_FD}. The wave package separated after roughly $t = 15 \; s$.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_FD.png}
-    \caption{Comparison of finite difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t \approx 15 \; s$. }
+    \caption{Comparison of finite difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 15 \; s$. }
     \label{fig_two_periodic_oppo_FD}
 \end{figure}
 
-Numerov simulation is in figure \ref{fig_two_periodic_oppo_Numerov} the separation of waves is well visible at $t \approx 2 \,000 \; s$.
+Numerov simulation is in figure \ref{fig_two_periodic_oppo_Numerov} the separation of waves is well visible at $t = 2 \,000 \; s$.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_Numerov.png}
-    \caption{Comparison of Numerov approximation (red wave) and exact solution (black dashed wave) at time frame $t \approx 3\, 365 \; s$. }
+    \caption{Comparison of Numerov approximation (red wave) and exact solution (black dashed wave) at time frame $t = 3\, 365 \; s$. }
     \label{fig_two_periodic_oppo_Numerov}
 \end{figure}
 
@@ -1401,7 +1412,7 @@ And again, as we would expect, the discrete fourier transform holds best of the 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_periodic_opposite_DFT.png}
-    \caption{Comparison of discrete fourier transform (magenta wave) and exact solution (black dashed wave) at time frame $t \approx 46 \, 656 \; s$. }
+    \caption{Comparison of discrete fourier transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 46 \, 656 \; s$. }
     \label{fig_two_periodic_oppo_dft}
 \end{figure}
 
@@ -1411,31 +1422,41 @@ And again, the simulation with DFT (magenta) and the exact solution (black), whi
 
 \section{Dirichlet boundary conditions}
 \noindent
-In this section, we can apply all of the methods from the chapter about eigenvalues (FD, Numerov, DST, CDM, MBCDM, LGCC) because we have dirichlet boundary conditions
+In this section, we will focus on dirichlet boundary conditions
 \begin{equation}
     u(0,t) = u(\pi,t) = 0 \, .
 \end{equation}
+And we will test the precision of all the aforementioned methods:
+\begin{itemize}
+    \item Finite differences
+    \item Numerov method
+    \item Chebyshev differentiation matrix
+    \item Mapped barycentric Chebyshev differentiation matrix
+    \item Legendre-Galerkin-Chebyshev collocation
+    \item Discrete sine transform
+\end{itemize}
+We will again test them with the time evolution of three different cases of \ref{eq_wave_general}.
  
 
 \subsection{One wave}
 \noindent
-First we will focus on wave on the interval $[0, \pi]$ in the initial form at time $t = 0$ s
+First, we will focus on time evolution of wave in the initial form
 \begin{equation}
-    \begin{split}
-    u(x,t) & = \sin{(k x - \omega t)} \quad \text{on} \; [0, \, \pi/2] \, , \\
-    u(x,t) & = 0 \quad \text{on} \; [\pi/2, \, \pi] \, .
-    \end{split}
+u(x,0) =
+\begin{cases}
+\sin(20 x)  & 0 \leq x \leq \dfrac{\pi}{2} \, , \\[10pt]
+0                      & \dfrac{\pi}{2} < x \leq \pi \, .
+\end{cases}
 \end{equation}
-And where $\omega = c \cdot k $,
+Simulations has parameters $L = \pi$ and $N = 40$. Graph of the initial form can be seen in figure \ref{fig_one_dirichlet_initial}.
 
-All is on interval $L = \pi$, $k = 20$, $N = 40$
 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_initial_2.png}
     \caption{Exact solution at $t \approx 0$ s. }
-    \label{}
+    \label{fig_one_dirichlet_initial}
 \end{figure}
 
 
@@ -1483,40 +1504,34 @@ All is on interval $L = \pi$, $k = 20$, $N = 40$
     \label{}
 \end{figure}
 
-We can see that DST is, again, the best. 
+The conclusion from our numerical experiments is that the discrete sine transform method is the best of them all.
 
 
 \subsection{Two waves - same direction}
 \noindent
-
-
+The initial form is
 \begin{equation}
-    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x - \omega_l t)} \, ,
-\end{equation}
-where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 16$, $l = 24$, $N = 50$ and $L = \pi$.
-
-\begin{equation}
-u(x,t) =
+u(x,0) =
 \begin{cases}
-\sin(kx - \omega_k t ) + \sin(lx - \omega_l t)  & 0 \leq x \leq \dfrac{\pi}{2} \\[10pt]
-0                      & \dfrac{\pi}{2} < x \leq \pi
+\sin(16 x) + \sin(24 x)  & 0 \leq x \leq \dfrac{\pi}{2} \, , \\[10pt]
+0                      & \dfrac{\pi}{2} < x \leq \pi \, .
 \end{cases}
 \end{equation}
-
+Parameters are $N = 50$ and $L = \pi$. Graph can be seen in figure \ref{fig_two_dirichlet_same_initial}.
 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_initial.png}
-    \caption{Exact solution at $t \approx 0$ s. }
-    \label{}
+    \caption{Exact solution at $t = 0$ s. }
+    \label{fig_two_dirichlet_same_initial}
 \end{figure}
 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_FD.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t \approx 8$ s.}
+    \caption{FD (blue) method separates from exact solution (black) after $t = 8$ s.}
     \label{}
 \end{figure}
 
@@ -1524,7 +1539,7 @@ u(x,t) =
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_Numerov.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 70$ s. }
+    \caption{Numerov (red) method separates from exact solution (black) after $t = 70$ s. }
     \label{}
 \end{figure}
 
@@ -1532,28 +1547,28 @@ u(x,t) =
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_CDM.png}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 472 \, 000$ s.}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 472 \, 000$ s.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_MBCDM.png}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 472 \, 000$ s.}
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t = 472 \, 000$ s.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_LGCC.png}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 472 \, 000$ s.}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t = 472 \, 000$ s.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_DST.png}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 472 \, 000$ s.}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t = 472 \, 000$ s.}
     \label{}
 \end{figure}
 
@@ -1570,7 +1585,7 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 8$, $l = 12$, $N = 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_initial.png}
-    \caption{Exact solution at $t \approx 0$ s.}
+    \caption{Exact solution at $t = 0$ s.}
     \label{}
 \end{figure}
 
@@ -1578,7 +1593,7 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 8$, $l = 12$, $N = 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_FD.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t \approx 7$ s.}
+    \caption{FD (blue) method separates from exact solution (black) after $t = 7$ s.}
     \label{}
 \end{figure}
 
@@ -1586,7 +1601,7 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 8$, $l = 12$, $N = 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_Numerov.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 38$ s.   }
+    \caption{Numerov (red) method separates from exact solution (black) after $t = 38$ s.   }
     \label{}
 \end{figure}
 
@@ -1594,28 +1609,28 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 8$, $l = 12$, $N = 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_CDM.png}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 452 \, 000$ s.}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 452 \, 000$ s.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_MBCDM.png}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 452 \, 000$ s. }
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t = 452 \, 000$ s. }
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_LGCC.png}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 452 \, 000$ s.}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t = 452 \, 000$ s.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_DST.png}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 452 \, 000$ s.}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t = 452 \, 000$ s.}
     \label{}
 \end{figure}
 
