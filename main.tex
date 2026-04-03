@@ -1244,6 +1244,10 @@ We can see graphs for both of them in the figures below. We looked closer at int
 \label{}
 \end{figure}
 
+\section{Conclusion from eigenvalue computation tests}
+\noindent
+From our numerical experiments with the eigenvalue equations, we have observed that the discrete sine transform is best for dirichlet boundary problems.
+
 
 
 
@@ -1259,7 +1263,7 @@ And we will be mainly interested in the time evolution of some combination of fu
 \begin{equation}\label{eq_wave_general}
     u(x,t) = \sin{(kx - \omega_k t)} + \sin{(lx \pm \omega_l t )} \, ,
 \end{equation}
-where the relation between wave number and angular frequency is $\omega_k = c k$ and $\omega_l = cl$.
+where the relation between wave number and angular frequency is $\omega_k = c \cdot k$ and $\omega_l = c \cdot l$.
 
 We will use approximation techniques for the discretization of the second space derivative present in the equation \ref{eq_wave}. In every simulation, the time evolution is exact. We discretize only in space to fairly compare our discretization techniques. Two different cases of boundary conditions will be of interest to us: 
 \begin{itemize}
@@ -1275,9 +1279,83 @@ And time evolution of three cases of wave \ref{eq_wave_general}
 
 
 
-
-\section{Exact time evolution}
+\section{Exact Time Evolution}
 \noindent
+To compare different spatial discretization techniques fairly, we discretize the wave equation only in space and solve the resulting system exactly in time. 
+
+Our focus is wave equation \ref{eq_wave} with Dirichlet boundary conditions $u(0,t)=u(L,t)=0$. Instead of using numerical time-stepping methods (such as leapfrog), we employ exact time integration based on the eigen-decomposition of the spatial operator. The procedure is as follows:
+
+\begin{enumerate}
+    \item We discretize the spatial operator and define the matrix $A$ as an approximation of the negative second derivative:
+    \[
+    A \approx -\frac{\partial^2}{\partial x^2}.
+    \]
+
+    \item Substituting into the wave equation \eqref{eq_wave} (with $c=1$) yields the semi-discrete system
+    \[
+    \frac{\partial^2 \mathbf{u}}{\partial t^2} = -A \mathbf{u}.
+    \]
+
+    \item Next, we solve the eigenvalue problem for the matrix $A$:
+    \[
+    A \mathbf{v}_k = \lambda_k \mathbf{v}_k,
+    \]
+    where $\lambda_k > 0$ are the eigenvalues and $\mathbf{v}_k$ are the corresponding eigenvectors. From these we obtain the angular frequencies
+    \[
+    \omega_k = \sqrt{\lambda_k}.
+    \]
+
+    \item Substituting from above 
+    \[ 
+    \frac{\partial^2 \mathbf{u}}{\partial t^2} + \boldsymbol{\omega}^2 \mathbf{u} = 0
+    \]
+    where \[ \mathbf{u(t)} = \sum_k u_k(t)  = \sum_k c_k(t) v_k(x) \]
+    \item We project the initial conditions $u(x,0)$ and $u_t(x,0)$ onto the eigenbasis to obtain the modal coefficients $a_k$ and $b_k$.
+
+    \item Each mode then evolves independently according to the equation of a harmonic oscillator:
+    \[
+    \frac{d^2 c_k}{dt^2} + \omega_k^2 c_k = 0.
+    \]
+    The analytical solution of this second-order ODE is
+    \[
+    c_k(t) = a_k \cos(\omega_k t) + b_k \sin(\omega_k t).
+    \]
+
+    \item Finally, we reconstruct the full solution at any time $t$ by superposition:
+    \[
+    u(x,t) = \sum_k c_k(t) \, v_k(x).
+    \]
+\end{enumerate}
+
+This method ensures that the time evolution is \textbf{exact} — there is no time discretization error. The only approximation (and thus the only source of error) comes from the spatial discretization of the second derivative operator.
+
+
+
+\subsection*{Methods used in the code}
+\noindent
+\begin{itemize}
+    \item \textbf{DST (Discrete Sine Transform)}: Uses exact sine modes $\sin(kx)$ on $[0, \pi]$. The frequencies are analytically $\omega_k = c \cdot k$. This is the most accurate method for Dirichlet boundary conditions.
+    
+    \item \textbf{FD, Numerov, CDM, MBCD, LGCC}: These methods construct a matrix approximation of the second derivative, compute its eigenvalues and eigenvectors using \texttt{eig}, and then apply the same analytical time evolution as above.
+\end{itemize}
+
+\subsection*{Mathematical formulation}
+\noindent
+For any of the methods, the solution at time $t$ is given by:
+\[
+\mathbf{u}(t) = V \Big( \mathbf{a} \cdot \cos(\boldsymbol{\omega} t) + \mathbf{b} \cdot \sin(\boldsymbol{\omega} t) \Big),
+\]
+where:
+\begin{itemize}
+    \item $V$ is the matrix of eigenvectors,
+    \item $\boldsymbol{\omega}$ is the vector of angular frequencies,
+    \item $\mathbf{a}$ and $\mathbf{b}$ are coefficient vectors obtained from the initial conditions.
+\end{itemize}
+
+This technique allows for direct computation of the solution at any time $t$ without time-stepping.
+
+
+
 
 
 \section{Periodic boundary conditions}
@@ -1286,7 +1364,7 @@ In this section, we will compare finite differences, the Numerov approximation, 
 
 \subsection{One wave}
 \noindent
-First, let's look at the special case of \ref{eq_wave_general}, specifically a wave in its initial form
+First, let's look at the special case of \ref{eq_wave_general}, specifically a wave in its initial function form
 \begin{equation}\label{eq_periodic_one}
     u(x,0) = \sin{(6 x)} \, 
 \end{equation}
@@ -1295,7 +1373,7 @@ and how it behaves under the influence of the wave equation \ref{eq_wave}. The g
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_2.png}
-    \caption{Initial exact wave at $t = 0$ s. }
+    \caption{Initial exact wave at $t = 0 \; s$. }
     \label{fig_periodic_one_initial}
 \end{figure}
 
@@ -1332,7 +1410,7 @@ The conclusion of our experiments is that the worst approximation method is fini
 
 \subsection{Two waves - same direction}
 \noindent
-Next, we will test how wave in initial form
+Next, we will test how the wave in its initial function form
 \begin{equation}
     u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, ,
 \end{equation}
@@ -1376,7 +1454,7 @@ And lastly, the comparison of the discrete Fourier transform and the exact solut
 
 \subsection{Two waves - opposite direction}
 \noindent
-The last case for periodic boundary conditions is the evolution of a wave that in initial form
+The last case for periodic boundary conditions is the evolution of a wave that in initial function form
 \begin{equation}
     u(x,t) = \sin{(5 x)} + \sin{(6 x)} \, ,
 \end{equation}
@@ -1385,7 +1463,7 @@ which is the superposition of two waves that propagate in the opposite direction
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_periodic_opposite_initial.png}
-    \caption{Initial exact wave at $t = 0$ s. }
+    \caption{Initial exact wave at $t = 0 \; s$. }
     \label{ig_two_periodic_oppo_initial}
 \end{figure}
 
@@ -1440,7 +1518,7 @@ We will again test them with the time evolution of three different cases of \ref
 
 \subsection{One wave}
 \noindent
-First, we will focus on time evolution of wave in the initial form
+First, we will focus on time evolution of wave in the initial function form
 \begin{equation}
 u(x,0) =
 \begin{cases}
@@ -1450,66 +1528,67 @@ u(x,0) =
 \end{equation}
 Simulations has parameters $L = \pi$ and $N = 40$. Graph of the initial form can be seen in figure \ref{fig_one_dirichlet_initial}.
 
-
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_initial_2.png}
-    \caption{Exact solution at $t \approx 0$ s. }
+    \caption{Exact solution at $t \approx 0 \; s$. }
     \label{fig_one_dirichlet_initial}
 \end{figure}
 
+The graph of the finite difference approximation at time $t = 4 \; s$ is shown in the figure. \ref{fig_one_dirichlet_FD}. We can see that even after this short time, the approximation is very inaccurate.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_FD_2.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t \approx 4$ s. }
-    \label{}
+    \caption{FD (blue) method separates from exact solution (black) after $t = 4 \; s$. }
+    \label{fig_one_dirichlet_FD}
 \end{figure}
 
+In figure \ref{fig_one_dirichlet_Numerov} is the graph of the Numerov approximation at time $t = 29 \, s$.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_Numerov_2.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t \approx 29$ s.   }
-    \label{}
+    \caption{Numerov (red) method separates from exact solution (black) after $t = 29 \; s$.   }
+    \label{fig_one_dirichlet_Numerov}
 \end{figure}
 
+And the comparison of methods CDM, MBCDM, LGCC and DST at time frame $t = 18 \; 200 \; s$ is in figures \ref{fig_one_dirichlet_CDM}, \ref{fig_one_dirichlet_MBCDM}, \ref{fig_one_dirichlet_LGCC} and \ref{fig_one_dirichlet_DST}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_CDM_2.png}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t \approx 18 \, 200$ s. }
-    \label{}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 18 \; 200 \; s$. }
+    \label{fig_one_dirichlet_CDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_MBCDM_2.png}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 18 \, 200$ s.}
-    \label{}
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 18 \; 200 \; s$.}
+    \label{fig_one_dirichlet_MBCDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_LGCC_2.png}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 18 \, 200$ s. }
-    \label{}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 18 \; 200 \; s$. }
+    \label{fig_one_dirichlet_LGCC}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_DST_2.png}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 18 \, 200$ s. }
-    \label{}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 18 \; 200 \; s$. }
+    \label{fig_one_dirichlet_DST}
 \end{figure}
 
-The conclusion from our numerical experiments is that the discrete sine transform method is the best of them all.
+The conclusion from our numerical experiments is that the discrete sine transform method is the best among them all.
 
 
 \subsection{Two waves - same direction}
 \noindent
-The initial form is
+The initial function form is
 \begin{equation}
 u(x,0) =
 \begin{cases}
@@ -1523,7 +1602,7 @@ Parameters are $N = 50$ and $L = \pi$. Graph can be seen in figure \ref{fig_two_
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_initial.png}
-    \caption{Exact solution at $t = 0$ s. }
+    \caption{Exact solution at $t = 0 \; s$. }
     \label{fig_two_dirichlet_same_initial}
 \end{figure}
 
@@ -1531,7 +1610,7 @@ Parameters are $N = 50$ and $L = \pi$. Graph can be seen in figure \ref{fig_two_
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_FD.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t = 8$ s.}
+    \caption{FD (blue) method separates from exact solution (black) after $t = 8 \; s$.}
     \label{}
 \end{figure}
 
@@ -1539,7 +1618,7 @@ Parameters are $N = 50$ and $L = \pi$. Graph can be seen in figure \ref{fig_two_
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_Numerov.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t = 70$ s. }
+    \caption{Numerov (red) method separates from exact solution (black) after $t = 70 \; s$. }
     \label{}
 \end{figure}
 
@@ -1547,28 +1626,28 @@ Parameters are $N = 50$ and $L = \pi$. Graph can be seen in figure \ref{fig_two_
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_CDM.png}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 472 \, 000$ s.}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 472 \; 000 \; s$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_MBCDM.png}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t = 472 \, 000$ s.}
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t = 472 \; 000 \; s$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_LGCC.png}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t = 472 \, 000$ s.}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t = 472 \; 000 \; s$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_DST.png}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t = 472 \, 000$ s.}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t = 472 \; 000 \; s$.}
     \label{}
 \end{figure}
 
@@ -1576,24 +1655,29 @@ We can see that DST is, again, the best.
 
 \subsection{Two waves - opposite direction}
 \noindent
-
+The initial function form is
 \begin{equation}
-    u(x,t) = \sin{(k x - \omega_k t)} + \sin{(l x + \omega_l t)} \, ,
+u(x,0) =
+\begin{cases}
+\sin(16 x)  & 0 \leq x \leq \dfrac{3\pi}{8} \, , \\[10pt]
+0                      & \dfrac{3\pi}{8} < x \leq \dfrac{3\pi}{4} \, , \\[10pt]
+\sin{(24 x)} & \dfrac{3\pi}{4} \leq x \leq \pi \, ,
+\end{cases}
 \end{equation}
-where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 8$, $l = 12$, $N = 40$ and $L = \pi$.
+and can be seen in figure \ref{fig_two_dirichlet_oppo_initial}. Parameters are $N = 40$ and $L = \pi$. 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_initial.png}
-    \caption{Exact solution at $t = 0$ s.}
-    \label{}
+    \caption{Exact solution at $t = 0 \; s$.}
+    \label{fig_two_dirichlet_oppo_initial}
 \end{figure}
 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_FD.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t = 7$ s.}
+    \caption{FD (blue) method separates from exact solution (black) after $t = 7 \; s$.}
     \label{}
 \end{figure}
 
@@ -1601,7 +1685,7 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 8$, $l = 12$, $N = 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_Numerov.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t = 38$ s.   }
+    \caption{Numerov (red) method separates from exact solution (black) after $t = 38 \; s$.   }
     \label{}
 \end{figure}
 
@@ -1609,28 +1693,28 @@ where $\omega_k = c \cdot k $, $\omega_l = c \cdot l $, $k = 8$, $l = 12$, $N = 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_CDM.png}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 452 \, 000$ s.}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 452 \; 000 \; s$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_MBCDM.png}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t = 452 \, 000$ s. }
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t = 452 \; 000 \; s$. }
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_LGCC.png}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t = 452 \, 000$ s.}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t = 452 \; 000 \; s$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_DST.png}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t = 452 \, 000$ s.}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t = 452 \; 000 \; s$.}
     \label{}
 \end{figure}
 
@@ -1638,6 +1722,9 @@ We can see that DST is, again, the best.
 
 
 
+\section{Conclusion from wave equation tests}
+\noindent
+From our numerical experiments with the wave equation, we have observed that discrete fourier transform is best for periodic boundary problems and discrete sine transform is best for dirichlet boundary problems.
 
 
 
