@@ -1724,54 +1724,110 @@ We can see that DST is, again, the best.
 
 \section{Conclusion from wave equation tests}
 \noindent
-From our numerical experiments with the wave equation, we have observed that discrete fourier transform is best for periodic boundary problems and discrete sine transform is best for dirichlet boundary problems.
+From our numerical experiments with the wave equation, we have observed that the discrete Fourier transform is best for periodic boundary problems and the discrete sine transform is best for dirichlet boundary problems.
 
 
 
 \chapter{Wave propagation in metamaterials}
 \noindent
-
+In this chapter, we will be interested in simulations involving the equation that describes a one-dimensional metamaterial, specifically an infinitesimal lattice system that is built from cells with inner mass. The figure of this metamaterial is in \ref{fig_metamaterial}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{figures/pic_1.png}
     \caption{Figure of one dimensional infinite lattice metamaterial.}
-    \label{}
+    \label{fig_metamaterial}
 \end{figure}
 
-\subsection*{Standard equations}
-A basic description based on classical newton motion equations is in \ref{eq1}
+\subsubsection*{Standard equations}
+\noindent
+An intuitive description based on classical newtonian motion is given by the equations \ref{eq_newton_metamaterial}.
 
-
-
-\begin{equation}\label{eq1}
-    \begin{split}
-        m_1^{(j)} \frac{d^2 u_1^{(j)}}{dt^2} + k_1 \left( u_1^{(j)} - u_1^{(j+1)}\right) + k_1 \left( u_1^{(j)} - u_1^{(j-1)} \right) + k_2 \left( u_1^{(j)} - u_2^{(j)} \right) & = 0 \\
-        m_2^{(j)} \frac{d^2 u_2^{(j)}}{d t^2} +  k_2 \left( u_2^{(j)} - u_1^{(j)}  \right) & = 0
-    \end{split}
+\begin{equation}\label{eq_newton_metamaterial}
+    \begin{cases}
+        m_1^{(j)} \frac{d^2 u_1^{(j)}}{dt^2} + k_1 \left( u_1^{(j)} - u_1^{(j+1)}\right) + k_1 \left( u_1^{(j)} - u_1^{(j-1)} \right) + k_2 \left( u_1^{(j)} - u_2^{(j)} \right) = 0 \\[10pt]
+        m_2^{(j)} \frac{d^2 u_2^{(j)}}{d t^2} +  k_2 \left( u_2^{(j)} - u_1^{(j)}  \right) = 0
+    \end{cases}
 \end{equation}
 
 
-
-
-\subsection*{Rate-type equations}
+\subsubsection*{Rate-type equations}
 \noindent
-Derivation of rate-type equations from classical newtonian description in \ref{eq1} was shown in \cite{cit1}.
+But we would like to work with rate-type equations. Derivation from the classical Newtonian equations \ref{eq_newton_metamaterial} to rate-type equations \ref{eq_rate_type} is done precisely in \cite{cit1}.
 
 
-
-\begin{equation}
-    \begin{split}
-        m_1^{(j)} \frac{d^2 u_1^{(j)}}{d t^2} - \sigma^{(j)} & = 0\; \\
-        \frac{m_2^{(j)}}{k_2} \frac{d^2 \sigma^{(j)}}{d t^2}  + \left(1 + \frac{m_2^{(j)}}{m_1^{(j)}} \right) \sigma^{(j)} & = \frac{m_2^{(j)} k_1}{k_2} \frac{d^2 }{d t^2 } \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \; \\
+\begin{equation}\label{eq_rate_type}
+    \begin{cases}
+        m_1^{(j)} \frac{d^2 u_1^{(j)}}{d t^2} - \sigma^{(j)}  = 0\; \\[10pt]
+        \frac{m_2^{(j)}}{k_2} \frac{d^2 \sigma^{(j)}}{d t^2}  + \left(1 + \frac{m_2^{(j)}}{m_1^{(j)}} \right) \sigma^{(j)}  = & \frac{m_2^{(j)} k_1}{k_2} \frac{d^2 }{d t^2 } \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \\
         & + k_1 \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \; \\
-    \end{split}
+    \end{cases}
+\end{equation}
+Substituting
+\begin{equation}
+    \frac{\partial^2 u}{\partial x^2 } \approx \frac{u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)}}{L^2}
+\end{equation}
+The continuous model has a specific form.
+\begin{equation}\label{eq_rate_type_continuous}
+    \begin{cases}
+        m_1 \frac{\partial^2 u}{\partial t^2} - \sigma  = 0\; \\[10pt]
+        \frac{m_2}{k_2} \frac{\partial^2 \sigma}{\partial t^2}  + \left(1 + \frac{m_2}{m_1} \right) \sigma  = \frac{m_2 k_1}{k_2} \frac{\partial^2 }{\partial t^2 } \left(L^2 \frac{\partial^2 u}{\partial x^2} \right) + k_1 L^2 \frac{\partial^2 u}{\partial x^2} \; \\
+    \end{cases}
 \end{equation}
 
 
 \section{Periodic boundary conditions}
+\noindent
+
+
+\subsection{One wave}
+\noindent
+
+
+\subsection{Two waves - same direction}
+\noindent
+
+
+\subsection{Two waves - opposite direction}
+\noindent
+
 
 \section{Dirichlet boundary conditions}
+\noindent
+
+
+\begin{equation}
+    u(0,t) = u(\pi,t) = 0
+\end{equation}
+
+
+
+\subsection{One wave}
+\noindent
+
+
+\subsection{Two waves - same direction}
+\noindent
+
+
+\subsection{Two waves - opposite direction}
+\noindent
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
