@@ -1739,49 +1739,103 @@ In this chapter, we will be interested in simulations involving the equation tha
     \label{fig_metamaterial}
 \end{figure}
 
-\subsubsection*{Standard equations}
+\subsection*{Standard equations}
 \noindent
 An intuitive description based on classical newtonian motion is given by the equations \ref{eq_newton_metamaterial}.
 
 \begin{equation}\label{eq_newton_metamaterial}
     \begin{cases}
-        m_1^{(j)} \frac{d^2 u_1^{(j)}}{dt^2} + k_1 \left( u_1^{(j)} - u_1^{(j+1)}\right) + k_1 \left( u_1^{(j)} - u_1^{(j-1)} \right) + k_2 \left( u_1^{(j)} - u_2^{(j)} \right) = 0 \\[10pt]
-        m_2^{(j)} \frac{d^2 u_2^{(j)}}{d t^2} +  k_2 \left( u_2^{(j)} - u_1^{(j)}  \right) = 0
+        m_1^{(j)} \dfrac{d^2 u_1^{(j)}}{dt^2} + k_1 \left( u_1^{(j)} - u_1^{(j+1)}\right) + k_1 \left( u_1^{(j)} - u_1^{(j-1)} \right) + k_2 \left( u_1^{(j)} - u_2^{(j)} \right) = 0 \\[10pt]
+        m_2^{(j)} \dfrac{d^2 u_2^{(j)}}{d t^2} +  k_2 \left( u_2^{(j)} - u_1^{(j)}  \right) = 0
     \end{cases}
 \end{equation}
 
 
-\subsubsection*{Rate-type equations}
+\subsection*{Rate-type equations}
 \noindent
 But we would like to work with rate-type equations. Derivation from the classical Newtonian equations \ref{eq_newton_metamaterial} to rate-type equations \ref{eq_rate_type} is done precisely in \cite{cit1}.
 
 
 \begin{equation}\label{eq_rate_type}
     \begin{cases}
-        m_1^{(j)} \frac{d^2 u_1^{(j)}}{d t^2} - \sigma^{(j)}  = 0\; \\[10pt]
-        \frac{m_2^{(j)}}{k_2} \frac{d^2 \sigma^{(j)}}{d t^2}  + \left(1 + \frac{m_2^{(j)}}{m_1^{(j)}} \right) \sigma^{(j)}  = & \frac{m_2^{(j)} k_1}{k_2} \frac{d^2 }{d t^2 } \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \\
+        m_1^{(j)} \dfrac{d^2 u_1^{(j)}}{d t^2} - \sigma^{(j)}  = 0\; \\[10pt]
+        \dfrac{m_2^{(j)}}{k_2} \dfrac{d^2 \sigma^{(j)}}{d t^2}  + \left(1 + \dfrac{m_2^{(j)}}{m_1^{(j)}} \right) \sigma^{(j)}  = & \dfrac{m_2^{(j)} k_1}{k_2} \dfrac{d^2 }{d t^2 } \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \\
         & + k_1 \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \; \\
     \end{cases}
 \end{equation}
-Substituting
+
+If we wanted to see how the continuous form looks, we substitute
 \begin{equation}
-    \frac{\partial^2 u}{\partial x^2 } \approx \frac{u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)}}{L^2}
+    \dfrac{\partial^2 u}{\partial x^2 } \approx \dfrac{u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)}}{L^2}
 \end{equation}
 The continuous model has a specific form.
 \begin{equation}\label{eq_rate_type_continuous}
     \begin{cases}
-        m_1 \frac{\partial^2 u}{\partial t^2} - \sigma  = 0\; \\[10pt]
-        \frac{m_2}{k_2} \frac{\partial^2 \sigma}{\partial t^2}  + \left(1 + \frac{m_2}{m_1} \right) \sigma  = \frac{m_2 k_1}{k_2} \frac{\partial^2 }{\partial t^2 } \left(L^2 \frac{\partial^2 u}{\partial x^2} \right) + k_1 L^2 \frac{\partial^2 u}{\partial x^2} \; \\
+        m_1 \dfrac{\partial^2 u}{\partial t^2} - \sigma  = 0\; \\[10pt]
+        \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma  = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u}{\partial x^2} \right) + k_1 L^2 \dfrac{\partial^2 u}{\partial x^2} \; \\
     \end{cases}
 \end{equation}
+
+Now we will rewrite the problem to more suitable form for numerical simulations \cite{tozzi}. Denote vectors with bold font and use approximation for the differentiation matrix $\mathbb{A}$
+\begin{equation}\label{eq_rate_type}
+    \begin{cases}
+        \mathbf{m_1} \dfrac{d^2 \mathbf{u}}{d t^2} - \boldsymbol{\sigma} = 0\; \\[10pt]
+        \dfrac{\mathbf{m_2}}{k_2} \dfrac{d^2 \boldsymbol{\sigma}}{d t^2}  + \left(1 + \dfrac{\mathbf{m_2}}{\mathbf{m_1}} \right) \boldsymbol{\sigma}  = \dfrac{\mathbf{m_2} k_1}{k_2} \dfrac{d^2 }{d t^2 } \left( \mathbb{A} \mathbf{u} \right) + k_1 \left( \mathbb{A} \mathbf{u} \right) \; \\
+    \end{cases}
+\end{equation}
+Rewrite as
+\begin{align*}
+    \begin{cases}
+        \dfrac{d^2 \mathbf{u}}{dt^2}=\dfrac{1}{\mathbf{m _1}}\boldsymbol{\sigma},\\
+        \dfrac{d^2 }{dt^2}\Bigl(\boldsymbol{\sigma}- k_1\mathbb{A}\mathbf{u}\Bigr)=-\dfrac{k_2}{\mathbf{m_2}}\Biggl(1+\dfrac{\mathbf{m_2}}{\mathbf{m_1}}\Biggr)\boldsymbol{\sigma}+\dfrac{k_2 k_1}{\mathbf{m_2}}\Bigl(\mathbb{A}\mathbf{u}\Bigr).
+    \end{cases}
+\end{align*}
+Defining 
+\begin{gather*}
+    \mathbf{a}:= \boldsymbol{\sigma}- k_1\mathbb{A}\mathbf{u},
+\end{gather*}
+we get the following system of ordinary differential equations for the unknowns $\mathbf{u}$, $\mathbf{a}$:
+\begin{align}\label{}
+    \begin{cases}
+        \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m _1}}\mathbf{a},\\
+        \dfrac{d^2}{dt^2}\mathbf{a}=-\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a}.
+    \end{cases}
+\end{align}
+It can be usefull to transforme it into a first order system, introducing the auxiliary functions 
+$$\mathbf{v}:=\dfrac{d}{dt}\mathbf{u},\quad \mathbf{b}:=\dfrac{d}{dt}\mathbf{a}$$
+\begin{align}\label{eq_system_meta}
+    \begin{cases}
+        \dfrac{d}{dt}\mathbf{u}= \mathbf{v},\\
+        \dfrac{d}{dt}\mathbf{a}= \mathbf{b},\\
+        \dfrac{d}{dt}\mathbf{v}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m _1}}\mathbf{a},\\
+        \dfrac{d}{dt}\mathbf{b}=-\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a}.
+    \end{cases}
+\end{align}
+So we will perform simulations of time evolution using these equations \ref{eq_system_meta}, where we will change the matrix $\mathbb{A}$ to the differentiation matrix, using FD, Numerov, DFT, CDM, MBCDM, and LGCC.
+
+
+
+
+
+
+
+
+
+
+
 
 
 \section{Periodic boundary conditions}
 \noindent
+In this section, we will compare finite differences, the Numerov approximation, and the discrete Fourier transform. Other methods based on chebyshev collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of problem.
 
 
 \subsection{One wave}
 \noindent
+First, we will focus on a time evolution of a simple initial function form
+
+
+
 
 
 \subsection{Two waves - same direction}
@@ -1940,6 +1994,11 @@ The equation holds only for $k \rightarrow 0$. Thus, waves approximated by FD pr
     {\sc Cichra,\;D., Průša,\;V., Rajagopal,\;K.\;R., Rodriguez,\;C., and Vejvoda,\;M.}
     \emph{The conclusion that metamaterials could have negative mass is a consequence of improper constitutive characterisation}.
     arXiv preprint arXiv:2409.05906 [cond-mat.mtrl-sci], 2024.
+
+    \bibitem{tozzi}
+    {\sc Tozzi, R.}
+    \emph{Metamaterial lattice system}.
+    (Project report / Internal document), 2025.
 
     
     
