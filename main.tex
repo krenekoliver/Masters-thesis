@@ -1734,7 +1734,7 @@ In this chapter, we will be interested in simulations involving the equation tha
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{figures/pic_1.png}
+    \includegraphics[width=1\linewidth]{figures_meta/pic_1.png}
     \caption{Figure of one dimensional infinite lattice metamaterial.}
     \label{fig_metamaterial}
 \end{figure}
@@ -1786,7 +1786,7 @@ Now we will rewrite the problem to more suitable form for numerical simulations 
 Rewrite as
 \begin{align*}
     \begin{cases}
-        \dfrac{d^2 \mathbf{u}}{dt^2}=\dfrac{1}{\mathbf{m _1}}\boldsymbol{\sigma},\\
+        \dfrac{d^2 \mathbf{u}}{dt^2}=\dfrac{1}{\mathbf{m _1}}\boldsymbol{\sigma},\\[10pt]
         \dfrac{d^2 }{dt^2}\Bigl(\boldsymbol{\sigma}- k_1\mathbb{A}\mathbf{u}\Bigr)=-\dfrac{k_2}{\mathbf{m_2}}\Biggl(1+\dfrac{\mathbf{m_2}}{\mathbf{m_1}}\Biggr)\boldsymbol{\sigma}+\dfrac{k_2 k_1}{\mathbf{m_2}}\Bigl(\mathbb{A}\mathbf{u}\Bigr).
     \end{cases}
 \end{align*}
@@ -1797,7 +1797,7 @@ Defining
 we get the following system of ordinary differential equations for the unknowns $\mathbf{u}$, $\mathbf{a}$:
 \begin{align}\label{}
     \begin{cases}
-        \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m _1}}\mathbf{a},\\
+        \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m _1}}\mathbf{a},\\[10pt]
         \dfrac{d^2}{dt^2}\mathbf{a}=-\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a}.
     \end{cases}
 \end{align}
@@ -1805,13 +1805,17 @@ It can be usefull to transforme it into a first order system, introducing the au
 $$\mathbf{v}:=\dfrac{d}{dt}\mathbf{u},\quad \mathbf{b}:=\dfrac{d}{dt}\mathbf{a}$$
 \begin{align}\label{eq_system_meta}
     \begin{cases}
-        \dfrac{d}{dt}\mathbf{u}= \mathbf{v},\\
-        \dfrac{d}{dt}\mathbf{a}= \mathbf{b},\\
-        \dfrac{d}{dt}\mathbf{v}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m _1}}\mathbf{a},\\
+        \dfrac{d}{dt}\mathbf{u}= \mathbf{v},\\[5pt]
+        \dfrac{d}{dt}\mathbf{a}= \mathbf{b},\\[5pt]
+        \dfrac{d}{dt}\mathbf{v}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
         \dfrac{d}{dt}\mathbf{b}=-\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a}.
     \end{cases}
 \end{align}
 So we will perform simulations of time evolution using these equations \ref{eq_system_meta}, where we will change the matrix $\mathbb{A}$ to the differentiation matrix, using FD, Numerov, DFT, CDM, MBCDM, and LGCC.
+
+The difference from previous chapter is that now we dont have an exact solution, so we will compare all these methods with DFT (DST), because this was the most precise of them all.
+
+
 
 
 
@@ -1827,23 +1831,122 @@ So we will perform simulations of time evolution using these equations \ref{eq_s
 
 \section{Periodic boundary conditions}
 \noindent
-In this section, we will compare finite differences, the Numerov approximation, and the discrete Fourier transform. Other methods based on chebyshev collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of problem.
+In this section, we will compare finite differences, the Numerov approximation, and the discrete Fourier transform. Other methods based on chebyshev collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of problem. 
+
+Time is solved with matlab \texttt{ode45} because exact time is too precise for comparing DFT, FD, and numerov.
 
 
 \subsection{One wave}
 \noindent
-First, we will focus on a time evolution of a simple initial function form
+parameters and initial conditions are
+\begin{equation}
+    \begin{cases}
+        L = 2 \pi \, , \quad N = 64 \\[3pt]
+        k_1 = 50 \, , \quad k_2 = 500\\[3pt]
+        m_1 = 1 \, , \quad m_2 = 1/2\\[3pt]
+        u_0 = \sin{(4x)}\\[3pt]
+        v_0 = -4\cos{4x}\\[3pt]
+        a_0 = b_0 = 0
+    \end{cases}
+\end{equation}
 
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/pic_one_periodic_initial.png}
+    \caption{Initial wave at $t = 0 \; s$. }
+    \label{}
+\end{figure}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/pic_one_periodic_FD.png}
+    \caption{Comparison of finite difference approximation (blue wave) and discrete Fourier approximation (magenta wave) at time frame $t = 6 \; s$.}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/pic_one_periodic_Numerov.png}
+    \caption{Comparison of Numerov approximation (red wave) and discrete Fourier transform approximation (magenta wave) at time frame $t = 475 \; s$.}
+    \label{}
+\end{figure}
 
 
 \subsection{Two waves - same direction}
 \noindent
 
 
+parameters and initial conditions are
+\begin{equation}
+    \begin{cases}
+        L = 2 \pi \, , \quad N = 64 \\[3pt]
+        k_1 = 50 \, , \quad k_2 = 500\\[3pt]
+        m_1 = 1 \, , \quad m_2 = 1/2\\[3pt]
+        u_0 = \sin{(3x)} + \sin{(5x)}\\[3pt]
+        v_0 = -3\cos{(3x)} - 5\cos{(5x)} \\[3pt]
+        a_0 = b_0 = 0
+    \end{cases}
+\end{equation}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_oppo_initial.png}
+    \caption{Initial wave at $t = 0 \; s$. }
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_same_FD.png}
+    \caption{Comparison of finite difference approximation (blue wave) and discrete Fourier approximation (magenta wave) at time frame $t = 10 \; s$.}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_same_Numerov.png}
+    \caption{Comparison of Numerov approximation (red wave) and discrete Fourier transform approximation (magenta wave) at time frame $t = 771 \; s$.}
+    \label{}
+\end{figure}
+
 \subsection{Two waves - opposite direction}
 \noindent
+
+parameters and initial conditions are
+\begin{equation}
+    \begin{cases}
+        L = 2 \pi \, , \quad N = 64 \\[3pt]
+        k_1 = 50 \, , \quad k_2 = 500\\[3pt]
+        m_1 = 1 \, , \quad m_2 = 1/2\\[3pt]
+        u_0 = \sin{(3x)} + \sin{(5x)}\\[3pt]
+        v_0 = -3\cos{(3x)} + 5\cos{(5x)} \\[3pt]
+        a_0 = b_0 = 0
+    \end{cases}
+\end{equation}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_oppo_initial.png}
+    \caption{Initial wave at $t = 0 \; s$. }
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_oppo_FD.png}
+    \caption{Comparison of finite difference approximation (blue wave) and discrete Fourier approximation (magenta wave) at time frame $t = 9 \; s$.}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_oppo_Numerov.png}
+    \caption{Comparison of Numerov approximation (red wave) and discrete Fourier transform approximation (magenta wave) at time frame $t = 741 \; s$.}
+    \label{}
+\end{figure}
 
 
 \section{Dirichlet boundary conditions}
