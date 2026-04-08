@@ -15,6 +15,19 @@
 \usepackage{wrapfig}
 \usepackage{algpseudocode}
 \usepackage[ruled,linesnumbered,algoruled,boxed]{algorithm2e}
+\usepackage{booktabs}
+\usepackage{siunitx} 
+\usepackage{tabularray}
+\usepackage{tcolorbox} 
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{tabularx}
+
+
+
+\definecolor{lightgray}{gray}{0.92}
+
 
 %% Vytváříme PDF/A-2u
 \usepackage[a-2u]{pdfx}
@@ -37,6 +50,7 @@
 \DeclareMathOperator{\arccoth}{arccoth}
 \usepackage{amsfonts}       % matematické fonty
 \usepackage{amsthm}         % sazba vět, definic apod.
+\newtheorem{theorem}{Theorem}
 \usepackage{bbding}         % balíček s nejrůznějšími symboly
 % (čtverečky, hvězdičky, tužtičky, nůžtičky, ...)
 \usepackage{bm}             % tučné symboly (příkaz \bm)
@@ -223,9 +237,9 @@
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 \noindent
-In this work, we will first focus on the eigenvalue computations of the Sturm-Liouville and Coffey-Evans equations using several different methods for the discretization of the operator of the second derivative. We will compute our data and compare it to one another.
+In this work, we will first focus on the eigenvalue computations of the regular Sturm-Liouville problems. Two concrete examples are Paine and Coffey-Evans equations for which we will use several different methods for the discretization of the operator of the second derivative. We will compute our data and compare it to one another.
 
-Next, we will study the classical wave equation and test finite differences and fast fourier transform on their propagation.
+Next, we will study the classical wave equation and test Finite Differences and Fast Fourier Transform on their propagation.
 
 Finally, we will focus on rate-type models for metamaterials. Our goal will be to use them for simulations of wave propagation.
 
@@ -279,9 +293,9 @@ In the context of metamaterials, as demonstrated in \cite{cit1}, rate-type relat
 
 \chapter{Eigenvalue computations}
 \noindent
-The aim of this chapter is, first, to introduce two test problems: namely, the Sturm-Liouville and the Coffey-Evans equations. Then, we will describe methods that discretize these problems and allow us to solve them approximately. Mainly, we will focus on how to discretize the operator of the second derivative.
+The aim of this chapter is, first, to introduce two regular Sturm-Liouville test problems: namely, the Paine and the Coffey-Evans equations. Then, we will describe methods that discretize these problems and allow us to solve them approximately. Mainly, we will focus on how to discretize the operator of the second derivative.
 
-The methods that will be described and used are: finite differences, Chebyshev differentiation, Mapped barycentric Chebyshev differentiation, Discrete sine transform, Numerov, and the Legendre-Galerkin-Chebyshev collocation. 
+The methods that will be described and used are: Finite Differences, Chebyshev Differentiation, Mapped Barycentric Chebyshev Differentiation, Discrete Sine Transform, Numerov, and the Legendre-Galerkin-Chebyshev Collocation. 
 
 Our goal is to compare all of these methods. We will do this by applying the discretizations and computing eigenvalues. For our comparison, we need some reference values. These will be computed using the Matslise program.
 
@@ -296,9 +310,9 @@ In this section, we will introduce two test problems on which we will apply the 
 
 
 
-\subsection{Sturm-Liouville equation}
+\subsection{Paine equation}
 \noindent
-The first of the two is the Sturm-Liouville (SL) equation, in one special case where
+The first of the two is the Paine equation
 \begin{equation}
     \begin{split}
         q(x) & = e^x \, , \\[4pt]
@@ -315,7 +329,7 @@ So, by substituting these values to \ref{eq_general_test_problem} the resulting 
 
 \subsection{Coffey-Evans equation}
 \noindent 
-The second one is the Coffey-Evans (CE) equation with
+The second one is the Coffey-Evans equation with
 \begin{equation}\label{eq_CE_coeffs}
     \begin{split}
         q(x) & = \beta^2 \, \sin^2{(2 \, x)} -2 \, \beta \, \cos{(2 \, x)} \, , \\[4pt]
@@ -349,7 +363,7 @@ In both cases, our goal will be to rewrite the main equation \ref{eq_general_tes
 \begin{equation}
     \left( -D + A  \right) \, u(x) = \lambda \, u(x) \, ,
 \end{equation}
-where for the SL equation, we will take 
+where for the Paine equation, we will take 
 \begin{equation}
     A = E = \texttt{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_N}) \, ,
 \end{equation}
@@ -357,7 +371,7 @@ so we get
 \begin{equation}
     \left( -D + E  \right) \, u(x) = \lambda \, u(x) \, .
 \end{equation}
-And in the case of CE equation, the situation will be analogous 
+And in the case of Coffey-Evans equation, the situation will be analogous 
 \begin{equation}
     \begin{split}
     A = Q = \texttt{diag}(-2 \, \beta \, \cos{(2 \, x_1)} + \beta^2 \, \sin^2{(2 \, x_1)} \, , \dots, \\ -2 \, \beta \, \cos{(2 \, x_N)} + \beta^2 \, \sin^2{(2 \, x_N)} ) \, ,
@@ -376,7 +390,7 @@ To obtain highly accurate reference eigenvalues of our test problems, a MATLAB p
 
 
 
-\subsection{Finite difference method}
+\subsection{Finite Difference method}
 \noindent
 The first numerical method on our list is the Finite Difference method (FD). The case of this method, which we will be using, approximates the second derivative on a discrete grid using the second-order central finite difference formula
 \begin{equation}
@@ -393,17 +407,17 @@ D = \frac{1}{h^2} \begin{bmatrix}
     0 & 0 & 0 & 0 & \cdots & 2 \\ 
 \end{bmatrix}
 \end{equation}
-and the implementation of the finite difference method is in algorithms \ref{alg_1} and \ref{alg_2}.
+and the implementation of the Finite Difference method is in algorithms \ref{alg_1} and \ref{alg_2}.
 
 \begin{algorithm}[H]
-\caption{Finite difference method - SL}
+\caption{Finite Difference method - Paine equation}
 \label{alg_1}  
 \begin{algorithmic}[1]
 \State \textbf{input} $N$
 \State $h = \pi / (N + 1)$
 \State $x_i = i \cdot h$ \quad for $i = 1$ to $N$
 \BlankLine
-\State Create tridiagonal matrix $D}$ of size $N \times N$:
+\State Create tridiagonal matrix $D$ of size $N \times N$:
 \State \quad $D_{i,i} = 2 / h^2$ \quad \quad for $i=1$ to $N$
 \State \quad $D_{i,i+1} = D_{i+1,i} = -1 / h^2$ \quad for $i = 1$ to $N-1$
 \BlankLine
@@ -416,7 +430,7 @@ and the implementation of the finite difference method is in algorithms \ref{alg
 \end{algorithm}
 
 \begin{algorithm}[H]
-\caption{Finite difference method - CE}
+\caption{Finite Difference method - Coffey-Evans equation}
 \label{alg_2}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
@@ -438,7 +452,7 @@ and the implementation of the finite difference method is in algorithms \ref{alg
 
 \subsection{Numerov method}
 \noindent
-Numerov's method \cite{numerov} uses higher-order finite differences and approximates the eigenvalues of the equation \ref{eq_general_test_problem} with an equation in the form
+Numerov's method \cite{numerov} uses higher-order Finite Differences and approximates the eigenvalues of the equation \ref{eq_general_test_problem} with an equation in the form
 \begin{equation}
     \begin{split}
     b \, u(x_{i-1}) + a \, u(x_i ) + c \, u(x_{i+1}) = h^2 \, \lambda \, \left[u(x_{i-1}) + 10 \, u(x_i) + u(x_{i+1}) \right] \, ,
@@ -483,7 +497,7 @@ B = h^2\begin{bmatrix}
 
 
 \begin{algorithm}[H]
-\caption{Numerov method - SL}
+\caption{Numerov method - Paine equation}
 \label{alg_3}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$
@@ -516,7 +530,7 @@ B = h^2\begin{bmatrix}
 
 
 \begin{algorithm}[H]
-\caption{Numerov method - CE}
+\caption{Numerov method - Coffey-Evans equation}
 \label{alg_4}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
@@ -548,9 +562,9 @@ B = h^2\begin{bmatrix}
 
 
 
-\subsection{Chebyshev differentiation matrix method}
+\subsection{Chebyshev Differentiation Matrix method}
 \noindent
-The Chebyshev Differentiation Datrix method (CDM) is a high-order spectral collocation technique that approximates the derivatives of a function at specific collocation points using global polynomial interpolation \cite{cdm}, \cite{trefethen}. It will be implemented using the MATLAB chebfun package.
+The Chebyshev Differentiation Matrix method (CDM) is a high-order spectral collocation technique that approximates the derivatives of a function at specific collocation points using global polynomial interpolation \cite{cdm}, \cite{trefethen}. It will be implemented using the MATLAB chebfun package.
 
 In this approach, we first generate the Chebyshev points of the second kind via \texttt{chebpts} on the interval $[-1,1]$ using the Chebfun package. 
 
@@ -563,7 +577,7 @@ After mapping the interior Chebyshev nodes from $[-1, \, 1]$ to the desired phys
 Finally, the differential equation is converted into a matrix eigenvalue problem of the form $A\mathbf{u} = \lambda \mathbf{u}$, where the matrix $A$ combines the scaled differentiation matrix with the potential term. The eigenvalues are obtained by solving this eigenvalue problem.
 
 \begin{algorithm}[H]
-\caption{Chebyshev differentiation matrix - SL}
+\caption{Chebyshev Differentiation Matrix - Paine equation}
 \label{alg_5}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$
@@ -582,7 +596,7 @@ Finally, the differential equation is converted into a matrix eigenvalue problem
 \end{algorithm}
 
 \begin{algorithm}[H]
-\caption{Chebyshev differentiation matrix – CE}
+\caption{Chebyshev Differentiation Matrix – Coffey-Evans equation}
 \label{alg_6}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
@@ -603,16 +617,16 @@ Finally, the differential equation is converted into a matrix eigenvalue problem
 
 
 
-\subsection{Mapped barycentric Chebyshev differentiation matrix method}
+\subsection{Mapped Barycentric Chebyshev Differentiation Matrix method}
 \noindent
-The Mapped barycentric Chebyshev differentiation matrix (MBCDM) method is a high-order spectral collocation technique designed for solving Sturm-Liouville and Coffey-Evans eigenvalue equations on a finite interval with homogeneous Dirichlet boundary conditions. 
+The Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM) method is a high-order spectral collocation technique designed for solving Paine and Coffey-Evans eigenvalue equations on a finite interval with homogeneous Dirichlet boundary conditions. 
 
 It employs a Kosloff-Tal-Ezer (KTE) mapping with parameter $\alpha$ to redistribute the Chebyshev nodes, providing better resolution near the boundaries and improved numerical stability for problems with steep gradients or highly oscillatory solutions.
 
 The second derivative is constructed in the computational domain using barycentric differentiation matrices and then transformed to the physical domain $[0,\, \pi]$ or $[-\pi/2, \, \pi/2]$ via the chain rule. After incorporating the potential term, the discrete operator is reduced by imposing the boundary conditions, resulting in a standard matrix eigenvalue problem whose eigenvalues approximate the continuous spectrum with spectral accuracy \cite{cdm}.
 
 \begin{algorithm}[H]
-\caption{Mapped barycentric Chebyshev differentiation - SL}
+\caption{Mapped Barycentric Chebyshev Differentiation - Paine equation}
 \label{}
 \begin{algorithmic}[1]
 
@@ -643,11 +657,11 @@ The second derivative is constructed in the computational domain using barycentr
 
 
 \begin{algorithm}[H]
-\caption{Mapped barycentric Chebyshev differentiation - CE}
+\caption{Mapped Barycentric Chebyshev Differentiation - Coffey-Evans equation}
 \label{}
 \begin{algorithmic}[1]
 
-\Require $N$, $\beta$, $\alpha$
+\State \textbf{input} $N$, $\beta$, $\alpha$
 \State $s =$ \texttt{chebpts}(N+2)
 \State $\text{asin}_\alpha = \arcsin(\alpha)$
 \State $g(s) = \arcsin(\alpha \cdot s) / \text{asin}_\alpha$ 
@@ -676,7 +690,7 @@ The second derivative is constructed in the computational domain using barycentr
 
 
 
-\subsection{Legendre-Galerkin-Chebyshev collocation method}
+\subsection{Legendre-Galerkin-Chebyshev Collocation method}
 \noindent
 The Legendre-Galerkin-Chebyshev collocation (LGCC) method combines spectral Galerkin projection with Chebyshev collocation to solve eigenvalue problems of the form \ref{eq_general_test_problem}.
 
@@ -695,7 +709,7 @@ where $S$ is the (diagonal) stiffness matrix, $T$ is the mass matrix (penta-diag
 The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = \frac{4}{\pi^2} \mu_k$ (for the standard interval length $\pi$). The method achieves high accuracy for smooth potentials thanks to the spectral convergence of Legendre and Chebyshev expansions, while the basis choice ensures exact enforcement of boundary conditions \cite{legendre_galerkin}. 
 
 \begin{algorithm}[H]
-\caption{Legendre-Galerkin-Chebyshev collocation - SL}
+\caption{Legendre-Galerkin-Chebyshev Collocation - Paine equation}
 \label{}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$
@@ -731,7 +745,7 @@ The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = \
 \end{algorithm}
 
 \begin{algorithm}[H]
-\caption{Legendre-Galerkin-Chebyshev collocation - CE}
+\caption{Legendre-Galerkin-Chebyshev Collocation - Coffey-Evans equation}
 \label{}
 
 \begin{algorithmic}[1]
@@ -781,7 +795,7 @@ where $\texttt{dst}$ and $\texttt{idst}$ denote the discrete sine transform and 
 The full discrete operator $-\Delta_h + q(x)$ is then assembled by transforming to the spectral domain, performing element-wise multiplication by the potential (its discretization), and transforming back. This approach yields a matrix-free implementation (or an explicitly formed matrix when desired) whose eigenvalues approximate the continuous spectrum with spectral accuracy for sufficiently smooth potentials.
 
 \begin{algorithm}[H]
-\caption{Discrete Sine Transform - SL}
+\caption{Discrete Sine Transform - Paine equation}
 \label{}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $q(x)$
@@ -799,7 +813,7 @@ The full discrete operator $-\Delta_h + q(x)$ is then assembled by transforming 
 
 
 \begin{algorithm}[H]
-\caption{Discrete Sine Transform - CE}
+\caption{Discrete Sine Transform - Coffey-Evans equation}
 \label{}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $q(x)$, $\beta$
@@ -824,158 +838,122 @@ Now we present the computed data. Where the relative error is computed with this
 \begin{equation}
     \varepsilon = \left| \frac{\lambda_{500}^{Matslise} - \lambda_{500}^{method}}{\lambda_{500}^{Matslise}} \right| \, .
 \end{equation}
+We are mainly interested in the high index eigenvalues, because the low index eigenvalues are accuratelly calculated by all methods.(rozepis trochu vic)
 
-\subsection{Sturm-Liouville equation}
+
+\subsection{Paine equation}
 \noindent
-First, below are the computed data for the Sturm-Liouville equation. We have included the CPU time for each computation. The number in the brackets represents the size of the differentiation matrix ($N \times N$) and hence the number of grid points in an interval.
+First, below are the computed data for the Paine equation. We have included the CPU time for each computation. The number in the brackets represents the size of the differentiation matrix ($N \times N$) and hence the number of grid points in an interval.
+
 
 \begin{table}[H]
-\caption{Comparison of data for eigenvalues of Sturm-Liouville equation computed with Finite Difference method (FD).}
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-$\lambda$ & Matslise & FD (500)  & FD (1 000) & FD (10 000) \\
-\hline
-1 & 4,897 & 4,897 & 4,897 & 4,897  \\
-\hline
-50 & 2 507 & 2 487 & 2 502 & 2 507 \\
-\hline
-100 & 10 007 & 9 684 & 9 925 & 10 006 \\
-\hline
-150 & 22 507 & 20 896 & 22 095 & 22 503 \\
-\hline
-200 & 40 007 & 35 032 & 38 711 & 39 994 \\
-\hline
-250 & 62 507 & 50 711 & 59 366 & 62 475 \\
-\hline
-300 & 90 007 & 66 406 & 83 552 & 89 940 \\
-\hline
-350 & 122 507 & 80 586 & 110 674 & 122 384 \\
-\hline
-400 & 160 007 & 91 869 & 140 067 & 159 797 \\
-\hline
-450 & 202 507 & 99 155 & 171 008 & 202 170 \\
-\hline
+\centering
+\caption{Comparison of data for eigenvalues of Paine equation computed with Finite Difference method (FD).}
+\label{}
+\begin{tabularx}{\textwidth}{l *{4}{X}}
+\toprule
+$\lambda$ & Matslise & FD  & FD  & FD  \\
+ &  & (500) & (1 000) & (10 000) \\
+\midrule
+1   & 4.897   & 4.897   & 4.897   & 4.897   \\
+50  & 2 507   & 2 487   & 2 502   & 2 507   \\
+100 & 10 007  & 9 684   & 9 925   & 10 006  \\
+150 & 22 507  & 20 896  & 22 095  & 22 503  \\
+200 & 40 007  & 35 032  & 38 711  & 39 994  \\
+250 & 62 507  & 50 711  & 59 366  & 62 475  \\
+300 & 90 007  & 66 406  & 83 552  & 89 940  \\
+350 & 122 507 & 80 586  & 110 674 & 122 384 \\
+400 & 160 007 & 91 869  & 140 067 & 159 797 \\
+450 & 202 507 & 99 155  & 171 008 & 202 170 \\
 500 & 250 007 & 101 735 & 202 736 & 249 494 \\
-\hline
-$\varepsilon$ &  & $10^{-1}$ & $10^{-1}$ & $10^{-3}$ \\
-\hline
-CPU(s) & 0,7 & 0,02 & 0,05 & 3,1 \\
-\hline
-\end{tabular}
-\end{center}
+\midrule
+$\varepsilon$ & & $10^{-1}$ & $10^{-1}$ & $10^{-3}$ \\
+CPU & 0.7 & 0.02 & 0.05 & 3.1 \\
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \begin{table}[H]
-\caption{Comparison of data for eigenvalues of Sturm-Liouville equation computed with Numerov (Num) and Numerov with correction (NumC).}
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-\hline
-$\lambda$ & Matslise & Num (500)  & NumC (500) & Num (1 000) & NumC (1 000) \\
-\hline
-1 & 4,897 & 4,897 & 4,897 & 4,897  & 4,897 \\
-\hline
+\centering
+\caption{Comparison of data for eigenvalues of Paine equation computed with Numerov (Num) and Numerov with correction (NumC).}
+\label{}
+\begin{tabularx}{\textwidth}{l *{5}{X}}
+\toprule
+$\lambda$ & Matslise & Num  & NumC & Num & NumC  \\
+ &  & (500)  & (500) & (1 000) & (1 000) \\
+\midrule
+1 & 4.897 & 4.897 & 4.897 & 4.897  & 4.897 \\
 50 & 2 507 & 2 507 & 2 507 & 2 507 & 2 507 \\
-\hline
 100 & 10 007 & 10 001 & 10 007 & 10 007 & 10 007 \\
-\hline
 150 & 22 507 & 22 431 & 22 507 & 22 502 & 22 507 \\
-\hline
 200 & 40 007 & 39 572 & 40 007 & 39 981 & 40 007\\
-\hline
 250 & 62 507 & 60 814 & 62 507 & 62 406 & 62 507 \\
-\hline
 300 & 90 007 & 84 870 & 90 007 & 89 703 & 90 007 \\
-\hline
 350 & 122 507 & 109 495 & 122 507 & 121 732 & 122 507 \\
-\hline
 400 & 160 007 & 131 429 & 160 007 & 158 261 & 160 007 \\
-\hline
 450 & 202 507 & 146 867 & 202 507 & 198 929 & 202 507 \\
-\hline
 500 & 250 007 & 152 595 & 250 007 & 243 206 & 250 007 \\
-\hline
+\midrule
 $\varepsilon$ &  & $10^{-1}$ & $10^{-6}$ & $10^{-2}$ & $10^{-11}$ \\
-\hline
-CPU(s) & 0,7 & 0,7 & 0,7 & 4,0 & 4,0 \\
-\hline
-\end{tabular}
-\end{center}
+CPU & 0.7 & 0.7 & 0.7 & 4.0 & 4.0 \\
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \begin{table}[H]
-\caption{Comparison of data for eigenvalues of Sturm-Liouville equation computed with Chebyshev Differentiation Matrix (CDM) and Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM). For MBCDM we choose parameter $\alpha = 0.999$.}
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|}
-\hline
-$\lambda$ & Matslise & CDM (500)  & CDM (1 000) & MBCDM (500) & MBCDM (1 000) \\
-\hline
-1 & 4,897 & 4,897 & 4,897 & 4,897 & 4,897 \\
-\hline
+\centering
+\caption{Comparison of data for eigenvalues of Paine equation computed with Chebyshev Differentiation Matrix (CDM) and Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM). For MBCDM we choose parameter $\alpha = 0.999$.}
+\label{}
+\begin{tabularx}{\textwidth}{l *{5}{X}}
+\toprule
+$\lambda$ & Matslise & CDM   & CDM  & MBCDM  & MBCDM  \\
+ &  & (500)  & (1 000) & (500) & (1 000) \\
+\midrule
+1 & 4.897 & 4.897 & 4.897 & 4.897 & 4.897 \\
 50 & 2 507 & 2 507 & 2 507 & 2 507 & 2 507 \\
-\hline
 100 & 10 007 & 10 007 & 10 007 & 10 007 & 10 007 \\
-\hline
 150 & 22 507 & 22 507 & 22 507 & 22 507 & 22 507 \\
-\hline
 200 & 40 007 & 40 007 & 40 007 & 40 007 &  40 007 \\
-\hline
 250 & 62 507 & 62 507 & 62 507 & 62 507 &  62 507 \\
-\hline
 300 & 90 007 & 90 007 & 90 007 & 90 007 &  90 007 \\
-\hline
 350 & 122 507 & 133 274 & 122 507 & 122 507 &  122 507 \\
-\hline
 400 & 160 007 & 269 438 & 160 007 & 160 007 &  160 007 \\
-\hline
 450 & 202 507 & 992 720 & 202 507 & 202 507 &  202 507 \\
-\hline
-500 & 250 007 & 1 209 407 472 & 250 007 & 5 768 515 & 250 007  \\
-\hline
+500 & 250 007 & $1.2 \times 10^{9}$ & 250 007 & 5 768 515 & 250 007  \\
+\midrule
 $\varepsilon$ &  & $10^{3}$ & $10^{-16}$ & $10^{1}$ & $10^{-16}$ \\
-\hline
-CPU(s) & 0,7 & 0,3 & 1,0 & 0,5  &  1,3 \\
-\hline
-\end{tabular}
-\end{center}
+CPU & 0.7 & 0.3 & 1.0 & 0.5  &  1.3 \\
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \begin{table}[H]
-\caption{Comparison of data for eigenvalues of Sturm-Liouville equation computed with Discrete Sine Transform (DST) and Legendre-Galerkin-Chebyshev Collocation method (LGCC).}
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-\hline
-$\lambda$ & Matslise & DST (500)  & DST (1 000) & LGCC (500) & LGCC (1 000) \\
-\hline
-1 & 4,897 & 4,897 & 4,897 &  4,897 & 4,897 \\
-\hline
+\centering
+\caption{Comparison of data for eigenvalues of Paine equation computed with Discrete Sine Transform (DST) and Legendre-Galerkin-Chebyshev Collocation method (LGCC).}
+\label{}
+\begin{tabularx}{\textwidth}{l *{5}{X}}
+\toprule
+$\lambda$ & Matslise & DST  & DST & LGCC & LGCC \\
+ &  & (500)  & (1 000) & (500) & (1 000) \\
+\midrule
+1 & 4.897 & 4.897 & 4.897 &  4.897 & 4.897 \\
 50 & 2 507 & 2 507 & 2 507 & 2 507 & 2 507 \\
-\hline
 100 & 10 007 & 10 007 & 10 007 & 10 007 & 10 007 \\
-\hline
 150 & 22 507 & 22 507 & 22 507 & 22 507 &  22 507\\
-\hline
 200 & 40 007 & 40 007 & 40 007 & 40 007 & 40 007 \\
-\hline
 250 & 62 507 & 62 507 & 62 507 & 62 507 & 62 507\\
-\hline
 300 & 90 007 & 90 007 & 90 007 & 90 007 & 90 007\\
-\hline
 350 & 122 507 & 122 507 & 122 507 & 133 996 & 122 507\\
-\hline
 400 & 160 007 & 160 007 & 160 007 & 270 077 &  160 007\\
-\hline
 450 & 202 507 & 202 507 & 202 507 & 985 663 &  202 507\\
-\hline
 500 & 250 007 & 250 006 & 250 007 & 654 568 706 &  250 007\\
-\hline
+\midrule
 $\varepsilon$ &  & $10^{-6}$ & $10^{-11}$ & $10^{3}$ & $10^{-15}$ \\
-\hline
-CPU(s) & 0,7 & 0,4 & 1,5 & 32,8 & 208,3 \\
-\hline
-\end{tabular}
-\end{center}
+CPU & 0.7 & 0.4 & 1.5 & 32.8 & 208.3 \\
+\bottomrule
+\end{tabularx}
 \end{table}
+
 
 
 From the results above, we can see that the discrete sine transform is a clear winner. Even for $N = 500$, the eigenvalue $\lambda_{500}$ is very close to the reference value computed by Matslise, its relative error between the two is $\varepsilon_{500} \approx 10^{-6} $.
@@ -985,185 +963,159 @@ From the results above, we can see that the discrete sine transform is a clear w
 Here we present the data computed for Coffey-Evans equation.
 
 \begin{table}[H]
+\centering
 \caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Finite Difference method (FD).}
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|}
-\hline
-$\lambda$ & Matslise & FD (500)  & FD (1 000) & FD (10 000) \\
-\hline
-1 & 117,946 & 117,905 & 117,936  &  117,946 \\
-\hline
-2 & 231,665 & 231,564 & 231,640 & 231,665 \\
-\hline
-3 & 231,665 & 231,627 & 231,655 &  231,665 \\
-\hline
-4 & 231,665 & 231,627 & 231,655 & 231,665 \\
-\hline
+\label{}
+\begin{tabularx}{\textwidth}{l *{4}{X}}
+\toprule
+$\lambda$ & Matslise & FD  & FD  & FD  \\
+ &  & (500) & (1 000) & (10 000) \\
+\midrule
+1 & 117.946 & 117.905 & 117.936  &  117.946 \\
+2 & 231.665 & 231.564 & 231.640 & 231.665 \\
+3 & 231.665 & 231.627 & 231.655 &  231.665 \\
+4 & 231.665 & 231.627 & 231.655 & 231.665 \\
 50 & 3 061 &  3 039 & 3 055 & 3 061 \\
-\hline
 100 & 10 654 & 10 317 & 10 569 & 10 653 \\
-\hline
 150 & 23 252 & 21 598 & 22 829 & 23 248 \\
-\hline
 200 & 40 852 & 35 778 & 39 532 & 40 838 \\
-\hline
 250 & 63 451 & 51 473 & 60 266 & 63 419 \\
-\hline
 300 & 91 051 & 67 152 & 84 523 & 90 984 \\
-\hline
 350 & 123 651 & 81 287 & 111 708 & 123 526 \\
-\hline
 400 & 161 251 & 92 498 & 141 155 & 161 039 \\
-\hline
 450 & 203 851 & 99 687 & 172 140 & 203 511 \\
-\hline
 500 & 251 451 & 102 975 & 203 904 & 250 934 \\
-\hline
+\midrule
 $\varepsilon$ &  & $10^{-1}$ & $10^{-1}$ & $10^{-3}$ \\
-\hline
-CPU(s) & 1,3 & 0,04 & 0,05 & 2,0 \\
-\hline
-\end{tabular}
-\end{center}
+CPU & 1.3 & 0.04 & 0.05 & 2.0 \\
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \begin{table}[H]
+\centering
 \caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Numerov (Num) and Numerov with correction (NumC).}
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-\hline
-$\lambda$ & Matslise & Num (500)  & NumC (500) & Num (1 000) & NumC (1 000) \\
-\hline
-1 & 117,946 & 117,946 & 117,946 & 117,946 &  117,946 \\
-\hline
-2 & 231,665 & 231,665 & 231,665 & 231,665 & 231,665 \\
-\hline
-3 & 231,665 & 231,665 & 231,665 & 231,665 &  231,665 \\
-\hline
-4 & 231,665 & 231,665 & 231,665 & 231,665 & 231,665 \\
-\hline
+\label{}
+\begin{tabularx}{\textwidth}{l *{5}{X}}
+\toprule
+$\lambda$ & Matslise & Num  & NumC & Num & NumC  \\
+ &  & (500)  & (500) & (1 000) & (1 000) \\
+\midrule
+1 & 117.946 & 117.946 & 117.946 & 117.946 &  117.946 \\
+2 & 231.665 & 231.665 & 231.665 & 231.665 & 231.665 \\
+3 & 231.665 & 231.665 & 231.665 & 231.665 &  231.665 \\
+4 & 231.665 & 231.665 & 231.665 & 231.665 & 231.665 \\
 50 & 3 061 & 3 061 & 3 061 & 3 061 & 3 061 \\
-\hline
 100 & 10 654 & 10 647 & 10 654 & 10 653 & 10 654 \\
-\hline 
 150 & 23 252 & 23 174 & 23 252 & 23 247 & 23 252 \\
-\hline
 200 & 40 852 & 40 407 & 40 852 & 40 825 & 40 852 \\
-\hline
 250 & 63 451 & 61 730 & 63 451 & 63 348 &  63 451 \\
-\hline
 300 & 91 051 & 85 851 & 91 051 & 90 742 & 91 051 \\
-\hline
 350 & 123 651 & 110 520 & 123 651 & 122 866 & 123 651 \\
-\hline
 400 & 161 251 & 132 474 & 161 250 & 159 486 & 161 251 \\
-\hline
 450 & 203 851 & 147 915 & 203 847 & 200 239 &  203 851\\
-\hline
 500 & 251 451 & 154 013 & 251 817 & 244 595 & 251 451 \\
-\hline
+\midrule
 $\varepsilon$ &  & $10^{-1}$ & $10^{-3}$ & $10^{-2}$ & $10^{-7}$ \\
-\hline
-CPU(s) & 1,3 & 0,8 & 0,8 & 3,9 & 3,9 \\
-\hline
-\end{tabular}
-\end{center}
+CPU & 1.3 & 0.8 & 0.8 & 3.9 & 3.9 \\
+\bottomrule
+\end{tabularx}
 \end{table}
 
-
 \begin{table}[H]
+\centering
 \caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Chebyshev Differentiation Matrix (CDM) and Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM). For MBCDM we choose parameter $\alpha = 1$.}
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-\hline
-$\lambda$ & Matslise & CDM (500)  & CDM (1 000) & MBCDM (500) & MBCDM (1 000) \\
-\hline
-1 & 117,946 & 117,946 & 117,946 & 117,946  &  117,946 \\
-\hline
-2 & 231,665 & 231,665 & 231,665 & 231,665 & 231,665 \\
-\hline
-3 & 231,665 & 231,665 & 231,665 & 232,878 & 232,272 \\
-\hline
-4 & 231,665 & 231,665 & 231,665 & 232,878 & 232,272 \\
-\hline
+\label{}
+\begin{tabularx}{\textwidth}{l *{5}{X}}
+\toprule
+$\lambda$ & Matslise & CDM   & CDM  & MBCDM  & MBCDM  \\
+ &  & (500)  & (1 000) & (500) & (1 000) \\
+\midrule
+1 & 117.946 & 117.946 & 117.946 & 117.946  &  117.946 \\
+2 & 231.665 & 231.665 & 231.665 & 231.665 & 231.665 \\
+3 & 231.665 & 231.665 & 231.665 & 232.878 & 232.272 \\
+4 & 231.665 & 231.665 & 231.665 & 232.878 & 232.272 \\
 50 & 3 061 & 3 061 & 3 061 & 3 065 & 3 063 \\
-\hline
 100 & 10 654 & 10 654 & 10 654 & 10 670 &  10 662\\
-\hline
 150 & 23 252 & 23 252 & 23 252 & 23 290 & 23 271 \\
-\hline
 200 & 40 852 & 40 852 & 40 852 & 40 920 & 40 885 \\
-\hline
 250 & 63 451 & 63 451 & 63 451 & 63 559 &  63 503 \\
-\hline
 300 & 91 051 & 91 051 & 91 051 & 91 211 & 91 126 \\
-\hline
 350 & 123 651 & 134 724 & 123 651 & 123 877 & 123 754 \\
-\hline
 400 & 161 251 & 271 674 & 161 251 & 161 563 & 161 386 \\
-\hline
 450 & 203 851 & 1 000 648 & 203 851 & 204 284 & 204 023 \\
-\hline
-500 & 251 451 & 1 219 092 308 & 251 451 & 252 355 &  251 666\\
-\hline
+500 & 251 451 & $1.2 \times 10^{9}$ & 251 451 & 252 355 &  251 666\\
+\midrule
 $\varepsilon$ &  & $10^{3}$ & $10^{-15}$ & $10^{-3}$ & $10^{-4}$ \\
-\hline
-CPU(s) & 1,3 & 0,3 & 0,9 & 0,5 & 1,2 \\
-\hline
-\end{tabular}
-\end{center}
+CPU & 1.3 & 0.3 & 0.9 & 0.5 & 1.2 \\
+\bottomrule
+\end{tabularx}
 \end{table}
 
 \begin{table}[H]
-\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Discrete Sine Transform (DST) and Legendre-Galerkin-Chebyshev collocation method (LGCC).}
-\begin{center}
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
-\hline
-$\lambda$ & Matslise & DST (500)  & DST (1 000) & LGCC (500) & LGCC (1 000) \\
-\hline
-1 & 117,946 & 117,946 & 117,946 & 117,946 &  117,946 \\
-\hline
-2 & 231,665 & 231,665 & 231,665 & 231,665 &  231,665\\
-\hline
-3 & 231,665 & 231,665 & 231,665 & 231,665 & 231,665\\
-\hline
-4 & 231,665 & 231,665 & 231,665 & 231,665 &  231,665\\
-\hline
+\centering
+\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Discrete Sine Transform (DST) and Legendre-Galerkin-Chebyshev Collocation method (LGCC).}
+\label{}
+\begin{tabularx}{\textwidth}{l *{5}{X}}
+\toprule
+$\lambda$ & Matslise & DST  & DST & LGCC & LGCC \\
+ &  & (500)  & (1 000) & (500) & (1 000) \\
+\midrule
+1 & 117.946 & 117.946 & 117.946 & 117.946 &  117.946 \\
+2 & 231.665 & 231.665 & 231.665 & 231.665 &  231.665\\
+3 & 231.665 & 231.665 & 231.665 & 231.665 & 231.665\\
+4 & 231.665 & 231.665 & 231.665 & 231.665 &  231.665\\
 50 & 3 061 & 3 061 & 3 061 & 3 061 & 3 061 \\
-\hline
 100 & 10 654 & 10 654 & 10 654 & 10 654 & 10 654 \\
-\hline
 150 & 23 252 & 23 252 & 23 252 & 23 252 &  23 252\\
-\hline
 200 & 40 852 & 40 852 & 40 852 & 40 852 & 40 852 \\
-\hline
 250 & 63 451 & 63 451 & 63 451 & 63 451 &  63 451 \\
-\hline
 300 & 91 051 & 91 051 & 91 051 & 91 051 & 91 051 \\
-\hline
 350 & 123 651 & 123 651 & 123 651 & 136 400 & 123 651 \\
-\hline
 400 & 161 251 & 161 251 & 161 251 & 278 197 & 161 251 \\
-\hline
 450 & 203 851 & 203 851 & 203 851 & 1 056 327 & 203 851 \\
-\hline
 500 & 251 451 & 251 466 & 251 451 & 659 794 760 & 251 451 \\
-\hline
+\midrule
 $\varepsilon$ &  & $10^{-5}$ & $10^{-15}$ & $10^{3}$ & $10^{-14}$ \\
-\hline
-CPU(s) & 1,3 & 0,4 & 1,5 & 32,4 & 226,4 \\
-\hline
-\end{tabular}
-\end{center}
+CPU & 1.3 & 0.4 & 1.5 & 32.4 & 226.4 \\
+\bottomrule
+\end{tabularx}
 \end{table}
+
 
 For the Coffey-Evans equation, the results are similar to those in the previous section. We can see that the discrete sine transform is a clear winner with a relative error $\varepsilon_{500} \approx 10^{-5}$, which is very good accuracy if we consider the fact that we have used just $N = 500$.
 
 \section{Asymptotic behaviour}
 \noindent
-Next, we want to test the asymptotic equation from the paper \cite{fix} for both the Sturm-Liouville and Coffey-Evans equations and compare them to our eigenvalues from above.
+Next, we want to test the asymptotic equation from the paper \cite{fix} for both the Paine and Coffey-Evans equations and compare them to our eigenvalues from above.
 
-The general form of the asymptotic equation can be found in the abovementioned paper, but the special case for the Sturm-Liouville equation has the following form
+The general form of the asymptotic equation can be found in the abovementioned paper, 
+
+\begin{theorem}[Asymptotic expansion for Dirichlet boundary conditions]
+Let $\lambda_k$ be the \textit{k}th eigenvalue of
+\begin{equation}
+    u'' + [\lambda - p(x)]u = 0 \, , \quad o \leq x \leq \pi
+\end{equation}
+and
+\begin{equation}
+    u(0) = u(\pi) = 0 \, .
+\end{equation}
+Then 
+\begin{equation}
+    \lambda_k^{1/2} = k + (2\pi k)^{-1}P_1(\pi) + (4 \pi k^3)^{-1}\left[ \left(\frac{1}{2}\right)P_2(\pi) - \left( \frac{1}{\pi} \right) P_1(\pi)^2 + ()  \right]
+\end{equation}
+\end{theorem}
+
+
+
+
+
+
+
+
+
+
+but the special case for the Paine equation has the following form
 \begin{equation}
     \lambda_k^{1/2} = k + \frac{e^{\pi} - 1}{2 \, \pi \, k} + \frac{1}{4 \, \pi \, k^3} \left( \frac{e^{2 \, \pi} -1}{4} - \frac{(e^{\pi}-1)^2}{\pi} + \frac{e^{\pi}}{2} - \frac{1}{2} \right) + O(k^{-4}) \, ,
 \end{equation}
@@ -1174,79 +1126,74 @@ and for the Coffey-Evans equation, it is
 
 We can see graphs for both of them in the figures below. We looked closer at intervals $\lambda_k \in [1, \, 500]$, $\lambda_k \in [1, \, 100]$, $\lambda_k \in [1, \, 50]$ and $\lambda_k \in [1, \, 10]$. Both of them hold pretty well in the limit, the biggest difference can be seen in the interval $\lambda_k \in [1, \, 10]$.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/fix_slp_1_10.eps}
+    \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalue range $\lambda_k \in [1, \, 10]$.}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/fix_slp_1_50.eps}
+    \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalue range $\lambda_k \in [1, \, 50]$.}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/fix_slp_1_500.eps}
+    \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalue range $\lambda_k \in [1, \, 500]$.}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/fix_slp_490_500.eps}
+    \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalue range $\lambda_k \in [490, \, 500]$.}
+    \label{}
+\end{figure}
+
 
 
 
 \begin{figure}[H]
-\begin{subfigure}{0.48\textwidth}
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_6.png}
-    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [1, \, 500]$.}}
+    \includegraphics[width=0.9\linewidth]{figures/fix_ce_1_10.eps}
+    \caption{Asymptotic approximation of $\lambda_k$ for Coffey-Evans equation. Eigenvalue range $\lambda_k \in [1, \, 10]$.}
     \label{}
-\end{subfigure}
-~ 
-\begin{subfigure}{0.48\textwidth}
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_7.png}
-    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [1, \, 10]$.}}
-    \label{}
-\end{subfigure}
-~
-\centering
-\begin{subfigure}{0.48\textwidth}
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_8.png}
-    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [1, \, 50]$.}}
-    \label{}
-\end{subfigure}
-~
-\begin{subfigure}{0.48\textwidth}
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_9.png}
-    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [490, \, 500]$.}}
-    \label{}
-\end{subfigure}
-\caption{Asymptotic approximation of $\lambda_k$ for Sturm-Liouville equation.}
-\label{}
 \end{figure}
-
 
 \begin{figure}[H]
-\begin{subfigure}{0.48\textwidth}
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_12.png}
-    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [1, \, 500]$.}}
+    \includegraphics[width=0.9\linewidth]{figures/fix_ce_1_50.eps}
+    \caption{Asymptotic approximation of $\lambda_k$ for Coffey-Evans equation. Eigenvalue range $\lambda_k \in [1, \, 50]$.}
     \label{}
-\end{subfigure}
-~ 
-\begin{subfigure}{0.48\textwidth}
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_10.png}
-    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [1, \, 10]$.}}
-    \label{}
-\end{subfigure}
-~
-\centering
-\begin{subfigure}{0.48\textwidth}
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_11.png}
-    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [1, \, 50]$.}}
-    \label{}
-\end{subfigure}
-~
-\begin{subfigure}{0.48\textwidth}
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_13.png}
-    \caption{\footnotesize{Eigenvalue range $\lambda_k \in [490, \, 500]$.}}
-    \label{}
-\end{subfigure}
-\caption{Asymptotic approximation of $\lambda_k$ for Coffey-Evans equation.}
-\label{}
 \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/fix_ce_1_500.eps}
+    \caption{Asymptotic approximation of $\lambda_k$ for Coffey-Evans equation. Eigenvalue range $\lambda_k \in [1, \, 500]$.}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures/fix_ce_490_500.eps}
+    \caption{Asymptotic approximation of $\lambda_k$ for Coffey-Evans equation. Eigenvalue range $\lambda_k \in [490, \, 500]$.}
+    \label{}
+\end{figure}
+
+
+
+
+
+
 
 \section{Conclusion from eigenvalue computation tests}
 \noindent
-From our numerical experiments with the eigenvalue equations, we have observed that the discrete sine transform is best for dirichlet boundary problems.
+From our numerical experiments with the eigenvalue equations, we have observed that the discrete sine transform is best for Dirichlet boundary problems.
 
 
 
@@ -1263,7 +1210,7 @@ And we will be mainly interested in the time evolution of some combination of fu
 \begin{equation}\label{eq_wave_general}
     u(x,t) = \sin{(kx - \omega_k t)} + \sin{(lx \pm \omega_l t )} \, ,
 \end{equation}
-where the relation between wave number and angular frequency is $\omega_k = c \cdot k$ and $\omega_l = c \cdot l$.
+where the relation between wave number and angular frequency is $\omega_k = c  k$ and $\omega_l = c  l$.
 
 We will use approximation techniques for the discretization of the second space derivative present in the equation \ref{eq_wave}. In every simulation, the time evolution is exact. We discretize only in space to fairly compare our discretization techniques. Two different cases of boundary conditions will be of interest to us: 
 \begin{itemize}
@@ -1279,7 +1226,7 @@ And time evolution of three cases of wave \ref{eq_wave_general}
 
 
 
-\section{Exact Time Evolution}
+\section{Exact time evolution}
 \noindent
 To compare different spatial discretization techniques fairly, we discretize the wave equation only in space and solve the resulting system exactly in time. 
 
@@ -1360,7 +1307,7 @@ This technique allows for direct computation of the solution at any time $t$ wit
 
 \section{Periodic boundary conditions}
 \noindent
-In this section, we will compare finite differences, the Numerov approximation, and the discrete Fourier transform. Other methods based on chebyshev collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of problem.
+In this section, we will compare Finite Differences, the Numerov approximation, and the Discrete Fourier Transform. Other methods based on chebyshev collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of problem.
 
 \subsection{One wave}
 \noindent
@@ -1368,7 +1315,7 @@ First, let's look at the special case of \ref{eq_wave_general}, specifically a w
 \begin{equation}\label{eq_periodic_one}
     u(x,0) = \sin{(6 x)} \, 
 \end{equation}
-and how it behaves under the influence of the wave equation \ref{eq_wave}. The graph of the wave \ref{eq_periodic_one} is shown in figure \ref{fig_periodic_one_initial}. The number of points in an interval is $N = 64$, and the length of the interval is $L = \pi$.
+and how it behaves under the influence of the wave equation \ref{eq_wave}. The graph of the wave \ref{eq_periodic_one} is shown in Figure \ref{fig_periodic_one_initial}. The number of points in an interval is $N = 64$, and the length of the interval is $L = \pi$.
 
 \begin{figure}[H]
     \centering
@@ -1377,16 +1324,16 @@ and how it behaves under the influence of the wave equation \ref{eq_wave}. The g
     \label{fig_periodic_one_initial}
 \end{figure}
 
-In figure \ref{fig_periodic_one_FD} is shown frame $t = 47 \; s$, where we can see the approximation of wave evolution using finite differences (blue wave). In our numerical experiments, we have observed that the finite difference approximation is systematically slower in wave propagation compared to the exact wave (black dashed wave).
+In Figure \ref{fig_periodic_one_FD} is shown frame $t = 47 \; s$, where we can see the approximation of wave evolution using Finite Differences (blue wave). In our numerical experiments, we have observed that the finite difference approximation is systematically slower in wave propagation compared to the exact wave (black dashed wave).
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_one_periodic_FD.png}
-    \caption{Comparison of finite difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 47 \; s$.}
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 47 \; s$.}
     \label{fig_periodic_one_FD}
 \end{figure}
 
-The next experiment was conducted using the Numerov approximation, and one frame of the time evolution is shown in figure \ref{fig_periodic_one_Numerov}.  The Numerov method (red wave) was better than finite differences, and we can see separation from the exact solution after roughly $t = 9 \, 880 \; s$. We expected that Numerov would be better than finite differences because it is a higher order method.
+The next experiment was conducted using the Numerov approximation, and one frame of the time evolution is shown in Figure \ref{fig_periodic_one_Numerov}.  The Numerov method (red wave) was better than finite differences, and we can see separation from the exact solution after roughly $t = 9 \, 880 \; s$. We expected that Numerov would be better than finite differences because it is a higher order method.
 
 \begin{figure}[H]
     \centering
@@ -1395,16 +1342,16 @@ The next experiment was conducted using the Numerov approximation, and one frame
     \label{fig_periodic_one_Numerov}
 \end{figure}
 
-Next, we ran a simulation with the discrete fourier transform (magenta wave) and the exact solution to check whether, after some time, they also dont separate. This simulation, which ran for one year, is shown in the figure \ref{fig_periodic_one_dft}.
+Next, we ran a simulation with the Discrete Fourier Transform (magenta wave) and the exact solution to check whether, after some time, they also dont separate. This simulation, which ran for one year, is shown in the Figure \ref{fig_periodic_one_dft}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_20.png}
-    \caption{Comparison of discrete fourier transform (magenta wave) and exact solution (black dashed wave) at time frame $t \approx 1 $ year. They never separated.}
+    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t \approx 1 $ year. They never separated.}
     \label{fig_periodic_one_dft}
 \end{figure}
 
-The conclusion of our experiments is that the worst approximation method is finite differences, the slightly better method is the Numerov method, and the absolute best method is the discrete fourier transform.
+The conclusion of our experiments is that the worst approximation method is Finite Differences, the slightly better method is the Numerov method, and the absolute best method is the Discrete Fourier Transform.
 
 
 
@@ -1414,7 +1361,7 @@ Next, we will test how the wave in its initial function form
 \begin{equation}
     u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, ,
 \end{equation}
-behaves under the influence of equation \ref{eq_wave}. The number of points in an interval $N = 128$ and the length of the interval $L = 2\pi$. The graph of initial wave is in figure \ref{fig_two_periodic_same_initial}.
+behaves under the influence of equation \ref{eq_wave}. The number of points in an interval $N = 128$ and the length of the interval $L = 2\pi$. The graph of initial wave is in Figure \ref{fig_two_periodic_same_initial}.
 
 \begin{figure}[H]
     \centering
@@ -1423,16 +1370,16 @@ behaves under the influence of equation \ref{eq_wave}. The number of points in a
     \label{fig_two_periodic_same_initial}
 \end{figure}
 
-In figure \ref{fig_two_priodic_same_FD} is a comparison of finite differences with the exact solution at time $t = 44 \; s$. We can see that after this short time, the wave approximation has already separated from the exact solution.
+In Figure \ref{fig_two_priodic_same_FD} is a comparison of Finite Differences with the exact solution at time $t = 44 \; s$. We can see that after this short time, the wave approximation has already separated from the exact solution.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_same_FD.png}
-    \caption{Comparison of finite difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 44 \; s$. }
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 44 \; s$. }
     \label{fig_two_priodic_same_FD}
 \end{figure}
 
-Simulation Using Numerov is shown in figure \ref{fig_two_periodic_same_Numerov} at the frame $t = 6 \, 421 \; s$. Again, the Numerov method is better than the finite difference approximation.
+Simulation Using Numerov is shown in Figure \ref{fig_two_periodic_same_Numerov} at the frame $t = 6 \, 421 \; s$. Again, the Numerov method is better than the finite difference approximation.
 
 \begin{figure}[H]
     \centering
@@ -1441,12 +1388,12 @@ Simulation Using Numerov is shown in figure \ref{fig_two_periodic_same_Numerov} 
     \label{fig_two_periodic_same_Numerov}
 \end{figure}
 
-And lastly, the comparison of the discrete Fourier transform and the exact solution is shown in figure \ref{fig_two_periodic_same_dft}. Discrete fourier transform is again the best of the three.
+And lastly, the comparison of the Discrete Fourier Transform and the exact solution is shown in Figure \ref{fig_two_periodic_same_dft}. The Discrete Fourier Transform is again the best of the three.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_periodic_same_DFT.png}
-    \caption{Comparison of discrete fourier transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 513 \, 211 \; s$.}
+    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 513 \, 211 \; s$.}
     \label{fig_two_periodic_same_dft}
 \end{figure}
 
@@ -1458,25 +1405,25 @@ The last case for periodic boundary conditions is the evolution of a wave that i
 \begin{equation}
     u(x,t) = \sin{(5 x)} + \sin{(6 x)} \, ,
 \end{equation}
-which is the superposition of two waves that propagate in the opposite direction. Parameters are $N = 128$ and $L = 2\pi$. The initial wave can be seen in figure \ref{fig_two_periodic_oppo_initial}.
+which is the superposition of two waves that propagate in the opposite direction. Parameters are $N = 128$ and $L = 2\pi$. The initial wave can be seen in Figure \ref{fig_two_periodic_oppo_initial}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_periodic_opposite_initial.png}
     \caption{Initial exact wave at $t = 0 \; s$. }
-    \label{ig_two_periodic_oppo_initial}
+    \label{fig_two_periodic_oppo_initial}
 \end{figure}
 
-The simulation for finite differences is shown in figure \ref{fig_two_periodic_oppo_FD}. The wave package separated after roughly $t = 15 \; s$.
+The simulation for Finite Differences is shown in Figure \ref{fig_two_periodic_oppo_FD}. The wave package separated after roughly $t = 15 \; s$.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_FD.png}
-    \caption{Comparison of finite difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 15 \; s$. }
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 15 \; s$. }
     \label{fig_two_periodic_oppo_FD}
 \end{figure}
 
-Numerov simulation is in figure \ref{fig_two_periodic_oppo_Numerov} the separation of waves is well visible at $t = 2 \,000 \; s$.
+Numerov simulation is in Figure \ref{fig_two_periodic_oppo_Numerov} the separation of waves is well visible at $t = 2 \,000 \; s$.
 
 \begin{figure}[H]
     \centering
@@ -1485,33 +1432,33 @@ Numerov simulation is in figure \ref{fig_two_periodic_oppo_Numerov} the separati
     \label{fig_two_periodic_oppo_Numerov}
 \end{figure}
 
-And again, as we would expect, the discrete fourier transform holds best of the three. and is shown in figure \ref{fig_two_periodic_oppo_dft}.
+And again, as we would expect, the Discrete Fourier Transform holds best of the three. and is shown in Figure \ref{fig_two_periodic_oppo_dft}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures/pic_two_periodic_opposite_DFT.png}
-    \caption{Comparison of discrete fourier transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 46 \, 656 \; s$. }
+    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 46 \, 656 \; s$. }
     \label{fig_two_periodic_oppo_dft}
 \end{figure}
 
-And again, the simulation with DFT (magenta) and the exact solution (black), which ran for $t \approx 1$ year, never separated (figure would be identical to \ref{fig_two_opposite_all}).
+And again, the simulation with DFT (magenta) and the exact solution (black), which ran for $t \approx 1$ year, never separated (figure would be identical to Figure \ref{fig_two_opposite_all}).
 
 
 
 \section{Dirichlet boundary conditions}
 \noindent
-In this section, we will focus on dirichlet boundary conditions
+In this section, we will focus on Dirichlet boundary conditions
 \begin{equation}
     u(0,t) = u(\pi,t) = 0 \, .
 \end{equation}
 And we will test the precision of all the aforementioned methods:
 \begin{itemize}
-    \item Finite differences
+    \item Finite Differences
     \item Numerov method
-    \item Chebyshev differentiation matrix
-    \item Mapped barycentric Chebyshev differentiation matrix
-    \item Legendre-Galerkin-Chebyshev collocation
-    \item Discrete sine transform
+    \item Chebyshev Differentiation Matrix
+    \item Mapped Barycentric Chebyshev Differentiation Matrix
+    \item Legendre-Galerkin-Chebyshev Collocation
+    \item Discrete Sine Transform
 \end{itemize}
 We will again test them with the time evolution of three different cases of \ref{eq_wave_general}.
  
@@ -1526,7 +1473,7 @@ u(x,0) =
 0                      & \dfrac{\pi}{2} < x \leq \pi \, .
 \end{cases}
 \end{equation}
-Simulations has parameters $L = \pi$ and $N = 40$. Graph of the initial form can be seen in figure \ref{fig_one_dirichlet_initial}.
+Simulations has parameters $L = \pi$ and $N = 40$. Graph of the initial form can be seen in Figure \ref{fig_one_dirichlet_initial}.
 
 \begin{figure}[H]
     \centering
@@ -1535,7 +1482,7 @@ Simulations has parameters $L = \pi$ and $N = 40$. Graph of the initial form can
     \label{fig_one_dirichlet_initial}
 \end{figure}
 
-The graph of the finite difference approximation at time $t = 4 \; s$ is shown in the figure. \ref{fig_one_dirichlet_FD}. We can see that even after this short time, the approximation is very inaccurate.
+The graph of the Finite Difference approximation at time $t = 4 \; s$ is shown in the Figure. \ref{fig_one_dirichlet_FD}. We can see that even after this short time, the approximation is very inaccurate.
 
 \begin{figure}[H]
     \centering
@@ -1544,7 +1491,7 @@ The graph of the finite difference approximation at time $t = 4 \; s$ is shown i
     \label{fig_one_dirichlet_FD}
 \end{figure}
 
-In figure \ref{fig_one_dirichlet_Numerov} is the graph of the Numerov approximation at time $t = 29 \, s$.
+In Figure \ref{fig_one_dirichlet_Numerov} is the graph of the Numerov approximation at time $t = 29 \, s$.
 
 \begin{figure}[H]
     \centering
@@ -1553,7 +1500,7 @@ In figure \ref{fig_one_dirichlet_Numerov} is the graph of the Numerov approximat
     \label{fig_one_dirichlet_Numerov}
 \end{figure}
 
-And the comparison of methods CDM, MBCDM, LGCC and DST at time frame $t = 18 \; 200 \; s$ is in figures \ref{fig_one_dirichlet_CDM}, \ref{fig_one_dirichlet_MBCDM}, \ref{fig_one_dirichlet_LGCC} and \ref{fig_one_dirichlet_DST}.
+And the comparison of methods CDM, MBCDM, LGCC and DST at time frame $t = 18 \; 200 \; s$ is in Figures \ref{fig_one_dirichlet_CDM}, \ref{fig_one_dirichlet_MBCDM}, \ref{fig_one_dirichlet_LGCC} and \ref{fig_one_dirichlet_DST}.
 
 \begin{figure}[H]
     \centering
@@ -1583,7 +1530,7 @@ And the comparison of methods CDM, MBCDM, LGCC and DST at time frame $t = 18 \; 
     \label{fig_one_dirichlet_DST}
 \end{figure}
 
-The conclusion from our numerical experiments is that the discrete sine transform method is the best among them all.
+The conclusion from our numerical experiments is that the Discrete Sine Transform method is the best among them all.
 
 
 \subsection{Two waves - same direction}
@@ -1596,7 +1543,7 @@ u(x,0) =
 0                      & \dfrac{\pi}{2} < x \leq \pi \, .
 \end{cases}
 \end{equation}
-Parameters are $N = 50$ and $L = \pi$. Graph can be seen in figure \ref{fig_two_dirichlet_same_initial}.
+Parameters are $N = 50$ and $L = \pi$. Graph can be seen in Figure \ref{fig_two_dirichlet_same_initial}.
 
 
 \begin{figure}[H]
@@ -1664,7 +1611,7 @@ u(x,0) =
 \sin{(24 x)} & \dfrac{3\pi}{4} \leq x \leq \pi \, ,
 \end{cases}
 \end{equation}
-and can be seen in figure \ref{fig_two_dirichlet_oppo_initial}. Parameters are $N = 40$ and $L = \pi$. 
+and can be seen in Figure \ref{fig_two_dirichlet_oppo_initial}. Parameters are $N = 40$ and $L = \pi$. 
 
 \begin{figure}[H]
     \centering
@@ -1724,13 +1671,13 @@ We can see that DST is, again, the best.
 
 \section{Conclusion from wave equation tests}
 \noindent
-From our numerical experiments with the wave equation, we have observed that the discrete Fourier transform is best for periodic boundary problems and the discrete sine transform is best for dirichlet boundary problems.
+From our numerical experiments with the wave equation, we have observed that the discrete Fourier transform is best for periodic boundary problems and the Discrete Sine Transform is best for Dirichlet boundary problems.
 
 
 
 \chapter{Wave propagation in metamaterials}
 \noindent
-In this chapter, we will be interested in simulations involving the equation that describes a one-dimensional metamaterial, specifically an infinitesimal lattice system that is built from cells with inner mass. The figure of this metamaterial is in \ref{fig_metamaterial}.
+In this chapter, we will be interested in simulations involving the equation that describes a one-dimensional metamaterial, specifically an infinitesimal lattice system that is built from cells with inner mass. The metamaterial is in Figure \ref{fig_metamaterial}.
 
 \begin{figure}[H]
     \centering
@@ -1831,9 +1778,9 @@ The difference from previous chapter is that now we dont have an exact solution,
 
 \section{Periodic boundary conditions}
 \noindent
-In this section, we will compare finite differences, the Numerov approximation, and the discrete Fourier transform. Other methods based on chebyshev collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of problem. 
+In this section, we will compare Finite Differences, the Numerov approximation, and the Discrete Fourier Transform. Other methods based on chebyshev collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of problem. 
 
-Time is solved with matlab \texttt{ode45} because exact time is too precise for comparing DFT, FD, and numerov.
+Time is solved with matlab \texttt{ode45} because exact time is too precise for comparing DFT, FD, and Numerov.
 
 
 \subsection{One wave}
@@ -1861,14 +1808,14 @@ parameters and initial conditions are
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_one_periodic_FD.png}
-    \caption{Comparison of finite difference approximation (blue wave) and discrete Fourier approximation (magenta wave) at time frame $t = 6 \; s$.}
+    \caption{Comparison of Finite Difference approximation (blue wave) and Discrete Fourier Transform (magenta wave) at time frame $t = 6 \; s$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_one_periodic_Numerov.png}
-    \caption{Comparison of Numerov approximation (red wave) and discrete Fourier transform approximation (magenta wave) at time frame $t = 475 \; s$.}
+    \caption{Comparison of Numerov approximation (red wave) and Discrete Fourier Transform (magenta wave) at time frame $t = 475 \; s$.}
     \label{}
 \end{figure}
 
@@ -1900,14 +1847,14 @@ parameters and initial conditions are
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_same_FD.png}
-    \caption{Comparison of finite difference approximation (blue wave) and discrete Fourier approximation (magenta wave) at time frame $t = 10 \; s$.}
+    \caption{Comparison of Finite Difference approximation (blue wave) and Discrete Fourier Transform (magenta wave) at time frame $t = 10 \; s$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_same_Numerov.png}
-    \caption{Comparison of Numerov approximation (red wave) and discrete Fourier transform approximation (magenta wave) at time frame $t = 771 \; s$.}
+    \caption{Comparison of Numerov approximation (red wave) and Discrete Fourier Transform approximation (magenta wave) at time frame $t = 771 \; s$.}
     \label{}
 \end{figure}
 
@@ -1937,14 +1884,14 @@ parameters and initial conditions are
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_oppo_FD.png}
-    \caption{Comparison of finite difference approximation (blue wave) and discrete Fourier approximation (magenta wave) at time frame $t = 9 \; s$.}
+    \caption{Comparison of Finite Difference approximation (blue wave) and Discrete Fourier approximation (magenta wave) at time frame $t = 9 \; s$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_oppo_Numerov.png}
-    \caption{Comparison of Numerov approximation (red wave) and discrete Fourier transform approximation (magenta wave) at time frame $t = 741 \; s$.}
+    \caption{Comparison of Numerov approximation (red wave) and Discrete Fourier Transform approximation (magenta wave) at time frame $t = 741 \; s$.}
     \label{}
 \end{figure}
 
@@ -2051,7 +1998,7 @@ $r>0, \omega >0$
 \begin{equation}
     \omega_{num}(k) \leq c |k| = \omega_{exact}(k)
 \end{equation}
-The equation holds only for $k \rightarrow 0$. Thus, waves approximated by FD propagate slower. The graphical form of this result can be seen in the figure \ref{fig_dispersion}.
+The equation holds only for $k \rightarrow 0$. Thus, waves approximated by FD propagate slower. The graphical form of this result can be seen in the Figure \ref{fig_dispersion}.
 
 \begin{figure}[H]
     \centering
