@@ -237,7 +237,7 @@
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 \noindent
-In this work, we will first focus on the eigenvalue computations of the regular Sturm-Liouville problems. Two concrete examples are Paine and Coffey-Evans equations for which we will use several different methods for the discretization of the operator of the second derivative. We will compute our data and compare it to one another.
+In this work, we will first focus on the eigenvalue computations of the regular Sturm--Liouville problems. Two concrete examples are Paine and Coffey--Evans equations for which we will use several different methods for the discretization of the operator of the second derivative. We will compute our data and compare it to one another.
 
 Next, we will study the classical wave equation and test Finite Differences and Fast Fourier Transform on their propagation.
 
@@ -293,7 +293,7 @@ In the context of metamaterials, as demonstrated in \cite{cit1}, rate-type relat
 
 \chapter{Eigenvalue computations}
 \noindent
-The aim of this chapter is, first, to introduce two regular Sturm-Liouville eigenvalue test problems: namely, the Paine equation, first introduced in \cite{paine} and the Coffey-Evans equation, first presented in \cite{pryce}.
+The aim of this chapter is, first, to introduce two regular Sturm--Liouville eigenvalue test problems: namely, the Paine equation, first introduced in \cite{paine} and the Coffey--Evans equation, first presented in \cite{pryce}.
 
 Then, we will describe methods that discretize these continuous problems and allow us to solve them approximately (numerically). Mainly, we will focus on how to discretize the operator of the second derivative, which means we will assemble the differentiation matrix, substitute it for the continuous derivative, and then compute the eigenvalues of the discretized problem.
 
@@ -303,7 +303,7 @@ Our goal is to compare all of these methods and figure out which one is best. Fo
 
 \section{Test problems}
 \noindent
-In this section, we will introduce two regular Sturm-Liouville test problems on which we will apply the discretization techniques. The general form of these problems is
+In this section, we will introduce two regular Sturm--Liouville test problems on which we will apply the discretization techniques. The general form of these problems is
 \begin{equation}\label{eq_general_test_problem}
     -u''(x) + q(x) u(x) = \lambda u(x) \, , \quad x \in [a, \, b] \, , \quad u(a) = u(b) = 0 \, .
 \end{equation}
@@ -325,7 +325,7 @@ If we substitute them into the relation \ref{eq_general_test_problem}, the resul
 \end{equation}
 
 
-\subsection{Coffey-Evans equation}
+\subsection{Coffey--Evans equation}
 \noindent 
 In the second case, the parameters are
 \begin{equation}\label{eq_CE_coeffs}
@@ -335,7 +335,7 @@ In the second case, the parameters are
         b & = \pi/2 \, . \\[2pt]
     \end{split}
 \end{equation}
-If we substitute them into \ref{eq_general_test_problem}, we get the resulting Coffey-Evans equation
+If we substitute them into \ref{eq_general_test_problem}, we get the resulting Coffey--Evans equation
 \begin{equation}\label{eq_CE}
     \begin{split}
     -u''(x) + \big(\beta^2 \sin^2{(2 x)} -2 \beta \cos{(2 x)} \big) u(x) & = \lambda  u(x) \, , \\
@@ -349,7 +349,7 @@ In the whole text, we will use the value of parameter $\beta = 30$.
 \noindent
 As we have mentioned before, to obtain highly accurate reference eigenvalues of our test problems, a MATLAB application named Matslise has been implemented. In this thesis, it serves as the reference solver for computing benchmark eigenvalues and for validating results obtained by other numerical methods.
 
-Matslise is a MATLAB package for the numerical solution of regular and singular Sturm–Liouville eigenvalue problems. It belongs to the class of shooting methods: it transforms the two-point boundary value problem into an initial-value problem by guessing a trial eigenvalue $\lambda$, integrating the differential equation from one boundary to the other, and iteratively adjusting $\lambda$ until the second boundary condition is satisfied. The key innovation of Matslise is that the integration step is performed using piecewise constant perturbation methods. On each small subinterval, the potential $q(x)$ is approximated by a constant value (for which the exact analytic solution is known), and higher-order perturbation correction terms are systematically added. \cite{ledoux}
+Matslise is a MATLAB package for the numerical solution of regular and singular Sturm-–Liouville eigenvalue problems. It belongs to the class of shooting methods: it transforms the two-point boundary value problem into an initial-value problem by guessing a trial eigenvalue $\lambda$, integrating the differential equation from one boundary to the other, and iteratively adjusting $\lambda$ until the second boundary condition is satisfied. The key innovation of Matslise is that the integration step is performed using piecewise constant perturbation methods. On each small subinterval, the potential $q(x)$ is approximated by a constant value (for which the exact analytic solution is known), and higher-order perturbation correction terms are systematically added. \cite{ledoux}
 
 This approach yields very high accuracy even for large (high-index) eigenvalues (in which we are particularly interested) with relatively few grid points. It all makes Matslise particularly efficient and robust for our test problems. \cite{matslise}
 
@@ -373,7 +373,7 @@ for the Paine equation, where
 \begin{equation}
     E = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N}\big) \,.
 \end{equation}
-And in the case of Coffey-Evans equation with the potential
+And in the case of the Coffey--Evans equation with the potential
 \begin{equation}
     \begin{split}
     Q = \texttt{diag}\big(-2 \beta \cos{(2 x_1)} + \beta^2 \sin^2{(2 x_1)} \, , \dots, \\ 
@@ -403,7 +403,7 @@ D = \frac{1}{h^2} \begin{bmatrix}
     0 & 0 & 0 & \cdots & -2 \\ 
 \end{bmatrix} \, .
 \end{equation}
-The implementation of this method is in algorithm \ref{alg_1} for the Paine equation and in algorithm \ref{alg_2} for the Coffey-Evans equation.
+The implementation of this method is in algorithm \ref{alg_1} for the Paine equation and in algorithm \ref{alg_2} for the Coffey--Evans equation.
 
 \begin{algorithm}[H]
 \caption{Finite Difference method - Paine equation}
@@ -417,7 +417,7 @@ The implementation of this method is in algorithm \ref{alg_1} for the Paine equa
 \State \quad $D_{i,i} = 2 / h^2$ \quad for $i=1, \dots,N$
 \State \quad $D_{i,i+1} = D_{i+1,i} = -1 / h^2$ \quad for $i = 1, \dots,N-1$
 \BlankLine
-\State $E = \texttt{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_N})$
+\State $E = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N} \big)$
 \State $A = -D + E$
 \BlankLine
 \State \texttt{eig}($A$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$ 
@@ -426,7 +426,7 @@ The implementation of this method is in algorithm \ref{alg_1} for the Paine equa
 \end{algorithm}
 
 \begin{algorithm}[H]
-\caption{Finite Difference method - Coffey-Evans equation}
+\caption{Finite Difference method - Coffey--Evans equation}
 \label{alg_2}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
@@ -438,7 +438,7 @@ The implementation of this method is in algorithm \ref{alg_1} for the Paine equa
 \State \quad $D_{i,i+1} = D_{i+1,i} = -1/h^2$  \quad for $i=1, \dots,N-1$
 \BlankLine
 \State $q_i = \beta^2 \sin^2(2 x_i) - 2 \beta \cos(2 x_i)$ \quad for $i=1, \dots,N$
-\State $Q = \texttt{diag}(q_1, q_2, \dots, q_N)$
+\State $Q = \texttt{diag}\big(q_1, q_2, \dots, q_N \big)$
 \State $A = -D + Q$
 \BlankLine
 \State \texttt{eig}($A$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
@@ -486,7 +486,7 @@ The whole approximation can be rewritten in matrix form
 \begin{equation}
     A \mathbf{u} = \lambda B \mathbf{u} \, ,
 \end{equation}
-where $\mathbf{u} = [u(x_1), u(x_2),\dots, u(x_N)]^T$. The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for the Paine equation and in algorithm \ref{alg_Numerov_CE} for the Coffey-Evans equation. Algorithms contain the basic Numerov's method and the Numerov's method with correction. \cite{numerov}
+where $\mathbf{u} = [u(x_1), u(x_2),\dots, u(x_N)]^T$. The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for the Paine equation and in algorithm \ref{alg_Numerov_CE} for the Coffey--Evans equation. Algorithms contain the basic Numerov's method and the Numerov's method with correction. \cite{numerov}
 
 
 \begin{algorithm}[H]
@@ -512,7 +512,7 @@ where $\mathbf{u} = [u(x_1), u(x_2),\dots, u(x_N)]^T$. The implementation of thi
 \State Asymptotic correction:
 \State \quad for $k = 1, \dots,N$:
 \State \quad \quad $s_k^2 = \sin^2(k h / 2)$
-\State \quad \quad $\varepsilon_k^2 = k^2 - 12  s_k^2  /  \left(h^2  (3 - s_k^2) \right)$
+\State \quad \quad $\varepsilon_k^2 = k^2 - 12  s_k^2  /  \big(h^2  (3 - s_k^2) \big)$
 \State \quad \quad $\lambda_k^{\text{corrected}} = \lambda_k + \varepsilon_k^2$
 \State \textbf{output} $\lambda_1^{\text{corrected}} \leq \lambda_2^{\text{corrected}} \leq \dots \leq \lambda_N^{\text{corrected}}$
 \end{algorithmic}
@@ -521,7 +521,7 @@ where $\mathbf{u} = [u(x_1), u(x_2),\dots, u(x_N)]^T$. The implementation of thi
 
 
 \begin{algorithm}[H]
-\caption{Numerov's method - Coffey-Evans equation}
+\caption{Numerov's method - Coffey--Evans equation}
 \label{alg_Numerov_CE}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
@@ -543,7 +543,7 @@ where $\mathbf{u} = [u(x_1), u(x_2),\dots, u(x_N)]^T$. The implementation of thi
 \State Asymptotic correction:
 \State \quad for $k = 1, \dots,N$:
 \State \quad \quad $s_k^2 = \sin^2(k h / 2)$
-\State \quad \quad $\varepsilon_k^2 = k^2 - 12 s_k^2 / \left(h^2 (3 - s_k^2) \right)$
+\State \quad \quad $\varepsilon_k^2 = k^2 - 12 s_k^2 / \big(h^2 (3 - s_k^2) \big)$
 \State \quad \quad $\lambda_k^{\text{corrected}} = \lambda_k + \varepsilon_k^2$
 \State \textbf{output} $\lambda_1^{\text{corrected}} \leq \lambda_2^{\text{corrected}} \leq \dots \leq \lambda_N^{\text{corrected}}$
 \end{algorithmic}
@@ -553,17 +553,26 @@ where $\mathbf{u} = [u(x_1), u(x_2),\dots, u(x_N)]^T$. The implementation of thi
 
 \subsection{Chebyshev Differentiation Matrix method}
 \noindent
-The Chebyshev Differentiation Matrix method (CDM) is a high-order spectral collocation technique that approximates the derivatives of a function at specific collocation points using global polynomial interpolation \cite{cdm}, \cite{trefethen}. It will be implemented using the MATLAB chebfun package.
+The Chebyshev Differentiation Matrix method (CDM) is a high-order spectral collocation technique that approximates the derivatives of a function at specific collocation points using global polynomial interpolation. It will be implemented using MATLAB's chebfun package, utilizing the \texttt{chebpts} and \texttt{diffmat} functions.
 
-In this approach, we first generate the Chebyshev points of the second kind via \texttt{chebpts} on the interval $[-1,1]$ using the Chebfun package. 
+Using this method, we first generate the Chebyshev points of the second kind via \texttt{chebpts} on the interval $[-1, \, 1]$. Then, we assemble the second order differentiation matrix $D_{\text{full}}$ via the \texttt{diffmat}.
 
-Then, the full differentiation matrix $D_{\text{full}}$ of the second order is computed using the \texttt{diffmat} function.
+For problems with homogeneous Dirichlet boundary conditions
+\begin{equation}
+    \begin{split}
+        u(0) = u(\pi) = & \; 0 \, ,  \quad \text{or} \\
+        u(-\pi/2) = u(\pi/2) = & \; 0 \, ,
+    \end{split}
+\end{equation}
+the first and last rows and columns are removed to obtain the reduced (interior) differentiation matrix $D_{\text{Cheb}}$. This way, we enforce these boundary conditions.
 
-For problems with homogeneous Dirichlet boundary conditions $u(0)=u(\pi)=0$ or $u(-\pi/2)=u(\pi/2)=0$, the boundary rows and columns are removed to obtain the reduced interior differentiation matrix $D_{\text{Cheb}}$.
+We find the Chebyshev interior points $t_{\text{int}}$ in a similar manner. Next, we transform these points from the interval $[-1, \, 1]$ to the interval $[0, \, \pi]$ or $[-\pi/2, \, \pi/2]$ with an appropriate scaling factor, and we also scale the matrix $D_{\text{Cheb}}$ accordingly.
 
-After mapping the interior Chebyshev nodes from $[-1, \, 1]$ to the desired physical interval ($[0, \, \pi]$ or $[-\pi/2, \, \pi/2]$) with an appropriate scaling factor, the discrete second-derivative operator is formed.
-
-Finally, the differential equation is converted into a matrix eigenvalue problem of the form $A\mathbf{u} = \lambda \mathbf{u}$, where the matrix $A$ combines the scaled differentiation matrix with the potential term. The eigenvalues are obtained by solving this eigenvalue problem.
+Finally, we assemble the matrices $E$, $Q$, $A$ and compute the eigenvalues of the matrix problem
+\begin{equation}
+    A\mathbf{u} = \lambda \mathbf{u} \, , \quad \text{where} \; \, \mathbf{u} = [u(x_1), u(x_2), \dots, u(x_N)]^T \, ,
+\end{equation}
+and where the matrix $A$ combines the scaled differentiation matrix $D$ with the potential term $E$ or $Q$. \cite{cdm} \cite{trefethen}
 
 \begin{algorithm}[H]
 \caption{Chebyshev Differentiation Matrix - Paine equation}
@@ -572,34 +581,34 @@ Finally, the differential equation is converted into a matrix eigenvalue problem
 \State \textbf{input} $N$
 \State $t =$ \texttt{chebpts}(N+2, 2)
 \State $D_{\text{full}} =$ \texttt{diffmat}(N+2, 2)
-\State $D_{\text{Cheb}} = D_{\text{full}}[2:N+1, \; 2:N+1]$
+\State $D_{\text{Cheb}} = D_{\text{full}}[2:N+1, \, 2:N+1]$
 \State $t_{\text{int}} = t[2:N+1]$
-\State $x_i = \frac{\pi}{2} \, (t_{\text{int},i} + 1)$ \quad for $i=1$ to $N$
-\State $D = (2 / \pi)^2 \cdot D_{\text{Cheb}}$
-\State $E = \texttt{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_N})$
+\State $x_i = \pi/2 \, (t_{\text{int},i} + 1)$ \quad for $i=1, \dots,N$
+\State $D = (2 / \pi)^2 D_{\text{Cheb}}$
+\State $E = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N}\big)$
 \State $A = -D + E$
 \BlankLine
-\State \texttt{eig}(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}($A$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
 
 \begin{algorithm}[H]
-\caption{Chebyshev Differentiation Matrix – Coffey-Evans equation}
+\caption{Chebyshev Differentiation Matrix – Coffey--Evans equation}
 \label{alg_6}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
 \State $t =$ \texttt{chebpts}(N+2, 2)
 \State $D_{\text{full}} =$ \texttt{diffmat}(N+2, 2)
-\State $D_{Cheb} = D_{\text{full}}[2:N+1, 2:N+1]$ 
+\State $D_{\text{Cheb}} = D_{\text{full}}[2:N+1, \, 2:N+1]$ 
 \State $t_{\text{int}} = t[2:N+1]$
-\State $x_i = \frac{\pi}{2} \cdot t_{\text{int},i}$ \quad for $i=1$ to $N$
-\State $q_i =  \beta^2 \, \sin^2(2 \, x_i) - 2 \, \beta \, \cos(2x_i) $ \quad for $i=1$ to $N$
-\State $Q = \texttt{diag}(q_1, q_2, \dots, q_N)$
-\State $D = (2 / \pi)^2 \cdot D_{Cheb}$
+\State $x_i = \pi/2 \, \big( t_{\text{int},i}\big)$ \quad for $i=1, \dots,N$
+\State $q_i =  \beta^2 \sin^2(2 x_i) - 2 \beta \cos(2x_i) $ \quad for $i=1, \dots,N$
+\State $Q = \texttt{diag}\big(q_1, q_2, \dots, q_N \big)$
+\State $D = (2 / \pi)^2 D_{\text{Cheb}}$
 \State $A = -D + Q$
 \BlankLine
-\State \texttt{eig}(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}($A$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
@@ -608,35 +617,49 @@ Finally, the differential equation is converted into a matrix eigenvalue problem
 
 \subsection{Mapped Barycentric Chebyshev Differentiation Matrix method}
 \noindent
-The Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM) method is a high-order spectral collocation technique designed for solving Paine and Coffey-Evans eigenvalue equations on a finite interval with homogeneous Dirichlet boundary conditions. 
+The Mapped Barycentric Chebyshev Differentiation Matrix method (MBCDM) is a high-order spectral collocation technique designed for the efficient solution of Sturm--Liouville eigenvalue problems with homogeneous Dirichlet boundary conditions, particularly the Paine and Coffey--Evans equations.
 
-It employs a Kosloff-Tal-Ezer (KTE) mapping with parameter $\alpha$ to redistribute the Chebyshev nodes, providing better resolution near the boundaries and improved numerical stability for problems with steep gradients or highly oscillatory solutions.
+The method employs the \emph{Kosloff--Tal-Ezer (KTE) mapping}
+\begin{equation}
+    x = \frac{\pi}{2} \left( \frac{\arcsin(\alpha s)}{\arcsin(\alpha)} + 1 \right), \quad s \in [-1,1],
+\end{equation}
+where the parameter \(\alpha \in (0,1)\) controls the clustering of collocation points near the boundaries. This nonlinear mapping provides significantly better resolution near $x=0$ and $x=\pi$ and improves numerical stability for problems with steep gradients or highly oscillatory solutions.
 
-The second derivative is constructed in the computational domain using barycentric differentiation matrices and then transformed to the physical domain $[0,\, \pi]$ or $[-\pi/2, \, \pi/2]$ via the chain rule. After incorporating the potential term, the discrete operator is reduced by imposing the boundary conditions, resulting in a standard matrix eigenvalue problem whose eigenvalues approximate the continuous spectrum with spectral accuracy \cite{cdm}.
+In the computational domain $s \in [-1,1]$, the first and second derivatives are approximated using Barycentric Chebyshev Differentiation Matrices $D_1$ and $D_2$. These are transformed to the physical domain \(x\) ($[0,\, \pi]$ or $[-\pi/2, \, \pi/2]$) via the chain rule:
+\begin{equation}
+\frac{d}{dx} = \frac{ds}{dx} \frac{d}{ds}, \qquad
+\frac{d^2}{dx^2} = \left( \frac{ds}{dx} \right)^2 \frac{d^2}{ds^2} + \frac{d^2 s}{dx^2} \frac{d}{ds}.
+\end{equation}
+After adding the potential term $q(x)$ as a diagonal matrix $E$, the discrete operator takes the form
+\begin{equation}
+A = -D + E.
+\end{equation}
+Homogeneous Dirichlet boundary conditions are imposed by removing the first and last rows and columns, yielding the reduced interior matrix $A_{\text{int}}$. The eigenvalues of $A_{\text{int}}$ approximate the continuous spectrum with spectral accuracy. \cite{cdm}
+
 
 \begin{algorithm}[H]
-\caption{Mapped Barycentric Chebyshev Differentiation - Paine equation}
+\caption{Mapped Barycentric Chebyshev Differentiation Matrix - Paine equation}
 \label{}
 \begin{algorithmic}[1]
 
 \State \textbf{input} $N$, $\alpha$
 \State $s =$ \texttt{chebpts}(N+2)
-\State $\text{asin}_\alpha = \arcsin(\alpha)$
-\State $g(s) = \arcsin(\alpha \cdot s) / \text{asin}_\alpha$ 
-\State $x = (g(s) + 1) \cdot \pi/2$
+\State $g(s) = \arcsin(\alpha s) / \arcsin(\alpha)$ 
+\State $x = (\pi/2) (g(s) + 1)$
 \BlankLine
-\State \quad $g'(s) = \dfrac{\alpha}{\sqrt{1-(\alpha s)^2} \cdot \text{asin}_\alpha}$
-\State \quad $g''(s) = \dfrac{\alpha^3 s}{(1-\alpha^2 s^2)^{3/2} \cdot \text{asin}_\alpha}$
+\State $g'(s) = \alpha \big((1-(\alpha s)^2)^{1/2} \, \arcsin(\alpha) \big)^{-1}$
+\State $g''(s) = \alpha^3 s \big((1-\alpha^2 s^2)^{3/2} \, \arcsin(\alpha) \big)^{-1}$
 \BlankLine
-\State $dx/ds = \pi/2 \cdot g'(s)$
-\State $d^2x/ds^2 = \pi/2 \cdot g''(s)$
-\State $D_s =$ \texttt{diffmat}(N+2, \, 1)
-\State $D_s^{2} = $ \texttt{diffmat}(N+2, \, 2) 
+\State $dx/ds = (\pi/2) g'(s)$
+\State $d^2x/ds^2 = (\pi/2) g''(s)$
 \BlankLine
-\State $D_2 = \texttt{diag}\left[1/(dx/ds)^2\right] \cdot D_s^{2} - \texttt{diag}\left[(d^2x/ds^2)/(dx/ds)^3\right] \cdot D_s$
-\State $E = \texttt{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_{N+2}})$
-\State $A = -D_2 + E$
-\State $A_{\text{int}} = A(2:N+1, 2:N+1)$
+\State $D_1 =$ \texttt{diffmat}(N+2, 1)
+\State $D_2 = $ \texttt{diffmat}(N+2, 2) 
+\BlankLine
+\State $D = \texttt{diag}\big((dx/ds)^{-2}\big) D_2 - \texttt{diag}\big((d^2x/ds^2)(dx/ds)^{-3}\big) D_1$
+\State $E = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_{N+2}}\big)$
+\State $A = -D + E$
+\State $A_{\text{int}} = A[2:N+1, \, 2:N+1]$
 \BlankLine
 \State \texttt{eig}($A_{init}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
@@ -646,29 +669,29 @@ The second derivative is constructed in the computational domain using barycentr
 
 
 \begin{algorithm}[H]
-\caption{Mapped Barycentric Chebyshev Differentiation - Coffey-Evans equation}
+\caption{Mapped Barycentric Chebyshev Differentiation Matrix - Coffey--Evans equation}
 \label{}
 \begin{algorithmic}[1]
 
 \State \textbf{input} $N$, $\beta$, $\alpha$
 \State $s =$ \texttt{chebpts}(N+2)
-\State $\text{asin}_\alpha = \arcsin(\alpha)$
-\State $g(s) = \arcsin(\alpha \cdot s) / \text{asin}_\alpha$ 
-\State $x = g(s) \cdot \pi/2$
+\State $g(s) = \arcsin(\alpha s) / \arcsin(\alpha)$ 
+\State $x = (\pi/2) g(s)$
 \BlankLine
-\State $g'(s) = \dfrac{\alpha}{\sqrt{1-(\alpha s)^2} \cdot \text{asin}_\alpha}$
-\State $g''(s) = \dfrac{\alpha^3 s}{(1-\alpha^2 s^2)^{3/2} \cdot \text{asin}_\alpha}$
+\State $g'(s) = \alpha \big((1-(\alpha s)^2)^{1/2} \, \arcsin(\alpha) \big)^{-1}$
+\State $g''(s) = \alpha^3 s \big((1-\alpha^2 s^2)^{3/2} \, \arcsin(\alpha) \big)^{-1}$
 \BlankLine
-\State $dx/ds = \pi/2 \cdot g'(s)$
-\State $d^2x/ds^2 = \pi/2 \cdot g''(s)$
-\State $D_s =$ \texttt{diffmat}(N+2, \, 1)
-\State $D_s^{2} = $ \texttt{diffmat}(N+2, \, 2) 
+\State $dx/ds = (\pi/2) g'(s)$
+\State $d^2x/ds^2 = (\pi/2) g''(s)$
 \BlankLine
-\State $D_2 = \texttt{diag}\left[1/(dx/ds)^2\right] \cdot D_s^{2} - \texttt{diag}\left[(d^2x/ds^2)/(dx/ds)^3\right] \cdot D_s$
-\State $q_i =  \beta^2 \, \sin^2(2 \, x_i) - 2 \, \beta \, \cos(2x_i) $ \quad for $i=1$ to $N+2$
-\State $Q = \texttt{diag}(q_1, q_2, \dots, q_{N+2})$
-\State $A = -D_2 + Q$
-\State $A_{\text{int}} = A(2:N+1, 2:N+1)$
+\State $D_1 =$ \texttt{diffmat}(N+2, 1)
+\State $D_2 = $ \texttt{diffmat}(N+2, 2) 
+\BlankLine
+\State $D = \texttt{diag}\big((dx/ds)^{-2}\big) D_2 - \texttt{diag}\big((d^2x/ds^2)(dx/ds)^{-3}\big) D_1$
+\State $q_i =  \beta^2 \sin^2(2 x_i) - 2 \beta \cos(2x_i) $ \quad for $i=1, \dots,N+2$
+\State $Q = \texttt{diag}\big(q_1, q_2, \dots, q_{N+2}\big)$
+\State $A = -D + Q$
+\State $A_{\text{int}} = A[2:N+1, \, 2:N+1]$
 \BlankLine
 \State \texttt{eig}($A_{init}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
@@ -706,15 +729,15 @@ The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = \
 \State $k=0,1,\dots,m-1$
 \BlankLine
 \State Stiffness matrix $S$ (diagonal):
-\State \quad $S_{k, \, k} = 4 \, k + 6$ \quad for $k = 0$ to $m-1$
+\State \quad $S_{k, \, k} = 4 k + 6$ \quad for $k = 0, \dots, m-1$
 \BlankLine
 \State Mass matrix $T$ (penta-diagonal):
-\State \quad $T_{k,k} = \frac{2}{2 \, k+1} + \frac{2}{2 \, k+5}$ \quad for $k = 0$ to $m-1$
-\State \quad $T_{k, \, k+2} = T_{k+2, \, k} = -\frac{2}{2 \,k+5}$ \quad for $k = 0$ to $m-3$
+\State \quad $T_{k,k} = \frac{2}{2 k+1} + \frac{2}{2 k+5}$ \quad for $k = 0, \dots, m-1$
+\State \quad $T_{k, \, k+2} = T_{k+2, \, k} = -\frac{2}{2 k+5}$ \quad for $k = 0, \dots, m-3$
 \BlankLine
 \State \quad $q(t) = \frac{\pi^2}{4} \exp\left( \frac{\pi}{2} (t + 1) \right)$
 \BlankLine
-\State \quad $\phi_k(t) = L_{k}(t) - L_{k+2}(t)$ \quad for $k = 0$ to $m-1$
+\State \quad $\phi_k(t) = L_{k}(t) - L_{k+2}(t)$ \quad for $k = 0, \dots, m-1$
 \BlankLine
 \State Matrix $M$ (Galerkin projection of potential):
 \State \quad for $j = 0$ to $m-1$:
@@ -727,14 +750,14 @@ The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = \
 \State $\hat{M} = \texttt{triu}(M) + \texttt{triu}(M, \, 1)^T$
 \State $A = S + \hat{M}$
 \BlankLine
-\State \texttt{eig}(A,T) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
-\State$\lambda_k = 4 \mu_k / \pi^2$ \quad for $k = 1$ to $m$
+\State \texttt{eig}($A$,$T$) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
+\State$\lambda_k = 4 \mu_k / \pi^2$ \quad for $k = 1, \dots, m$
 \State \textbf{output} $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N-1}$
 \end{algorithmic}
 \end{algorithm}
 
 \begin{algorithm}[H]
-\caption{Legendre-Galerkin-Chebyshev Collocation - Coffey-Evans equation}
+\caption{Legendre-Galerkin-Chebyshev Collocation - Coffey--Evans equation}
 \label{}
 
 \begin{algorithmic}[1]
@@ -743,15 +766,15 @@ The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = \
 \State $k = 0,1,\dots,m-1$
 \BlankLine
 \State Stiffness matrix $S$ (diagonal):
-\State \quad $S_{k,k} = 4 \, k + 6$ \quad for $k = 0$ to $m-1$
+\State \quad $S_{k,k} = 4 k + 6$ \quad for $k = 0, \dots, m-1$
 \BlankLine
 \State Mass matrix $T$ (penta-diagonal):
-\State \quad $T_{k,} = \frac{2}{2k+1} + \frac{2}{2k+5}$ \quad for $k = 0$ to $m-1$
-\State \quad $T_{k,k+2} = T_{k+2,k} = -\frac{2}{2 \, k+5}$ \quad for $k = 0$ to $m-3$
+\State \quad $T_{k,} = \frac{2}{2k+1} + \frac{2}{2k+5}$ \quad for $k = 0, \dots, m-1$
+\State \quad $T_{k,k+2} = T_{k+2,k} = -\frac{2}{2 k+5}$ \quad for $k = 0, \dots, m-3$
 \BlankLine
-\State $q(t) = \frac{\pi^2}{4} \, (\beta^2 \, \sin^2(\pi \, t) -2 \, \beta \, \cos(\pi \, t))$
+\State $q(t) = \frac{\pi^2}{4} (\beta^2 \sin^2(\pi t) - 2 \beta \cos(\pi t))$
 \BlankLine
-\State $\phi_k(t) = L_{k}(t) - L_{k+2}(t)$ for $k = 0$ to $m-1$
+\State $\phi_k(t) = L_{k}(t) - L_{k+2}(t)$ for $k = 0, \dots, m-1$
 \BlankLine
 \State Matrix $M$ (Galerkin projection of potential):
 \State \quad for $j = 0$ to $m-1$:
@@ -764,7 +787,7 @@ The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = \
 \State $\hat{M} = \texttt{triu}(M) + \texttt{triu}(M,1)^T$
 \State $A = S + \hat{M}$
 \BlankLine
-\State \texttt{eig}(A,T) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
+\State \texttt{eig}($A$,$T$) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
 \State$\lambda_k = 4 \mu_k / \pi^2$ \quad for $k = 1$ to $m$
 \State \textbf{output} $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N-1}$
 \end{algorithmic}
@@ -788,32 +811,32 @@ The full discrete operator $-\Delta_h + q(x)$ is then assembled by transforming 
 \label{}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $q(x)$
-\State $x_i = \frac{\pi}{N+1} \cdot i$ \quad for $i = 1$ to $N$
-\State $k = [-(1)^2, -(2)^2, \dots, -(N)^2]^T$
+\State $x_i = \frac{\pi}{N+1} i$ \quad for $i = 1, \dots,N$
+\State $k = [-1^2, -2^2, \dots, -N^2]^T$
 \State $D_{op}(y) = \texttt{idst}(k \odot \texttt{dst}(y))$
-\State $Q_{op}(y) = q(x) \odot y$
-\State $L_{op}(y) = -D_{op}(y) + Q_{op}(y)$
+\State $E_{op}(y) = q(x) \odot y$
+\State $L_{op}(y) = -D_{op}(y) + E_{op}(y)$
 \State $A = L_{op}(I_{N})$
 \BlankLine
-\State \texttt{eig}(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
+\State \texttt{eig}($A$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_{N}$
 \end{algorithmic}
 \end{algorithm}
 
 
 \begin{algorithm}[H]
-\caption{Discrete Sine Transform - Coffey-Evans equation}
+\caption{Discrete Sine Transform - Coffey--Evans equation}
 \label{}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $q(x)$, $\beta$
-\State $x_i = -\pi/2 + \frac{\pi}{N+1} \cdot i$ \quad for $i = 1$ to $N$
-\State $k = [-(1)^2, -(2)^2, \dots, -(N)^2]^T$
+\State $x_i = -\pi/2 + \frac{\pi}{N+1} i$ \quad for $i = 1, \dots,N$
+\State $k = [-1^2, -2^2, \dots, -N^2]^T$
 \State $D_{op}(y) = \texttt{idst}(k \odot \texttt{dst}(y))$
 \State $Q_{op}(y) = q(x) \odot y$
 \State $L_{op}(y) = -D_{op}(y) + Q_{op}(y)$
 \State $A = L_{op}(I_{N})$
 \BlankLine
-\State \texttt{eig}(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
+\State \texttt{eig}($A$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_{N}$
 \end{algorithmic}
 \end{algorithm}
@@ -823,12 +846,13 @@ The full discrete operator $-\Delta_h + q(x)$ is then assembled by transforming 
 
 \section{Computed eigenvalues}
 \noindent
-Now we present the computed data. Where the relative error is computed with this relation
-\begin{equation}
-    \varepsilon = \left| \frac{\lambda_{500}^{Matslise} - \lambda_{500}^{method}}{\lambda_{500}^{Matslise}} \right| \, .
-\end{equation}
-We are mainly interested in the high index eigenvalues, because the low index eigenvalues are accuratelly calculated by all methods.(rozepis trochu vic)
+Now we present the computed data. We are mainly interested in the high index eigenvalues because the low index eigenvalues are accurately calculated by all methods. So, only by comparing these high index ones can we accurately tell which method is the best.
 
+The relative error is computed with relation
+\begin{equation}
+    \varepsilon = \left| \frac{\lambda_{500}^{Matslise} - \lambda_{500}}{\lambda_{500}^{Matslise}} \right| \, ,
+\end{equation}
+where $\lambda_{500}^{Matslise}$ is the 500$^{\text{th}}$ eigenvalue computed by the Matslise application and $\lambda_{500}$ is the 500$^{\text{th}}$ eigenvalue computed by the chosen method.
 
 \subsection{Paine equation}
 \noindent
@@ -947,13 +971,13 @@ CPU & 0.7 & 0.4 & 1.5 & 32.8 & 208.3 \\
 
 From the results above, we can see that the discrete sine transform is a clear winner. Even for $N = 500$, the eigenvalue $\lambda_{500}$ is very close to the reference value computed by Matslise, its relative error between the two is $\varepsilon_{500} \approx 10^{-6} $.
 
-\subsection{Coffey-Evans equation}
+\subsection{Coffey--Evans equation}
 \noindent
-Here we present the data computed for Coffey-Evans equation.
+Here we present the data computed for Coffey--Evans equation.
 
 \begin{table}[H]
 \centering
-\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Finite Difference method (FD).}
+\caption{Comparison of data for eigenvalues of Coffey--Evans equation computed with Finite Difference method (FD).}
 \label{}
 \begin{tabularx}{\textwidth}{l *{4}{X}}
 \toprule
@@ -983,7 +1007,7 @@ CPU & 1.3 & 0.04 & 0.05 & 2.0 \\
 
 \begin{table}[H]
 \centering
-\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Numerov (Num) and Numerov with correction (NumC).}
+\caption{Comparison of data for eigenvalues of Coffey--Evans equation computed with Numerov (Num) and Numerov with correction (NumC).}
 \label{}
 \begin{tabularx}{\textwidth}{l *{5}{X}}
 \toprule
@@ -1013,7 +1037,7 @@ CPU & 1.3 & 0.8 & 0.8 & 3.9 & 3.9 \\
 
 \begin{table}[H]
 \centering
-\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Chebyshev Differentiation Matrix (CDM) and Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM). For MBCDM we choose parameter $\alpha = 1$.}
+\caption{Comparison of data for eigenvalues of Coffey--Evans equation computed with Chebyshev Differentiation Matrix (CDM) and Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM). For MBCDM we choose parameter $\alpha = 1$.}
 \label{}
 \begin{tabularx}{\textwidth}{l *{5}{X}}
 \toprule
@@ -1043,7 +1067,7 @@ CPU & 1.3 & 0.3 & 0.9 & 0.5 & 1.2 \\
 
 \begin{table}[H]
 \centering
-\caption{Comparison of data for eigenvalues of Coffey-Evans equation computed with Discrete Sine Transform (DST) and Legendre-Galerkin-Chebyshev Collocation method (LGCC).}
+\caption{Comparison of data for eigenvalues of Coffey--Evans equation computed with Discrete Sine Transform (DST) and Legendre-Galerkin-Chebyshev Collocation method (LGCC).}
 \label{}
 \begin{tabularx}{\textwidth}{l *{5}{X}}
 \toprule
@@ -1072,11 +1096,11 @@ CPU & 1.3 & 0.4 & 1.5 & 32.4 & 226.4 \\
 \end{table}
 
 
-For the Coffey-Evans equation, the results are similar to those in the previous section. We can see that the discrete sine transform is a clear winner with a relative error $\varepsilon_{500} \approx 10^{-5}$, which is very good accuracy if we consider the fact that we have used just $N = 500$.
+For the Coffey--Evans equation, the results are similar to those in the previous section. We can see that the discrete sine transform is a clear winner with a relative error $\varepsilon_{500} \approx 10^{-5}$, which is very good accuracy if we consider the fact that we have used just $N = 500$.
 
 \section{Asymptotic behaviour}
 \noindent
-Next, we want to test the asymptotic equation from the paper \cite{fix} for both the Paine and Coffey-Evans equations and compare them to our eigenvalues from above.
+Next, we want to test the asymptotic equation from the paper \cite{fix} for both the Paine and Coffey--Evans equations and compare them to our eigenvalues from above.
 
 \begin{theorem}[Asymptotic expansion for Dirichlet boundary conditions]
 Let $\lambda_k$ be the k-th eigenvalue of
@@ -1105,7 +1129,7 @@ Now we use this theorem for our two test equations. The Paine equation asymptoti
 \begin{equation}
     \lambda_k^{1/2} = k + \frac{e^{\pi} - 1}{2 \, \pi \, k} + \frac{1}{4 \, \pi \, k^3} \left( \frac{e^{2 \, \pi} -1}{4} - \frac{(e^{\pi}-1)^2}{\pi} + \frac{e^{\pi}}{2} - \frac{1}{2} \right) + O(k^{-4}) \, ,
 \end{equation}
-and asymptotic for the Coffey-Evans equation is
+and asymptotic for the Coffey--Evans equation is
 \begin{equation}
     \lambda_k^{1/2} = k + \frac{225}{k} + \frac{38 192,75}{k^3} - \frac{50625}{k^3} + O(k^{-4})
 \end{equation}
@@ -1146,28 +1170,28 @@ We can see graphs for both of them in the figures below. We looked closer at int
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_fix/fix_ce_1_10.eps}
-    \caption{Asymptotic approximation of $\lambda_k$ for Coffey-Evans equation. Eigenvalue range $\lambda_k \in [1, \, 10]$.}
+    \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalue range $\lambda_k \in [1, \, 10]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_fix/fix_ce_1_50.eps}
-    \caption{Asymptotic approximation of $\lambda_k$ for Coffey-Evans equation. Eigenvalue range $\lambda_k \in [1, \, 50]$.}
+    \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalue range $\lambda_k \in [1, \, 50]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_fix/fix_ce_1_500.eps}
-    \caption{Asymptotic approximation of $\lambda_k$ for Coffey-Evans equation. Eigenvalue range $\lambda_k \in [1, \, 500]$.}
+    \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalue range $\lambda_k \in [1, \, 500]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_fix/fix_ce_490_500.eps}
-    \caption{Asymptotic approximation of $\lambda_k$ for Coffey-Evans equation. Eigenvalue range $\lambda_k \in [490, \, 500]$.}
+    \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalue range $\lambda_k \in [490, \, 500]$.}
     \label{}
 \end{figure}
 
@@ -2062,7 +2086,7 @@ The equation holds only for $k \rightarrow 0$. Thus, waves approximated by FD pr
 
     \bibitem{paine}
     {\sc Paine, J.\;W., de Hoog, F.\;R. and Anderssen, R.\;S.}
-    \emph{On the Correction of Finite Difference Eigenvalue Approximations for Sturm-Liouville Problems}.
+    \emph{On the Correction of Finite Difference Eigenvalue Approximations for Sturm--Liouville Problems}.
     Computing 26 (1981) 123--139.
 
     \bibitem{pryce}
