@@ -297,7 +297,7 @@ The aim of this chapter is, first, to introduce two regular Sturm-Liouville eige
 
 Then, we will describe methods that discretize these continuous problems and allow us to solve them approximately (numerically). Mainly, we will focus on how to discretize the operator of the second derivative, which means we will assemble the differentiation matrix, substitute it for the continuous derivative, and then compute the eigenvalues of the discretized problem.
 
-The methods that will be introduced are: Finite Differences, Numerov, Discrete Fourier Transform, Chebyshev Differentiation Matrix, Mapped Barycentric Chebyshev Differentiation Matrix, Legendre-Galerkin-Chebyshev Collocation, and Discrete Sine Transform. 
+The methods that will be introduced are: Finite Differences, Numerov's, Discrete Fourier Transform, Chebyshev Differentiation Matrix, Mapped Barycentric Chebyshev Differentiation Matrix, Legendre-Galerkin-Chebyshev Collocation, and Discrete Sine Transform. 
 
 Our goal is to compare all of these methods and figure out which one is best. For our purposes, we need some reference values. These will be calculated using the Matslise application.
 
@@ -338,8 +338,8 @@ In the second case, the parameters are
 If we substitute them into \ref{eq_general_test_problem}, we get the resulting Coffey-Evans equation
 \begin{equation}\label{eq_CE}
     \begin{split}
-    -u''(x) + \left[\beta^2 \sin^2{(2 x)} -2 \beta \cos{(2 x)} \right] u(x) & = \lambda  u(x) \, , \\
-     u(-\pi/2) = u(\pi/2) = 0 \, , \quad x \in [-\pi/2 , & \, \pi/2] \, . \\
+    -u''(x) + \big(\beta^2 \sin^2{(2 x)} -2 \beta \cos{(2 x)} \big) u(x) & = \lambda  u(x) \, , \\
+     u(-\pi/2) = u(\pi/2) = 0 \, , \quad x \in [-\pi/2 , \, & \pi/2] \, . \\
     \end{split}
 \end{equation}
 In the whole text, we will use the value of parameter $\beta = 30$.
@@ -349,64 +349,61 @@ In the whole text, we will use the value of parameter $\beta = 30$.
 \noindent
 As we have mentioned before, to obtain highly accurate reference eigenvalues of our test problems, a MATLAB application named Matslise has been implemented. In this thesis, it serves as the reference solver for computing benchmark eigenvalues and for validating results obtained by other numerical methods.
 
-It is not a discretization technique. Matslise is based on shooting and piecewise perturbation methods.  It is shooting method. - možná více do podrobna.
+Matslise is a MATLAB package for the numerical solution of regular and singular Sturm–Liouville eigenvalue problems. It belongs to the class of shooting methods: it transforms the two-point boundary value problem into an initial-value problem by guessing a trial eigenvalue $\lambda$, integrating the differential equation from one boundary to the other, and iteratively adjusting $\lambda$ until the second boundary condition is satisfied. The key innovation of Matslise is that the integration step is performed using piecewise constant perturbation methods. On each small subinterval, the potential $q(x)$ is approximated by a constant value (for which the exact analytic solution is known), and higher-order perturbation correction terms are systematically added. \cite{ledoux}
 
-\cite{matslise}
+This approach yields very high accuracy even for large (high-index) eigenvalues (in which we are particularly interested) with relatively few grid points. It all makes Matslise particularly efficient and robust for our test problems. \cite{matslise}
 
 
 
 \section{Discretization methods}
 \noindent
-In this section, discretization methods that will be used for computations of the eigenvalues of the abovementioned test problems will be described.
+In this section, we will introduce the discretization methods that will be used for the computation of the eigenvalues of our test problems and later on for spatial discretization in the classical wave equation and the evolution equation for metamaterials.
 
-Our aim is to discretize the operator of the second derivative by using an approximation matrix
+Our aim is to discretize the continuous operator of the second derivative by using an approximation matrix
 \begin{equation}
-    \frac{\partial^2}{\partial \, x^2} \approx D \, .
+    D \approx \dfrac{\partial^2}{\partial  x^2} \, .
 \end{equation}
-And in all cases, use MATLAB's \texttt{eig} function for the computation of eigenvalues.
+These matrices will be assembled using the methods below, and then we will use MATLAB's \texttt{eig} function for the computation of eigenvalues. These eigenvalues will then be compared across the methods, especially the high-index ones.
 
-In both cases, our goal will be to rewrite the main equation \ref{eq_general_test_problem} to the form
+Our goal is to rewrite the main equation \ref{eq_general_test_problem} to the form
 \begin{equation}
-    \left( -D + A  \right) \, u(x) = \lambda \, u(x) \, ,
+    \big( -D + E  \big) u(x) = \lambda u(x) \, ,
 \end{equation}
-where for the Paine equation, we will take 
+for the Paine equation, where
 \begin{equation}
-    A = E = \texttt{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_N}) \, ,
+    E = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N}\big) \,.
 \end{equation}
-so we get
-\begin{equation}
-    \left( -D + E  \right) \, u(x) = \lambda \, u(x) \, .
-\end{equation}
-And in the case of Coffey-Evans equation, the situation will be analogous 
+And in the case of Coffey-Evans equation with the potential
 \begin{equation}
     \begin{split}
-    A = Q = \texttt{diag}(-2 \, \beta \, \cos{(2 \, x_1)} + \beta^2 \, \sin^2{(2 \, x_1)} \, , \dots, \\ -2 \, \beta \, \cos{(2 \, x_N)} + \beta^2 \, \sin^2{(2 \, x_N)} ) \, ,
+    Q = \texttt{diag}\big(-2 \beta \cos{(2 x_1)} + \beta^2 \sin^2{(2 x_1)} \, , \dots, \\ 
+    -2 \beta \cos{(2 x_N)} + \beta^2 \sin^2{(2 x_N)} \big) \, ,
     \end{split}
 \end{equation}
-so we get
+to the form
 \begin{equation}
-    \left( -D + Q  \right) \, u(x) = \lambda \, u(x) \, .
+    \big( -D + Q  \big) u(x) = \lambda u(x) \, .
 \end{equation} 
 
+The differentiation matrices $D$ will be assembled using the following methods.
 
 \subsection{Finite Difference method}
 \noindent
-The first numerical method on our list is the Finite Difference method (FD). The case of this method, which we will be using, approximates the second derivative on a discrete grid using the second-order central finite difference formula
+The first numerical method on our list is the Finite Difference method (FD). We will be using the second-order central Finite Difference formula, which approximates the second derivative on a discrete grid for $h$ small enough with equation
 \begin{equation}
-    u''(x_i) \approx \frac{u(x_i - h) - 2 \, u(x_i) + u(x_i + h) }{h^2} \; .
+    u''(x_i) \approx \frac{u(x_i - h) - 2 u(x_i) + u(x_i + h) }{h^2} = \big(D \mathbf{u} \big)_i \, , \quad i = 1, \dots, N \, ,
 \end{equation}
-It's matrix form is
+where $\mathbf{u} = [u(x_1), u(x_2),\dots, u(x_N)]^T$ and $u(x_i+h) = u(x_{i+1})$. Matrix $D$ is
 \begin{equation}
 D = \frac{1}{h^2} \begin{bmatrix}
-    2 & -1 & 0 & 0 & \cdots & 0 \\
-    -1 & 2 & -1 & 0 & \cdots & 0 \\
-    0 & -1 & 2 & -1 & \cdots & 0 \\ 
-    0 & 0 & -1 & 2 & \cdots & \vdots \\
-    \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
-    0 & 0 & 0 & 0 & \cdots & 2 \\ 
-\end{bmatrix}
+    - 2 & 1 & 0  & \cdots & 0 \\
+    1 & - 2 & 1 & \cdots & 0 \\
+    0 & 1 & - 2  & \cdots & 0 \\ 
+    \vdots  & \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & 0 & \cdots & -2 \\ 
+\end{bmatrix} \, .
 \end{equation}
-and the implementation of the Finite Difference method is in algorithms \ref{alg_1} and \ref{alg_2}.
+The implementation of this method is in algorithm \ref{alg_1} for the Paine equation and in algorithm \ref{alg_2} for the Coffey-Evans equation.
 
 \begin{algorithm}[H]
 \caption{Finite Difference method - Paine equation}
@@ -414,16 +411,16 @@ and the implementation of the Finite Difference method is in algorithms \ref{alg
 \begin{algorithmic}[1]
 \State \textbf{input} $N$
 \State $h = \pi / (N + 1)$
-\State $x_i = i \cdot h$ \quad for $i = 1$ to $N$
+\State $x_i = i h$ \quad for $i = 1, \dots,N$
 \BlankLine
-\State Create tridiagonal matrix $D$ of size $N \times N$:
-\State \quad $D_{i,i} = 2 / h^2$ \quad \quad for $i=1$ to $N$
-\State \quad $D_{i,i+1} = D_{i+1,i} = -1 / h^2$ \quad for $i = 1$ to $N-1$
+\State Assemble tridiagonal matrix $D$ of size $N \times N$:
+\State \quad $D_{i,i} = 2 / h^2$ \quad for $i=1, \dots,N$
+\State \quad $D_{i,i+1} = D_{i+1,i} = -1 / h^2$ \quad for $i = 1, \dots,N-1$
 \BlankLine
 \State $E = \texttt{diag}(e^{x_1}, e^{x_2}, \dots, e^{x_N})$
 \State $A = -D + E$
 \BlankLine
-\State \texttt{eig}(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$ 
+\State \texttt{eig}($A$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$ 
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
@@ -434,50 +431,44 @@ and the implementation of the Finite Difference method is in algorithms \ref{alg
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
 \State $h = \pi/(N+1)$
-\State $x_i = -\pi/2 + i \cdot h$ \quad for $i = 1$ to $N$
+\State $x_i = -\pi/2 + i h$ \quad for $i = 1, \dots,N$
 \BlankLine
-\State Create tridiagonal matrix $D$ of size $N \times N$:
-\State \quad $D_{i,i}   = 2/h^2$  \quad \quad for $i=1$ to $N$
-\State \quad $D_{i,i+1} = D_{i+1,i} = -1/h^2$  \quad for $i=1$ to $N-1$
+\State Assemble tridiagonal matrix $D$ of size $N \times N$:
+\State \quad $D_{i,i}   = 2/h^2$ \quad for $i=1, \dots,N$
+\State \quad $D_{i,i+1} = D_{i+1,i} = -1/h^2$  \quad for $i=1, \dots,N-1$
 \BlankLine
-\State $q_i = \beta^2 \, \sin^2(2 \, x_i) - 2 \, \beta \, \cos(2 \, x_i)$ \quad for $i=1$ to $N$
+\State $q_i = \beta^2 \sin^2(2 x_i) - 2 \beta \cos(2 x_i)$ \quad for $i=1, \dots,N$
 \State $Q = \texttt{diag}(q_1, q_2, \dots, q_N)$
 \State $A = -D + Q$
 \BlankLine
-\State \texttt{eig}(A) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}($A$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Numerov method}
+\subsection{Numerov's method}
 \noindent
-Numerov's method \cite{numerov} uses higher-order Finite Differences and approximates the eigenvalues of the equation \ref{eq_general_test_problem} with an equation in the form
+Numerov's method uses higher-order Finite Differences and approximates \ref{eq_general_test_problem} with equation
 \begin{equation}
     \begin{split}
-    b \, u(x_{i-1}) + a \, u(x_i ) + c \, u(x_{i+1}) = h^2 \, \lambda \, \left[u(x_{i-1}) + 10 \, u(x_i) + u(x_{i+1}) \right] \, ,
+    b_{i-1} u(x_{i-1}) + a_{i} u(x_i ) + b_{i+1} u(x_{i+1}) = \lambda h^2 \big(u(x_{i-1}) + 10 u(x_i) + u(x_{i+1}) \big) \, ,
     \end{split}
 \end{equation}
-with coefficients
+that holds for all $i = 1, \dots,N$, where $u(x_i+h) = u(x_{i+1})$ and the coefficients $a_i$ and $b_i$ are
 \begin{equation}
     \begin{split}
-        a & = + 24 + 10 \, h^2 \, q(x_i) \, ,   \\
-        b & = -12 + h^2 \, q(x_{i-1}) \, ,  \\
-    c & = -12 + h^2 \, q(x_{i+1}) \, .
+        a_i & = + 24 + 10 h^2 q(x_i) \, ,   \\
+        b_i & = -12 + h^2 q(x_{i}) \, .  \\
     \end{split}
 \end{equation}
-This approximation can be rewritten in matrix form
-\begin{equation}
-    A \, u(x) = \lambda \, B \, u(x)
-\end{equation}
-where matrices A and B are
+If we denote the tridiagonal matrices $A$ and $B$ by
 \begin{equation}
 A = \begin{bmatrix}
-    a & c & 0 & 0 & \cdots & 0 \\
-    b & a & c & 0 & \cdots & 0 \\
-    0 & b & a & c & \cdots & 0 \\
-    0 & 0 & b & a & \cdots & \vdots \\
-    \vdots & \vdots & \vdots & \vdots & \ddots & \vdots \\
-    0 & 0 & 0 & 0 & \cdots & a  \\
+    a_1 & b_1 & 0  & \cdots & 0 \\
+    b_1 & a_2 & b_2  & \cdots & 0 \\
+    0 & b_2 & a_3  & \cdots & 0 \\
+    \vdots & \vdots  & \vdots & \ddots & \vdots \\
+    0 & 0 & 0 & \cdots & a_N  \\
 \end{bmatrix} ,
 \label{}
 \end{equation}
@@ -491,36 +482,37 @@ B = h^2\begin{bmatrix}
 \end{bmatrix} .
 \label{}
 \end{equation}
-
-
+The whole approximation can be rewritten in matrix form
+\begin{equation}
+    A \mathbf{u} = \lambda B \mathbf{u} \, ,
+\end{equation}
+where $\mathbf{u} = [u(x_1), u(x_2),\dots, u(x_N)]^T$. The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for the Paine equation and in algorithm \ref{alg_Numerov_CE} for the Coffey-Evans equation. Algorithms contain the basic Numerov's method and the Numerov's method with correction. \cite{numerov}
 
 
 \begin{algorithm}[H]
-\caption{Numerov method - Paine equation}
-\label{alg_3}
+\caption{Numerov's method - Paine equation}
+\label{alg_Numerov_Paine}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$
 \State $h = \pi / (N + 1)$
-\State $x_i = i \cdot h$ \quad for $i = 1$ to $N$
-\State $q_i = \exp(x_i)$ \quad for $i = 1$ to $N$
+\State $x_i = i h$ \quad for $i = 1, \dots, N$
+\State $q_i = \exp(x_i)$ \quad for $i = 1, \dots, N$
 \BlankLine
-\State Create tridiagonal matrix $A$ of size $N \times N$:
-\State \quad $A_{i,i} = 24 + 10 h^2 q_i$ \quad \quad for $i=1$ to $N$
-\State \quad $A_{i,i+1} = - 12 + h^2 q_i$ \quad for $i=1$ to $N-1$
-\State \quad $A_{i+1,i} = - 12 + h^2 q_i$ \quad for $i=1$ to $N-1$
+\State Assemble tridiagonal matrix $A$ of size $N \times N$:
+\State \quad $A_{i,i} = 24 + 10 h^2 q_i$ \quad for $i=1, \dots,N$
+\State \quad $A_{i,i+1} = A_{i+1,i} = - 12 + h^2 q_i$ \quad for $i=1, \dots,N-1$
 \BlankLine
-\State Create tridiagonal matrix $B$ of size $N \times N$:
-\State \quad $B_{i,i} = 10 h^2$ \quad for $i=1$ to $N$
-\State \quad $B_{i,i+1} = h^2$ \quad for $i=1$ to $N-1$
-\State \quad $B_{i+1,i} = h^2$ \quad for $i=1$ to $N-1$
+\State Assemble tridiagonal matrix $B$ of size $N \times N$:
+\State \quad $B_{i,i} = 10 h^2$ \quad for $i=1, \dots,N$
+\State \quad $B_{i,i+1} = B_{i+1,i} = h^2$ \quad for $i=1, \dots,N-1$
 \BlankLine
-\State \texttt{eig}(A, B) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}($A$,$B$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \BlankLine
 \State Asymptotic correction:
-\State \quad for $k = 1$ to $N$:
+\State \quad for $k = 1, \dots,N$:
 \State \quad \quad $s_k^2 = \sin^2(k h / 2)$
-\State \quad \quad $\varepsilon_k^2 = k^2 - 12  s_k^2  /  (h^2  (3 - s_k^2))$
+\State \quad \quad $\varepsilon_k^2 = k^2 - 12  s_k^2  /  \left(h^2  (3 - s_k^2) \right)$
 \State \quad \quad $\lambda_k^{\text{corrected}} = \lambda_k + \varepsilon_k^2$
 \State \textbf{output} $\lambda_1^{\text{corrected}} \leq \lambda_2^{\text{corrected}} \leq \dots \leq \lambda_N^{\text{corrected}}$
 \end{algorithmic}
@@ -529,31 +521,29 @@ B = h^2\begin{bmatrix}
 
 
 \begin{algorithm}[H]
-\caption{Numerov method - Coffey-Evans equation}
-\label{alg_4}
+\caption{Numerov's method - Coffey-Evans equation}
+\label{alg_Numerov_CE}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
 \State $h = \pi/(N + 1)$
-\State $x_i = -\pi/2 + i \cdot h$ \quad for $i = 1$ to $N$
-\State $q_i = \beta^2 \, \sin^2(2 \, x_i) - 2 \, \beta \, \cos(2 \, x_i)$ \quad for $i = 1$ to $N$
+\State $x_i = -\pi/2 + i h$ \quad for $i = 1, \dots,N$
+\State $q_i = \beta^2 \sin^2(2 x_i) - 2 \beta \cos(2 x_i)$ \quad for $i = 1, \dots, N$
 \BlankLine
-\State Create tridiagonal matrix $A$ of size $N \times N$:
-\State \quad $A_{i,i} = 24 + 10 h^2 q_i$ \quad \quad for $i = 1$ to $N$
-\State \quad $A_{i,i+1} = - 12 + h^2 q_i$ \quad for $i = 1$ to $N-1$
-\State \quad $A_{i+1,i} = - 12 + h^2 q_i$ \quad for $i = 1$ to $N-1$
+\State Assemble tridiagonal matrix $A$ of size $N \times N$:
+\State \quad $A_{i,i} = 24 + 10 h^2 q_i$ \quad for $i = 1, \dots,N$
+\State \quad $A_{i,i+1} = A_{i+1,i} = - 12 + h^2 q_i$ \quad for $i = 1, \dots,N-1$
 \BlankLine
-\State Create tridiagonal matrix $B$ of size $N \times N$:
-\State \quad $B_{i,i} = 10 h^2$ \quad for $i = 1$ to $N$
-\State \quad $B_{i,i+1} = h^2$ \quad for $i = 1$ to $N-1$
-\State \quad $B_{i+1,i} = h^2$ \quad for $i = 1$ to $N-1$
+\State Assemble tridiagonal matrix $B$ of size $N \times N$:
+\State \quad $B_{i,i} = 10 h^2$ \quad for $i = 1, \dots,N$
+\State \quad $B_{i,i+1} = B_{i+1,i} = h^2$ \quad for $i = 1, \dots,N-1$
 \BlankLine
-\State \texttt{eig}(A, B) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}($A$,$B$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \BlankLine
 \State Asymptotic correction:
-\State \quad for $k = 1$ to $N$:
+\State \quad for $k = 1, \dots,N$:
 \State \quad \quad $s_k^2 = \sin^2(k h / 2)$
-\State \quad \quad $\varepsilon_k^2 = k^2 - 12 s_k^2 / (h^2 (3 - s_k^2))$
+\State \quad \quad $\varepsilon_k^2 = k^2 - 12 s_k^2 / \left(h^2 (3 - s_k^2) \right)$
 \State \quad \quad $\lambda_k^{\text{corrected}} = \lambda_k + \varepsilon_k^2$
 \State \textbf{output} $\lambda_1^{\text{corrected}} \leq \lambda_2^{\text{corrected}} \leq \dots \leq \lambda_N^{\text{corrected}}$
 \end{algorithmic}
@@ -2079,6 +2069,11 @@ The equation holds only for $k \rightarrow 0$. Thus, waves approximated by FD pr
     {\sc Pryce, J.\;D.}
     \emph{A test package for Sturm--Liouville solvers}.
     ACM Transactions on Mathematical Software 25 (1999) 21--57.
+
+    \bibitem{ledoux}
+    {\sc Ledoux, V., Van Daele, M. and Vanden Berghe, G.}
+    \emph{Efficient computation of high index Sturm--Liouville eigenvalues for problems in physics}.
+    Comput. Phys. Commun. 180 (2009) 241--250.
 
     \bibitem{matslise}
     {\sc Ledoux, V.}
