@@ -293,59 +293,65 @@ In the context of metamaterials, as demonstrated in \cite{cit1}, rate-type relat
 
 \chapter{Eigenvalue computations}
 \noindent
-The aim of this chapter is, first, to introduce two regular Sturm-Liouville test problems: namely, the Paine and the Coffey-Evans equations. Then, we will describe methods that discretize these problems and allow us to solve them approximately. Mainly, we will focus on how to discretize the operator of the second derivative.
+The aim of this chapter is, first, to introduce two regular Sturm-Liouville eigenvalue test problems: namely, the Paine equation, first introduced in \cite{paine} and the Coffey-Evans equation, first presented in \cite{pryce}.
 
-The methods that will be described and used are: Finite Differences, Chebyshev Differentiation, Mapped Barycentric Chebyshev Differentiation, Discrete Sine Transform, Numerov, and the Legendre-Galerkin-Chebyshev Collocation. 
+Then, we will describe methods that discretize these continuous problems and allow us to solve them approximately (numerically). Mainly, we will focus on how to discretize the operator of the second derivative, which means we will assemble the differentiation matrix, substitute it for the continuous derivative, and then compute the eigenvalues of the discretized problem.
 
-Our goal is to compare all of these methods. We will do this by applying the discretizations and computing eigenvalues. For our comparison, we need some reference values. These will be computed using the Matslise program.
+The methods that will be introduced are: Finite Differences, Numerov, Discrete Fourier Transform, Chebyshev Differentiation Matrix, Mapped Barycentric Chebyshev Differentiation Matrix, Legendre-Galerkin-Chebyshev Collocation, and Discrete Sine Transform. 
 
-So, we will judge how close each discretization was to the reference values computed by Matslise.
+Our goal is to compare all of these methods and figure out which one is best. For our purposes, we need some reference values. These will be calculated using the Matslise application.
 
 \section{Test problems}
 \noindent
-In this section, we will introduce two test problems on which we will apply the discretizations. The general form of these problems is
+In this section, we will introduce two regular Sturm-Liouville test problems on which we will apply the discretization techniques. The general form of these problems is
 \begin{equation}\label{eq_general_test_problem}
-    -u''(x) + q(x) \, u(x) = \lambda \, u(x) \, , \quad x \in (a, \, b) \, , \quad u(a) = u(b) = 0 \, .
+    -u''(x) + q(x) u(x) = \lambda u(x) \, , \quad x \in [a, \, b] \, , \quad u(a) = u(b) = 0 \, .
 \end{equation}
-
-
+Now, let's look in more detail at two specific cases of this problem.
 
 \subsection{Paine equation}
 \noindent
-The first of the two is the Paine equation
+The first one has parameters
 \begin{equation}
     \begin{split}
-        q(x) & = e^x \, , \\[4pt]
+        q(x) & = e^x \, , \\[2pt]
         a & = 0 \, , \\[2pt]
         b & = \pi \ . \\[2pt]
     \end{split}
 \end{equation}
-So, by substituting these values to \ref{eq_general_test_problem} the resulting equation has the form
+If we substitute them into the relation \ref{eq_general_test_problem}, the resulting Paine equation is
 \begin{equation}\label{eq_SL}
-    -u''(x) + e^x \, u(x) = \lambda \, u(x) \, , \quad x \in (0, \, \pi) \, , \quad u(0) = u(\pi) = 0 \, .
+    -u''(x) + e^x u(x) = \lambda u(x) \, , \quad x \in [0, \, \pi] \, , \quad u(0) = u(\pi) = 0 \, .
 \end{equation}
-
 
 
 \subsection{Coffey-Evans equation}
 \noindent 
-The second one is the Coffey-Evans equation with
+In the second case, the parameters are
 \begin{equation}\label{eq_CE_coeffs}
     \begin{split}
-        q(x) & = \beta^2 \, \sin^2{(2 \, x)} -2 \, \beta \, \cos{(2 \, x)} \, , \\[4pt]
+        q(x) & = \beta^2 \sin^2{(2 x)} -2 \beta \cos{(2 x)} \, , \\[2pt]
         a & = -\pi/2 \, , \\[2pt]
         b & = \pi/2 \, . \\[2pt]
     \end{split}
 \end{equation}
-If we substitute \ref{eq_CE_coeffs} in \ref{eq_general_test_problem} we get
+If we substitute them into \ref{eq_general_test_problem}, we get the resulting Coffey-Evans equation
 \begin{equation}\label{eq_CE}
     \begin{split}
-    -u''(x) + \left[\beta^2 \, \sin^2{(2 \, x)} -2 \, \beta \, \cos{(2 \, x)} \right] \, u(x) & = \lambda \, u(x) \, , \\
-     u(-\pi/2) = u(\pi/2) & = 0 \, , \\
-    -\pi/2 < x & < \pi/2  \, .\\
+    -u''(x) + \left[\beta^2 \sin^2{(2 x)} -2 \beta \cos{(2 x)} \right] u(x) & = \lambda  u(x) \, , \\
+     u(-\pi/2) = u(\pi/2) = 0 \, , \quad x \in [-\pi/2 , & \, \pi/2] \, . \\
     \end{split}
 \end{equation}
-In the whole text, we will use the value of $\beta = 30$.
+In the whole text, we will use the value of parameter $\beta = 30$.
+
+
+\section{Matslise application}
+\noindent
+As we have mentioned before, to obtain highly accurate reference eigenvalues of our test problems, a MATLAB application named Matslise has been implemented. In this thesis, it serves as the reference solver for computing benchmark eigenvalues and for validating results obtained by other numerical methods.
+
+It is not a discretization technique. Matslise is based on shooting and piecewise perturbation methods.  It is shooting method. - možná více do podrobna.
+
+\cite{matslise}
 
 
 
@@ -381,13 +387,6 @@ so we get
 \begin{equation}
     \left( -D + Q  \right) \, u(x) = \lambda \, u(x) \, .
 \end{equation} 
-
-
-
-\subsection{Matslise application}
-\noindent
-To obtain highly accurate reference eigenvalues of our test problems, a MATLAB program named Matslise has been implemented. Matslise is based on shooting and piecewise perturbation methods. In this thesis, it serves as the primary reference solver for computing benchmark eigenvalues and for validating results obtained by other numerical methods \cite{matslise}.
-
 
 
 \subsection{Finite Difference method}
@@ -1089,12 +1088,10 @@ For the Coffey-Evans equation, the results are similar to those in the previous 
 \noindent
 Next, we want to test the asymptotic equation from the paper \cite{fix} for both the Paine and Coffey-Evans equations and compare them to our eigenvalues from above.
 
-The general form of the asymptotic equation can be found in the abovementioned paper, 
-
 \begin{theorem}[Asymptotic expansion for Dirichlet boundary conditions]
-Let $\lambda_k$ be the \textit{k}th eigenvalue of
+Let $\lambda_k$ be the k-th eigenvalue of
 \begin{equation}
-    u'' + [\lambda - p(x)]u = 0 \, , \quad o \leq x \leq \pi
+    u'' + [\lambda - p(x)]u = 0 \, , \quad 0 \leq x \leq \pi \, ,
 \end{equation}
 and
 \begin{equation}
@@ -1102,24 +1099,23 @@ and
 \end{equation}
 Then 
 \begin{equation}
-    \lambda_k^{1/2} = k + (2\pi k)^{-1}P_1(\pi) + (4 \pi k^3)^{-1}\left[ \left(\frac{1}{2}\right)P_2(\pi) - \left( \frac{1}{\pi} \right) P_1(\pi)^2 + ()  \right]
+    \begin{split}
+    \lambda_k^{1/2} = k & + (2\pi k)^{-1}P_1(\pi) \\[2pt]
+    & + (4 \pi k^3)^{-1}\left[ \left(\frac{1}{2}\right)P_2(\pi) - \left( \frac{1}{\pi} \right) P_1(\pi)^2 + \left(\frac{1}{2}\right)p'(\pi) - \left( \frac{1}{2} \right) p'(0)  \right] \\[2pt]
+    & + O(k^{-4}) \, ,
+    \end{split}
+\end{equation}
+where 
+\begin{equation}
+    P_\ell(\pi) = \int_0^\pi p(t)^\ell\,\mathrm{d}t \, .
 \end{equation}
 \end{theorem}
 
-
-
-
-
-
-
-
-
-
-but the special case for the Paine equation has the following form
+Now we use this theorem for our two test equations. The Paine equation asymptotic has the form
 \begin{equation}
     \lambda_k^{1/2} = k + \frac{e^{\pi} - 1}{2 \, \pi \, k} + \frac{1}{4 \, \pi \, k^3} \left( \frac{e^{2 \, \pi} -1}{4} - \frac{(e^{\pi}-1)^2}{\pi} + \frac{e^{\pi}}{2} - \frac{1}{2} \right) + O(k^{-4}) \, ,
 \end{equation}
-and for the Coffey-Evans equation, it is
+and asymptotic for the Coffey-Evans equation is
 \begin{equation}
     \lambda_k^{1/2} = k + \frac{225}{k} + \frac{38 192,75}{k^3} - \frac{50625}{k^3} + O(k^{-4})
 \end{equation}
@@ -1128,28 +1124,28 @@ We can see graphs for both of them in the figures below. We looked closer at int
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/fix_slp_1_10.eps}
+    \includegraphics[width=0.9\linewidth]{figures_fix/fix_slp_1_10.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalue range $\lambda_k \in [1, \, 10]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/fix_slp_1_50.eps}
+    \includegraphics[width=0.9\linewidth]{figures_fix/fix_slp_1_50.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalue range $\lambda_k \in [1, \, 50]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/fix_slp_1_500.eps}
+    \includegraphics[width=0.9\linewidth]{figures_fix/fix_slp_1_500.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalue range $\lambda_k \in [1, \, 500]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/fix_slp_490_500.eps}
+    \includegraphics[width=0.9\linewidth]{figures_fix/fix_slp_490_500.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalue range $\lambda_k \in [490, \, 500]$.}
     \label{}
 \end{figure}
@@ -1159,28 +1155,28 @@ We can see graphs for both of them in the figures below. We looked closer at int
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/fix_ce_1_10.eps}
+    \includegraphics[width=0.9\linewidth]{figures_fix/fix_ce_1_10.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Coffey-Evans equation. Eigenvalue range $\lambda_k \in [1, \, 10]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/fix_ce_1_50.eps}
+    \includegraphics[width=0.9\linewidth]{figures_fix/fix_ce_1_50.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Coffey-Evans equation. Eigenvalue range $\lambda_k \in [1, \, 50]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/fix_ce_1_500.eps}
+    \includegraphics[width=0.9\linewidth]{figures_fix/fix_ce_1_500.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Coffey-Evans equation. Eigenvalue range $\lambda_k \in [1, \, 500]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/fix_ce_490_500.eps}
+    \includegraphics[width=0.9\linewidth]{figures_fix/fix_ce_490_500.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Coffey-Evans equation. Eigenvalue range $\lambda_k \in [490, \, 500]$.}
     \label{}
 \end{figure}
@@ -1198,7 +1194,7 @@ From our numerical experiments with the eigenvalue equations, we have observed t
 
 
 
-\chapter{Wave propagation}
+\chapter{Semi-discrete simulations of Wave propagation}
 \noindent
 The focus of this chapter will be on the time evolution of the wave equation
 \begin{equation}\label{eq_wave}
@@ -1224,6 +1220,8 @@ And time evolution of three cases of wave \ref{eq_wave_general}
     \item two waves (opposite direction) $\to \sin{(kx - \omega_k t)} + \sin{(lx + \omega_l t )}$.
 \end{itemize}
 
+
+In our simulations we would compare in dimensionless time units. We do semi-discrete simulations because of exact time evolution and space approximations.
 
 
 \section{Exact time evolution}
@@ -1312,33 +1310,41 @@ In this section, we will compare Finite Differences, the Numerov approximation, 
 \subsection{One wave}
 \noindent
 First, let's look at the special case of \ref{eq_wave_general}, specifically a wave in its initial function form
+
 \begin{equation}\label{eq_periodic_one}
-    u(x,0) = \sin{(6 x)} \, 
+    \begin{cases}
+        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
+        u(x,0) = \sin{(6 x)} \, , \\[5pt]
+        u_t(x,0) =  - 6 \cos{(6x)} \, \\[5pt]
+        u(0,t) = u(\pi,t) \, , \\[5pt]
+        L = \pi \, , \quad N = 64 \, .
+    \end{cases}
 \end{equation}
+
 and how it behaves under the influence of the wave equation \ref{eq_wave}. The graph of the wave \ref{eq_periodic_one} is shown in Figure \ref{fig_periodic_one_initial}. The number of points in an interval is $N = 64$, and the length of the interval is $L = \pi$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_2.png}
-    \caption{Initial exact wave at $t = 0 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_periodic_initial.eps}
+    \caption{Initial exact wave at $t = 0$. }
     \label{fig_periodic_one_initial}
 \end{figure}
 
-In Figure \ref{fig_periodic_one_FD} is shown frame $t = 47 \; s$, where we can see the approximation of wave evolution using Finite Differences (blue wave). In our numerical experiments, we have observed that the finite difference approximation is systematically slower in wave propagation compared to the exact wave (black dashed wave).
+In Figure \ref{fig_periodic_one_FD} is shown frame $t = 47$, where we can see the approximation of wave evolution using Finite Differences (blue wave). In our numerical experiments, we have observed that the finite difference approximation is systematically slower in wave propagation compared to the exact wave (black dashed wave).
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_one_periodic_FD.png}
-    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 47 \; s$.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_periodic_FD.eps}
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 47$.}
     \label{fig_periodic_one_FD}
 \end{figure}
 
-The next experiment was conducted using the Numerov approximation, and one frame of the time evolution is shown in Figure \ref{fig_periodic_one_Numerov}.  The Numerov method (red wave) was better than finite differences, and we can see separation from the exact solution after roughly $t = 9 \, 880 \; s$. We expected that Numerov would be better than finite differences because it is a higher order method.
+The next experiment was conducted using the Numerov approximation, and one frame of the time evolution is shown in Figure \ref{fig_periodic_one_Numerov}.  The Numerov method (red wave) was better than finite differences, and we can see separation from the exact solution after roughly $t = 9 \, 880$. We expected that Numerov would be better than finite differences because it is a higher order method.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_one_periodic_Numerov.png}
-    \caption{Comparison of Numerov approximation (red wave) and exact solution (black dashed wave) at time frame $t = 9 \, 880 \; s$.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_periodic_Numerov.eps}
+    \caption{Comparison of Numerov approximation (red wave) and exact solution (black dashed wave) at time frame $t = 9 \, 880 $.}
     \label{fig_periodic_one_Numerov}
 \end{figure}
 
@@ -1346,8 +1352,8 @@ Next, we ran a simulation with the Discrete Fourier Transform (magenta wave) and
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_20.png}
-    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t \approx 1 $ year. They never separated.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_periodic_DFT.eps}
+    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 1 \, 000 \, 000 $. They never separated.}
     \label{fig_periodic_one_dft}
 \end{figure}
 
@@ -1358,33 +1364,40 @@ The conclusion of our experiments is that the worst approximation method is Fini
 \subsection{Two waves - same direction}
 \noindent
 Next, we will test how the wave in its initial function form
-\begin{equation}
-    u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, ,
+\begin{equation}\label{}
+    \begin{cases}
+        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
+       u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \\[5pt]
+        u_t(x,0) = - 5 \cos{(5x)} - 6 \cos{(6x)} \, \\[5pt]
+        u(0,t) = u(\pi,t) \, , \\[5pt]
+        L = 2\pi \, , \quad N = 128 \, .
+    \end{cases}
 \end{equation}
+
 behaves under the influence of equation \ref{eq_wave}. The number of points in an interval $N = 128$ and the length of the interval $L = 2\pi$. The graph of initial wave is in Figure \ref{fig_two_periodic_same_initial}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_same_initial.png}
-    \caption{Initial exact wave at $t = 0 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_periodic_same_initial.eps}
+    \caption{Initial exact wave at $t = 0 $. }
     \label{fig_two_periodic_same_initial}
 \end{figure}
 
-In Figure \ref{fig_two_priodic_same_FD} is a comparison of Finite Differences with the exact solution at time $t = 44 \; s$. We can see that after this short time, the wave approximation has already separated from the exact solution.
+In Figure \ref{fig_two_priodic_same_FD} is a comparison of Finite Differences with the exact solution at time $t = 44 $. We can see that after this short time, the wave approximation has already separated from the exact solution.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_same_FD.png}
-    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 44 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_periodic_same_FD.eps}
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 44 $. }
     \label{fig_two_priodic_same_FD}
 \end{figure}
 
-Simulation Using Numerov is shown in Figure \ref{fig_two_periodic_same_Numerov} at the frame $t = 6 \, 421 \; s$. Again, the Numerov method is better than the finite difference approximation.
+Simulation Using Numerov is shown in Figure \ref{fig_two_periodic_same_Numerov} at the frame $t = 6 \, 421 $. Again, the Numerov method is better than the finite difference approximation.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_same_Numerov.png}
-    \caption{Comparison of Numerov approximation (red wave) and exact solution (black dashed wave) at time frame $t = 6 \, 421 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_periodic_same_Numerov.eps}
+    \caption{Comparison of Numerov approximation (red wave) and exact solution (black dashed wave) at time frame $t = 6 \, 421 $. }
     \label{fig_two_periodic_same_Numerov}
 \end{figure}
 
@@ -1392,8 +1405,8 @@ And lastly, the comparison of the Discrete Fourier Transform and the exact solut
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_periodic_same_DFT.png}
-    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 513 \, 211 \; s$.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_periodic_same_DFT.eps}
+    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 391 \, 304 $.}
     \label{fig_two_periodic_same_dft}
 \end{figure}
 
@@ -1402,33 +1415,39 @@ And lastly, the comparison of the Discrete Fourier Transform and the exact solut
 \subsection{Two waves - opposite direction}
 \noindent
 The last case for periodic boundary conditions is the evolution of a wave that in initial function form
-\begin{equation}
-    u(x,t) = \sin{(5 x)} + \sin{(6 x)} \, ,
+\begin{equation}\label{}
+    \begin{cases}
+        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
+        u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \\[5pt]
+        u_t(x,0) = - 5 \cos{(5x)} + 6 \cos{(6x)} \, \\[5pt]
+        u(0,t) = u(\pi,t) \, , \\[5pt]
+        L = 2\pi \, , \quad N = 128 \, .
+    \end{cases}
 \end{equation}
 which is the superposition of two waves that propagate in the opposite direction. Parameters are $N = 128$ and $L = 2\pi$. The initial wave can be seen in Figure \ref{fig_two_periodic_oppo_initial}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_periodic_opposite_initial.png}
-    \caption{Initial exact wave at $t = 0 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_periodic_oppo_initial.eps}
+    \caption{Initial exact wave at $t = 0$. }
     \label{fig_two_periodic_oppo_initial}
 \end{figure}
 
-The simulation for Finite Differences is shown in Figure \ref{fig_two_periodic_oppo_FD}. The wave package separated after roughly $t = 15 \; s$.
+The simulation for Finite Differences is shown in Figure \ref{fig_two_periodic_oppo_FD}. The wave package separated after roughly $t = 15$.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_FD.png}
-    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 15 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_periodic_oppo_FD.eps}
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 15$. }
     \label{fig_two_periodic_oppo_FD}
 \end{figure}
 
-Numerov simulation is in Figure \ref{fig_two_periodic_oppo_Numerov} the separation of waves is well visible at $t = 2 \,000 \; s$.
+Numerov simulation is in Figure \ref{fig_two_periodic_oppo_Numerov} the separation of waves is well visible at $t = 2 \,000 $.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_Numerov.png}
-    \caption{Comparison of Numerov approximation (red wave) and exact solution (black dashed wave) at time frame $t = 3\, 365 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_periodic_oppo_Numerov.eps}
+    \caption{Comparison of Numerov approximation (red wave) and exact solution (black dashed wave) at time frame $t = 3\, 371 $. }
     \label{fig_two_periodic_oppo_Numerov}
 \end{figure}
 
@@ -1436,8 +1455,8 @@ And again, as we would expect, the Discrete Fourier Transform holds best of the 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_periodic_opposite_DFT.png}
-    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 46 \, 656 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_periodic_oppo_DFT.eps}
+    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 46 \, 656 $. }
     \label{fig_two_periodic_oppo_dft}
 \end{figure}
 
@@ -1454,7 +1473,7 @@ In this section, we will focus on Dirichlet boundary conditions
 And we will test the precision of all the aforementioned methods:
 \begin{itemize}
     \item Finite Differences
-    \item Numerov method
+    \item Numerov
     \item Chebyshev Differentiation Matrix
     \item Mapped Barycentric Chebyshev Differentiation Matrix
     \item Legendre-Galerkin-Chebyshev Collocation
@@ -1466,67 +1485,79 @@ We will again test them with the time evolution of three different cases of \ref
 \subsection{One wave}
 \noindent
 First, we will focus on time evolution of wave in the initial function form
-\begin{equation}
-u(x,0) =
-\begin{cases}
-\sin(20 x)  & 0 \leq x \leq \dfrac{\pi}{2} \, , \\[10pt]
-0                      & \dfrac{\pi}{2} < x \leq \pi \, .
-\end{cases}
+\begin{equation}\label{}
+    \begin{cases}
+        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
+        u(x,0) =
+            \begin{cases}
+            \sin(20 x)  & 0 \leq x \leq \dfrac{\pi}{2} \, , \\[1pt]
+            0                      & \dfrac{\pi}{2} < x \leq \pi \, ,
+            \end{cases} \,  \\[5pt]
+        u_t(x,0) =
+            \begin{cases}
+            - 20 \cos(20 x)  & 0 \leq x \leq \dfrac{\pi}{2} \, , \\[1pt]
+            0                      & \dfrac{\pi}{2} < x \leq \pi \, ,
+            \end{cases} \, \\[5pt]
+        u(0,t) = u(\pi,t) = 0 \, , \\[5pt]
+        L = \pi \, , \quad N = 40 \, .
+    \end{cases}
 \end{equation}
+
+
 Simulations has parameters $L = \pi$ and $N = 40$. Graph of the initial form can be seen in Figure \ref{fig_one_dirichlet_initial}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_initial_2.png}
-    \caption{Exact solution at $t \approx 0 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_initial.eps}
+    \caption{Exact solution at $t \approx 0 $. }
     \label{fig_one_dirichlet_initial}
 \end{figure}
 
-The graph of the Finite Difference approximation at time $t = 4 \; s$ is shown in the Figure. \ref{fig_one_dirichlet_FD}. We can see that even after this short time, the approximation is very inaccurate.
+The graph of the Finite Difference approximation at time $t = 4 $ is shown in the Figure. \ref{fig_one_dirichlet_FD}. We can see that even after this short time, the approximation is very inaccurate.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_FD_2.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t = 4 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_FD.eps}
+    \caption{FD (blue) method separates from exact solution (black) after $t = 4 $. }
     \label{fig_one_dirichlet_FD}
 \end{figure}
 
-In Figure \ref{fig_one_dirichlet_Numerov} is the graph of the Numerov approximation at time $t = 29 \, s$.
+In Figure \ref{fig_one_dirichlet_Numerov} is the graph of the Numerov approximation at time $t = 29 $.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_Numerov_2.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t = 29 \; s$.   }
+    \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_Numerov.eps}
+    \caption{Numerov (red) method separates from exact solution (black) after $t = 29 $.   }
     \label{fig_one_dirichlet_Numerov}
 \end{figure}
 
-And the comparison of methods CDM, MBCDM, LGCC and DST at time frame $t = 18 \; 200 \; s$ is in Figures \ref{fig_one_dirichlet_CDM}, \ref{fig_one_dirichlet_MBCDM}, \ref{fig_one_dirichlet_LGCC} and \ref{fig_one_dirichlet_DST}.
+And the comparison of methods CDM, MBCDM, LGCC and DST at time frame $t = 18 \; 200 $ is in Figures \ref{fig_one_dirichlet_CDM}, \ref{fig_one_dirichlet_MBCDM}, \ref{fig_one_dirichlet_LGCC} and \ref{fig_one_dirichlet_DST}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_CDM_2.png}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 18 \; 200 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_CDM.eps}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 18 \; 200 $. }
     \label{fig_one_dirichlet_CDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_MBCDM_2.png}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 18 \; 200 \; s$.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_MBCDM.eps}
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 18 \; 200 $.}
     \label{fig_one_dirichlet_MBCDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_LGCC_2.png}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 18 \; 200 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_LGCC.eps}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 18 \; 200 $. }
     \label{fig_one_dirichlet_LGCC}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_one_dirichlet_DST_2.png}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 18 \; 200 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_DST.eps}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 18 \; 200 $. }
     \label{fig_one_dirichlet_DST}
 \end{figure}
 
@@ -1536,65 +1567,78 @@ The conclusion from our numerical experiments is that the Discrete Sine Transfor
 \subsection{Two waves - same direction}
 \noindent
 The initial function form is
-\begin{equation}
-u(x,0) =
-\begin{cases}
-\sin(16 x) + \sin(24 x)  & 0 \leq x \leq \dfrac{\pi}{2} \, , \\[10pt]
-0                      & \dfrac{\pi}{2} < x \leq \pi \, .
-\end{cases}
+
+\begin{equation}\label{}
+    \begin{cases}
+        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
+        u(x,0) =
+            \begin{cases}
+            \sin(16 x) + \sin{(24 x)}  & 0 \leq x \leq \dfrac{\pi}{2} \, , \\[1pt]
+            0                      & \dfrac{\pi}{2} < x \leq \pi \, ,
+            \end{cases} \,  \\[5pt]
+        u_t(x,0) =
+            \begin{cases}
+            - 16 \cos(16 x) - 24 \cos(24 x)  & 0 \leq x \leq \dfrac{\pi}{2} \, , \\[1pt]
+            0                      & \dfrac{\pi}{2} < x \leq \pi \, ,
+            \end{cases} \, \\[5pt]
+        u(0,t) = u(\pi,t) = 0 \, , \\[5pt]
+        L = \pi \, , \quad N = 50 \, .
+    \end{cases}
 \end{equation}
+
+
 Parameters are $N = 50$ and $L = \pi$. Graph can be seen in Figure \ref{fig_two_dirichlet_same_initial}.
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_initial.png}
-    \caption{Exact solution at $t = 0 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_initial.eps}
+    \caption{Exact solution at $t = 0 $. }
     \label{fig_two_dirichlet_same_initial}
 \end{figure}
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_FD.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t = 8 \; s$.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_FD.eps}
+    \caption{FD (blue) method separates from exact solution (black) after $t = 7$.}
     \label{}
 \end{figure}
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_Numerov.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t = 70 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_Numerov.eps}
+    \caption{Numerov (red) method separates from exact solution (black) after $t = 70 $. }
     \label{}
 \end{figure}
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_CDM.png}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 472 \; 000 \; s$.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_CDM.eps}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 472 \; 000 $.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_MBCDM.png}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t = 472 \; 000 \; s$.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_MBCDM.eps}
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t = 472 \; 000 $.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_LGCC.png}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t = 472 \; 000 \; s$.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_LGCC.eps}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t = 472 \; 000 $.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_same_dirichlet_DST.png}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t = 472 \; 000 \; s$.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_DST.eps}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t = 472 \; 000 $.}
     \label{}
 \end{figure}
 
@@ -1603,65 +1647,77 @@ We can see that DST is, again, the best.
 \subsection{Two waves - opposite direction}
 \noindent
 The initial function form is
-\begin{equation}
-u(x,0) =
-\begin{cases}
-\sin(16 x)  & 0 \leq x \leq \dfrac{3\pi}{8} \, , \\[10pt]
-0                      & \dfrac{3\pi}{8} < x \leq \dfrac{3\pi}{4} \, , \\[10pt]
-\sin{(24 x)} & \dfrac{3\pi}{4} \leq x \leq \pi \, ,
-\end{cases}
+\begin{equation}\label{}
+    \begin{cases}
+        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
+        u(x,0) =
+            \begin{cases}
+            \sin(16 x)  & 0 \leq x \leq \dfrac{3\pi}{8} \, , \\[4pt]
+            0                      & \dfrac{3\pi}{8} < x \leq \dfrac{3\pi}{4} \, , \\[4pt]
+            \sin{(24 x)} & \dfrac{3\pi}{4} \leq x \leq \pi \, ,
+            \end{cases} \\[5pt]
+        u_t(x,0) =
+            \begin{cases}
+            -16\cos(16 x)  & 0 \leq x \leq \dfrac{3\pi}{8} \, , \\[4pt]
+            0                      & \dfrac{3\pi}{8} < x \leq \dfrac{3\pi}{4} \, , \\[4pt]
+            -24\cos{(24 x)} & \dfrac{3\pi}{4} \leq x \leq \pi \, ,
+            \end{cases} \\[5pt]
+        u(0,t) = u(\pi,t) = 0 \, , \\[5pt]
+        L = \pi \, , \quad N = 40 \, .
+    \end{cases}
 \end{equation}
+
 and can be seen in Figure \ref{fig_two_dirichlet_oppo_initial}. Parameters are $N = 40$ and $L = \pi$. 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_initial.png}
-    \caption{Exact solution at $t = 0 \; s$.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_initial.eps}
+    \caption{Exact solution at $t = 0 $.}
     \label{fig_two_dirichlet_oppo_initial}
 \end{figure}
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_FD.png}
-    \caption{FD (blue) method separates from exact solution (black) after $t = 7 \; s$.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_FD.eps}
+    \caption{FD (blue) method separates from exact solution (black) after $t = 7 $.}
     \label{}
 \end{figure}
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_Numerov.png}
-    \caption{Numerov (red) method separates from exact solution (black) after $t = 38 \; s$.   }
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_Numerov.eps}
+    \caption{Numerov (red) method separates from exact solution (black) after $t = 38 $.   }
     \label{}
 \end{figure}
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_CDM.png}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 452 \; 000 \; s$.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_CDM.eps}
+    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 452 \; 000 $.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_MBCDM.png}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t = 452 \; 000 \; s$. }
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_MBCDM.eps}
+    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t = 452 \; 000 $. }
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_LGCC.png}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t = 452 \; 000 \; s$.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_LGCC.eps}
+    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t = 452 \; 000 $.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_two_opposite_dirichlet_DST.png}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t = 452 \; 000 \; s$.}
+    \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_DST.eps}
+    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t = 452 \; 000 $.}
     \label{}
 \end{figure}
 
@@ -1788,34 +1844,35 @@ Time is solved with matlab \texttt{ode45} because exact time is too precise for 
 parameters and initial conditions are
 \begin{equation}
     \begin{cases}
-        L = 2 \pi \, , \quad N = 64 \\[3pt]
-        k_1 = 50 \, , \quad k_2 = 500\\[3pt]
-        m_1 = 1 \, , \quad m_2 = 1/2\\[3pt]
-        u_0 = \sin{(4x)}\\[3pt]
-        v_0 = -4\cos{4x}\\[3pt]
-        a_0 = b_0 = 0
+        L = 2 \pi \, , \quad N = 64 \, , \\[3pt]
+        k_1 = 50 \, , \quad k_2 = 500 \, ,\\[3pt]
+        m_1 = 1 \, , \quad m_2 = 1/2 \, ,\\[3pt]
+        u_0 = \sin{(4x)} \, ,\\[3pt]
+        v_0 = -4\cos{4x} \, ,\\[3pt]
+        a_0 = b_0 = 0 \, ,\\[3pt]
+        u(0,t) = u(\pi,t) \, 
     \end{cases}
 \end{equation}
-
+\textbf{do teto equation pridej i evolucni rovnice at je to vbse hezky u sebe}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_one_periodic_initial.png}
-    \caption{Initial wave at $t = 0 \; s$. }
+    \caption{Initial wave at $t = 0 $. }
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_one_periodic_FD.png}
-    \caption{Comparison of Finite Difference approximation (blue wave) and Discrete Fourier Transform (magenta wave) at time frame $t = 6 \; s$.}
+    \caption{Comparison of Finite Difference approximation (blue wave) and Discrete Fourier Transform (magenta wave) at time frame $t = 6 $.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_one_periodic_Numerov.png}
-    \caption{Comparison of Numerov approximation (red wave) and Discrete Fourier Transform (magenta wave) at time frame $t = 475 \; s$.}
+    \caption{Comparison of Numerov approximation (red wave) and Discrete Fourier Transform (magenta wave) at time frame $t = 475 $.}
     \label{}
 \end{figure}
 
@@ -1827,12 +1884,13 @@ parameters and initial conditions are
 parameters and initial conditions are
 \begin{equation}
     \begin{cases}
-        L = 2 \pi \, , \quad N = 64 \\[3pt]
-        k_1 = 50 \, , \quad k_2 = 500\\[3pt]
-        m_1 = 1 \, , \quad m_2 = 1/2\\[3pt]
-        u_0 = \sin{(3x)} + \sin{(5x)}\\[3pt]
-        v_0 = -3\cos{(3x)} - 5\cos{(5x)} \\[3pt]
-        a_0 = b_0 = 0
+        L = 2 \pi \, , \quad N = 64 \, ,\\[3pt]
+        k_1 = 50 \, , \quad k_2 = 500 \, ,\\[3pt]
+        m_1 = 1 \, , \quad m_2 = 1/2 \, ,\\[3pt]
+        u_0 = \sin{(3x)} + \sin{(5x)} \, ,\\[3pt]
+        v_0 = -3\cos{(3x)} - 5\cos{(5x)} \, , \\[3pt]
+        a_0 = b_0 = 0 \, ,\\[3pt]
+        u(0,t) = u(\pi,t) \,
     \end{cases}
 \end{equation}
 
@@ -1840,21 +1898,21 @@ parameters and initial conditions are
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_oppo_initial.png}
-    \caption{Initial wave at $t = 0 \; s$. }
+    \caption{Initial wave at $t = 0 $. }
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_same_FD.png}
-    \caption{Comparison of Finite Difference approximation (blue wave) and Discrete Fourier Transform (magenta wave) at time frame $t = 10 \; s$.}
+    \caption{Comparison of Finite Difference approximation (blue wave) and Discrete Fourier Transform (magenta wave) at time frame $t = 10 $.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_same_Numerov.png}
-    \caption{Comparison of Numerov approximation (red wave) and Discrete Fourier Transform approximation (magenta wave) at time frame $t = 771 \; s$.}
+    \caption{Comparison of Numerov approximation (red wave) and Discrete Fourier Transform approximation (magenta wave) at time frame $t = 771 $.}
     \label{}
 \end{figure}
 
@@ -1864,12 +1922,13 @@ parameters and initial conditions are
 parameters and initial conditions are
 \begin{equation}
     \begin{cases}
-        L = 2 \pi \, , \quad N = 64 \\[3pt]
-        k_1 = 50 \, , \quad k_2 = 500\\[3pt]
-        m_1 = 1 \, , \quad m_2 = 1/2\\[3pt]
-        u_0 = \sin{(3x)} + \sin{(5x)}\\[3pt]
-        v_0 = -3\cos{(3x)} + 5\cos{(5x)} \\[3pt]
-        a_0 = b_0 = 0
+        L = 2 \pi \, , \quad N = 64 \, , \\[3pt]
+        k_1 = 50 \, , \quad k_2 = 500 \, ,\\[3pt]
+        m_1 = 1 \, , \quad m_2 = 1/2 \, ,\\[3pt]
+        u_0 = \sin{(3x)} + \sin{(5x)} \, ,\\[3pt]
+        v_0 = -3\cos{(3x)} + 5\cos{(5x)} \, , \\[3pt]
+        a_0 = b_0 = 0 \, ,\\[3pt]
+        u(0,t) = u(\pi,t) \, .
     \end{cases}
 \end{equation}
 
@@ -1877,21 +1936,21 @@ parameters and initial conditions are
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_oppo_initial.png}
-    \caption{Initial wave at $t = 0 \; s$. }
+    \caption{Initial wave at $t = 0 $. }
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_oppo_FD.png}
-    \caption{Comparison of Finite Difference approximation (blue wave) and Discrete Fourier approximation (magenta wave) at time frame $t = 9 \; s$.}
+    \caption{Comparison of Finite Difference approximation (blue wave) and Discrete Fourier approximation (magenta wave) at time frame $t = 9 $.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_oppo_Numerov.png}
-    \caption{Comparison of Numerov approximation (red wave) and Discrete Fourier Transform approximation (magenta wave) at time frame $t = 741 \; s$.}
+    \caption{Comparison of Numerov approximation (red wave) and Discrete Fourier Transform approximation (magenta wave) at time frame $t = 741 $.}
     \label{}
 \end{figure}
 
@@ -1915,15 +1974,16 @@ parameters and initial conditions are
 
 
 \subsection{Two waves - opposite direction}
+\noindent+
+
+
+
+\chapter{Comparison between Metamaterial and Classical elastic material}
 \noindent
+In previous chapters we have shown that the best space approximation is Discrete Fourier Transform for periodic problems an Discrete Sine Transform for Dirichlet boundary problems. Now we would like to use these two approximation for comparison between behaviour of metamaterial and classical elastic material.
 
-
-
-
-
-
-
-
+\section{How to do it?}
+\noindent
 
 
 
@@ -2009,6 +2069,16 @@ The equation holds only for $k \rightarrow 0$. Thus, waves approximated by FD pr
 
 
 \begin{thebibliography}{99}
+
+    \bibitem{paine}
+    {\sc Paine, J.\;W., de Hoog, F.\;R. and Anderssen, R.\;S.}
+    \emph{On the Correction of Finite Difference Eigenvalue Approximations for Sturm-Liouville Problems}.
+    Computing 26 (1981) 123--139.
+
+    \bibitem{pryce}
+    {\sc Pryce, J.\;D.}
+    \emph{A test package for Sturm--Liouville solvers}.
+    ACM Transactions on Mathematical Software 25 (1999) 21--57.
 
     \bibitem{matslise}
     {\sc Ledoux, V.}
