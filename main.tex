@@ -1169,9 +1169,9 @@ Rank & (500) & (1 000)  & (500) &  (1 000) \\
 
 \section{Asymptotic behaviour}
 \noindent
-Next, we want to test the asymptotic equation from the paper \cite{fix} for both the Paine and Coffey--Evans equations and compare them to our eigenvalues from above.
+Next, we want to test the asymptotic equation from the paper \cite{fix} for both the Paine and Coffey–Evans equations. That means comparing our eigenvalues from above with the asymptotic curve that follows from the Theorem \ref{theorem}.
 
-\begin{theorem}[Asymptotic expansion for Dirichlet boundary conditions]
+\begin{theorem}[Asymptotic expansion for Dirichlet boundary conditions]\label{theorem}
 Let $\lambda_k$ be the k-th eigenvalue of
 \begin{equation}
     u'' + [\lambda - p(x)]u = 0 \, , \quad 0 \leq x \leq \pi \, ,
@@ -1194,85 +1194,75 @@ where
 \end{equation}
 \end{theorem}
 
-Now we use this theorem for our two test equations. The Paine equation asymptotic has the form
+Now we use this theorem to derive asymptotes for our two test problems. The asymptote for Paine equation is
 \begin{equation}
-    \lambda_k^{1/2} = k + \frac{e^{\pi} - 1}{2 \, \pi \, k} + \frac{1}{4 \, \pi \, k^3} \left( \frac{e^{2 \, \pi} -1}{4} - \frac{(e^{\pi}-1)^2}{\pi} + \frac{e^{\pi}}{2} - \frac{1}{2} \right) + O(k^{-4}) \, ,
+    \lambda_k^{1/2} = k + \frac{e^{\pi} - 1}{2 \pi k} + \frac{1}{4 \pi k^3} \left( \frac{e^{2 \pi} -1}{4} - \frac{(e^{\pi}-1)^2}{\pi} + \frac{e^{\pi}}{2} - \frac{1}{2} \right) + O(k^{-4}) \, ,
 \end{equation}
-and asymptotic for the Coffey--Evans equation is
+and asymptote for the Coffey--Evans equation is
 \begin{equation}
-    \lambda_k^{1/2} = k + \frac{225}{k} + \frac{38 192,75}{k^3} - \frac{50625}{k^3} + O(k^{-4})
+    \lambda_k^{1/2} = k + \frac{225}{k} + \frac{38 192.75}{k^3} - \frac{50625}{k^3} + O(k^{-4}) \, .
 \end{equation}
 
-We can see graphs for both of them in the figures below. We looked closer at intervals $\lambda_k \in [1, \, 500]$, $\lambda_k \in [1, \, 100]$, $\lambda_k \in [1, \, 50]$ and $\lambda_k \in [1, \, 10]$. Both of them hold pretty well in the limit, the biggest difference can be seen in the interval $\lambda_k \in [1, \, 10]$.
+We can see the plots for both of them in the figures below. For both equations, we plotted intervals $\lambda_k \in [1, \, 500]$, $\lambda_k \in [1, \, 100]$, $\lambda_k \in [1, \, 50]$, and $\lambda_k \in [1, \, 10]$.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_fix/fix_slp_1_10.eps}
-    \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalue range $\lambda_k \in [1, \, 10]$.}
+    \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 10]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_fix/fix_slp_1_50.eps}
-    \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalue range $\lambda_k \in [1, \, 50]$.}
+    \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 50]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_fix/fix_slp_1_500.eps}
-    \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalue range $\lambda_k \in [1, \, 500]$.}
+    \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 500]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_fix/fix_slp_490_500.eps}
-    \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalue range $\lambda_k \in [490, \, 500]$.}
+    \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalues range in an interval $\lambda_k \in [490, \, 500]$.}
     \label{}
 \end{figure}
-
-
 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_fix/fix_ce_1_10.eps}
-    \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalue range $\lambda_k \in [1, \, 10]$.}
+    \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 10]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_fix/fix_ce_1_50.eps}
-    \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalue range $\lambda_k \in [1, \, 50]$.}
+    \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 50]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_fix/fix_ce_1_500.eps}
-    \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalue range $\lambda_k \in [1, \, 500]$.}
+    \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 500]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_fix/fix_ce_490_500.eps}
-    \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalue range $\lambda_k \in [490, \, 500]$.}
+    \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalues range in an interval $\lambda_k \in [490, \, 500]$.}
     \label{}
 \end{figure}
 
-
-
-
-
-
-
-\section{Conclusion from eigenvalue computation tests}
-\noindent
-From our numerical experiments with the eigenvalue equations, we have observed that the discrete sine transform is best for Dirichlet boundary problems.
+As we can see from the plots, both asymptotes hold quite well in the limit. The only inaccuracies emerge in the interval close to the beginning, that is for $\lambda_k \in [1, \, 10]$.
 
 
 
