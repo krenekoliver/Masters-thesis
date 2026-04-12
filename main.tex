@@ -486,7 +486,7 @@ The whole approximation can be rewritten in matrix form
 \begin{equation}
     A \mathbf{u} = \lambda B \mathbf{u} \, ,
 \end{equation}
-where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$. The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for the Paine equation and in algorithm \ref{alg_Numerov_CE} for the Coffey--Evans equation. Algorithms contain the basic Numerov's method and the Numerov's method with correction. \cite{numerov}
+where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$. The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for the Paine equation and in algorithm \ref{alg_Numerov_CE} for the Coffey--Evans equation. Algorithms contain the basic Numerov's method and the Numerov's method with correction.\cite{numerov}
 
 
 \begin{algorithm}[H]
@@ -572,7 +572,9 @@ Finally, we assemble the matrices $E$, $Q$, $A$ and compute the eigenvalues of t
 \begin{equation}
     A\mathbf{u} = \lambda \mathbf{u} \, , \quad \text{where} \; \, \mathbf{u} = [u(x_1), \, u(x_2), \, \dots, \, u(x_N)]^T \, ,
 \end{equation}
-and where the matrix $A$ combines the scaled differentiation matrix $D$ with the potential term $E$ or $Q$. \cite{cdm} \cite{trefethen}
+and where the matrix $A$ combines the scaled differentiation matrix $D$ with the potential term $E$ or $Q$.\cite{cdm}\cite{trefethen}
+
+The implementation of the method can be seen in algorithms \ref{alg_5} and \ref{alg_6}.
 
 \begin{algorithm}[H]
 \caption{Chebyshev Differentiation Matrix - Paine equation}
@@ -644,12 +646,14 @@ After incorporating the potential term $q(x)$ as a diagonal matrix ($E$ for the 
 \begin{equation}
 A = -D + \text{potential matrix} \, .
 \end{equation}
-Homogeneous Dirichlet boundary conditions are imposed by removing the first and last rows and columns, yielding the reduced interior matrix $A_{\text{int}}$. The eigenvalues of $A_{\text{int}}$ approximate the continuous spectrum with spectral accuracy. \cite{cdm}
+Homogeneous Dirichlet boundary conditions are imposed by removing the first and last rows and columns, yielding the reduced interior matrix $A_{\text{int}}$. The eigenvalues of $A_{\text{int}}$ approximate the continuous spectrum with spectral accuracy.\cite{cdm}
+
+The implementation of this method is in algorithm \ref{alg_MBCDM_Paine} for the Paine equation and in algorithm \ref{alg_MBCDM_CE} for the Coffey--Evans equation.
 
 
 \begin{algorithm}[H]
 \caption{Mapped Barycentric Chebyshev Differentiation Matrix - Paine equation}
-\label{}
+\label{alg_MBCDM_Paine}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\alpha$
 \State $s =$ \texttt{chebpts}(N+2)
@@ -678,7 +682,7 @@ Homogeneous Dirichlet boundary conditions are imposed by removing the first and 
 
 \begin{algorithm}[H]
 \caption{Mapped Barycentric Chebyshev Differentiation Matrix - Coffey--Evans equation}
-\label{}
+\label{alg_MBCDM_CE}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$, $\alpha$
 \State $s =$ \texttt{chebpts}(N+2)
@@ -735,11 +739,13 @@ where $L_k(t)$ denotes the $k$-th Legendre polynomial. These basis functions aut
 \end{equation}
 where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^T$. $S$ is the (diagonal) stiffness matrix, $T$ is the (penta-diagonal) mass matrix, and $\widehat{M}$ is the symmetrized potential matrix obtained via Chebyshev interpolation of the product $q(t)\phi_j(t)$, followed by the extraction of the Legendre coefficients. The eigenvalues $\mu_k$ are finally rescaled to the original problem via $\lambda_k = (2/\pi)^2 \mu_k$ (for the interval length $\pi$).
 
-The method achieves high accuracy for smooth potentials, thanks to the spectral convergence of the Legendre and Chebyshev expansions, while the special choice of basis ensures the exact enforcement of the Dirichlet boundary conditions. \cite{legendre_galerkin}
+The method achieves high accuracy for smooth potentials, thanks to the spectral convergence of the Legendre and Chebyshev expansions, while the special choice of basis ensures the exact enforcement of the Dirichlet boundary conditions.\cite{legendre_galerkin}
+
+The implementation of this method is in algorithm \ref{alg_LGCC_Paine} for the Paine equation and in algorithm \ref{alg_LGCC_CE} for the Coffey--Evans equation.
 
 \begin{algorithm}[H]
 \caption{Legendre-Galerkin-Chebyshev Collocation - Paine equation}
-\label{}
+\label{alg_LGCC_Paine}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$
 \State $m = N - 1$
@@ -774,8 +780,7 @@ The method achieves high accuracy for smooth potentials, thanks to the spectral 
 
 \begin{algorithm}[H]
 \caption{Legendre-Galerkin-Chebyshev Collocation - Coffey--Evans equation}
-\label{}
-
+\label{alg_LGCC_CE}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
 \State $m = N - 1$
@@ -811,25 +816,42 @@ The method achieves high accuracy for smooth potentials, thanks to the spectral 
 
 \subsection{Discrete Sine Transform}
 \noindent
-The Discrete Sine Transform (DST) provides a natural basis for solving problems with homogeneous Dirichlet boundary conditions on a finite interval. 
- 
-The second derivative operator becomes diagonal in the DST domain. Specifically, the discrete Laplacian applied to a vector $\mathbf{y} = (y_1, \dots, y_N)^T$ of interior grid values is realized by
-\[
-(-\Delta_h \, \mathbf{y})_j = \operatorname{idst}\bigl(k_j^2 \cdot \operatorname{dst}(\mathbf{y})\bigr)_j \, , \quad j=1,\dots,N,
-\]
-where $\texttt{dst}$ and $\texttt{idst}$ denote the discrete sine transform and its inverse, respectively, and $k_j$ are the associated wave numbers. 
+The Discrete Sine Transform (DST) provides a natural basis for solving Sturm--Liouville eigenvalue problems with homogeneous Dirichlet boundary conditions on a finite interval. 
 
-The full discrete operator $-\Delta_h + q(x)$ is then assembled by transforming to the spectral domain, performing element-wise multiplication by the potential (its discretization), and transforming back. This approach yields a matrix-free implementation (or an explicitly formed matrix when desired) whose eigenvalues approximate the continuous spectrum with spectral accuracy for sufficiently smooth potentials.
+In the DST spectral domain, the second derivative operator becomes a product with a matrix that has the negative squared wave numbers on the diagonal. Altogether, for a vector $\mathbf{y} = [y_1, \dots, y_N ]^T$ of interior grid values, the discrete Laplacian is realized by
+\begin{equation}
+    (\Delta_h \mathbf{y})_j = \mathrm{idst}\bigl(k \odot \mathrm{dst}(\mathbf{y})\bigr)_j \, , \quad j = 1,\dots,N \, ,
+\end{equation}
+where \texttt{dst} and \texttt{idst} denote the Discrete Sine Transform and its inverse, respectively. The symbol $\odot$ denotes element-wise (Hadamard) multiplication, and the vector that contains the negative squared wave numbers is in the form $k = [-1^2, \, -2^2, \, \dots, \, -N^2 ]^T$.
+
+The full discrete operator $L_{\mathrm{op}}$ is then assembled by addition
+\begin{equation}
+    L_{\mathrm{op}}(\mathbf{y}) = -\Delta_h \mathbf{y} + q(x) \, ,
+\end{equation}
+where it holds that $\Delta_h \mathbf{y} = \mathrm{idst}(k \odot \mathrm{dst}(\mathbf{y})) = D_{\mathrm{op}}(\mathbf{y})$. For the Paine equation with the potential term operator $E_{\mathrm{op}}(\mathbf{y})$, it is
+\begin{equation}
+    L_{\mathrm{op}}(\mathbf{y}) = -D_{\mathrm{op}}(\mathbf{y}) + E_{\mathrm{op}}(\mathbf{y}) \, ,
+\end{equation}
+and for the Coffey--Evans equation with the potential term operator $Q_{\mathrm{op}}(\mathbf{y})$
+\begin{equation}
+    L_{\mathrm{op}}(\mathbf{y}) = -D_{\mathrm{op}}(\mathbf{y}) + Q_{\mathrm{op}}(\mathbf{y}) \, .
+\end{equation}
+
+
+The corresponding matrix representation $A$ is obtained by applying the operator $L_{\mathrm{op}}$ to the columns of the identity matrix. The eigenvalues of the resulting matrix $A$ approximate the eigenvalues of the continuous problem with spectral accuracy for sufficiently smooth potentials.
+
+The implementation of the method for the Paine and Coffey--Evans equations is described in Algorithms \ref{alg_DST_Paine} and \ref{alg_DST_CE}, respectively.
 
 \begin{algorithm}[H]
 \caption{Discrete Sine Transform - Paine equation}
-\label{}
+\label{alg_DST_Paine}
 \begin{algorithmic}[1]
-\State \textbf{input} $N$, $q(x)$
+\State \textbf{input} $N$
 \State $x_i = \frac{\pi}{N+1} i$ \quad for $i = 1, \dots,N$
-\State $k = [-1^2, -2^2, \dots, -N^2]^T$
+\State $k = [-1^2, \, -2^2, \, \dots, \, -N^2]^T$
+\BlankLine
 \State $D_{op}(y) = \texttt{idst}(k \odot \texttt{dst}(y))$
-\State $E_{op}(y) = q(x) \odot y$
+\State $E_{op}(y) = \exp(x) \odot y$
 \State $L_{op}(y) = -D_{op}(y) + E_{op}(y)$
 \State $A = L_{op}(I_{N})$
 \BlankLine
@@ -838,16 +860,16 @@ The full discrete operator $-\Delta_h + q(x)$ is then assembled by transforming 
 \end{algorithmic}
 \end{algorithm}
 
-
 \begin{algorithm}[H]
 \caption{Discrete Sine Transform - Coffey--Evans equation}
-\label{}
+\label{alg_DST_CE}
 \begin{algorithmic}[1]
-\State \textbf{input} $N$, $q(x)$, $\beta$
+\State \textbf{input} $N$, $\beta$
 \State $x_i = -\pi/2 + \frac{\pi}{N+1} i$ \quad for $i = 1, \dots,N$
-\State $k = [-1^2, -2^2, \dots, -N^2]^T$
+\State $k = [-1^2, \, -2^2, \, \dots, \, -N^2]^T$
+\BlankLine
 \State $D_{op}(y) = \texttt{idst}(k \odot \texttt{dst}(y))$
-\State $Q_{op}(y) = q(x) \odot y$
+\State $Q_{op}(y) = \big( \beta^2 \sin^2(2 x) - 2 \beta \cos(2 x) \big) \odot y$
 \State $L_{op}(y) = -D_{op}(y) + Q_{op}(y)$
 \State $A = L_{op}(I_{N})$
 \BlankLine
@@ -861,22 +883,26 @@ The full discrete operator $-\Delta_h + q(x)$ is then assembled by transforming 
 
 \section{Computed eigenvalues}
 \noindent
-Now we present the computed data. We are mainly interested in the high index eigenvalues because the low index eigenvalues are accurately calculated by all methods. So, only by comparing these high index ones can we accurately tell which method is the best.
+Now we present the computed data. We are mainly interested in the high-index eigenvalues because the low-index eigenvalues can be accurately calculated by all of the methods. So, only by comparing these high-index ones can we accurately tell which method is the best.
 
-The relative error is computed with relation
+The relative error $\varepsilon$ is computed by
 \begin{equation}
     \varepsilon = \left| \frac{\lambda_{500}^{Matslise} - \lambda_{500}}{\lambda_{500}^{Matslise}} \right| \, ,
 \end{equation}
-where $\lambda_{500}^{Matslise}$ is the 500-th eigenvalue computed by the Matslise application and $\lambda_{500}$ is the 500-th eigenvalue computed by the chosen method.
+where $\lambda_{500}^{Matslise}$ is the 500-th eigenvalue computed by the Matslise application and $\lambda_{500}$ is the 500-th eigenvalue computed by the particular method.
 
 \subsection{Paine equation}
 \noindent
-First, below are the computed data for the Paine equation. We have included the CPU time for each computation. The number in the brackets represents the size of the differentiation matrix ($N \times N$) and hence the number of grid points in an interval.
+First, we present the computed data for the Paine equation and compare the accuracy of our methods. 
+
+For all the tables below, it holds that in the first column there is an index of the eigenvalue, and in the second column are the reference eigenvalues computed with the Matslise application. The rest of the columns are eigenvalues computed using the particular method. The numbers in the brackets represent the size of the differentiation matrix (e.g. $500 \times 500$) and hence the number of grid points in an interval.
+
+Below the eigenvalues, we have included the relative error $\varepsilon$ and the CPU time for each computation.
 
 
 \begin{table}[H]
 \centering
-\caption{Comparison of data for eigenvalues of Paine equation computed with Finite Difference method (FD).}
+\caption{Eigenvalues of Paine equation computed by implementation of Finite Difference method (FD).}
 \label{}
 \begin{tabularx}{\textwidth}{l *{4}{X}}
 \toprule
@@ -903,7 +929,7 @@ CPU & 0.7 & 0.02 & 0.05 & 3.1 \\
 
 \begin{table}[H]
 \centering
-\caption{Comparison of data for eigenvalues of Paine equation computed with Numerov (Num) and Numerov with correction (NumC).}
+\caption{Eigenvalues of Paine equation computed by implementation of Numerov's method (Num) and Numerov's method with correction (NumC).}
 \label{}
 \begin{tabularx}{\textwidth}{l *{5}{X}}
 \toprule
@@ -930,7 +956,7 @@ CPU & 0.7 & 0.7 & 0.7 & 4.0 & 4.0 \\
 
 \begin{table}[H]
 \centering
-\caption{Comparison of data for eigenvalues of Paine equation computed with Chebyshev Differentiation Matrix (CDM) and Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM). For MBCDM we choose parameter $\alpha = 0.999$.}
+\caption{Eigenvalues of Paine equation computed by implementation of Chebyshev Differentiation Matrix method (CDM) and Mapped Barycentric Chebyshev Differentiation Matrix method (MBCDM). For MBCDM method we have chosen parameter $\alpha = 0.999$.}
 \label{}
 \begin{tabularx}{\textwidth}{l *{5}{X}}
 \toprule
@@ -957,7 +983,7 @@ CPU & 0.7 & 0.3 & 1.0 & 0.5  &  1.3 \\
 
 \begin{table}[H]
 \centering
-\caption{Comparison of data for eigenvalues of Paine equation computed with Discrete Sine Transform (DST) and Legendre-Galerkin-Chebyshev Collocation method (LGCC).}
+\caption{Eigenvalues of Paine equation computed by implementation of Discrete Sine Transform method (DST) and Legendre-Galerkin-Chebyshev Collocation method (LGCC).}
 \label{}
 \begin{tabularx}{\textwidth}{l *{5}{X}}
 \toprule
@@ -982,17 +1008,15 @@ CPU & 0.7 & 0.4 & 1.5 & 32.8 & 208.3 \\
 \end{tabularx}
 \end{table}
 
-
-
-From the results above, we can see that the discrete sine transform is a clear winner. Even for $N = 500$, the eigenvalue $\lambda_{500}$ is very close to the reference value computed by Matslise, its relative error between the two is $\varepsilon_{500} \approx 10^{-6} $.
+From the data above, we can see that the Discrete Sine Transform is a clear winner. This method is the most accurate of them all and even the fastest. For the matrix of size $N = 500$, the high-index eigenvalues are very similar to the reference values computed by the Matslise application. The relative error for this matrix is $\varepsilon \approx 10^{-6}$, which is very small compared to other methods.
 
 \subsection{Coffey--Evans equation}
 \noindent
-Here we present the data computed for Coffey--Evans equation.
+Now, we present the computed eigenvalues for Coffey--Evans equation. The tables below have the same structure as the tables above.
 
 \begin{table}[H]
 \centering
-\caption{Comparison of data for eigenvalues of Coffey--Evans equation computed with Finite Difference method (FD).}
+\caption{Eigenvalues of Coffey--Evans equation computed by implementation of Finite Difference method (FD).}
 \label{}
 \begin{tabularx}{\textwidth}{l *{4}{X}}
 \toprule
@@ -1022,7 +1046,7 @@ CPU & 1.3 & 0.04 & 0.05 & 2.0 \\
 
 \begin{table}[H]
 \centering
-\caption{Comparison of data for eigenvalues of Coffey--Evans equation computed with Numerov (Num) and Numerov with correction (NumC).}
+\caption{Eigenvalues of Coffey--Evans equation computed by implementation of Numerov's method (Num) and Numerov's method with correction (NumC).}
 \label{}
 \begin{tabularx}{\textwidth}{l *{5}{X}}
 \toprule
@@ -1052,7 +1076,7 @@ CPU & 1.3 & 0.8 & 0.8 & 3.9 & 3.9 \\
 
 \begin{table}[H]
 \centering
-\caption{Comparison of data for eigenvalues of Coffey--Evans equation computed with Chebyshev Differentiation Matrix (CDM) and Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM). For MBCDM we choose parameter $\alpha = 1$.}
+\caption{Eigenvalues of Coffey--Evans equation computed by implementation of Chebyshev Differentiation Matrix method (CDM) and Mapped Barycentric Chebyshev Differentiation Matrix method (MBCDM). For MBCDM method we have chosen parameter $\alpha = 1$.}
 \label{}
 \begin{tabularx}{\textwidth}{l *{5}{X}}
 \toprule
@@ -1082,7 +1106,7 @@ CPU & 1.3 & 0.3 & 0.9 & 0.5 & 1.2 \\
 
 \begin{table}[H]
 \centering
-\caption{Comparison of data for eigenvalues of Coffey--Evans equation computed with Discrete Sine Transform (DST) and Legendre-Galerkin-Chebyshev Collocation method (LGCC).}
+\caption{Eigenvalues of Coffey--Evans equation computed by implementation of Discrete Sine Transform method (DST) and Legendre-Galerkin-Chebyshev Collocation method (LGCC).}
 \label{}
 \begin{tabularx}{\textwidth}{l *{5}{X}}
 \toprule
@@ -1110,8 +1134,8 @@ CPU & 1.3 & 0.4 & 1.5 & 32.4 & 226.4 \\
 \end{tabularx}
 \end{table}
 
+The same results as for the Paine equation can be observed for Coffey--Evans equation. The Discrete Sine Transform is a clear winner. This method is again the most accurate of them all and even the fastest. Even for the matrix of size $N = 500$, the high-index eigenvalues are very similar to the reference values computed by the Matslise application. The relative error for this matrix is $\varepsilon \approx 10^{-5}$, which is very small compared to other methods.
 
-For the Coffey--Evans equation, the results are similar to those in the previous section. We can see that the discrete sine transform is a clear winner with a relative error $\varepsilon_{500} \approx 10^{-5}$, which is very good accuracy if we consider the fact that we have used just $N = 500$.
 
 \section{Asymptotic behaviour}
 \noindent
