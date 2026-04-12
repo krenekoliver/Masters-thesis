@@ -393,7 +393,7 @@ The first numerical method on our list is the Finite Difference method (FD). We 
 \begin{equation}
     u''(x_i) \approx \frac{u(x_i - h) - 2 u(x_i) + u(x_i + h) }{h^2} = \big(D \mathbf{u} \big)_i \, , \quad i = 1, \dots, N \, ,
 \end{equation}
-where $\mathbf{u} = [u(x_1), u(x_2),\dots, u(x_N)]^T$ and $u(x_i+h) = u(x_{i+1})$. Matrix $D$ is
+where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^T$ and $u(x_i+h) = u(x_{i+1})$. Matrix $D$ is
 \begin{equation}
 D = \frac{1}{h^2} \begin{bmatrix}
     - 2 & 1 & 0  & \cdots & 0 \\
@@ -486,7 +486,7 @@ The whole approximation can be rewritten in matrix form
 \begin{equation}
     A \mathbf{u} = \lambda B \mathbf{u} \, ,
 \end{equation}
-where $\mathbf{u} = [u(x_1), u(x_2),\dots, u(x_N)]^T$. The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for the Paine equation and in algorithm \ref{alg_Numerov_CE} for the Coffey--Evans equation. Algorithms contain the basic Numerov's method and the Numerov's method with correction. \cite{numerov}
+where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$. The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for the Paine equation and in algorithm \ref{alg_Numerov_CE} for the Coffey--Evans equation. Algorithms contain the basic Numerov's method and the Numerov's method with correction. \cite{numerov}
 
 
 \begin{algorithm}[H]
@@ -570,7 +570,7 @@ We find the Chebyshev interior points $t_{\text{int}}$ in a similar manner. Next
 
 Finally, we assemble the matrices $E$, $Q$, $A$ and compute the eigenvalues of the matrix problem
 \begin{equation}
-    A\mathbf{u} = \lambda \mathbf{u} \, , \quad \text{where} \; \, \mathbf{u} = [u(x_1), u(x_2), \dots, u(x_N)]^T \, ,
+    A\mathbf{u} = \lambda \mathbf{u} \, , \quad \text{where} \; \, \mathbf{u} = [u(x_1), \, u(x_2), \, \dots, \, u(x_N)]^T \, ,
 \end{equation}
 and where the matrix $A$ combines the scaled differentiation matrix $D$ with the potential term $E$ or $Q$. \cite{cdm} \cite{trefethen}
 
@@ -710,25 +710,32 @@ Homogeneous Dirichlet boundary conditions are imposed by removing the first and 
 
 \subsection{Legendre-Galerkin-Chebyshev Collocation method}
 \noindent
-The Legendre-Galerkin-Chebyshev Collocation method (LGCC) combines spectral Galerkin projection with Chebyshev Collocation to solve eigenvalue problems of the form \ref{eq_general_test_problem}.
+The Legendre-Galerkin-Chebyshev Collocation method (LGCC) combines a spectral Galerkin projection with Chebyshev collocation to solve eigenvalue problems of the form \eqref{eq_general_test_problem}.
 
-The method uses the change of variables 
+The method begins by mapping the physical interval to the standard domain $[-1, \, 1]$ using a linear transformation
 \begin{equation}
-    t = \dfrac{2x - (b+a)}{b-a} \in [-1,1]
+    t = \dfrac{2x - (b+a)}{b-a} \in [-1, \, 1] \, ,
 \end{equation}
-to map the interval to the standard domain. The test functions are chosen as
+where $[a, \, b]$ is the original interval. For Paine problem with interval $[0, \, \pi]$ it is
 \begin{equation}
-    \phi_k(t) = L_k(t) - L_{k+2}(t), \quad k = 0,1,\dots,m-1,
+    t = \dfrac{2x-\pi}{\pi} \quad \to \quad x = \frac{\pi}{2}(t+1) \, .
 \end{equation}
-where $L_k(t)$ denotes the Legendre polynomial of degree $k$, computed with the chebfun \texttt{legpoly} function. These basis functions automatically satisfy the homogeneous Dirichlet boundary conditions.
+And for Coffey--Evans problem with interval $[-\pi/2, \, \pi/2]$ it is
+\begin{equation}
+    t = \dfrac{2x}{\pi} \quad \to \quad x = \dfrac{\pi}{2} t \, .
+\end{equation}
 
-The weak form of the problem is projected onto this basis, leading to the generalized matrix eigenvalue problem
+The basis functions are chosen as
 \begin{equation}
-    (S + \hat{M}) \, \mathbf{v} = \mu \, T \, \mathbf{v},
+    \phi_k(t) = L_k(t) - L_{k+2}(t) \, , \quad k = 0,1,\dots,m-1 \, ,
 \end{equation}
-where $S$ is the (diagonal) stiffness matrix, $T$ is the mass matrix (penta-diagonal), and $\hat{M}$ is the symmetrized potential matrix obtained via Chebyshev interpolation of $q(t) \cdot \phi_j(t)$ followed by extraction of Legendre coefficients.
+where $L_k(t)$ denotes the $k$-th Legendre polynomial. These basis functions automatically satisfy the homogeneous Dirichlet boundary conditions. The weak form of the differential eigenvalue problem is then projected onto this basis, leading to the generalized matrix eigenvalue problem
+\begin{equation}
+    (S + \widehat{M})\mathbf{u} = \mu T \mathbf{u} \, ,
+\end{equation}
+where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^T$. $S$ is the (diagonal) stiffness matrix, $T$ is the (penta-diagonal) mass matrix, and $\widehat{M}$ is the symmetrized potential matrix obtained via Chebyshev interpolation of the product $q(t)\phi_j(t)$, followed by the extraction of the Legendre coefficients. The eigenvalues $\mu_k$ are finally rescaled to the original problem via $\lambda_k = (2/\pi)^2 \mu_k$ (for the interval length $\pi$).
 
-The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = (2/\pi)^2 \mu_k$ (for the standard interval length $\pi$). The method achieves high accuracy for smooth potentials thanks to the spectral convergence of Legendre and Chebyshev expansions, while the choice of basis ensures the exact enforcement of Dirichlet boundary conditions. \cite{legendre_galerkin}
+The method achieves high accuracy for smooth potentials, thanks to the spectral convergence of the Legendre and Chebyshev expansions, while the special choice of basis ensures the exact enforcement of the Dirichlet boundary conditions. \cite{legendre_galerkin}
 
 \begin{algorithm}[H]
 \caption{Legendre-Galerkin-Chebyshev Collocation - Paine equation}
@@ -750,7 +757,7 @@ The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = (
 \BlankLine
 \State Matrix $M$ (Galerkin projection of potential):
 \State \quad for $j = 0, \dots, m-1$:
-\State \quad \quad $f_j(t) = q(t) \cdot \phi_j(t)$
+\State \quad \quad $f_j(t) = q(t) \phi_j(t)$
 \State \quad \quad $I_{f_j} =$ \texttt{chebfun}($f_j$,$N+1$) 
 \State \quad \quad \texttt{legcoeffs}($I_{f_j}$) $ \to c_0, c_1, \dots, c_N$
 \State \quad \quad for $i = 0, \dots, m-1$:
@@ -786,7 +793,7 @@ The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = (
 \BlankLine
 \State Matrix $M$ (Galerkin projection of potential):
 \State \quad for $j = 0, \dots, m-1$:
-\State \quad \quad $f_j(t) = q(t) \cdot \phi_j(t)$
+\State \quad \quad $f_j(t) = q(t) \phi_j(t)$
 \State \quad \quad $I_{f_j} =$ \texttt{chebfun}($f_j$,$N+1$) 
 \State \quad \quad \texttt{legcoeffs}($I_{f_j}$) $ \to c_0, c_1, \dots, c_N$
 \State \quad \quad for $i = 0, \dots, m-1$:
@@ -860,7 +867,7 @@ The relative error is computed with relation
 \begin{equation}
     \varepsilon = \left| \frac{\lambda_{500}^{Matslise} - \lambda_{500}}{\lambda_{500}^{Matslise}} \right| \, ,
 \end{equation}
-where $\lambda_{500}^{Matslise}$ is the 500$^{\text{th}}$ eigenvalue computed by the Matslise application and $\lambda_{500}$ is the 500$^{\text{th}}$ eigenvalue computed by the chosen method.
+where $\lambda_{500}^{Matslise}$ is the 500-th eigenvalue computed by the Matslise application and $\lambda_{500}$ is the 500-th eigenvalue computed by the chosen method.
 
 \subsection{Paine equation}
 \noindent
