@@ -883,7 +883,7 @@ The implementation of the method for the Paine and Coffey--Evans equations is de
 
 \section{Computed eigenvalues}
 \noindent
-Now we present the computed data. We are mainly interested in the high-index eigenvalues because the low-index eigenvalues can be accurately calculated by all of the methods. So, only by comparing these high-index ones can we accurately tell which method is the best.
+Now we present the computed data and compare our methods. We are mainly interested in the comparison of the high-index eigenvalues because the low-index eigenvalues can be accurately calculated by all of the methods. So, only by comparing these high-index ones can we accurately tell which method is the best.
 
 The relative error $\varepsilon$ is computed by
 \begin{equation}
@@ -893,7 +893,7 @@ where $\lambda_{500}^{Matslise}$ is the 500-th eigenvalue computed by the Matsli
 
 \subsection{Paine equation}
 \noindent
-First, we present the computed data for the Paine equation and compare the accuracy of our methods. 
+First, we present the computed data for the Paine equation. 
 
 For all the tables below, it holds that in the first column there is an index of the eigenvalue, and in the second column are the reference eigenvalues computed with the Matslise application. The rest of the columns are eigenvalues computed using the particular method. The numbers in the brackets represent the size of the differentiation matrix (e.g. $500 \times 500$) and hence the number of grid points in an interval.
 
@@ -1008,7 +1008,6 @@ CPU & 0.7 & 0.4 & 1.5 & 32.8 & 208.3 \\
 \end{tabularx}
 \end{table}
 
-From the data above, we can see that the Discrete Sine Transform is a clear winner. This method is the most accurate of them all and even the fastest. For the matrix of size $N = 500$, the high-index eigenvalues are very similar to the reference values computed by the Matslise application. The relative error for this matrix is $\varepsilon \approx 10^{-6}$, which is very small compared to other methods.
 
 \subsection{Coffey--Evans equation}
 \noindent
@@ -1134,7 +1133,38 @@ CPU & 1.3 & 0.4 & 1.5 & 32.4 & 226.4 \\
 \end{tabularx}
 \end{table}
 
-The same results as for the Paine equation can be observed for Coffey--Evans equation. The Discrete Sine Transform is a clear winner. This method is again the most accurate of them all and even the fastest. Even for the matrix of size $N = 500$, the high-index eigenvalues are very similar to the reference values computed by the Matslise application. The relative error for this matrix is $\varepsilon \approx 10^{-5}$, which is very small compared to other methods.
+
+\subsection{Results from eigenvalue computations}
+\noindent
+Now that we have our data, can we reliably compare our methods.
+
+From the data above, we can observe that the Discrete Sine Transform (DST) is a clear winner for both the Paine and the Coffey--Evans equations. This method is the most accurate of them all and also one of the fastest. 
+
+For the matrix of size $N = 500$, the high-index eigenvalues computed with DST are very similar to the reference values computed by the Matslise application. The relative error for the matrix of this size is $\varepsilon \approx 10^{-6}$ for the Paine equation and $\varepsilon \approx 10^{-5}$ for the Coffey--Evans equation. These values are very small compared to other methods, which range in $\varepsilon \in [10^{-1}, \, 10^{3} ]$ for the Paine equation and $\varepsilon \in [10^{-3}, \, 10^{3} ]$ for Coffey--Evans equation.
+
+For larger matrices, $N = 1 \, 000$, other methods become more competitive. But overall, DST is still our best method. In table \ref{table_comparison}, the methods are sorted by their accuracies from highest to lowest.
+
+\begin{table}[H]
+\centering
+\caption{Comparison of our methods with respect to their accuracies - values of $\varepsilon$. They are sorted in order of accuracy, from highest to lowest.}
+\label{table_comparison}
+\begin{tabularx}{\textwidth}{l *{4}{X}}
+\toprule
+ & Paine & Paine  & Coffey--Evans & Coffey--Evans \\
+Rank & (500) & (1 000)  & (500) &  (1 000) \\
+\midrule
+1. & DST & MBCDM & DST & DST  \\
+2. & NumC & CDM & MBCDM & CDM \\
+3. & Num & LGCC &  NumC & LGCC \\
+4. & FD & DST & Num & NumC  \\
+5. & MBCDM & NumC & FD & MBCDM  \\
+6. & CDM & Num & CDM & Num  \\
+7. & LGCC & FD & LGCC & FD \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
 
 
 \section{Asymptotic behaviour}
