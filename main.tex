@@ -621,18 +621,28 @@ The Mapped Barycentric Chebyshev Differentiation Matrix method (MBCDM) is a high
 
 The method employs the \emph{Kosloff--Tal-Ezer (KTE) mapping}
 \begin{equation}
-    x = \frac{\pi}{2} \left( \frac{\arcsin(\alpha s)}{\arcsin(\alpha)} + 1 \right), \quad s \in [-1,1],
+    g(s) = \frac{\arcsin(\alpha s)}{\arcsin(\alpha)} \, , \quad s \in [-1,1] \, ,
 \end{equation}
-where the parameter \(\alpha \in (0,1)\) controls the clustering of collocation points near the boundaries. This nonlinear mapping provides significantly better resolution near $x=0$ and $x=\pi$ and improves numerical stability for problems with steep gradients or highly oscillatory solutions.
+with the parameter $\alpha \in (0,1)$ controlling the clustering of collocation points near the boundaries. As the parameter $\alpha$  approaches 1, the clustering of collocation points near the boundaries becomes more pronounced.
 
-In the computational domain $s \in [-1,1]$, the first and second derivatives are approximated using Barycentric Chebyshev Differentiation Matrices $D_1$ and $D_2$. These are transformed to the physical domain \(x\) ($[0,\, \pi]$ or $[-\pi/2, \, \pi/2]$) via the chain rule:
+The physical coordinate $x$ is obtained as
+\begin{equation}
+    x = \frac{\pi}{2} \big( g(s) + 1 \big)
+\end{equation}
+for the interval $[0, \pi]$ (Paine problem), or
+\begin{equation}
+    x = \frac{\pi}{2} \, g(s)
+\end{equation}
+for the symmetric interval $[-\pi/2, \pi/2]$ (Coffey--Evans problem). This nonlinear mapping significantly improves the accuracy of the method for the two highly oscillatory test problems (the Paine and Coffey--Evans equations), especially when computing high-index eigenvalues.
+
+In the computational domain $s \in [-1,1]$, the first and second derivatives are approximated using Barycentric Chebyshev Differentiation Matrices $D_1$ and $D_2$. These are transformed to the physical domain via the chain rule:
 \begin{equation}
 \frac{d}{dx} = \frac{ds}{dx} \frac{d}{ds}, \qquad
-\frac{d^2}{dx^2} = \left( \frac{ds}{dx} \right)^2 \frac{d^2}{ds^2} + \frac{d^2 s}{dx^2} \frac{d}{ds}.
+\frac{d^2}{dx^2} = \left( \frac{ds}{dx} \right)^2 \frac{d^2}{ds^2} + \frac{d^2 s}{dx^2} \frac{d}{ds} \, .
 \end{equation}
-After adding the potential term $q(x)$ as a diagonal matrix $E$, the discrete operator takes the form
+After incorporating the potential term $q(x)$ as a diagonal matrix ($E$ for the exponential potential in the Paine problem and $Q$ for the trigonometric potential in the Coffey--Evans problem), the discrete operator takes the form
 \begin{equation}
-A = -D + E.
+A = -D + \text{potential matrix} \, .
 \end{equation}
 Homogeneous Dirichlet boundary conditions are imposed by removing the first and last rows and columns, yielding the reduced interior matrix $A_{\text{int}}$. The eigenvalues of $A_{\text{int}}$ approximate the continuous spectrum with spectral accuracy. \cite{cdm}
 
@@ -641,7 +651,6 @@ Homogeneous Dirichlet boundary conditions are imposed by removing the first and 
 \caption{Mapped Barycentric Chebyshev Differentiation Matrix - Paine equation}
 \label{}
 \begin{algorithmic}[1]
-
 \State \textbf{input} $N$, $\alpha$
 \State $s =$ \texttt{chebpts}(N+2)
 \State $g(s) = \arcsin(\alpha s) / \arcsin(\alpha)$ 
@@ -663,7 +672,6 @@ Homogeneous Dirichlet boundary conditions are imposed by removing the first and 
 \BlankLine
 \State \texttt{eig}($A_{init}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
-
 \end{algorithmic}
 \end{algorithm}
 
@@ -672,7 +680,6 @@ Homogeneous Dirichlet boundary conditions are imposed by removing the first and 
 \caption{Mapped Barycentric Chebyshev Differentiation Matrix - Coffey--Evans equation}
 \label{}
 \begin{algorithmic}[1]
-
 \State \textbf{input} $N$, $\beta$, $\alpha$
 \State $s =$ \texttt{chebpts}(N+2)
 \State $g(s) = \arcsin(\alpha s) / \arcsin(\alpha)$ 
@@ -695,7 +702,6 @@ Homogeneous Dirichlet boundary conditions are imposed by removing the first and 
 \BlankLine
 \State \texttt{eig}($A_{init}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
-
 \end{algorithmic}
 \end{algorithm}
 
@@ -704,9 +710,13 @@ Homogeneous Dirichlet boundary conditions are imposed by removing the first and 
 
 \subsection{Legendre-Galerkin-Chebyshev Collocation method}
 \noindent
-The Legendre-Galerkin-Chebyshev collocation (LGCC) method combines spectral Galerkin projection with Chebyshev collocation to solve eigenvalue problems of the form \ref{eq_general_test_problem}.
+The Legendre-Galerkin-Chebyshev Collocation method (LGCC) combines spectral Galerkin projection with Chebyshev Collocation to solve eigenvalue problems of the form \ref{eq_general_test_problem}.
 
-The method uses the change of variables $t = \frac{2x - (b+a)}{b-a} \in [-1,1]$ to map the interval to the standard domain. The test functions are chosen as
+The method uses the change of variables 
+\begin{equation}
+    t = \dfrac{2x - (b+a)}{b-a} \in [-1,1]
+\end{equation}
+to map the interval to the standard domain. The test functions are chosen as
 \begin{equation}
     \phi_k(t) = L_k(t) - L_{k+2}(t), \quad k = 0,1,\dots,m-1,
 \end{equation}
@@ -716,9 +726,9 @@ The weak form of the problem is projected onto this basis, leading to the genera
 \begin{equation}
     (S + \hat{M}) \, \mathbf{v} = \mu \, T \, \mathbf{v},
 \end{equation}
-where $S$ is the (diagonal) stiffness matrix, $T$ is the mass matrix (penta-diagonal), and $\hat{M}$ is the symmetrized potential matrix obtained via Chebyshev interpolation of $q(t) \, \phi_j(t)$ followed by extraction of Legendre coefficients.
+where $S$ is the (diagonal) stiffness matrix, $T$ is the mass matrix (penta-diagonal), and $\hat{M}$ is the symmetrized potential matrix obtained via Chebyshev interpolation of $q(t) \cdot \phi_j(t)$ followed by extraction of Legendre coefficients.
 
-The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = \frac{4}{\pi^2} \mu_k$ (for the standard interval length $\pi$). The method achieves high accuracy for smooth potentials thanks to the spectral convergence of Legendre and Chebyshev expansions, while the basis choice ensures exact enforcement of boundary conditions \cite{legendre_galerkin}. 
+The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = (2/\pi)^2 \mu_k$ (for the standard interval length $\pi$). The method achieves high accuracy for smooth potentials thanks to the spectral convergence of Legendre and Chebyshev expansions, while the choice of basis ensures the exact enforcement of Dirichlet boundary conditions. \cite{legendre_galerkin}
 
 \begin{algorithm}[H]
 \caption{Legendre-Galerkin-Chebyshev Collocation - Paine equation}
@@ -732,26 +742,25 @@ The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = \
 \State \quad $S_{k, \, k} = 4 k + 6$ \quad for $k = 0, \dots, m-1$
 \BlankLine
 \State Mass matrix $T$ (penta-diagonal):
-\State \quad $T_{k,k} = \frac{2}{2 k+1} + \frac{2}{2 k+5}$ \quad for $k = 0, \dots, m-1$
-\State \quad $T_{k, \, k+2} = T_{k+2, \, k} = -\frac{2}{2 k+5}$ \quad for $k = 0, \dots, m-3$
+\State \quad $T_{k,k} = \dfrac{2}{2 k+1} + \dfrac{2}{2 k+5}$ \quad for $k = 0, \dots, m-1$
+\State \quad $T_{k, \, k+2} = T_{k+2, \, k} = -\dfrac{2}{2 k+5}$ \quad for $k = 0, \dots, m-3$
 \BlankLine
-\State \quad $q(t) = \frac{\pi^2}{4} \exp\left( \frac{\pi}{2} (t + 1) \right)$
-\BlankLine
+\State \quad $q(t) = \dfrac{\pi^2}{4} \exp\left( \dfrac{\pi}{2} (t + 1) \right)$
 \State \quad $\phi_k(t) = L_{k}(t) - L_{k+2}(t)$ \quad for $k = 0, \dots, m-1$
 \BlankLine
 \State Matrix $M$ (Galerkin projection of potential):
-\State \quad for $j = 0$ to $m-1$:
+\State \quad for $j = 0, \dots, m-1$:
 \State \quad \quad $f_j(t) = q(t) \cdot \phi_j(t)$
 \State \quad \quad $I_{f_j} =$ \texttt{chebfun}($f_j$,$N+1$) 
 \State \quad \quad \texttt{legcoeffs}($I_{f_j}$) $ \to c_0, c_1, \dots, c_N$
-\State \quad \quad for $i = 0$ to $m-1$ ($k=i$):
-\State \quad \quad \quad $M_{i,j} = c_{k+1} \cdot \frac{2}{2 \, k+1} - c_{k+3} \cdot \frac{2}{2 \, k+5}$ \quad (if $k+3 \leq N$)
+\State \quad \quad for $i = 0, \dots, m-1$:
+\State \quad \quad \quad $M_{i,j} = \dfrac{2}{2 \, i+1} \, c_{i+1} - \dfrac{2}{2 \, i+5} \, c_{i+3} $ \quad (if $i+3 \leq N$)
 \BlankLine
 \State $\hat{M} = \texttt{triu}(M) + \texttt{triu}(M, \, 1)^T$
 \State $A = S + \hat{M}$
 \BlankLine
 \State \texttt{eig}($A$,$T$) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
-\State$\lambda_k = 4 \mu_k / \pi^2$ \quad for $k = 1, \dots, m$
+\State$\lambda_k = (2/ \pi)^2 \mu_k$ \quad for $k = 1, \dots, m$
 \State \textbf{output} $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N-1}$
 \end{algorithmic}
 \end{algorithm}
@@ -766,29 +775,28 @@ The eigenvalues $\mu_k$ are then rescaled to the original problem $\lambda_k = \
 \State $k = 0,1,\dots,m-1$
 \BlankLine
 \State Stiffness matrix $S$ (diagonal):
-\State \quad $S_{k,k} = 4 k + 6$ \quad for $k = 0, \dots, m-1$
+\State \quad $S_{k,k} = 4 k + 6$  \quad for $k = 0, \dots, m-1$
 \BlankLine
 \State Mass matrix $T$ (penta-diagonal):
-\State \quad $T_{k,} = \frac{2}{2k+1} + \frac{2}{2k+5}$ \quad for $k = 0, \dots, m-1$
-\State \quad $T_{k,k+2} = T_{k+2,k} = -\frac{2}{2 k+5}$ \quad for $k = 0, \dots, m-3$
+\State \quad $T_{k,k} = \dfrac{2}{2k+1} + \dfrac{2}{2k+5}$ \quad for $k = 0, \dots, m-1$
+\State \quad $T_{k,k+2} = T_{k+2,k} = -\dfrac{2}{2 k+5}$ \quad for $k = 0, \dots, m-3$
 \BlankLine
-\State $q(t) = \frac{\pi^2}{4} (\beta^2 \sin^2(\pi t) - 2 \beta \cos(\pi t))$
-\BlankLine
-\State $\phi_k(t) = L_{k}(t) - L_{k+2}(t)$ for $k = 0, \dots, m-1$
+\State $q(t) = \dfrac{\pi^2}{4} \big(\beta^2 \sin^2(\pi t) - 2 \beta \cos(\pi t) \big)$
+\State $\phi_k(t) = L_{k}(t) - L_{k+2}(t)$ \quad for $k = 0, \dots, m-1$
 \BlankLine
 \State Matrix $M$ (Galerkin projection of potential):
-\State \quad for $j = 0$ to $m-1$:
+\State \quad for $j = 0, \dots, m-1$:
 \State \quad \quad $f_j(t) = q(t) \cdot \phi_j(t)$
 \State \quad \quad $I_{f_j} =$ \texttt{chebfun}($f_j$,$N+1$) 
 \State \quad \quad \texttt{legcoeffs}($I_{f_j}$) $ \to c_0, c_1, \dots, c_N$
-\State \quad \quad for $i = 0$ to $m-1$ ($k=i$):
-\State \quad \quad \quad $M_{i,j} = c_{k+1} \cdot \frac{2}{2 \, k+1} - c_{k+3} \cdot \frac{2}{2 \, k+5}$ \quad (if $k+3 \leq N$)
+\State \quad \quad for $i = 0, \dots, m-1$:
+\State \quad \quad \quad $M_{i,j} = \dfrac{2}{2 \, i+1} \, c_{i+1} - \dfrac{2}{2 \, i+5} \, c_{i+3}$ \quad (if $i+3 \leq N$)
 \BlankLine
 \State $\hat{M} = \texttt{triu}(M) + \texttt{triu}(M,1)^T$
 \State $A = S + \hat{M}$
 \BlankLine
 \State \texttt{eig}($A$,$T$) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
-\State$\lambda_k = 4 \mu_k / \pi^2$ \quad for $k = 1$ to $m$
+\State$\lambda_k = (2/ \pi)^2 \mu_k$ \quad for $k = 1, \dots, m$
 \State \textbf{output} $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N-1}$
 \end{algorithmic}
 \end{algorithm}
