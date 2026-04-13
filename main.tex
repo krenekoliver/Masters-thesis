@@ -1380,13 +1380,13 @@ Simulations will be done by implementing Finite Differences, Numerov's method, a
 First, let's look at the simulation of one sine wave in the form \ref{one_wave}. The problem is
 \begin{equation}\label{eq_periodic_one}
     \begin{cases}
-        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
+        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \\[5pt]
         u(0, t) = u(L, t) \, , \quad u_x(0, t) = u_x(L, t) \, , \\[5pt]
-        u(x,0) = \sin{(6 x)} \, , \quad u_t(x,0) =  - 6 \cos{(6x)} \, , \\[5pt]
-        L = \pi \, , \quad N = 64 \, , \quad c = 1 \, ,
+        L = \pi \, , \quad N = 64 \, , \quad c = 1 \, , \\[5pt]
+        u(x,0) = \sin{(6 x)} \, , \quad u_t(x,0) =  - 6 \cos{(6x)} \, .
     \end{cases}
 \end{equation}
-where in the first row is our evolution equation; in the second row are the boundary conditions; in the third row are the initial conditions; and lastly, in the fourth row are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$.
+In the first line is the evolution equation; in the second line are the boundary conditions; in the third line are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the fourth line are the initial conditions.
 
 The plot of the initial exact wave is in Figure \ref{fig_periodic_one_initial}.
 
@@ -1397,8 +1397,6 @@ The plot of the initial exact wave is in Figure \ref{fig_periodic_one_initial}.
     \label{fig_periodic_one_initial}
 \end{figure}
 
-In Figure \ref{fig_periodic_one_FD} is shown frame $t = 47$, where we can see the approximation of wave evolution using Finite Differences (blue wave). In our numerical experiments, we have observed that the finite difference approximation is systematically slower in wave propagation compared to the exact wave (black dashed wave).
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_periodic_FD.eps}
@@ -1406,25 +1404,19 @@ In Figure \ref{fig_periodic_one_FD} is shown frame $t = 47$, where we can see th
     \label{fig_periodic_one_FD}
 \end{figure}
 
-The next experiment was conducted using the Numerov approximation, and one frame of the time evolution is shown in Figure \ref{fig_periodic_one_Numerov}.  The Numerov method (red wave) was better than finite differences, and we can see separation from the exact solution after roughly $t = 9 \, 880$. We expected that Numerov would be better than finite differences because it is a higher order method.
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_periodic_Numerov.eps}
-    \caption{Comparison of Numerov approximation (red wave) and exact solution (black dashed wave) at time frame $t = 9 \, 880 $.}
+    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 9 \, 880 $.}
     \label{fig_periodic_one_Numerov}
 \end{figure}
-
-Next, we ran a simulation with the Discrete Fourier Transform (magenta wave) and the exact solution to check whether, after some time, they also dont separate. This simulation, which ran for one year, is shown in the Figure \ref{fig_periodic_one_dft}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_periodic_DFT.eps}
-    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 1 \, 000 \, 000 $. They never separated.}
+    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 1 \, 000 \, 000 $.}
     \label{fig_periodic_one_dft}
 \end{figure}
-
-The conclusion of our experiments is that the worst approximation method is Finite Differences, the slightly better method is the Numerov method, and the absolute best method is the Discrete Fourier Transform.
 
 
 
@@ -1433,13 +1425,14 @@ The conclusion of our experiments is that the worst approximation method is Fini
 Next, let's look at the simulation of two sine waves that propagate in the same direction \ref{two_waves_same}. The problem is
 \begin{equation}\label{}
     \begin{cases}
-        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
+        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \\[5pt]
         u(0, t) = u(L, t) \, , \quad u_x(0, t) = u_x(L, t) \, , \\[5pt]
-        u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \quad u_t(x,0) =  - 5 \cos{(5x)} - 6 \cos{(6x)} \, , \\[5pt]
-        L = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, ,
+        L = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, , \\[5pt]
+        u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \\[5pt]
+        u_t(x,0) =  - 5 \cos{(5x)} - 6 \cos{(6x)} \, . 
     \end{cases}
 \end{equation}
-where in the first row is our evolution equation; in the second row are the boundary conditions; in the third row are the initial conditions; and lastly, in the fourth row are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$.
+In the first line is the evolution equation; in the second line are the boundary conditions; in the third line are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the fourth and fifth lines are the initial conditions.
 
 The plot of the initial exact wave is in Figure \ref{fig_two_periodic_same_initial}.
 
@@ -1450,8 +1443,6 @@ The plot of the initial exact wave is in Figure \ref{fig_two_periodic_same_initi
     \label{fig_two_periodic_same_initial}
 \end{figure}
 
-In Figure \ref{fig_two_priodic_same_FD} is a comparison of Finite Differences with the exact solution at time $t = 44 $. We can see that after this short time, the wave approximation has already separated from the exact solution.
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_periodic_same_FD.eps}
@@ -1459,16 +1450,12 @@ In Figure \ref{fig_two_priodic_same_FD} is a comparison of Finite Differences wi
     \label{fig_two_priodic_same_FD}
 \end{figure}
 
-Simulation Using Numerov is shown in Figure \ref{fig_two_periodic_same_Numerov} at the frame $t = 6 \, 421 $. Again, the Numerov method is better than the finite difference approximation.
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_periodic_same_Numerov.eps}
-    \caption{Comparison of Numerov approximation (red wave) and exact solution (black dashed wave) at time frame $t = 6 \, 421 $. }
+    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 6 \, 421 $. }
     \label{fig_two_periodic_same_Numerov}
 \end{figure}
-
-And lastly, the comparison of the Discrete Fourier Transform and the exact solution is shown in Figure \ref{fig_two_periodic_same_dft}. The Discrete Fourier Transform is again the best of the three.
 
 \begin{figure}[H]
     \centering
@@ -1484,13 +1471,14 @@ And lastly, the comparison of the Discrete Fourier Transform and the exact solut
 Finally, let's look at the simulation of two sine waves that propagate in opposite directions \ref{two_waves_oppo}. The problem is
 \begin{equation}\label{}
     \begin{cases}
-        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
+        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \\[5pt]
         u(0, t) = u(L, t) \, , \quad u_x(0, t) = u_x(L, t) \, , \\[5pt]
-        u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \quad u_t(x,0) =  - 5 \cos{(5x)} + 6 \cos{(6x)} \, , \\[5pt]
-        L = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, ,
+        L = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, , \\[5pt]
+        u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \\[5pt]
+        u_t(x,0) =  - 5 \cos{(5x)} + 6 \cos{(6x)} \, .
     \end{cases}
 \end{equation}
-where in the first row is our evolution equation, in the second row are the boundary conditions, in the third row are the initial conditions; and lastly, in the fourth row are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of parameter $c$.
+In the first line is the evolution equation; in the second line are the boundary conditions; in the third line are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the fourth and fifth lines are the initial conditions
 
 The plot of the initial exact wave is in Figure \ref{fig_two_periodic_oppo_initial}.
 
@@ -1501,8 +1489,6 @@ The plot of the initial exact wave is in Figure \ref{fig_two_periodic_oppo_initi
     \label{fig_two_periodic_oppo_initial}
 \end{figure}
 
-The simulation for Finite Differences is shown in Figure \ref{fig_two_periodic_oppo_FD}. The wave package separated after roughly $t = 15$.
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_periodic_oppo_FD.eps}
@@ -1510,16 +1496,12 @@ The simulation for Finite Differences is shown in Figure \ref{fig_two_periodic_o
     \label{fig_two_periodic_oppo_FD}
 \end{figure}
 
-Numerov simulation is in Figure \ref{fig_two_periodic_oppo_Numerov} the separation of waves is well visible at $t = 2 \,000 $.
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_periodic_oppo_Numerov.eps}
-    \caption{Comparison of Numerov approximation (red wave) and exact solution (black dashed wave) at time frame $t = 3\, 371 $. }
+    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 3\, 371 $. }
     \label{fig_two_periodic_oppo_Numerov}
 \end{figure}
-
-And again, as we would expect, the Discrete Fourier Transform holds best of the three. and is shown in Figure \ref{fig_two_periodic_oppo_dft}.
 
 \begin{figure}[H]
     \centering
@@ -1528,7 +1510,6 @@ And again, as we would expect, the Discrete Fourier Transform holds best of the 
     \label{fig_two_periodic_oppo_dft}
 \end{figure}
 
-And again, the simulation with DFT (magenta) and the exact solution (black), which ran for $t \approx 1$ year, never separated
 
 
 
@@ -1548,73 +1529,66 @@ Since all of our methods are suitable for the Dirichlet boundary conditions, we 
 First, let's look at the simulation of one sine wave in the form \ref{one_wave}. The problem is
 \begin{equation}\label{}
     \begin{cases}
-        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
+        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \\[5pt]
         u(0, t) = u(L, t) = 0 \, , \\[5pt]
-        u(x,0) = \sin{(20 x)} \quad 0 \leq x \leq \pi/2 \, , \quad u_t(x,0) =  - 20 \cos{(20x)} \quad 0 \leq x \leq \pi/2 \,  , \\[5pt]
-        L = \pi \, , \quad N = 40 \, , \quad c = 1 \, ,
+        L = \pi \, , \quad N = 40 \, , \quad c = 1 \, , \\[5pt]
+        u(x,0) = \sin{(20 x)} \quad 0 \leq x \leq \pi/2 \, , \\[5pt] 
+        u_t(x,0) =  - 20 \cos{(20x)} \quad 0 \leq x \leq \pi/2 \, .
     \end{cases}
 \end{equation}
-where in the first row is our evolution equation, in the second row are the boundary conditions, in the third row are the initial conditions — they are identically zero outside of the mentioned interval. And lastly, in the fourth row are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$.
+In the first line is the evolution equation; in the second line are the boundary conditions; in the third line are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the fourth and fifth lines are the initial conditions — the functions are identically zero outside the prescribed intervals.
 
 The plot of the initial exact wave is in Figure \ref{fig_one_dirichlet_initial}.
-
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_initial.eps}
-    \caption{Exact solution at $t \approx 0 $. }
+    \caption{Initial exact wave at $t = 0$. }
     \label{fig_one_dirichlet_initial}
 \end{figure}
-
-The graph of the Finite Difference approximation at time $t = 4 $ is shown in the Figure. \ref{fig_one_dirichlet_FD}. We can see that even after this short time, the approximation is very inaccurate.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_FD.eps}
-    \caption{FD (blue) method separates from exact solution (black) after $t = 4 $. }
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 4$.}
     \label{fig_one_dirichlet_FD}
 \end{figure}
-
-In Figure \ref{fig_one_dirichlet_Numerov} is the graph of the Numerov approximation at time $t = 29 $.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_Numerov.eps}
-    \caption{Numerov (red) method separates from exact solution (black) after $t = 29 $.   }
+    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 29$.}
     \label{fig_one_dirichlet_Numerov}
 \end{figure}
-
-And the comparison of methods CDM, MBCDM, LGCC and DST at time frame $t = 18 \; 200 $ is in Figures \ref{fig_one_dirichlet_CDM}, \ref{fig_one_dirichlet_MBCDM}, \ref{fig_one_dirichlet_LGCC} and \ref{fig_one_dirichlet_DST}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_CDM.eps}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 18 \; 200 $. }
+    \caption{Comparison of Chebyshev Differentiation matrix approximation (brown wave) and exact solution (black dashed wave) at time frame $t = 18 \; 200$.}
     \label{fig_one_dirichlet_CDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_MBCDM.eps}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t \approx 18 \; 200 $.}
+    \caption{Comparison of Mapped Barycentric Chebyshev Differentiation Matrix approximation (orange wave) and exact solution (black dashed wave) at time frame $t = 18 \; 200 $.}
     \label{fig_one_dirichlet_MBCDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_LGCC.eps}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t \approx 18 \; 200 $. }
+    \caption{Comparison of Legendre-Galerkin-Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 18 \; 200 $. }
     \label{fig_one_dirichlet_LGCC}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_DST.eps}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t \approx 18 \; 200 $. }
+    \caption{Comparison of Discrete Sine Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 18 \; 200 $. }
     \label{fig_one_dirichlet_DST}
 \end{figure}
 
-The conclusion from our numerical experiments is that the Discrete Sine Transform method is the best among all of them.
 
 
 \subsection{Two waves - same direction}
@@ -1622,150 +1596,141 @@ The conclusion from our numerical experiments is that the Discrete Sine Transfor
 Next, let's look at the simulation of two sine waves that propagate in the same direction \ref{two_waves_same}. The problem is
 \begin{equation}\label{}
     \begin{cases}
-        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
+        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \\[5pt]
         u(0, t) = u(L, t) = 0 \, , \\[5pt]
+        L = \pi \, , \quad N = 50 \, , \quad c = 1 \, , \\[5pt]
         u(x,0) = \sin{(16 x)} + \sin{(24 x)} \quad 0 \leq x \leq \pi/2 \, , \\[5pt]
-        u_t(x,0) = - 16 \cos(16 x) - 24 \cos(24 x) \quad 0 \leq x \leq \pi/2 \,  , \\[5pt]
-        L = \pi \, , \quad N = 50 \, , \quad c = 1 \, ,
+        u_t(x,0) = - 16 \cos(16 x) - 24 \cos(24 x) \quad 0 \leq x \leq \pi/2 \, .
+
     \end{cases}
 \end{equation}
-where in the first row is our evolution equation; in the second row are the boundary conditions; in the third and fourth rows are the initial conditions — they are identically zero outside of the mentioned interval. And lastly, in the fifth row are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$.
+In the first line is the evolution equation; in the second line are the boundary conditions; in the third line are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the fourth and fifth lines are the initial conditions — the functions are identically zero outside the prescribed intervals.
 
 The plot of the initial exact wave is in Figure \ref{fig_two_dirichlet_same_initial}.
-
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_initial.eps}
-    \caption{Exact solution at $t = 0 $. }
+    \caption{Initial exact wave at $t = 0$.}
     \label{fig_two_dirichlet_same_initial}
 \end{figure}
-
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_FD.eps}
-    \caption{FD (blue) method separates from exact solution (black) after $t = 7$.}
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 7$.}
     \label{}
 \end{figure}
-
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_Numerov.eps}
-    \caption{Numerov (red) method separates from exact solution (black) after $t = 70 $. }
+    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 70$.}
     \label{}
 \end{figure}
-
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_CDM.eps}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 472 \; 000 $.}
+    \caption{Comparison of Chebyshev Differentiation matrix approximation (brown wave) and exact solution (black dashed wave) at time frame $t = 472 \; 200$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_MBCDM.eps}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t = 472 \; 000 $.}
+    \caption{Comparison of Mapped Barycentric Chebyshev Differentiation Matrix approximation (orange wave) and exact solution (black dashed wave) at time frame $t = 472 \; 000$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_LGCC.eps}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t = 472 \; 000 $.}
+    \caption{Comparison of Legendre-Galerkin-Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 472 \; 000 $.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_DST.eps}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t = 472 \; 000 $.}
+    \caption{Comparison of Discrete Sine Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 472 \; 000 $.}
     \label{}
 \end{figure}
 
-We can see that DST is, again, the best.
+
+
 
 \subsection{Two waves - opposite direction}
 \noindent
 Next, let's look at the simulation of two sine waves that propagate in the opposite direction \ref{two_waves_oppo}. The problem is
 \begin{equation}\label{}
     \begin{cases}
-        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
+        \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \\[5pt]
         u(0, t) = u(L, t) = 0 \, , \\[5pt]
+        L = \pi \, , \quad N = 40 \, , \quad c = 1 \, , \\[5pt]
         u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq 3\pi/8 \, , \\[5pt]
         u(x,0) = \sin{(24 x)} \quad 3\pi/4 \leq x \leq \pi \, , \\[5pt]
         u_t(x,0) = - 16 \cos(16 x) \quad 0 \leq x \leq 3\pi/8 \,  , \\[5pt]
-        u_t(x,0) = - 24 \cos(24 x) \quad 3\pi/4 \leq x \leq \pi \,  , \\[5pt]
-        L = \pi \, , \quad N = 40 \, , \quad c = 1 \, ,
+        u_t(x,0) = - 24 \cos(24 x) \quad 3\pi/4 \leq x \leq \pi \, .
     \end{cases}
 \end{equation}
-where in the first row is our evolution equation; in the second row are the boundary conditions; in the third, fourth, fifth, and sixth rows are the initial conditions — they are identically zero outside of the mentioned interval. And lastly, in the seventh row are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$.
+In the first line is the evolution equation; in the second line are the boundary conditions; in the third line are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the fourth, fifth, and sixth lines are the initial conditions — the functions are identically zero outside the prescribed intervals.
 
 The plot of the initial exact wave is in Figure \ref{fig_two_dirichlet_oppo_initial}.
-
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_initial.eps}
-    \caption{Exact solution at $t = 0 $.}
+    \caption{Initial exact wave at $t = 0$.}
     \label{fig_two_dirichlet_oppo_initial}
 \end{figure}
-
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_FD.eps}
-    \caption{FD (blue) method separates from exact solution (black) after $t = 7 $.}
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 7 $.}
     \label{}
 \end{figure}
-
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_Numerov.eps}
-    \caption{Numerov (red) method separates from exact solution (black) after $t = 38 $.   }
+    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 38 $.   }
     \label{}
 \end{figure}
-
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_CDM.eps}
-    \caption{Simulation with CDM (brown) and exact solution (black) that ran for $t = 452 \; 000 $.}
+    \caption{Comparison of Chebyshev Differentiation matrix approximation (brown wave) and exact solution (black dashed wave) at time frame $t = 452 \; 000 $.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_MBCDM.eps}
-    \caption{Simulation with MBCDM (orange) and exact solution (black) that ran for $t = 452 \; 000 $. }
+    \caption{Comparison of Mapped Barycentric Chebyshev Differentiation Matrix approximation (orange wave) and exact solution (black dashed wave) at time frame $t = 452 \; 000 $. }
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_LGCC.eps}
-    \caption{Simulation with LGCC (green) and exact solution (black) that ran for $t = 452 \; 000 $.}
+    \caption{Comparison of Legendre-Galerkin-Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 452 \; 000 $.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_DST.eps}
-    \caption{Simulation with DST (magenta) and exact solution (black) that ran for $t = 452 \; 000 $.}
+    \caption{Comparison of Discrete Sine Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 452 \; 000 $.}
     \label{}
 \end{figure}
 
-We can see that DST is, again, the best.
 
-
-
-\section{Conclusion from wave equation tests}
+\section{Conclusion from semi-discrete simulations of classical wave equation}
 \noindent
-From our numerical experiments with the wave equation, we have observed that the discrete Fourier transform is best for periodic boundary problems and the Discrete Sine Transform is best for Dirichlet boundary problems.
+From our simulations of the wave equation, we have observed that the Discrete Fourier Transform is the best for periodic boundary problems and the Discrete Sine Transform is best for Dirichlet boundary problems.
 
 
 
