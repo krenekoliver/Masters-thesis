@@ -1278,123 +1278,126 @@ Our goal will again be to compare the methods introduced in the previous chapter
 
 The focus of this study will be on two cases of boundary conditions: periodic boundary conditions
 \begin{equation}
-    u(0,t) = u(\pi,t) \, ,
+    u(0, t) = u(L, t) \, , \quad \dfrac{\partial u}{\partial x} (0,  t) = \dfrac{\partial u}{\partial x} (L,  t) \, \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
 and Dirichlet boundary conditions
 \begin{equation}
-    u(0,t) = u(\pi,t) = 0 \, .
+    u(0,  t) = u(L, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
-And the evolution of waves in function form
+where $L$ is the length of our interval. The waves will be in function form
 \begin{equation}\label{eq_wave_general}
     u(x,t) = \sin{(kx - \omega_k t)} + \sin{(lx \pm \omega_l t )} \, ,
 \end{equation}
-where the relation between wave number $k$ and angular frequency $\omega_k$ is $\omega_k = c  k$. And analogously, for wave number $l$ and angular frequency $\omega_l$, the relation is $\omega_k = c  k$. Three general cases of waves from \ref{eq_wave_general} will be simulated
-\begin{itemize}
-    \item $\sin{(kx - \omega_k t)} \, ,$
-    \item $\sin{(kx - \omega_k t)} + \sin{(lx - \omega_l t )} \, ,$
-    \item $\sin{(kx - \omega_k t)} + \sin{(lx + \omega_l t )} \, ,$
-\end{itemize}
-with parameters $k$ and $l$ chosen appropriately to clearly demonstrate the differences between the methods.
+where the relation between wave number $k$ and angular frequency $\omega_k$ is $\omega_k = c  k$. And analogously, for wave number $l$ and angular frequency $\omega_l$, the relation is $\omega_k = c  k$. Three combinations of waves from \ref{eq_wave_general} will be simulated
+\begin{equation}\label{one_wave}
+    \sin{(kx - \omega_k t)} \, ,
+\end{equation}
+\begin{equation}\label{two_waves_same}
+    \sin{(kx - \omega_k t)} + \sin{(lx - \omega_l t )} \, ,
+\end{equation}
+\begin{equation}\label{two_waves_oppo}
+    \sin{(kx - \omega_k t)} + \sin{(lx + \omega_l t )} \, ,
+\end{equation}
+with parameters $k$ and $l$ chosen appropriately to fit our purposes.
 
 First, we introduce exact time evolution and then present the plots from our simulations. The simulations are done in dimensionless time units.
 
 
+
 \section{Exact time evolution}
 \noindent
-Instead of using inaccurate numerical time-stepping methods (such as leapfrog), we employ exact time integration based on the eigen-decomposition of the spatial operator. The procedure is as follows:
+Instead of using conventional numerical time-stepping schemes (such as leapfrog or MATLAB's \texttt{ode45}), we employ exact time integration based on the eigen-decomposition of the spatial operator. This procedure consists of the following steps:
 
 \begin{enumerate}
-    \item We discretize the spatial operator and define the matrix $A$ as an approximation of the negative second derivative:
+    \item We discretize the spatial differential operator and obtain a matrix $A$ that approximates the negative second derivative
     \begin{equation}
-        A \approx -\frac{\partial^2}{\partial x^2}.
+        A \approx -\frac{\partial^2}{\partial x^2} \, .
     \end{equation}
 
-    \item Substituting into the wave equation \eqref{eq_wave} (with $c=1$) yields the semi-discrete system
+    \item Substituting into the wave equation \ref{eq_wave} (with $c=1$) yields the semi-discrete system
     \begin{equation}
-        \frac{\partial^2 \mathbf{u}}{\partial t^2} = -A \mathbf{u}.
+        \frac{\partial^2 \mathbf{u}}{\partial t^2} = -A \mathbf{u} \, .
     \end{equation}
 
-    \item Next, we solve the eigenvalue problem for the matrix $A$:
+    \item We solve the eigenvalue problem
     \begin{equation}
-        A \mathbf{v}_k = \lambda_k \mathbf{v}_k,
+        A \mathbf{v}_k = \lambda_k \mathbf{v}_k \, , \qquad k=1,\dots,N \, ,
     \end{equation}
-    where $\lambda_k > 0$ are the eigenvalues and $\mathbf{v}_k$ are the corresponding eigenvectors. From these we obtain the angular frequencies
-    \begin{equation}
-        \omega_k = \sqrt{\lambda_k}.
-    \end{equation}
-
-    \item Substituting from above 
-    \begin{equation} 
-        \frac{\partial^2 \mathbf{u}}{\partial t^2} + \boldsymbol{\omega}^2 \mathbf{u} = 0
-    \end{equation}
-    where \[ \mathbf{u(t)} = \sum_k u_k(t)  = \sum_k c_k(t) v_k(x) \]
-    \item We project the initial conditions $u(x,0)$ and $u_t(x,0)$ onto the eigenbasis to obtain the modal coefficients $a_k$ and $b_k$.
-
-    \item Each mode then evolves independently according to the equation of a harmonic oscillator:
-    \begin{equation}
-        \frac{d^2 c_k}{dt^2} + \omega_k^2 c_k = 0.
-    \end{equation}
-    The analytical solution of this second-order ODE is
-    \begin{equation}
-        c_k(t) = a_k \cos(\omega_k t) + b_k \sin(\omega_k t).
+    where $\lambda_k > 0$ are the eigenvalues and $\mathbf{v}_k$ are the corresponding eigenvectors. The associated angular frequencies are
+    \begin{equation}\label{omega}
+        \omega_k = \sqrt{\lambda_k} \, .
     \end{equation}
 
-    \item Finally, we reconstruct the full solution at any time $t$ by superposition:
+    \item The general solution in the modal basis is
     \begin{equation}
-        u(x,t) = \sum_k c_k(t) \, v_k(x).
+        \mathbf{u}(t) = \sum_{k=1}^N c_k(t) \mathbf{v}_k,
+    \end{equation}
+    where each modal coefficient $c_k(t)$ satisfies the harmonic oscillator equation
+    \begin{equation}
+        \frac{d^2 c_k}{dt^2} + \omega_k^2 c_k = 0 \, .
+    \end{equation}
+
+    \item Projecting the initial conditions $u(x,0)$ and $u_t(x,0)$ onto the eigenbasis gives the modal coefficients $a_k$ and $b_k$.
+
+    \item The analytical solution of the modal equation is
+    \begin{equation}
+        c_k(t) = a_k \cos(\omega_k t) + b_k \sin(\omega_k t) \, .
+    \end{equation}
+
+    \item The full solution at any time $t$ is finally reconstructed by superposition
+    \begin{equation}
+        u(x,t) = \sum_{k=1}^N c_k(t) \, v_k(x).
     \end{equation}
 \end{enumerate}
 
-This method ensures that the time evolution is \textbf{exact} — there is no time discretization error. The only approximation (and thus the only source of error) comes from the spatial discretization of the second derivative operator.
+This approach guaranties that the time evolution is exact — there is no time-discretization error. The only approximation (and thus the only source of error) originates from the spatial discretization of the continuous second-order derivative operator.
 
-
-
-\subsection*{Methods used in the code}
+\section{Methods used in the codes}
 \noindent
-\begin{itemize}
-    \item \textbf{DST (Discrete Sine Transform)}: Uses exact sine modes $\sin(kx)$ on $[0, \pi]$. The frequencies are analytically $\omega_k = c \cdot k$. This is the most accurate method for Dirichlet boundary conditions.
+The spatial matrix operator $A$ is constructed using several different discretization techniques, depending on the type of boundary conditions.
+
+\subsubsection*{Discrete Fourier Transform (DFT)}
+\noindent
+Uses complex exponential modes $e^{i 2\pi k x / L}$ (or equivalently, real sine and cosine pairs) on a periodic interval $[0, \, L]$. The frequencies are exactly $\omega_k = |k|$. This method is designed specifically for periodic boundary conditions. 
+
+\subsubsection*{Discrete Sine Transform (DST)}
+\noindent
+Uses the analytically known eigenmodes $\sin(k \pi x/L)$ on the interval $[0, \, L]$. The frequencies are exactly $\omega_k = k$. This method is designed specifically for Dirichlet boundary conditions.
+
+\subsubsection*{FD, Numerov's, CDM, MBCD, LGCC}
+\noindent
+For these methods, the exact same modal time evolution, as described above, is applied. The relation for frequencies is \ref{omega}.
+
+It is evident that the methods suitable for periodic boundary conditions are FD and Numerov's. For the Dirichlet boundary conditions, all methods are equally applicable.
     
-    \item \textbf{FD, Numerov, CDM, MBCD, LGCC}: These methods construct a matrix approximation of the second derivative, compute its eigenvalues and eigenvectors using \texttt{eig}, and then apply the same analytical time evolution as above.
-\end{itemize}
-
-\subsection*{Mathematical formulation}
-\noindent
-For any of the methods, the solution at time $t$ is given by:
-\[
-\mathbf{u}(t) = V \Big( \mathbf{a} \cdot \cos(\boldsymbol{\omega} t) + \mathbf{b} \cdot \sin(\boldsymbol{\omega} t) \Big),
-\]
-where:
-\begin{itemize}
-    \item $V$ is the matrix of eigenvectors,
-    \item $\boldsymbol{\omega}$ is the vector of angular frequencies,
-    \item $\mathbf{a}$ and $\mathbf{b}$ are coefficient vectors obtained from the initial conditions.
-\end{itemize}
-
-This technique allows for direct computation of the solution at any time $t$ without time-stepping.
-
-
 
 
 
 \section{Periodic boundary conditions}
 \noindent
-In this section, we will compare Finite Differences, the Numerov approximation, and the Discrete Fourier Transform. Other methods based on chebyshev collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of problem.
+In this section, we will focus on periodic boundary conditions
+\begin{equation}
+    u(0, t) = u(L, t) \, , \quad \dfrac{\partial u}{\partial x} (0, t) = \dfrac{\partial u}{\partial x} (L, t) \, \quad \text{for all} \; t \geq 0 \, ,
+\end{equation}
+where $L$ is the length of our interval.
+
+Simulations will be done by implementing Finite Differences, Numerov's method, and the Discrete Fourier Transform. Other methods based on Chebyshev Collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of boundary conditions.
 
 \subsection{One wave}
 \noindent
-First, let's look at the special case of \ref{eq_wave_general}, specifically a wave in its initial function form
+First, let's look at the simulation of one sine wave in the form \ref{one_wave}. The problem is
 
 \begin{equation}\label{eq_periodic_one}
     \begin{cases}
         \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
-        u(x,0) = \sin{(6 x)} \, , \\[5pt]
-        u_t(x,0) =  - 6 \cos{(6x)} \, \\[5pt]
-        u(0,t) = u(\pi,t) \, , \\[5pt]
-        L = \pi \, , \quad N = 64 \, .
+        u(0, t) = u(L, t) \, , \quad u_x(0, t) = u_x(L, t) \, , \\[5pt]
+        u(x,0) = \sin{(6 x)} \, , \quad u_t(x,0) =  - 6 \cos{(6x)} \, , \\[5pt]
+        L = \pi \, , \quad N = 64 \, , \quad c = 1 \, ,
     \end{cases}
 \end{equation}
+where in the first row is our evolution equation, in the second row are the boundary conditions, in the third row are the initial conditions, and lastly, in the fourth row is the length of the interval $L$, the number of grid points $N$ in the interval, and the value of parameter $c$.
 
-and how it behaves under the influence of the wave equation \ref{eq_wave}. The graph of the wave \ref{eq_periodic_one} is shown in Figure \ref{fig_periodic_one_initial}. The number of points in an interval is $N = 64$, and the length of the interval is $L = \pi$.
+The plot of the initial exact wave is in Figure \ref{fig_periodic_one_initial}.
 
 \begin{figure}[H]
     \centering
@@ -1436,18 +1439,19 @@ The conclusion of our experiments is that the worst approximation method is Fini
 
 \subsection{Two waves - same direction}
 \noindent
-Next, we will test how the wave in its initial function form
+Next, let's look at the simulation of two sine waves that propagate in the same direction \ref{two_waves_same}. The problem is
+
 \begin{equation}\label{}
     \begin{cases}
         \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
-       u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \\[5pt]
-        u_t(x,0) = - 5 \cos{(5x)} - 6 \cos{(6x)} \, \\[5pt]
-        u(0,t) = u(\pi,t) \, , \\[5pt]
-        L = 2\pi \, , \quad N = 128 \, .
+        u(0, t) = u(L, t) \, , \quad u_x(0, t) = u_x(L, t) \, , \\[5pt]
+        u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \quad u_t(x,0) =  - 5 \cos{(5x)} - 6 \cos{(6x)} \, , \\[5pt]
+        L = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, ,
     \end{cases}
 \end{equation}
+where in the first row is our evolution equation, in the second row are the boundary conditions, in the third row are the initial conditions, and lastly, in the fourth row is the length of the interval $L$, the number of grid points $N$ in the interval, and the value of parameter $c$.
 
-behaves under the influence of equation \ref{eq_wave}. The number of points in an interval $N = 128$ and the length of the interval $L = 2\pi$. The graph of initial wave is in Figure \ref{fig_two_periodic_same_initial}.
+The plot of the initial exact wave is in Figure \ref{fig_two_periodic_same_initial}.
 
 \begin{figure}[H]
     \centering
@@ -1487,17 +1491,20 @@ And lastly, the comparison of the Discrete Fourier Transform and the exact solut
 
 \subsection{Two waves - opposite direction}
 \noindent
-The last case for periodic boundary conditions is the evolution of a wave that in initial function form
+Finally, let's look at the simulation of two sine waves that propagate in the opposite direction \ref{two_waves_oppo}. The problem is
+
 \begin{equation}\label{}
     \begin{cases}
         \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
-        u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \\[5pt]
-        u_t(x,0) = - 5 \cos{(5x)} + 6 \cos{(6x)} \, \\[5pt]
-        u(0,t) = u(\pi,t) \, , \\[5pt]
-        L = 2\pi \, , \quad N = 128 \, .
+        u(0, t) = u(L, t) \, , \quad u_x(0, t) = u_x(L, t) \, , \\[5pt]
+        u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \quad u_t(x,0) =  - 5 \cos{(5x)} + 6 \cos{(6x)} \, , \\[5pt]
+        L = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, ,
     \end{cases}
 \end{equation}
-which is the superposition of two waves that propagate in the opposite direction. Parameters are $N = 128$ and $L = 2\pi$. The initial wave can be seen in Figure \ref{fig_two_periodic_oppo_initial}.
+where in the first row is our evolution equation, in the second row are the boundary conditions, in the third row are the initial conditions, and lastly, in the fourth row is the length of the interval $L$, the number of grid points $N$ in the interval, and the value of parameter $c$.
+
+The plot of the initial exact wave is in Figure \ref{fig_two_periodic_oppo_initial}.
+
 
 \begin{figure}[H]
     \centering
@@ -1533,7 +1540,7 @@ And again, as we would expect, the Discrete Fourier Transform holds best of the 
     \label{fig_two_periodic_oppo_dft}
 \end{figure}
 
-And again, the simulation with DFT (magenta) and the exact solution (black), which ran for $t \approx 1$ year, never separated.
+And again, the simulation with DFT (magenta) and the exact solution (black), which ran for $t \approx 1$ year, never separated
 
 
 
@@ -1541,26 +1548,31 @@ And again, the simulation with DFT (magenta) and the exact solution (black), whi
 \noindent
 In this section, we will focus on Dirichlet boundary conditions
 \begin{equation}
-    u(0,t) = u(\pi,t) = 0 \, .
+    u(0,  t) = u(L, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
-And we will test the precision of all the aforementioned methods:
-\begin{itemize}
-    \item Finite Differences
-    \item Numerov
-    \item Chebyshev Differentiation Matrix
-    \item Mapped Barycentric Chebyshev Differentiation Matrix
-    \item Legendre-Galerkin-Chebyshev Collocation
-    \item Discrete Sine Transform
-\end{itemize}
-We will again test them with the time evolution of three different cases of \ref{eq_wave_general}.
- 
+where $L$ is the length of our interval.
 
+Since all of our methods are suitable for the Dirichlet boundary conditions, we will run simulations with all of them.
+
+ 
 \subsection{One wave}
 \noindent
-First, we will focus on time evolution of wave in the initial function form
+First, let's look at the simulation of one sine wave in the form \ref{one_wave}. The problem is
+
 \begin{equation}\label{}
     \begin{cases}
         \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
+        u(0, t) = u(L, t) = 0 \, , \\[5pt]
+        u(x,0) = \sin{(20 x)} \quad 0 \leq x \leq \pi/2 \, , \quad u_t(x,0) =  - 20 \cos{(20x)} \quad 0 \leq x \leq \pi/2 \,  , \\[5pt]
+        L = \pi \, , \quad N = 40 \, , \quad c = 1 \, ,
+    \end{cases}
+\end{equation}
+where in the first row is our evolution equation, in the second row are the boundary conditions, in the third row are the initial conditions — they are zero outside of the mentioned interval, and lastly, in the fourth row is the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$.
+
+The plot of the initial exact wave is in Figure \ref{fig_one_dirichlet_initial}.
+
+\begin{equation}\label{}
+    \begin{cases}
         u(x,0) =
             \begin{cases}
             \sin(20 x)  & 0 \leq x \leq \dfrac{\pi}{2} \, , \\[1pt]
@@ -1571,13 +1583,9 @@ First, we will focus on time evolution of wave in the initial function form
             - 20 \cos(20 x)  & 0 \leq x \leq \dfrac{\pi}{2} \, , \\[1pt]
             0                      & \dfrac{\pi}{2} < x \leq \pi \, ,
             \end{cases} \, \\[5pt]
-        u(0,t) = u(\pi,t) = 0 \, , \\[5pt]
-        L = \pi \, , \quad N = 40 \, .
     \end{cases}
 \end{equation}
 
-
-Simulations has parameters $L = \pi$ and $N = 40$. Graph of the initial form can be seen in Figure \ref{fig_one_dirichlet_initial}.
 
 \begin{figure}[H]
     \centering
