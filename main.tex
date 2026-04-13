@@ -488,7 +488,6 @@ The whole approximation can be rewritten in matrix form
 \end{equation}
 where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$. The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for the Paine equation and in algorithm \ref{alg_Numerov_CE} for the Coffey--Evans equation. Algorithms contain the basic Numerov's method and the Numerov's method with correction.\cite{numerov}
 
-
 \begin{algorithm}[H]
 \caption{Numerov's method - Paine equation}
 \label{alg_Numerov_Paine}
@@ -517,8 +516,6 @@ where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$. The imp
 \State \textbf{output} $\lambda_1^{\text{corrected}} \leq \lambda_2^{\text{corrected}} \leq \dots \leq \lambda_N^{\text{corrected}}$
 \end{algorithmic}
 \end{algorithm}
-
-
 
 \begin{algorithm}[H]
 \caption{Numerov's method - Coffey--Evans equation}
@@ -650,7 +647,6 @@ Homogeneous Dirichlet boundary conditions are imposed by removing the first and 
 
 The implementation of this method is in algorithm \ref{alg_MBCDM_Paine} for the Paine equation and in algorithm \ref{alg_MBCDM_CE} for the Coffey--Evans equation.
 
-
 \begin{algorithm}[H]
 \caption{Mapped Barycentric Chebyshev Differentiation Matrix - Paine equation}
 \label{alg_MBCDM_Paine}
@@ -678,7 +674,6 @@ The implementation of this method is in algorithm \ref{alg_MBCDM_Paine} for the 
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
-
 
 \begin{algorithm}[H]
 \caption{Mapped Barycentric Chebyshev Differentiation Matrix - Coffey--Evans equation}
@@ -708,7 +703,6 @@ The implementation of this method is in algorithm \ref{alg_MBCDM_Paine} for the 
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
-
 
 
 
@@ -880,7 +874,6 @@ The implementation of the method for the Paine and Coffey--Evans equations is de
 
 
 
-
 \section{Computed eigenvalues}
 \noindent
 Now we present the computed data and compare our methods. We are mainly interested in the comparison of the high-index eigenvalues because the low-index eigenvalues can be accurately calculated by all of the methods. So, only by comparing these high-index ones can we accurately tell which method is the best.
@@ -898,7 +891,6 @@ First, we present the computed data for the Paine equation.
 For all the tables below, it holds that in the first column there is an index of the eigenvalue, and in the second column are the reference eigenvalues computed with the Matslise application. The rest of the columns are eigenvalues computed using the particular method. The numbers in the brackets represent the size of the differentiation matrix (e.g. $500 \times 500$) and hence the number of grid points in an interval.
 
 Below the eigenvalues, we have included the relative error $\varepsilon$ and the CPU time for each computation.
-
 
 \begin{table}[H]
 \centering
@@ -1194,7 +1186,7 @@ where
 \end{equation}
 \end{theorem}
 
-Now we use this theorem to derive asymptotes for our two test problems. The asymptote for Paine equation is
+Now we use this theorem to derive asymptotes for our two test problems. The asymptote for the Paine equation is
 \begin{equation}
     \lambda_k^{1/2} = k + \frac{e^{\pi} - 1}{2 \pi k} + \frac{1}{4 \pi k^3} \left( \frac{e^{2 \pi} -1}{4} - \frac{(e^{\pi}-1)^2}{\pi} + \frac{e^{\pi}}{2} - \frac{1}{2} \right) + O(k^{-4}) \, ,
 \end{equation}
@@ -1386,7 +1378,6 @@ Simulations will be done by implementing Finite Differences, Numerov's method, a
 \subsection{One wave}
 \noindent
 First, let's look at the simulation of one sine wave in the form \ref{one_wave}. The problem is
-
 \begin{equation}\label{eq_periodic_one}
     \begin{cases}
         \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
@@ -1395,7 +1386,7 @@ First, let's look at the simulation of one sine wave in the form \ref{one_wave}.
         L = \pi \, , \quad N = 64 \, , \quad c = 1 \, ,
     \end{cases}
 \end{equation}
-where in the first row is our evolution equation, in the second row are the boundary conditions, in the third row are the initial conditions, and lastly, in the fourth row is the length of the interval $L$, the number of grid points $N$ in the interval, and the value of parameter $c$.
+where in the first row is our evolution equation; in the second row are the boundary conditions; in the third row are the initial conditions; and lastly, in the fourth row are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$.
 
 The plot of the initial exact wave is in Figure \ref{fig_periodic_one_initial}.
 
@@ -1440,7 +1431,6 @@ The conclusion of our experiments is that the worst approximation method is Fini
 \subsection{Two waves - same direction}
 \noindent
 Next, let's look at the simulation of two sine waves that propagate in the same direction \ref{two_waves_same}. The problem is
-
 \begin{equation}\label{}
     \begin{cases}
         \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
@@ -1449,7 +1439,7 @@ Next, let's look at the simulation of two sine waves that propagate in the same 
         L = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, ,
     \end{cases}
 \end{equation}
-where in the first row is our evolution equation, in the second row are the boundary conditions, in the third row are the initial conditions, and lastly, in the fourth row is the length of the interval $L$, the number of grid points $N$ in the interval, and the value of parameter $c$.
+where in the first row is our evolution equation; in the second row are the boundary conditions; in the third row are the initial conditions; and lastly, in the fourth row are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$.
 
 The plot of the initial exact wave is in Figure \ref{fig_two_periodic_same_initial}.
 
@@ -1491,8 +1481,7 @@ And lastly, the comparison of the Discrete Fourier Transform and the exact solut
 
 \subsection{Two waves - opposite direction}
 \noindent
-Finally, let's look at the simulation of two sine waves that propagate in the opposite direction \ref{two_waves_oppo}. The problem is
-
+Finally, let's look at the simulation of two sine waves that propagate in opposite directions \ref{two_waves_oppo}. The problem is
 \begin{equation}\label{}
     \begin{cases}
         \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
@@ -1501,10 +1490,9 @@ Finally, let's look at the simulation of two sine waves that propagate in the op
         L = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, ,
     \end{cases}
 \end{equation}
-where in the first row is our evolution equation, in the second row are the boundary conditions, in the third row are the initial conditions, and lastly, in the fourth row is the length of the interval $L$, the number of grid points $N$ in the interval, and the value of parameter $c$.
+where in the first row is our evolution equation, in the second row are the boundary conditions, in the third row are the initial conditions; and lastly, in the fourth row are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of parameter $c$.
 
 The plot of the initial exact wave is in Figure \ref{fig_two_periodic_oppo_initial}.
-
 
 \begin{figure}[H]
     \centering
@@ -1558,7 +1546,6 @@ Since all of our methods are suitable for the Dirichlet boundary conditions, we 
 \subsection{One wave}
 \noindent
 First, let's look at the simulation of one sine wave in the form \ref{one_wave}. The problem is
-
 \begin{equation}\label{}
     \begin{cases}
         \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
@@ -1567,24 +1554,9 @@ First, let's look at the simulation of one sine wave in the form \ref{one_wave}.
         L = \pi \, , \quad N = 40 \, , \quad c = 1 \, ,
     \end{cases}
 \end{equation}
-where in the first row is our evolution equation, in the second row are the boundary conditions, in the third row are the initial conditions — they are zero outside of the mentioned interval, and lastly, in the fourth row is the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$.
+where in the first row is our evolution equation, in the second row are the boundary conditions, in the third row are the initial conditions — they are identically zero outside of the mentioned interval. And lastly, in the fourth row are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$.
 
 The plot of the initial exact wave is in Figure \ref{fig_one_dirichlet_initial}.
-
-\begin{equation}\label{}
-    \begin{cases}
-        u(x,0) =
-            \begin{cases}
-            \sin(20 x)  & 0 \leq x \leq \dfrac{\pi}{2} \, , \\[1pt]
-            0                      & \dfrac{\pi}{2} < x \leq \pi \, ,
-            \end{cases} \,  \\[5pt]
-        u_t(x,0) =
-            \begin{cases}
-            - 20 \cos(20 x)  & 0 \leq x \leq \dfrac{\pi}{2} \, , \\[1pt]
-            0                      & \dfrac{\pi}{2} < x \leq \pi \, ,
-            \end{cases} \, \\[5pt]
-    \end{cases}
-\end{equation}
 
 
 \begin{figure}[H]
@@ -1642,33 +1614,24 @@ And the comparison of methods CDM, MBCDM, LGCC and DST at time frame $t = 18 \; 
     \label{fig_one_dirichlet_DST}
 \end{figure}
 
-The conclusion from our numerical experiments is that the Discrete Sine Transform method is the best among them all.
+The conclusion from our numerical experiments is that the Discrete Sine Transform method is the best among all of them.
 
 
 \subsection{Two waves - same direction}
 \noindent
-The initial function form is
-
+Next, let's look at the simulation of two sine waves that propagate in the same direction \ref{two_waves_same}. The problem is
 \begin{equation}\label{}
     \begin{cases}
         \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
-        u(x,0) =
-            \begin{cases}
-            \sin(16 x) + \sin{(24 x)}  & 0 \leq x \leq \dfrac{\pi}{2} \, , \\[1pt]
-            0                      & \dfrac{\pi}{2} < x \leq \pi \, ,
-            \end{cases} \,  \\[5pt]
-        u_t(x,0) =
-            \begin{cases}
-            - 16 \cos(16 x) - 24 \cos(24 x)  & 0 \leq x \leq \dfrac{\pi}{2} \, , \\[1pt]
-            0                      & \dfrac{\pi}{2} < x \leq \pi \, ,
-            \end{cases} \, \\[5pt]
-        u(0,t) = u(\pi,t) = 0 \, , \\[5pt]
-        L = \pi \, , \quad N = 50 \, .
+        u(0, t) = u(L, t) = 0 \, , \\[5pt]
+        u(x,0) = \sin{(16 x)} + \sin{(24 x)} \quad 0 \leq x \leq \pi/2 \, , \\[5pt]
+        u_t(x,0) = - 16 \cos(16 x) - 24 \cos(24 x) \quad 0 \leq x \leq \pi/2 \,  , \\[5pt]
+        L = \pi \, , \quad N = 50 \, , \quad c = 1 \, ,
     \end{cases}
 \end{equation}
+where in the first row is our evolution equation; in the second row are the boundary conditions; in the third and fourth rows are the initial conditions — they are identically zero outside of the mentioned interval. And lastly, in the fifth row are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$.
 
-
-Parameters are $N = 50$ and $L = \pi$. Graph can be seen in Figure \ref{fig_two_dirichlet_same_initial}.
+The plot of the initial exact wave is in Figure \ref{fig_two_dirichlet_same_initial}.
 
 
 \begin{figure}[H]
@@ -1727,28 +1690,22 @@ We can see that DST is, again, the best.
 
 \subsection{Two waves - opposite direction}
 \noindent
-The initial function form is
+Next, let's look at the simulation of two sine waves that propagate in the opposite direction \ref{two_waves_oppo}. The problem is
 \begin{equation}\label{}
     \begin{cases}
         \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \\[5pt]
-        u(x,0) =
-            \begin{cases}
-            \sin(16 x)  & 0 \leq x \leq \dfrac{3\pi}{8} \, , \\[4pt]
-            0                      & \dfrac{3\pi}{8} < x \leq \dfrac{3\pi}{4} \, , \\[4pt]
-            \sin{(24 x)} & \dfrac{3\pi}{4} \leq x \leq \pi \, ,
-            \end{cases} \\[5pt]
-        u_t(x,0) =
-            \begin{cases}
-            -16\cos(16 x)  & 0 \leq x \leq \dfrac{3\pi}{8} \, , \\[4pt]
-            0                      & \dfrac{3\pi}{8} < x \leq \dfrac{3\pi}{4} \, , \\[4pt]
-            -24\cos{(24 x)} & \dfrac{3\pi}{4} \leq x \leq \pi \, ,
-            \end{cases} \\[5pt]
-        u(0,t) = u(\pi,t) = 0 \, , \\[5pt]
-        L = \pi \, , \quad N = 40 \, .
+        u(0, t) = u(L, t) = 0 \, , \\[5pt]
+        u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq 3\pi/8 \, , \\[5pt]
+        u(x,0) = \sin{(24 x)} \quad 3\pi/4 \leq x \leq \pi \, , \\[5pt]
+        u_t(x,0) = - 16 \cos(16 x) \quad 0 \leq x \leq 3\pi/8 \,  , \\[5pt]
+        u_t(x,0) = - 24 \cos(24 x) \quad 3\pi/4 \leq x \leq \pi \,  , \\[5pt]
+        L = \pi \, , \quad N = 40 \, , \quad c = 1 \, ,
     \end{cases}
 \end{equation}
+where in the first row is our evolution equation; in the second row are the boundary conditions; in the third, fourth, fifth, and sixth rows are the initial conditions — they are identically zero outside of the mentioned interval. And lastly, in the seventh row are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$.
 
-and can be seen in Figure \ref{fig_two_dirichlet_oppo_initial}. Parameters are $N = 40$ and $L = \pi$. 
+The plot of the initial exact wave is in Figure \ref{fig_two_dirichlet_oppo_initial}.
+
 
 \begin{figure}[H]
     \centering
