@@ -297,7 +297,7 @@ The aim of this chapter is, first, to introduce two regular Sturm--Liouville eig
 
 Then, we will describe methods that discretize these continuous problems and allow us to solve them approximately (numerically). Mainly, we will focus on how to discretize the operator of the second derivative, which means we will assemble the differentiation matrix, substitute it for the continuous derivative, and then compute the eigenvalues of the discretized problem.
 
-The methods that will be introduced are: Finite Differences, Numerov's, Discrete Fourier Transform, Chebyshev Differentiation Matrix, Mapped Barycentric Chebyshev Differentiation Matrix, Legendre-Galerkin-Chebyshev Collocation, and Discrete Sine Transform. 
+The methods that will be introduced are: Finite Differences, Numerov's, Discrete Fourier Transform, Chebyshev Differentiation Matrix, Mapped Barycentric Chebyshev Differentiation Matrix, Legendre--Galerkin--Chebyshev Collocation, and Discrete Sine Transform. 
 
 Our goal is to compare all of these methods and figure out which one is best. For our purposes, we need some reference values. These will be calculated using the Matslise application.
 
@@ -706,9 +706,9 @@ The implementation of this method is in algorithm \ref{alg_MBCDM_Paine} for the 
 
 
 
-\subsection{Legendre-Galerkin-Chebyshev Collocation method}
+\subsection{Legendre--Galerkin--Chebyshev Collocation method}
 \noindent
-The Legendre-Galerkin-Chebyshev Collocation method (LGCC) combines a spectral Galerkin projection with Chebyshev collocation to solve eigenvalue problems of the form \eqref{eq_general_test_problem}.
+The Legendre--Galerkin--Chebyshev Collocation method (LGCC) combines a spectral Galerkin projection with Chebyshev collocation to solve eigenvalue problems of the form \eqref{eq_general_test_problem}.
 
 The method begins by mapping the physical interval to the standard domain $[-1, \, 1]$ using a linear transformation
 \begin{equation}
@@ -738,7 +738,7 @@ The method achieves high accuracy for smooth potentials, thanks to the spectral 
 The implementation of this method is in algorithm \ref{alg_LGCC_Paine} for the Paine equation and in algorithm \ref{alg_LGCC_CE} for the Coffey--Evans equation.
 
 \begin{algorithm}[H]
-\caption{Legendre-Galerkin-Chebyshev Collocation - Paine equation}
+\caption{Legendre--Galerkin--Chebyshev Collocation - Paine equation}
 \label{alg_LGCC_Paine}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$
@@ -773,7 +773,7 @@ The implementation of this method is in algorithm \ref{alg_LGCC_Paine} for the P
 \end{algorithm}
 
 \begin{algorithm}[H]
-\caption{Legendre-Galerkin-Chebyshev Collocation - Coffey--Evans equation}
+\caption{Legendre--Galerkin--Chebyshev Collocation - Coffey--Evans equation}
 \label{alg_LGCC_CE}
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
@@ -975,7 +975,7 @@ CPU & 0.7 & 0.3 & 1.0 & 0.5  &  1.3 \\
 
 \begin{table}[H]
 \centering
-\caption{Eigenvalues of Paine equation computed by implementation of Discrete Sine Transform method (DST) and Legendre-Galerkin-Chebyshev Collocation method (LGCC).}
+\caption{Eigenvalues of Paine equation computed by implementation of Discrete Sine Transform method (DST) and Legendre--Galerkin--Chebyshev Collocation method (LGCC).}
 \label{}
 \begin{tabularx}{\textwidth}{l *{5}{X}}
 \toprule
@@ -1097,7 +1097,7 @@ CPU & 1.3 & 0.3 & 0.9 & 0.5 & 1.2 \\
 
 \begin{table}[H]
 \centering
-\caption{Eigenvalues of Coffey--Evans equation computed by implementation of Discrete Sine Transform method (DST) and Legendre-Galerkin-Chebyshev Collocation method (LGCC).}
+\caption{Eigenvalues of Coffey--Evans equation computed by implementation of Discrete Sine Transform method (DST) and Legendre--Galerkin--Chebyshev Collocation method (LGCC).}
 \label{}
 \begin{tabularx}{\textwidth}{l *{5}{X}}
 \toprule
@@ -1578,7 +1578,7 @@ The plot of the initial exact wave is in Figure \ref{fig_one_dirichlet_initial}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_dirichlet_LGCC.eps}
-    \caption{Comparison of Legendre-Galerkin-Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 18 \; 200 $. }
+    \caption{Comparison of Legendre--Galerkin--Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 18 \; 200 $. }
     \label{fig_one_dirichlet_LGCC}
 \end{figure}
 
@@ -1646,7 +1646,7 @@ The plot of the initial exact wave is in Figure \ref{fig_two_dirichlet_same_init
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_LGCC.eps}
-    \caption{Comparison of Legendre-Galerkin-Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 472 \; 000 $.}
+    \caption{Comparison of Legendre--Galerkin--Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 472 \; 000 $.}
     \label{}
 \end{figure}
 
@@ -1716,7 +1716,7 @@ The plot of the initial exact wave is in Figure \ref{fig_two_dirichlet_oppo_init
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_LGCC.eps}
-    \caption{Comparison of Legendre-Galerkin-Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 452 \; 000 $.}
+    \caption{Comparison of Legendre--Galerkin--Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 452 \; 000 $.}
     \label{}
 \end{figure}
 
@@ -1730,22 +1730,30 @@ The plot of the initial exact wave is in Figure \ref{fig_two_dirichlet_oppo_init
 
 \section{Conclusion from semi-discrete simulations of classical wave equation}
 \noindent
-From our simulations of the wave equation, we have observed that the Discrete Fourier Transform is the best for periodic boundary problems and the Discrete Sine Transform is best for Dirichlet boundary problems.
+A series of simulations have been conducted to analyze the evolution of waves in the form of equation \ref{eq_wave_general} under the influence of the classical wave equation \ref{eq_wave}. We have employed all of our approximation methods.
+
+It has been observed that the Discrete Fourier Transform (DFT) is most accurate for periodic boundary problems and that the Discrete Sine Transform (DST) is most accurate for Dirichlet boundary problems.
+
+A comparison of the remaining methods reveals that the Finite Difference method is the least accurate. The next least accurate method is Numerov's method. Methods that are significantly more accurate than these two methods but less accurate than the Discrete Sine Transform include the Chebyshev Differentiation Matrix, the Mapped Barycentric Chebyshev Differentiation Matrix, and the Legendre--Galerkin--Chebyshev Collocation method.
 
 
 
-\chapter{Wave propagation in metamaterials}
+\chapter{Semi-discrete simulations of rate-type equation for metamaterials}
 \noindent
-In this chapter, we will be interested in simulations involving the equation that describes a one-dimensional metamaterial, specifically an infinitesimal lattice system that is built from cells with inner mass. The metamaterial is in Figure \ref{fig_metamaterial}.
+In this chapter, we will focus on simulations analogous to those in the previous chapter. However, we will now consider a rate-type equation for the evolution of waves in one-dimensional metamaterial. The metamaterial under consideration consists of an infinitesimal lattice system built from cells with inner mass. The configuration of the metamaterial is illustrated in Figure \ref{fig_metamaterial}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{figures_meta/pic_1.png}
-    \caption{Figure of one dimensional infinite lattice metamaterial.}
+    \includegraphics[width=1\linewidth]{figures_meta/mass-in-mass-lattice.eps}
+    \caption{Schematic figure of one-dimensional infinite lattice mass-in-mass system.}
     \label{fig_metamaterial}
 \end{figure}
 
-\subsection*{Standard equations}
+\section{Derivation of rate-type equation}
+\noindent
+
+
+\subsection{Standard equations}
 \noindent
 An intuitive description based on classical newtonian motion is given by the equations \ref{eq_newton_metamaterial}.
 
@@ -1757,7 +1765,7 @@ An intuitive description based on classical newtonian motion is given by the equ
 \end{equation}
 
 
-\subsection*{Rate-type equations}
+\subsection{Rate-type equation}
 \noindent
 But we would like to work with rate-type equations. Derivation from the classical Newtonian equations \ref{eq_newton_metamaterial} to rate-type equations \ref{eq_rate_type} is done precisely in \cite{cit1}.
 
@@ -1856,7 +1864,7 @@ parameters and initial conditions are
         u(0,t) = u(\pi,t) \, 
     \end{cases}
 \end{equation}
-\textbf{do teto equation pridej i evolucni rovnice at je to vbse hezky u sebe}
+i sem priídej evolucni rovnice, at je to hezky ucelené jako jeden problém
 
 \begin{figure}[H]
     \centering
@@ -1977,17 +1985,17 @@ parameters and initial conditions are
 
 
 \subsection{Two waves - opposite direction}
-\noindent+
-
-
-
-\chapter{Comparison between Metamaterial and Classical elastic material}
-\noindent
-In previous chapters we have shown that the best space approximation is Discrete Fourier Transform for periodic problems an Discrete Sine Transform for Dirichlet boundary problems. Now we would like to use these two approximation for comparison between behaviour of metamaterial and classical elastic material.
-
-\section{How to do it?}
 \noindent
 
+
+
+\chapter{Comparison of behaviour of metamaterial and classical elastic material}
+\noindent
+In previous chapters, we have shown that the best space approximation is the Discrete Fourier Transform for periodic problems and the Discrete Sine Transform for Dirichlet boundary problems. Now we would like to use these two approximations for comparison between the behavior of metamaterials and classical elastic materials.
+
+\section{Initial text}
+\noindent
+How to do it?
 
 
 
@@ -2009,7 +2017,7 @@ In this work...
 
 \chapter*{Appendix}
 
-\subsection{Dispersion relation - V PROCESU}
+\section{Dispersion relation - V PROCESU}
 \noindent
 So, lets now look in more detail at why for higher wave numbers $k$ the slowing effect is greater for FD approximation. On a uniform grid, we have $x_j = j \; \Delta x$, $t_n = n \; \Delta t$ so that means we can approximate
 \begin{equation}
