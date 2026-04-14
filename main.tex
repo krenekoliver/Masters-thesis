@@ -1882,126 +1882,151 @@ where $L$ is the length of our interval.
 Simulations will be done by implementing Finite Differences, Numerov's method, and the Discrete Fourier Transform. Other methods based on Chebyshev Collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of boundary conditions.
 
 
-
-Time is solved with matlab \texttt{ode45} because exact time is too precise for comparing DFT, FD, and Numerov.
-
-
 \subsection{One wave}
 \noindent
-First, let's look at the simulation of one sine wave in the form XXX. The problem is
+The problem is
 \begin{equation}\label{}
     \begin{cases}
         \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
         \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
         \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
         \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
-        u(0, t) = u(L, t) \, , \quad u_x(0, t) = u_x(L, t) \, , \\[5pt]
+        u(-L/2, t) = u(L/2, t) \, , \quad u_x(-L/2, t) = u_x(L/2, t) \, , \\[5pt]
         L = 2\pi \, , \quad N = 64 \, , \\[5pt]
-        k_1 = 50 \, , \quad k_2 = 500 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
-        u(x,0) = \sin{(4 x)} \, , \quad u_t(x,0) =  - 4 \cos{(4x)} \, \\[5pt]
+        k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
+        u(x,0) = \sin{(3 x)} \, , \quad u_t(x,0) =  - 3 \cos{(3x)} \, \\[5pt]
         \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{cases}
 \end{equation}
-In the first line is the evolution equation; in the second line are the boundary conditions; in the third line are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the fourth line are the initial conditions.
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth line are the initial conditions.
 
+The plot of the initial exact wave is shown in Figure \ref{fig_one_periodic_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_dft}.
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta/pic_one_periodic_initial.png}
-    \caption{Initial wave at $t = 0 $. }
-    \label{}
+    \includegraphics[width=0.9\linewidth]{figures_meta/one_periodic_meta_initial.eps}
+    \caption{Initial exact wave at $t = 0$.}
+    \label{fig_one_periodic_meta_initial}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta/pic_one_periodic_FD.png}
-    \caption{Comparison of Finite Difference approximation (blue wave) and Discrete Fourier Transform (magenta wave) at time frame $t = 6 $.}
-    \label{}
+    \includegraphics[width=0.9\linewidth]{figures_meta/one_periodic_meta_FD.eps}
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 30$.}
+    \label{fig_one_periodic_meta_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta/pic_one_periodic_Numerov.png}
-    \caption{Comparison of Numerov approximation (red wave) and Discrete Fourier Transform (magenta wave) at time frame $t = 475 $.}
-    \label{}
+    \includegraphics[width=0.9\linewidth]{figures_meta/one_periodic_meta_Num.eps}
+    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 11 \; 000$.}
+    \label{fig_one_periodic_meta_Numerov}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/one_periodic_meta_DFT.eps}
+    \caption{Comparison of Discrete Sine Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 500 \; 000 $.}
+    \label{fig_one_periodic_meta_dft}
 \end{figure}
 
 
 \subsection{Two waves - same direction}
 \noindent
-
-
-parameters and initial conditions are
-\begin{equation}
+The problem is
+\begin{equation}\label{}
     \begin{cases}
-        L = 2 \pi \, , \quad N = 64 \, ,\\[3pt]
-        k_1 = 50 \, , \quad k_2 = 500 \, ,\\[3pt]
-        m_1 = 1 \, , \quad m_2 = 1/2 \, ,\\[3pt]
-        u_0 = \sin{(3x)} + \sin{(5x)} \, ,\\[3pt]
-        v_0 = -3\cos{(3x)} - 5\cos{(5x)} \, , \\[3pt]
-        a_0 = b_0 = 0 \, ,\\[3pt]
-        u(0,t) = u(\pi,t) \,
+        \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
+        \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
+        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
+        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
+        u(-L/2, t) = u(L/2, t) \, , \quad u_x(-L/2, t) = u_x(L/2, t) \, , \\[5pt]
+        L = 2\pi \, , \quad N = 64 \, , \\[5pt]
+        k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
+        u(x,0) = \sin{(4 x)} + \sin{(8 x)} \, , \quad u_t(x,0) =  - 4 \cos{(4x)} - 8 \cos{(8x)} \, \\[5pt]
+        \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{cases}
 \end{equation}
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth line are the initial conditions.
+
+The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_Num}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_DFT}.
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_oppo_initial.png}
-    \caption{Initial wave at $t = 0 $. }
-    \label{}
+    \includegraphics[width=0.9\linewidth]{figures_meta/two_periodic_same_meta_initial.eps}
+    \caption{Initial exact wave at $t = 0$.}
+    \label{fig_two_periodic_same_meta_initial}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_same_FD.png}
-    \caption{Comparison of Finite Difference approximation (blue wave) and Discrete Fourier Transform (magenta wave) at time frame $t = 10 $.}
-    \label{}
+    \includegraphics[width=0.9\linewidth]{figures_meta/two_periodic_same_meta_FD.eps}
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 20$.}
+    \label{fig_two_periodic_same_meta_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_same_Numerov.png}
-    \caption{Comparison of Numerov approximation (red wave) and Discrete Fourier Transform approximation (magenta wave) at time frame $t = 771 $.}
-    \label{}
+    \includegraphics[width=0.9\linewidth]{figures_meta/two_periodic_same_meta_Num.eps}
+    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 200$.}
+    \label{fig_two_periodic_same_meta_Num}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/two_periodic_same_meta_DFT.eps}
+    \caption{Comparison of Discrete Sine Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 500 \; 000 $.}
+    \label{fig_two_periodic_same_meta_DFT}
 \end{figure}
 
 \subsection{Two waves - opposite direction}
 \noindent
-
-parameters and initial conditions are
-\begin{equation}
+The problem is
+\begin{equation}\label{}
     \begin{cases}
-        L = 2 \pi \, , \quad N = 64 \, , \\[3pt]
-        k_1 = 50 \, , \quad k_2 = 500 \, ,\\[3pt]
-        m_1 = 1 \, , \quad m_2 = 1/2 \, ,\\[3pt]
-        u_0 = \sin{(3x)} + \sin{(5x)} \, ,\\[3pt]
-        v_0 = -3\cos{(3x)} + 5\cos{(5x)} \, , \\[3pt]
-        a_0 = b_0 = 0 \, ,\\[3pt]
-        u(0,t) = u(\pi,t) \, .
+        \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
+        \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
+        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
+        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
+        u(-L/2, t) = u(L/2, t) \, , \quad u_x(-L/2, t) = u_x(L/2, t) \, , \\[5pt]
+        L = 2\pi \, , \quad N = 64 \, , \\[5pt]
+        k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
+        u(x,0) = \sin{(3 x)} \, , \quad u_t(x,0) =  - 3 \cos{(3x)} \, \\[5pt]
+        \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{cases}
 \end{equation}
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth line are the initial conditions.
+
+The plot of the initial exact wave is shown in Figure \ref{}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{}; the plot of Numerov's approximation of our wave is shown in Figure \ref{}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{}.
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_oppo_initial.png}
-    \caption{Initial wave at $t = 0 $. }
+    \includegraphics[width=0.9\linewidth]{figures_meta/}
+    \caption{Initial exact wave at $t = 0$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_oppo_FD.png}
-    \caption{Comparison of Finite Difference approximation (blue wave) and Discrete Fourier approximation (magenta wave) at time frame $t = 9 $.}
+    \includegraphics[width=0.9\linewidth]{figures_meta/}
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 30$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta/pic_two_periodic_oppo_Numerov.png}
-    \caption{Comparison of Numerov approximation (red wave) and Discrete Fourier Transform approximation (magenta wave) at time frame $t = 741 $.}
+    \includegraphics[width=0.9\linewidth]{figures_meta/}
+    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 11 \; 000$.}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/}
+    \caption{Comparison of Discrete Sine Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 500 \; 000 $.}
     \label{}
 \end{figure}
 
