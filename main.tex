@@ -1356,7 +1356,7 @@ Uses complex exponential modes $e^{i 2\pi k x / L}$ (or equivalently, real sine 
 \noindent
 Uses the analytically known eigenmodes $\sin(k \pi x/L)$ on the interval $[0, \, L]$. The frequencies are exactly $\omega_k = k$. This method is designed specifically for Dirichlet boundary conditions.
 
-\subsubsection*{FD, Numerov's, CDM, MBCD, LGCC}
+\subsubsection*{FD, Num, CDM, MBCD, LGCC}
 \noindent
 For these methods, the exact same modal time evolution, as described above, is applied. The relation for frequencies is \ref{omega}.
 
@@ -1739,7 +1739,7 @@ A comparison of the remaining methods reveals that the Finite Difference method 
 
 
 
-\chapter{Semi-discrete simulations of rate-type equation for metamaterials}
+\chapter{Semi-discrete simulations of rate-type equations for metamaterials}
 \noindent
 In this chapter, we will focus on simulations analogous to those in the previous chapter. However, we will now consider a rate-type equation for the evolution of waves in one-dimensional metamaterial. The metamaterial under consideration consists of an infinitesimal lattice system built from cells with inner mass. The configuration of the metamaterial is illustrated in Figure \ref{fig_metamaterial}.
 
@@ -1750,92 +1750,119 @@ In this chapter, we will focus on simulations analogous to those in the previous
     \label{fig_metamaterial}
 \end{figure}
 
-\section{Derivation of rate-type equation}
+The parameter $k_1$ denotes the stiffness of the spring between the outer masses, $k_2$ signifies the stiffness of the spring between the inner and outer mass, $m_1$ and $m_2$ represent the masses of the outer and inner parts of the cell, respectively, $L$ is the length of one periodic part of the lattice, and finally, $u_1$ and $u_2$ are the displacements of the outer and inner masses, respectively.
+
+\section{Rate-type equations}
 \noindent
+In this section, we present a description of the system in Figure \ref{fig_metamaterial} based on the rate-type equations.
 
-
-\subsection{Standard equations}
-\noindent
-An intuitive description based on classical newtonian motion is given by the equations \ref{eq_newton_metamaterial}.
-
+Derivation of this description, which stems from the classical Newtonian equations with linear relation for the stiffnes $k$
 \begin{equation}\label{eq_newton_metamaterial}
     \begin{cases}
-        m_1^{(j)} \dfrac{d^2 u_1^{(j)}}{dt^2} + k_1 \left( u_1^{(j)} - u_1^{(j+1)}\right) + k_1 \left( u_1^{(j)} - u_1^{(j-1)} \right) + k_2 \left( u_1^{(j)} - u_2^{(j)} \right) = 0 \\[10pt]
-        m_2^{(j)} \dfrac{d^2 u_2^{(j)}}{d t^2} +  k_2 \left( u_2^{(j)} - u_1^{(j)}  \right) = 0
+        m_1^{(j)} \dfrac{d^2 u_1^{(j)}}{dt^2} + k_1 \left( u_1^{(j)} - u_1^{(j+1)}\right) + k_1 \left( u_1^{(j)} - u_1^{(j-1)} \right) + k_2 \left( u_1^{(j)} - u_2^{(j)} \right) = 0 \, , \\[5pt]
+        m_2^{(j)} \dfrac{d^2 u_2^{(j)}}{d t^2} +  k_2 \left( u_2^{(j)} - u_1^{(j)}  \right) = 0 \, ,
     \end{cases}
 \end{equation}
-
-
-\subsection{Rate-type equation}
-\noindent
-But we would like to work with rate-type equations. Derivation from the classical Newtonian equations \ref{eq_newton_metamaterial} to rate-type equations \ref{eq_rate_type} is done precisely in \cite{cit1}.
-
-
+to the desirable rate-type equations 
 \begin{equation}\label{eq_rate_type}
     \begin{cases}
-        m_1^{(j)} \dfrac{d^2 u_1^{(j)}}{d t^2} - \sigma^{(j)}  = 0\; \\[10pt]
+        m_1^{(j)} \dfrac{d^2 u_1^{(j)}}{d t^2} - \sigma^{(j)}  = 0 \, , \\[5pt]
         \dfrac{m_2^{(j)}}{k_2} \dfrac{d^2 \sigma^{(j)}}{d t^2}  + \left(1 + \dfrac{m_2^{(j)}}{m_1^{(j)}} \right) \sigma^{(j)}  = & \dfrac{m_2^{(j)} k_1}{k_2} \dfrac{d^2 }{d t^2 } \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \\
-        & + k_1 \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \; \\
+        & + k_1 \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \, , \\
     \end{cases}
 \end{equation}
+for $j = 1, \dots,N$ is done precisely in the paper \cite{cichra}.
 
-If we wanted to see how the continuous form looks, we substitute
+If we want to see how the continuous equations looks, we substitute for
 \begin{equation}
-    \dfrac{\partial^2 u}{\partial x^2 } \approx \dfrac{u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)}}{L^2}
+    \dfrac{\partial^2 u}{\partial x^2 } \approx \dfrac{u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)}}{L^2} \, , 
 \end{equation}
-The continuous model has a specific form.
+and get
 \begin{equation}\label{eq_rate_type_continuous}
     \begin{cases}
-        m_1 \dfrac{\partial^2 u}{\partial t^2} - \sigma  = 0\; \\[10pt]
-        \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma  = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u}{\partial x^2} \right) + k_1 L^2 \dfrac{\partial^2 u}{\partial x^2} \; \\
+        m_1 \dfrac{\partial^2 u}{\partial t^2} - \sigma  = 0 \, , \\[5pt]
+        \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma  = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u}{\partial x^2} \right) + k_1 L^2 \dfrac{\partial^2 u}{\partial x^2} \, .  \\
     \end{cases}
 \end{equation}
 
-Now we will rewrite the problem to more suitable form for numerical simulations \cite{tozzi}. Denote vectors with bold font and use approximation for the differentiation matrix $\mathbb{A}$
-\begin{equation}\label{eq_rate_type}
+Next, we demonstrate the technique by which this system of second-order equations can be transformed into a system of first-order equations, thereby rendering it suitable for simulations.
+
+
+
+\subsection{System of equations suitable for simulations}
+\noindent
+Now we will rewrite the problem \ref{eq_rate_type} in a more suitable form for numerical simulations. For the sake of simplicity, we omit the index in $u_1 \to u$ . We set
+\begin{align}\label{}
+    \mathbf{u}=
+    \begin{pmatrix}
+        u^{(1)}\\
+        u^{(2)}\\
+        \vdots\\
+        u^{(N)}
+    \end{pmatrix},\quad 
+    \boldsymbol{\sigma}=
+    \begin{pmatrix}
+        \sigma^{(1)}\\
+        \sigma^{(2)}\\
+        \vdots\\
+        \sigma^{(N)}
+    \end{pmatrix},\quad 
+    \mathbf{m_1}=
+    \begin{pmatrix}
+        m^{(1)}_1\\
+        m^{(2)}_1\\
+        \vdots\\
+        m^{(N)}_1
+    \end{pmatrix},\quad 
+    \mathbf{m_2}=
+    \begin{pmatrix}
+        m^{(1)}_2\\
+        m^{(2)}_2\\
+        \vdots\\
+        m^{(N)}_2
+    \end{pmatrix},
+\end{align}
+where the components of the node values vector $\mathbf{u}$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jh$, $j=1, \dots ,N$. The $m_1^{(i)} = m_1^{(j)}$, analogously for all $m_2^{j}$ .Use an approximation for the differentiation matrix $\mathbb{A}$
+\begin{equation}\label{}
     \begin{cases}
-        \mathbf{m_1} \dfrac{d^2 \mathbf{u}}{d t^2} - \boldsymbol{\sigma} = 0\; \\[10pt]
-        \dfrac{\mathbf{m_2}}{k_2} \dfrac{d^2 \boldsymbol{\sigma}}{d t^2}  + \left(1 + \dfrac{\mathbf{m_2}}{\mathbf{m_1}} \right) \boldsymbol{\sigma}  = \dfrac{\mathbf{m_2} k_1}{k_2} \dfrac{d^2 }{d t^2 } \left( \mathbb{A} \mathbf{u} \right) + k_1 \left( \mathbb{A} \mathbf{u} \right) \; \\
+        \mathbf{m_1} \dfrac{d^2 \mathbf{u}}{d t^2} - \boldsymbol{\sigma} = 0 \, , \\[5pt]
+        \dfrac{\mathbf{m_2}}{k_2} \dfrac{d^2 \boldsymbol{\sigma}}{d t^2}  + \left(1 + \dfrac{\mathbf{m_2}}{\mathbf{m_1}} \right) \boldsymbol{\sigma}  = \dfrac{\mathbf{m_2} k_1}{k_2} \dfrac{d^2 }{d t^2 } \left( \mathbb{A} \mathbf{u} \right) + k_1 \left( \mathbb{A} \mathbf{u} \right) \, .
     \end{cases}
 \end{equation}
 Rewrite as
-\begin{align*}
+\begin{equation}
     \begin{cases}
-        \dfrac{d^2 \mathbf{u}}{dt^2}=\dfrac{1}{\mathbf{m _1}}\boldsymbol{\sigma},\\[10pt]
-        \dfrac{d^2 }{dt^2}\Bigl(\boldsymbol{\sigma}- k_1\mathbb{A}\mathbf{u}\Bigr)=-\dfrac{k_2}{\mathbf{m_2}}\Biggl(1+\dfrac{\mathbf{m_2}}{\mathbf{m_1}}\Biggr)\boldsymbol{\sigma}+\dfrac{k_2 k_1}{\mathbf{m_2}}\Bigl(\mathbb{A}\mathbf{u}\Bigr).
+        \dfrac{d^2 \mathbf{u}}{dt^2}=\dfrac{1}{\mathbf{m _1}}\boldsymbol{\sigma} \, ,\\[5pt]
+        \dfrac{d^2 }{dt^2}\Bigl(\boldsymbol{\sigma}- k_1\mathbb{A}\mathbf{u}\Bigr)=-\dfrac{k_2}{\mathbf{m_2}}\Biggl(1+\dfrac{\mathbf{m_2}}{\mathbf{m_1}}\Biggr)\boldsymbol{\sigma}+\dfrac{k_2 k_1}{\mathbf{m_2}}\Bigl(\mathbb{A}\mathbf{u}\Bigr) \, .
     \end{cases}
-\end{align*}
+\end{equation}
 Defining 
-\begin{gather*}
-    \mathbf{a}:= \boldsymbol{\sigma}- k_1\mathbb{A}\mathbf{u},
-\end{gather*}
+\begin{equation}
+    \mathbf{a} \equiv \boldsymbol{\sigma} - k_1\mathbb{A}\mathbf{u} \, ,
+\end{equation}
 we get the following system of ordinary differential equations for the unknowns $\mathbf{u}$, $\mathbf{a}$:
-\begin{align}\label{}
+\begin{equation}\label{}
     \begin{cases}
-        \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m _1}}\mathbf{a},\\[10pt]
-        \dfrac{d^2}{dt^2}\mathbf{a}=-\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a}.
+        \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m _1}}\mathbf{a} \, ,\\[5pt]
+        \dfrac{d^2}{dt^2}\mathbf{a}=-\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, .
     \end{cases}
-\end{align}
-It can be usefull to transforme it into a first order system, introducing the auxiliary functions 
-$$\mathbf{v}:=\dfrac{d}{dt}\mathbf{u},\quad \mathbf{b}:=\dfrac{d}{dt}\mathbf{a}$$
-\begin{align}\label{eq_system_meta}
+\end{equation}
+It can be useful to transform it into a first order system, introducing the auxiliary functions
+\begin{equation}
+    \mathbf{v} \equiv \dfrac{d}{dt}\mathbf{u} \, , \quad \mathbf{b} \equiv \dfrac{d}{dt}\mathbf{a}
+\end{equation}
+and substituting back we get
+\begin{equation}\label{eq_system_meta}
     \begin{cases}
-        \dfrac{d}{dt}\mathbf{u}= \mathbf{v},\\[5pt]
-        \dfrac{d}{dt}\mathbf{a}= \mathbf{b},\\[5pt]
-        \dfrac{d}{dt}\mathbf{v}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
-        \dfrac{d}{dt}\mathbf{b}=-\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a}.
+        \dfrac{d}{dt}\mathbf{u}= \mathbf{v} \, ,\\[5pt]
+        \dfrac{d}{dt}\mathbf{a}= \mathbf{b} \, ,\\[5pt]
+        \dfrac{d}{dt}\mathbf{v}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a} \, ,\\[5pt]
+        \dfrac{d}{dt}\mathbf{b}=-\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, .
     \end{cases}
-\end{align}
-So we will perform simulations of time evolution using these equations \ref{eq_system_meta}, where we will change the matrix $\mathbb{A}$ to the differentiation matrix, using FD, Numerov, DFT, CDM, MBCDM, and LGCC.
+\end{equation}
+So we will conduct simulations using a system of first-order equations \ref{eq_system_meta}. The matrix $\mathbb{A}$ will be changed to fit the differentiation matrix, using FD, Numerov's, DFT, CDM, MBCDM, and LGCC. \cite{tozzi}
 
-The difference from previous chapter is that now we dont have an exact solution, so we will compare all these methods with DFT (DST), because this was the most precise of them all.
-
-
-
-
-
-
-
+The difference from the previous chapter is that now we don't have an exact solution, so we will compare all these methods with DFT (DST) because it is the most precise of them all.
 
 
 
@@ -1846,26 +1873,38 @@ The difference from previous chapter is that now we dont have an exact solution,
 
 \section{Periodic boundary conditions}
 \noindent
-In this section, we will compare Finite Differences, the Numerov approximation, and the Discrete Fourier Transform. Other methods based on chebyshev collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of problem. 
+In this section, we will focus on periodic boundary conditions
+\begin{equation}
+    u(0, t) = u(L, t) \, , \quad \dfrac{\partial u}{\partial x} (0, t) = \dfrac{\partial u}{\partial x} (L, t) \, \quad \text{for all} \; t \geq 0 \, ,
+\end{equation}
+where $L$ is the length of our interval.
+
+Simulations will be done by implementing Finite Differences, Numerov's method, and the Discrete Fourier Transform. Other methods based on Chebyshev Collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of boundary conditions.
+
+
 
 Time is solved with matlab \texttt{ode45} because exact time is too precise for comparing DFT, FD, and Numerov.
 
 
 \subsection{One wave}
 \noindent
-parameters and initial conditions are
-\begin{equation}
+First, let's look at the simulation of one sine wave in the form XXX. The problem is
+\begin{equation}\label{}
     \begin{cases}
-        L = 2 \pi \, , \quad N = 64 \, , \\[3pt]
-        k_1 = 50 \, , \quad k_2 = 500 \, ,\\[3pt]
-        m_1 = 1 \, , \quad m_2 = 1/2 \, ,\\[3pt]
-        u_0 = \sin{(4x)} \, ,\\[3pt]
-        v_0 = -4\cos{4x} \, ,\\[3pt]
-        a_0 = b_0 = 0 \, ,\\[3pt]
-        u(0,t) = u(\pi,t) \, 
+        \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
+        \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
+        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
+        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
+        u(0, t) = u(L, t) \, , \quad u_x(0, t) = u_x(L, t) \, , \\[5pt]
+        L = 2\pi \, , \quad N = 64 \, , \\[5pt]
+        k_1 = 50 \, , \quad k_2 = 500 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
+        u(x,0) = \sin{(4 x)} \, , \quad u_t(x,0) =  - 4 \cos{(4x)} \, \\[5pt]
+        \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{cases}
 \end{equation}
-i sem priídej evolucni rovnice, at je to hezky ucelené jako jeden problém
+In the first line is the evolution equation; in the second line are the boundary conditions; in the third line are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the fourth line are the initial conditions.
+
+
 
 \begin{figure}[H]
     \centering
@@ -1969,11 +2008,13 @@ parameters and initial conditions are
 
 \section{Dirichlet boundary conditions}
 \noindent
-
-
+In this section, we will focus on Dirichlet boundary conditions
 \begin{equation}
-    u(0,t) = u(\pi,t) = 0
+    u(0, t) = u(L, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
+where $L$ is the length of our interval.
+
+Since all of our methods are suitable for the Dirichlet boundary conditions, we will run simulations with all of them.
 
 
 
@@ -2127,7 +2168,7 @@ The equation holds only for $k \rightarrow 0$. Thus, waves approximated by FD pr
     \emph{Asymptotic eigenvalues of Sturm-Liouville systems}.
     Journal of Mathematical Analysis and Applications 19 (1967) 519--525.
 
-    \bibitem{cit1}
+    \bibitem{cichra}
     {\sc Cichra,\;D., Průša,\;V., Rajagopal,\;K.\;R., Rodriguez,\;C., and Vejvoda,\;M.}
     \emph{The conclusion that metamaterials could have negative mass is a consequence of improper constitutive characterisation}.
     arXiv preprint arXiv:2409.05906 [cond-mat.mtrl-sci], 2024.
