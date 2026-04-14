@@ -1388,7 +1388,7 @@ First, let's look at the simulation of one sine wave in the form \ref{one_wave}.
 \end{equation}
 In the first line is the evolution equation; in the second line are the boundary conditions; in the third line are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the fourth line are the initial conditions.
 
-The plot of the initial exact wave is in Figure \ref{fig_periodic_one_initial}.
+The plot of the initial exact wave is shown in Figure \ref{fig_periodic_one_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_periodic_one_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_periodic_one_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_periodic_one_dft}.
 
 \begin{figure}[H]
     \centering
@@ -1434,7 +1434,8 @@ Next, let's look at the simulation of two sine waves that propagate in the same 
 \end{equation}
 In the first line is the evolution equation; in the second line are the boundary conditions; in the third line are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the fourth and fifth lines are the initial conditions.
 
-The plot of the initial exact wave is in Figure \ref{fig_two_periodic_same_initial}.
+The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_priodic_same_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_periodic_same_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_two_periodic_same_dft}.
+
 
 \begin{figure}[H]
     \centering
@@ -1480,7 +1481,7 @@ Finally, let's look at the simulation of two sine waves that propagate in opposi
 \end{equation}
 In the first line is the evolution equation; in the second line are the boundary conditions; in the third line are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the fourth and fifth lines are the initial conditions
 
-The plot of the initial exact wave is in Figure \ref{fig_two_periodic_oppo_initial}.
+The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_oppo_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_dft}.
 
 \begin{figure}[H]
     \centering
@@ -1538,7 +1539,7 @@ First, let's look at the simulation of one sine wave in the form \ref{one_wave}.
 \end{equation}
 In the first line is the evolution equation; in the second line are the boundary conditions; in the third line are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the fourth and fifth lines are the initial conditions — the functions are identically zero outside the prescribed intervals.
 
-The plot of the initial exact wave is in Figure \ref{fig_one_dirichlet_initial}.
+The plot of the initial exact wave is shown in Figure \ref{fig_one_dirichlet_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_one_dirichlet_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_one_dirichlet_Numerov}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_one_dirichlet_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_one_dirichlet_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_one_dirichlet_LGCC}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_one_dirichlet_DST}.
 
 \begin{figure}[H]
     \centering
@@ -1606,7 +1607,7 @@ Next, let's look at the simulation of two sine waves that propagate in the same 
 \end{equation}
 In the first line is the evolution equation; in the second line are the boundary conditions; in the third line are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the fourth and fifth lines are the initial conditions — the functions are identically zero outside the prescribed intervals.
 
-The plot of the initial exact wave is in Figure \ref{fig_two_dirichlet_same_initial}.
+The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_same_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_dirichlet_same_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_dirichlet_same_Numerov}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_same_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_same_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_two_dirichlet_same_LGCC}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_two_dirichlet_same_DST}.
 
 \begin{figure}[H]
     \centering
@@ -1619,42 +1620,42 @@ The plot of the initial exact wave is in Figure \ref{fig_two_dirichlet_same_init
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_FD.eps}
     \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 7$.}
-    \label{}
+    \label{fig_two_dirichlet_same_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_Numerov.eps}
     \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 70$.}
-    \label{}
+    \label{fig_two_dirichlet_same_Numerov}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_CDM.eps}
     \caption{Comparison of Chebyshev Differentiation matrix approximation (brown wave) and exact solution (black dashed wave) at time frame $t = 472 \; 200$.}
-    \label{}
+    \label{fig_two_dirichlet_same_CDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_MBCDM.eps}
     \caption{Comparison of Mapped Barycentric Chebyshev Differentiation Matrix approximation (orange wave) and exact solution (black dashed wave) at time frame $t = 472 \; 000$.}
-    \label{}
+    \label{fig_two_dirichlet_same_MBCDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_LGCC.eps}
     \caption{Comparison of Legendre--Galerkin--Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 472 \; 000 $.}
-    \label{}
+    \label{fig_two_dirichlet_same_LGCC}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_dirichlet_same_DST.eps}
     \caption{Comparison of Discrete Sine Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 472 \; 000 $.}
-    \label{}
+    \label{fig_two_dirichlet_same_DST}
 \end{figure}
 
 
@@ -1676,7 +1677,7 @@ Next, let's look at the simulation of two sine waves that propagate in the oppos
 \end{equation}
 In the first line is the evolution equation; in the second line are the boundary conditions; in the third line are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the fourth, fifth, and sixth lines are the initial conditions — the functions are identically zero outside the prescribed intervals.
 
-The plot of the initial exact wave is in Figure \ref{fig_two_dirichlet_oppo_initial}.
+The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_oppo_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_Numerov}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_LGCC}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_DST}.
 
 \begin{figure}[H]
     \centering
@@ -1689,42 +1690,42 @@ The plot of the initial exact wave is in Figure \ref{fig_two_dirichlet_oppo_init
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_FD.eps}
     \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 7 $.}
-    \label{}
+    \label{fig_two_dirichlet_oppo_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_Numerov.eps}
     \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 38 $.   }
-    \label{}
+    \label{fig_two_dirichlet_oppo_Numerov}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_CDM.eps}
     \caption{Comparison of Chebyshev Differentiation matrix approximation (brown wave) and exact solution (black dashed wave) at time frame $t = 452 \; 000 $.}
-    \label{}
+    \label{fig_two_dirichlet_oppo_CDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_MBCDM.eps}
     \caption{Comparison of Mapped Barycentric Chebyshev Differentiation Matrix approximation (orange wave) and exact solution (black dashed wave) at time frame $t = 452 \; 000 $. }
-    \label{}
+    \label{fig_two_dirichlet_oppo_MBCDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_LGCC.eps}
     \caption{Comparison of Legendre--Galerkin--Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 452 \; 000 $.}
-    \label{}
+    \label{fig_two_dirichlet_oppo_LGCC}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_dirichlet_oppo_DST.eps}
     \caption{Comparison of Discrete Sine Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 452 \; 000 $.}
-    \label{}
+    \label{fig_two_dirichlet_oppo_DST}
 \end{figure}
 
 
