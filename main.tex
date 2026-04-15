@@ -1892,7 +1892,7 @@ The problem is
         \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
         \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
         u(-L/2, t) = u(L/2, t) \, , \quad u_x(-L/2, t) = u_x(L/2, t) \, , \\[5pt]
-        L = 2\pi \, , \quad N = 64 \, , \\[5pt]
+        L = 2\pi \, , \quad N = 128 \, , \\[5pt]
         k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
         u(x,0) = \sin{(3 x)} \, , \quad u_t(x,0) =  - 3 \cos{(3x)} \, \\[5pt]
         \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
@@ -1913,21 +1913,21 @@ The plot of the initial exact wave is shown in Figure \ref{fig_one_periodic_meta
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/one_periodic_meta_FD.eps}
-    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 30$.}
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 314$.}
     \label{fig_one_periodic_meta_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/one_periodic_meta_Num.eps}
-    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 11 \; 000$.}
+    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 125 \, 664$.}
     \label{fig_one_periodic_meta_Numerov}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_meta/one_periodic_meta_DFT.eps}
-    \caption{Comparison of Discrete Sine Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 500 \; 000 $.}
+    \caption{Comparison of Discrete Sine Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 565 \, 487 $.}
     \label{fig_one_periodic_meta_dft}
 \end{figure}
 
