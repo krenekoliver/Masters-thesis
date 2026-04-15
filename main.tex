@@ -1382,7 +1382,7 @@ First, let's look at the simulation of one sine wave in the form \ref{one_wave}.
     \begin{cases}
         \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \\[5pt]
         u(0, t) = u(L, t) \, , \quad u_x(0, t) = u_x(L, t) \, , \\[5pt]
-        L = \pi \, , \quad N = 64 \, , \quad c = 1 \, , \\[5pt]
+        L = \pi \, , \quad N = 128 \, , \quad c = 1 \, , \\[5pt]
         u(x,0) = \sin{(6 x)} \, , \quad u_t(x,0) =  - 6 \cos{(6x)} \, .
     \end{cases}
 \end{equation}
@@ -1400,21 +1400,21 @@ The plot of the initial exact wave is shown in Figure \ref{fig_periodic_one_init
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_periodic_FD.eps}
-    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 47$.}
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 200$.}
     \label{fig_periodic_one_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_periodic_Numerov.eps}
-    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 9 \, 880 $.}
+    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 150 \, 010 $.}
     \label{fig_periodic_one_Numerov}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_one/pic_one_periodic_DFT.eps}
-    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 1 \, 000 \, 000 $.}
+    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 5 \, 000 \, 017 $.}
     \label{fig_periodic_one_dft}
 \end{figure}
 
@@ -1447,7 +1447,7 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_periodic_same_FD.eps}
-    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 44 $. }
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 50 $. }
     \label{fig_two_priodic_same_FD}
 \end{figure}
 
@@ -1461,7 +1461,7 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_same/pic_two_periodic_same_DFT.eps}
-    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 391 \, 304 $.}
+    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 5 \, 000 \, 002 $.}
     \label{fig_two_periodic_same_dft}
 \end{figure}
 
@@ -1493,21 +1493,21 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_oppo
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_periodic_oppo_FD.eps}
-    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 15$. }
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 25$. }
     \label{fig_two_periodic_oppo_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_periodic_oppo_Numerov.eps}
-    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 3\, 371 $. }
+    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 5 \, 027 $. }
     \label{fig_two_periodic_oppo_Numerov}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{figures_wave_two_oppo/pic_two_periodic_oppo_DFT.eps}
-    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 46 \, 656 $. }
+    \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 5 \, 000 \, 002 $. }
     \label{fig_two_periodic_oppo_dft}
 \end{figure}
 
@@ -2082,68 +2082,8 @@ In this work...
 
 
 
-\chapter*{Appendix}
 
-\section{Dispersion relation - V PROCESU}
-\noindent
-So, lets now look in more detail at why for higher wave numbers $k$ the slowing effect is greater for FD approximation. On a uniform grid, we have $x_j = j \; \Delta x$, $t_n = n \; \Delta t$ so that means we can approximate
-\begin{equation}
-    \left. \frac{\partial^2 u}{\partial t^2} \right|_{j,n} \approx \frac{u_{j}^{n+1} - 2 \; u_j^n + u_j^{n-1}}{(\Delta t)^2} \, ,
-\end{equation}
-\begin{equation}
-    \left. \frac{\partial^2 u}{\partial x^2} \right|_{j,n} \approx \frac{u_{j+1}^{n} - 2 \; u_j^n + u_{j-1}^{n}}{(\Delta x)^2} \, .
-\end{equation}
-Substituting into the wave equation \ref{eq_wave}, we get the leapfrog discrete scheme
-\begin{equation}
-    u_{j}^{n+1} - 2 \, u_j^n + u_j^{n-1} = c^2 \, \frac{(\Delta t)^2}{(\Delta x)^2} \, \left( u_{j+1}^{n} - 2 \, u_j^n + u_{j-1}^{n} \right) \, ,
-\end{equation}
-which we can rewrite as
-\begin{equation}
-    u_{j}^{n+1} = 2 \, u_j^n - u_j^{n-1} + r^2 \, \left( u_{j+1}^{n} - 2 \, u_j^n + u_{j-1}^{n} \right) \, .
-\end{equation}
-Next, choose a solution in the form
-\begin{equation}
-    u_j^n = e^{i \, (k \, j \, \Delta x \, - \, \omega \, n \, \Delta t)} \, ,
-\end{equation}
-which, after substitution, gives
-\begin{equation}
-    e^{-i \omega \Delta t} - 2 + e^{i \omega \Delta t} = r^2 (e^{-i k \Delta x} - 2 + e^{i k \Delta x}) \, .
-\end{equation}
-Using Euler's formula
-\begin{equation}
-    -4 \sin^2{\frac{\omega \Delta t}{2}} = r^2 (-4\sin{\frac{k \Delta x}{2}})
-\end{equation}
-$r>0, \omega >0$
-\begin{equation}
-    \sin{\frac{\omega \Delta t}{2}} = r \left| \sin{\frac{k \Delta x}{2}} \right|
-\end{equation}
-\begin{equation}
-\omega = \frac{2}{\Delta t} \arcsin{(r \sin{(\frac{k \Delta x}{2})})}
-\end{equation}
-\begin{equation}
-\omega = \frac{2}{\Delta t} \arcsin{(c\frac{\Delta t}{\Delta x} \sin{(\frac{k \Delta x}{2})})} \approx \frac{2c}{\Delta x} |\sin{(\frac{k \Delta x}{2})}|
-\end{equation}
 
-\begin{equation}
-    \omega_{num}(k) = \frac{2c}{\Delta x} \left| \sin{\frac{k \Delta x}{2}} \right|
-\end{equation}
-\begin{equation}
-    \omega_{exact}(k) = c \left| k \right| 
-\end{equation}
-\begin{equation}
-    |\sin{\frac{k \Delta x}{2}}| \leq |\frac{k \Delta x}{2}|
-\end{equation}
-\begin{equation}
-    \omega_{num}(k) \leq c |k| = \omega_{exact}(k)
-\end{equation}
-The equation holds only for $k \rightarrow 0$. Thus, waves approximated by FD propagate slower. The graphical form of this result can be seen in the Figure \ref{fig_dispersion}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\linewidth]{figures/pic_5.png}
-    \caption{Comparison of exact dispersion relation and numerical dispersion relation for wave equation.}
-    \label{fig_dispersion}
-\end{figure}
 
 
 \begin{thebibliography}{99}
