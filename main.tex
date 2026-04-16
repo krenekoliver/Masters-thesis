@@ -2185,7 +2185,75 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_met
 
 \subsection{Two waves - opposite direction}
 \noindent
+The problem is
+\begin{equation}\label{}
+    \begin{cases}
+        \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
+        \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
+        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
+        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
+        u(0, t) = u(L, t) = 0 \, , \\[5pt]
+        L = 2\pi \, , \quad N = 30 \, , \\[5pt]
+        k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
+        u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq \pi/2 \, , \\[5pt]
+        u(x,0) = \sin{(24 x)} \quad 3\pi/2 \leq x \leq \pi \, , \\[5pt]
+        u_t(x,0) = - 16 \cos(16 x) \quad 0 \leq x \leq \pi/2 \,  , \\[5pt]
+        u_t(x,0) = + 24 \cos(24 x) \quad 3\pi/2 \leq x \leq \pi \, , \\[5pt]
+        \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
+    \end{cases}
+\end{equation}
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth line are the initial conditions.
 
+The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_dst}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/two_dirichlet_oppo_meta_initial.eps}
+    \caption{Initial exact wave at $t = 0$.}
+    \label{fig_two_dirichlet_oppo_meta_initial}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/two_dirichlet_oppo_meta_FD}
+    \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 2$.}
+    \label{fig_two_dirichlet_oppo_meta_FD}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/two_dirichlet_oppo_meta_Num.eps}
+    \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 10$.}
+    \label{fig_two_dirichlet_oppo_meta_Num}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/two_dirichlet_oppo_meta_CDM.eps}
+    \caption{Comparison of Chebyshev Differentiation matrix approximation (brown wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
+    \label{fig_two_dirichlet_oppo_meta_CDM}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/two_dirichlet_oppo_meta_MBCDM.eps}
+    \caption{Comparison of Mapped Barycentric Chebyshev Differentiation Matrix approximation (orange wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
+    \label{fig_two_dirichlet_oppo_meta_MBCDM}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/two_dirichlet_oppo_meta_LGCC.eps}
+    \caption{Comparison of Legendre--Galerkin--Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
+    \label{fig_two_dirichlet_oppo_meta_lgcc}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figures_meta/two_dirichlet_oppo_meta_DST.eps}
+    \caption{Comparison of Discrete Fourier Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
+    \label{fig_two_dirichlet_oppo_meta_dst}
+\end{figure}
 
 
 \chapter{Comparison of behaviour of metamaterial and classical elastic material}
