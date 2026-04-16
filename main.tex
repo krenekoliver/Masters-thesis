@@ -1754,16 +1754,14 @@ The parameter $k_1$ denotes the stiffness of the spring between the outer masses
 
 \section{Rate-type equations}
 \noindent
-In this section, we present a description of the system in Figure \ref{fig_metamaterial} based on the rate-type equations.
-
-Derivation of this description, which stems from the classical Newtonian equations with linear relation for the stiffnes $k$
+The classical Newtonian description of the system in Figure \ref{fig_metamaterial} is
 \begin{equation}\label{eq_newton_metamaterial}
     \begin{cases}
         m_1^{(j)} \dfrac{d^2 u_1^{(j)}}{dt^2} + k_1 \left( u_1^{(j)} - u_1^{(j+1)}\right) + k_1 \left( u_1^{(j)} - u_1^{(j-1)} \right) + k_2 \left( u_1^{(j)} - u_2^{(j)} \right) = 0 \, , \\[5pt]
-        m_2^{(j)} \dfrac{d^2 u_2^{(j)}}{d t^2} +  k_2 \left( u_2^{(j)} - u_1^{(j)}  \right) = 0 \, ,
+        m_2^{(j)} \dfrac{d^2 u_2^{(j)}}{d t^2} +  k_2 \left( u_2^{(j)} - u_1^{(j)}  \right) = 0 \, .
     \end{cases}
 \end{equation}
-to the desirable rate-type equations 
+We can derive the following rate-type equations from this
 \begin{equation}\label{eq_rate_type}
     \begin{cases}
         m_1^{(j)} \dfrac{d^2 u_1^{(j)}}{d t^2} - \sigma^{(j)}  = 0 \, , \\[5pt]
@@ -1771,9 +1769,9 @@ to the desirable rate-type equations
         & + k_1 \left( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \right) \, , \\
     \end{cases}
 \end{equation}
-for $j = 1, \dots,N$ is done precisely in the paper \cite{cichra}.
+for $j = 1, \dots,N$. This derivation is done precisely in the paper \cite{cichra}.
 
-If we want to see how the continuous equations looks, we substitute for
+If we want to see how the continuous equations look, we substitute for
 \begin{equation}
     \dfrac{\partial^2 u}{\partial x^2 } \approx \dfrac{u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)}}{L^2} \, , 
 \end{equation}
@@ -1785,13 +1783,13 @@ and get
     \end{cases}
 \end{equation}
 
-Next, we demonstrate the technique by which this system of second-order equations can be transformed into a system of first-order equations, thereby rendering it suitable for simulations.
 
 
-
-\subsection{System of equations suitable for simulations}
+\subsection{System of first-order equations}
 \noindent
-Now we will rewrite the problem \ref{eq_rate_type} in a more suitable form for numerical simulations. For the sake of simplicity, we omit the index in $u_1 \to u$ . We set
+Now, we will rewrite equation \ref{eq_rate_type} in a form that is more suitable for our simulations. Specifically, we will transform the system from second-order equations to a system that includes only first-order equations.
+
+For the sake of simplicity, we omit the index in $u_1 \to u$ and set
 \begin{align}\label{}
     \mathbf{u}=
     \begin{pmatrix}
@@ -1822,36 +1820,36 @@ Now we will rewrite the problem \ref{eq_rate_type} in a more suitable form for n
         m^{(N)}_2
     \end{pmatrix},
 \end{align}
-where the components of the node values vector $\mathbf{u}$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jh$, $j=1, \dots ,N$. The $m_1^{(i)} = m_1^{(j)}$, analogously for all $m_2^{j}$ .Use an approximation for the differentiation matrix $\mathbb{A}$
+where the components of the node values vector $\mathbf{u}$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jh$, $j=1, \dots ,N$. The $m_1^{(1)} = m_1^{(2)}= \cdots = m_1^{(N)}$, and analogously for all $m_2^{(1)} = m_2^{(2)}= \cdots = m_2^{(N)}$. And let $\mathbb{A}$ be our approximation for the differentiation matrix. This will allow us to rewrite our continuous system as a discrete one
 \begin{equation}\label{}
     \begin{cases}
         \mathbf{m_1} \dfrac{d^2 \mathbf{u}}{d t^2} - \boldsymbol{\sigma} = 0 \, , \\[5pt]
         \dfrac{\mathbf{m_2}}{k_2} \dfrac{d^2 \boldsymbol{\sigma}}{d t^2}  + \left(1 + \dfrac{\mathbf{m_2}}{\mathbf{m_1}} \right) \boldsymbol{\sigma}  = \dfrac{\mathbf{m_2} k_1}{k_2} \dfrac{d^2 }{d t^2 } \left( \mathbb{A} \mathbf{u} \right) + k_1 \left( \mathbb{A} \mathbf{u} \right) \, .
     \end{cases}
 \end{equation}
-Rewrite as
+Next, rewrite it as
 \begin{equation}
     \begin{cases}
         \dfrac{d^2 \mathbf{u}}{dt^2}=\dfrac{1}{\mathbf{m _1}}\boldsymbol{\sigma} \, ,\\[5pt]
         \dfrac{d^2 }{dt^2}\Bigl(\boldsymbol{\sigma}- k_1\mathbb{A}\mathbf{u}\Bigr)=-\dfrac{k_2}{\mathbf{m_2}}\Biggl(1+\dfrac{\mathbf{m_2}}{\mathbf{m_1}}\Biggr)\boldsymbol{\sigma}+\dfrac{k_2 k_1}{\mathbf{m_2}}\Bigl(\mathbb{A}\mathbf{u}\Bigr) \, .
     \end{cases}
 \end{equation}
-Defining 
+Define
 \begin{equation}
     \mathbf{a} \equiv \boldsymbol{\sigma} - k_1\mathbb{A}\mathbf{u} \, ,
 \end{equation}
-we get the following system of ordinary differential equations for the unknowns $\mathbf{u}$, $\mathbf{a}$:
-\begin{equation}\label{}
+and get the following discrete system of ordinary differential equations for the unknown vectors $\mathbf{u}$, $\mathbf{a}$
+\begin{equation}\label{eq_meta_step}
     \begin{cases}
         \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m _1}}\mathbf{a} \, ,\\[5pt]
         \dfrac{d^2}{dt^2}\mathbf{a}=-\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, .
     \end{cases}
 \end{equation}
-It can be useful to transform it into a first order system, introducing the auxiliary functions
+Our goal is to transform \ref{eq_meta_step} into a first-order system by introducing the auxiliary functions
 \begin{equation}
-    \mathbf{v} \equiv \dfrac{d}{dt}\mathbf{u} \, , \quad \mathbf{b} \equiv \dfrac{d}{dt}\mathbf{a}
+    \mathbf{v} \equiv \dfrac{d}{dt}\mathbf{u} \, , \quad \mathbf{b} \equiv \dfrac{d}{dt}\mathbf{a} \, ,
 \end{equation}
-and substituting back we get
+and substituting them back to \ref{eq_meta_step}. Overall we get the system
 \begin{equation}\label{eq_system_meta}
     \begin{cases}
         \dfrac{d}{dt}\mathbf{u}= \mathbf{v} \, ,\\[5pt]
@@ -1860,14 +1858,8 @@ and substituting back we get
         \dfrac{d}{dt}\mathbf{b}=-\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, .
     \end{cases}
 \end{equation}
-So we will conduct simulations using a system of first-order equations \ref{eq_system_meta}. The matrix $\mathbb{A}$ will be changed to fit the differentiation matrix, using FD, Numerov's, DFT, CDM, MBCDM, and LGCC. \cite{tozzi}
 
-The difference from the previous chapter is that now we don't have an exact solution, so we will compare all these methods with DFT (DST) because it is the most precise of them all.
-
-
-
-
-
+We will therefore conduct simulations using the system of equations \ref{eq_system_meta}. The matrix $\mathbb{A}$ will be chosen appropriately depending on which method we wish to implement: FD, Num, CDM, MBCDM, LGCC, DFT or DST. \cite{tozzi}
 
 
 
@@ -1898,7 +1890,7 @@ The problem is
         \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{cases}
 \end{equation}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth line are the initial conditions.
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_one_periodic_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_dft}.
 
@@ -1948,7 +1940,7 @@ The problem is
         \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{cases}
 \end{equation}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth line are the initial conditions.
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_Num}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_DFT}.
 
@@ -1997,7 +1989,7 @@ The problem is
         \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{cases}
 \end{equation}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth line are the initial conditions.
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_oppo_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_meta_Num}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_meta_DFT}.
 
@@ -2060,7 +2052,7 @@ The problem is
         \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{cases}
 \end{equation}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth line are the initial conditions.
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth and tenth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_one_dirichlet_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_dst}.
 
@@ -2130,7 +2122,7 @@ The problem is
         \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{cases}
 \end{equation}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth line are the initial conditions.
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth and tenth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_dst}.
 
@@ -2202,7 +2194,7 @@ The problem is
         \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{cases}
 \end{equation}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth line are the initial conditions.
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth, tenth, eleventh and twelveth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_dst}.
 
@@ -2254,6 +2246,10 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_opp
     \caption{Comparison of Discrete Fourier Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_two_dirichlet_oppo_meta_dst}
 \end{figure}
+
+\section{Conclusion from semi-discrete simulations of rate-type equations for metamaterials}
+\noindent
+DFT is best for periodic, DST is best for Dirichlet... to be continued 
 
 
 \chapter{Comparison of behaviour of metamaterial and classical elastic material}
