@@ -1785,7 +1785,7 @@ and get
 
 
 
-\subsection{System of first-order equations}
+\subsection*{Semi-discrete system of rate-type equations}
 \noindent
 Now, we will rewrite equation \ref{eq_rate_type} in a form that is more suitable for our simulations. Specifically, we will transform the system from second-order equations to a system that includes only first-order equations.
 
@@ -1804,47 +1804,66 @@ For the sake of simplicity, we omit the index in $u_1 \to u$ and set
         \sigma^{(2)}\\
         \vdots\\
         \sigma^{(N)}
-    \end{pmatrix},\quad 
-    \mathbf{m_1}=
-    \begin{pmatrix}
-        m^{(1)}_1\\
-        m^{(2)}_1\\
-        \vdots\\
-        m^{(N)}_1
-    \end{pmatrix},\quad 
-    \mathbf{m_2}=
-    \begin{pmatrix}
-        m^{(1)}_2\\
-        m^{(2)}_2\\
-        \vdots\\
-        m^{(N)}_2
-    \end{pmatrix},
+    \end{pmatrix} \, ,
 \end{align}
-where the components of the node values vector $\mathbf{u}$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jh$, $j=1, \dots ,N$. The $m_1^{(1)} = m_1^{(2)}= \cdots = m_1^{(N)}$, and analogously for all $m_2^{(1)} = m_2^{(2)}= \cdots = m_2^{(N)}$. And let $\mathbb{A}$ be our approximation for the differentiation matrix. This will allow us to rewrite our continuous system as a discrete one
+where the components of the node values vector $\mathbf{u}$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jh$, $j=1, \dots ,N$. And let $\mathbb{A}$ be our approximation for the differentiation matrix. This will allow us to rewrite our continuous system as a discrete one
 \begin{equation}\label{}
     \begin{cases}
-        \mathbf{m_1} \dfrac{d^2 \mathbf{u}}{d t^2} - \boldsymbol{\sigma} = 0 \, , \\[5pt]
-        \dfrac{\mathbf{m_2}}{k_2} \dfrac{d^2 \boldsymbol{\sigma}}{d t^2}  + \left(1 + \dfrac{\mathbf{m_2}}{\mathbf{m_1}} \right) \boldsymbol{\sigma}  = \dfrac{\mathbf{m_2} k_1}{k_2} \dfrac{d^2 }{d t^2 } \left( \mathbb{A} \mathbf{u} \right) + k_1 \left( \mathbb{A} \mathbf{u} \right) \, .
+        m_1 \mathbb{I} \dfrac{d^2 \mathbf{u}}{d t^2} - \mathbb{I} \boldsymbol{\sigma} = 0 \, , \\[5pt]
+        \dfrac{m_2}{k_2} \mathbb{I} \dfrac{d^2 \boldsymbol{\sigma}}{d t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \mathbb{I} \boldsymbol{\sigma}  = \dfrac{m_2 k_1}{k_2} \dfrac{d^2 }{d t^2 } \left( \mathbb{A} \mathbf{u} \right) + k_1 \left( \mathbb{A} \mathbf{u} \right) \, .
     \end{cases}
 \end{equation}
 Next, rewrite it as
 \begin{equation}
     \begin{cases}
-        \dfrac{d^2 \mathbf{u}}{dt^2}=\dfrac{1}{\mathbf{m _1}}\boldsymbol{\sigma} \, ,\\[5pt]
-        \dfrac{d^2 }{dt^2}\Bigl(\boldsymbol{\sigma}- k_1\mathbb{A}\mathbf{u}\Bigr)=-\dfrac{k_2}{\mathbf{m_2}}\Biggl(1+\dfrac{\mathbf{m_2}}{\mathbf{m_1}}\Biggr)\boldsymbol{\sigma}+\dfrac{k_2 k_1}{\mathbf{m_2}}\Bigl(\mathbb{A}\mathbf{u}\Bigr) \, .
+        \mathbb{I} \dfrac{d^2 \mathbf{u}}{dt^2}=\dfrac{1}{m_1} \mathbb{I} \boldsymbol{\sigma} \, ,\\[5pt]
+        \dfrac{d^2 }{dt^2}\Bigl( \mathbb{I} \boldsymbol{\sigma}- k_1\mathbb{A}\mathbf{u}\Bigr)=-\dfrac{k_2}{m_2}\Biggl(1+\dfrac{m_2}{m_1}\Biggr) \mathbb{I} \boldsymbol{\sigma}+\dfrac{k_2 k_1}{m_2}\Bigl(\mathbb{A}\mathbf{u}\Bigr) \, .
     \end{cases}
 \end{equation}
 Define
 \begin{equation}
-    \mathbf{a} \equiv \boldsymbol{\sigma} - k_1\mathbb{A}\mathbf{u} \, ,
+   \mathbb{I} \mathbf{a} \equiv \mathbb{I} \boldsymbol{\sigma} - k_1\mathbb{A}\mathbf{u} \, ,
 \end{equation}
-and get the following discrete system of ordinary differential equations for the unknown vectors $\mathbf{u}$, $\mathbf{a}$
+and get the following discrete system of ordinary differential equations \cite{tozzi} for the unknown vectors $\mathbf{u}$, $\mathbf{a}$
 \begin{equation}\label{eq_meta_step}
     \begin{cases}
-        \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m _1}}\mathbf{a} \, ,\\[5pt]
-        \dfrac{d^2}{dt^2}\mathbf{a}=-\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, .
+        \mathbb{I} \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1}{m_1}\mathbb{A}\mathbf{u}+\dfrac{1}{m _1} \mathbb{I} \mathbf{a} \, ,\\[5pt]
+        \mathbb{I} \dfrac{d^2}{dt^2}\mathbf{a}=-\dfrac{k_2k_1}{m_1}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{m_2}+\dfrac{1}{m_1}\Biggr) \mathbb{I} \mathbf{a} \, .
     \end{cases}
 \end{equation}
+If we define the matrix $\mathbb{M}$ as
+\begin{equation}
+\mathbb{M} = 
+\begin{bmatrix}
+    \dfrac{k_1}{m_1}\mathbb{A} & \dfrac{1}{m_1} \mathbb{I} \\
+    - \dfrac{k_2 k_1}{m_1}\mathbb{A} & -k_2 \left(\dfrac{1}{m_1} + \dfrac{1}{m_2} \right) \mathbb{I}  \\
+\end{bmatrix} \, ,
+\end{equation}
+which is $\mathbb{M} \in \mathbb{R}^{2N \times 2N}$, we can rewrite the system \ref{eq_meta_step} to the form
+\begin{equation}
+    \dfrac{d^2}{dt^2}
+    \begin{bmatrix}
+    \mathbf{u} \\
+    \mathbf{a}  \\
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+    \dfrac{k_1}{m_1}\mathbb{A} & \dfrac{1}{m_1} \mathbb{I} \\
+    - \dfrac{k_2 k_1}{m_1}\mathbb{A} & -k_2 \left(\dfrac{1}{m_1} + \dfrac{1}{m_2} \right) \mathbb{I}  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+    \mathbf{u} \\
+    \mathbf{a}  \\
+    \end{bmatrix}
+    = \mathbb{M} 
+    \begin{bmatrix}
+    \mathbf{u} \\
+    \mathbf{a}  \\
+    \end{bmatrix} \, .
+\end{equation}
+
+
+This is not our goal
 Our goal is to transform \ref{eq_meta_step} into a first-order system by introducing the auxiliary functions
 \begin{equation}
     \mathbf{v} \equiv \dfrac{d}{dt}\mathbf{u} \, , \quad \mathbf{b} \equiv \dfrac{d}{dt}\mathbf{a} \, ,
