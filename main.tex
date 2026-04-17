@@ -237,7 +237,7 @@
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 \noindent
-In this work, we will first focus on the eigenvalue computations of the regular Sturm--Liouville problems. Two concrete examples are Paine and Coffey--Evans equations for which we will use several different methods for the discretization of the operator of the second derivative. We will compute our data and compare it to one another.
+In this work, we will first focus on the eigenvalue computations of the regular Sturm--Liouville problems in Schrödinger form. Two concrete examples are Paine and Coffey--Evans equations for which we will use several different methods for the discretization of the operator of the second derivative. We will compute our data and compare it to one another.
 
 Next, we will study the classical wave equation and test Finite Differences and Fast Fourier Transform on their propagation.
 
@@ -303,23 +303,29 @@ Our goal is to compare all of these methods and figure out which one is best. Fo
 
 \section{Test problems}
 \noindent
-In this section, we will introduce two regular Sturm--Liouville test problems on which we will apply the discretization techniques. The general form of these problems is
+In this section, we will introduce two regular Sturm--Liouville test problems in Schrödinger form on which we will apply the discretization techniques. The general form of these problems is
 \begin{equation}\label{eq_general_test_problem}
-    -u''(x) + q(x) u(x) = \lambda u(x) \, , \quad x \in [a, \, b] \, , \quad u(a) = u(b) = 0 \, .
+    -u''(x) + q(x) u(x) = \lambda u(x) \, , \quad x \in [a, \, b] \, , \quad u(a) = u(b) = 0 \, ,
 \end{equation}
-Now, let's look in more detail at two specific cases of this problem.
+where $q(x)$ is the potential of the problem.
+
+Now, let's look in more detail at two specific cases of these test problems.
 
 \subsection{Paine equation}
 \noindent
-The first one has parameters
+The Paine equation has the potential
+\begin{equation}
+    q(x) = e^x \, ,
+\end{equation}
+and the problem is defined on the interval where
 \begin{equation}
     \begin{split}
-        q(x) & = e^x \, , \\[2pt]
         a & = 0 \, , \\[2pt]
         b & = \pi \ . \\[2pt]
     \end{split}
 \end{equation}
-If we substitute them into the relation \ref{eq_general_test_problem}, the resulting Paine equation is
+
+If we substitute into the relation \ref{eq_general_test_problem}, the resulting Paine equation is
 \begin{equation}\label{eq_SL}
     -u''(x) + e^x u(x) = \lambda u(x) \, , \quad x \in [0, \, \pi] \, , \quad u(0) = u(\pi) = 0 \, .
 \end{equation}
@@ -327,19 +333,23 @@ If we substitute them into the relation \ref{eq_general_test_problem}, the resul
 
 \subsection{Coffey--Evans equation}
 \noindent 
-In the second case, the parameters are
+The Coffey--Evans equation has the potential
+\begin{equation}
+    q(x) = \beta^2 \sin^2{(2 x)} -2 \beta \cos{(2 x)} \, ,
+\end{equation}
+and the problem is defined on the interval where
 \begin{equation}\label{eq_CE_coeffs}
     \begin{split}
-        q(x) & = \beta^2 \sin^2{(2 x)} -2 \beta \cos{(2 x)} \, , \\[2pt]
         a & = -\pi/2 \, , \\[2pt]
         b & = \pi/2 \, . \\[2pt]
     \end{split}
 \end{equation}
-If we substitute them into \ref{eq_general_test_problem}, we get the resulting Coffey--Evans equation
+
+If we substitute into \ref{eq_general_test_problem}, we get the resulting Coffey--Evans equation
 \begin{equation}\label{eq_CE}
     \begin{split}
-    -u''(x) + \big(\beta^2 \sin^2{(2 x)} -2 \beta \cos{(2 x)} \big) u(x) & = \lambda  u(x) \, , \\
-     u(-\pi/2) = u(\pi/2) = 0 \, , \quad x \in [-\pi/2 , \, & \pi/2] \, . \\
+    -u''(x) + \big(\beta^2 \sin^2{(2 x)} - 2 \beta & \cos{(2 x)} \big) u(x) = \lambda  u(x) \, , \\
+     u(-\pi/2) = u(\pi/2) = 0 \, , \quad & x \in [-\pi/2 , \, \pi/2] \, . \\
     \end{split}
 \end{equation}
 In the whole text, we will use the value of parameter $\beta = 30$.
@@ -361,41 +371,41 @@ In this section, we will introduce the discretization methods that will be used 
 
 Our aim is to discretize the continuous operator of the second derivative by using an approximation matrix
 \begin{equation}
-    D \approx \dfrac{\partial^2}{\partial  x^2} \, .
+    \mathbb{D} \approx \dfrac{\partial^2}{\partial  x^2} \, .
 \end{equation}
 These matrices will be assembled using the methods below, and then we will use MATLAB's \texttt{eig} function for the computation of eigenvalues. These eigenvalues will then be compared across the methods, especially the high-index ones.
 
 Our goal is to rewrite the main equation \ref{eq_general_test_problem} to the form
 \begin{equation}
-    \big( -D + E  \big) u(x) = \lambda u(x) \, ,
+    \big( - \mathbb{D} + \mathbb{E}  \big) u(x) = \lambda u(x) \, ,
 \end{equation}
 for the Paine equation, where
 \begin{equation}
-    E = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N}\big) \,.
+    \mathbb{E} = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N}\big) \,.
 \end{equation}
 And in the case of the Coffey--Evans equation with the potential
 \begin{equation}
     \begin{split}
-    Q = \texttt{diag}\big(-2 \beta \cos{(2 x_1)} + \beta^2 \sin^2{(2 x_1)} \, , \dots, \\ 
+    \mathbb{Q} = \texttt{diag}\big(-2 \beta \cos{(2 x_1)} + \beta^2 \sin^2{(2 x_1)} \, , \dots, \\ 
     -2 \beta \cos{(2 x_N)} + \beta^2 \sin^2{(2 x_N)} \big) \, ,
     \end{split}
 \end{equation}
 to the form
 \begin{equation}
-    \big( -D + Q  \big) u(x) = \lambda u(x) \, .
+    \big( - \mathbb{D} + \mathbb{Q}  \big) u(x) = \lambda u(x) \, .
 \end{equation} 
 
-The differentiation matrices $D$ will be assembled using the following methods.
+The differentiation matrices $\mathbb{D}$ will be assembled using the following methods.
 
 \subsection{Finite Difference method}
 \noindent
 The first numerical method on our list is the Finite Difference method (FD). We will be using the second-order central Finite Difference formula, which approximates the second derivative on a discrete grid for $h$ small enough with equation
 \begin{equation}
-    u''(x_i) \approx \frac{u(x_i - h) - 2 u(x_i) + u(x_i + h) }{h^2} = \big(D \mathbf{u} \big)_i \, , \quad i = 1, \dots, N \, ,
+    u''(x_i) \approx \frac{u(x_i - h) - 2 u(x_i) + u(x_i + h) }{h^2} = \big( \mathbb{D} \mathbf{u} \big)_i \, , \quad i = 1, \dots, N \, ,
 \end{equation}
-where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^T$ and $u(x_i+h) = u(x_{i+1})$. Matrix $D$ is
+where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^T$ and $u(x_i+h) = u(x_{i+1})$. Matrix $\mathbb{D}$ is
 \begin{equation}
-D = \frac{1}{h^2} \begin{bmatrix}
+\mathbb{D} = \frac{1}{h^2} \begin{bmatrix}
     - 2 & 1 & 0  & \cdots & 0 \\
     1 & - 2 & 1 & \cdots & 0 \\
     0 & 1 & - 2  & \cdots & 0 \\ 
@@ -413,14 +423,14 @@ The implementation of this method is in algorithm \ref{alg_1} for the Paine equa
 \State $h = \pi / (N + 1)$
 \State $x_i = i h$ \quad for $i = 1, \dots,N$
 \BlankLine
-\State Assemble tridiagonal matrix $D$ of size $N \times N$:
-\State \quad $D_{i,i} = 2 / h^2$ \quad for $i=1, \dots,N$
-\State \quad $D_{i,i+1} = D_{i+1,i} = -1 / h^2$ \quad for $i = 1, \dots,N-1$
+\State Assemble tridiagonal matrix $\mathbb{D}$ of size $N \times N$:
+\State \quad $\mathbb{D}_{i,i} = 2 / h^2$ \quad for $i=1, \dots,N$
+\State \quad $\mathbb{D}_{i,i+1} = \mathbb{D}_{i+1,i} = -1 / h^2$ \quad for $i = 1, \dots,N-1$
 \BlankLine
-\State $E = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N} \big)$
-\State $A = -D + E$
+\State $\mathbb{E} = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N} \big)$
+\State $\mathbb{A} = -\mathbb{D} + \mathbb{E}$
 \BlankLine
-\State \texttt{eig}($A$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$ 
+\State \texttt{eig}($\mathbb{A}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$ 
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
@@ -433,15 +443,15 @@ The implementation of this method is in algorithm \ref{alg_1} for the Paine equa
 \State $h = \pi/(N+1)$
 \State $x_i = -\pi/2 + i h$ \quad for $i = 1, \dots,N$
 \BlankLine
-\State Assemble tridiagonal matrix $D$ of size $N \times N$:
-\State \quad $D_{i,i}   = 2/h^2$ \quad for $i=1, \dots,N$
-\State \quad $D_{i,i+1} = D_{i+1,i} = -1/h^2$  \quad for $i=1, \dots,N-1$
+\State Assemble tridiagonal matrix $\mathbb{D}$ of size $N \times N$:
+\State \quad $\mathbb{D}_{i,i}   = 2/h^2$ \quad for $i=1, \dots,N$
+\State \quad $\mathbb{D}_{i,i+1} = \mathbb{D}_{i+1,i} = -1/h^2$  \quad for $i=1, \dots,N-1$
 \BlankLine
 \State $q_i = \beta^2 \sin^2(2 x_i) - 2 \beta \cos(2 x_i)$ \quad for $i=1, \dots,N$
-\State $Q = \texttt{diag}\big(q_1, q_2, \dots, q_N \big)$
-\State $A = -D + Q$
+\State $\mathbb{Q} = \texttt{diag}\big(q_1, q_2, \dots, q_N \big)$
+\State $\mathbb{A} = -\mathbb{D} + \mathbb{Q}$
 \BlankLine
-\State \texttt{eig}($A$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}($\mathbb{A}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
@@ -461,9 +471,9 @@ that holds for all $i = 1, \dots,N$, where $u(x_i+h) = u(x_{i+1})$ and the coeff
         b_i & = -12 + h^2 q(x_{i}) \, .  \\
     \end{split}
 \end{equation}
-If we denote the tridiagonal matrices $A$ and $B$ by
+If we denote the tridiagonal matrices $\mathbb{A}$ and $\mathbb{B}$ by
 \begin{equation}
-A = \begin{bmatrix}
+\mathbb{A} = \begin{bmatrix}
     a_1 & b_1 & 0  & \cdots & 0 \\
     b_1 & a_2 & b_2  & \cdots & 0 \\
     0 & b_2 & a_3  & \cdots & 0 \\
@@ -473,7 +483,7 @@ A = \begin{bmatrix}
 \label{}
 \end{equation}
 \begin{equation}
-B = h^2\begin{bmatrix}
+\mathbb{B} = h^2\begin{bmatrix}
     10 & 1 & 0 & \cdots & 0 \\
     1 & 10 & 1 & \cdots & 0 \\
     0 & 1 & 10 & \cdots & 0 \\
@@ -484,7 +494,7 @@ B = h^2\begin{bmatrix}
 \end{equation}
 The whole approximation can be rewritten in matrix form
 \begin{equation}
-    A \mathbf{u} = \lambda B \mathbf{u} \, ,
+    \mathbb{A} \mathbf{u} = \lambda \mathbb{B} \mathbf{u} \, ,
 \end{equation}
 where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$. The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for the Paine equation and in algorithm \ref{alg_Numerov_CE} for the Coffey--Evans equation. Algorithms contain the basic Numerov's method and the Numerov's method with correction.\cite{numerov}
 
@@ -497,15 +507,15 @@ where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$. The imp
 \State $x_i = i h$ \quad for $i = 1, \dots, N$
 \State $q_i = \exp(x_i)$ \quad for $i = 1, \dots, N$
 \BlankLine
-\State Assemble tridiagonal matrix $A$ of size $N \times N$:
-\State \quad $A_{i,i} = 24 + 10 h^2 q_i$ \quad for $i=1, \dots,N$
-\State \quad $A_{i,i+1} = A_{i+1,i} = - 12 + h^2 q_i$ \quad for $i=1, \dots,N-1$
+\State Assemble tridiagonal matrix $\mathbb{A}$ of size $N \times N$:
+\State \quad $\mathbb{A}_{i,i} = 24 + 10 h^2 q_i$ \quad for $i=1, \dots,N$
+\State \quad $\mathbb{A}_{i,i+1} = \mathbb{A}_{i+1,i} = - 12 + h^2 q_i$ \quad for $i=1, \dots,N-1$
 \BlankLine
-\State Assemble tridiagonal matrix $B$ of size $N \times N$:
-\State \quad $B_{i,i} = 10 h^2$ \quad for $i=1, \dots,N$
-\State \quad $B_{i,i+1} = B_{i+1,i} = h^2$ \quad for $i=1, \dots,N-1$
+\State Assemble tridiagonal matrix $\mathbb{B}$ of size $N \times N$:
+\State \quad $\mathbb{B}_{i,i} = 10 h^2$ \quad for $i=1, \dots,N$
+\State \quad $\mathbb{B}_{i,i+1} = \mathbb{B}_{i+1,i} = h^2$ \quad for $i=1, \dots,N-1$
 \BlankLine
-\State \texttt{eig}($A$,$B$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}($\mathbb{A}$,$\mathbb{B}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \BlankLine
 \State Asymptotic correction:
@@ -526,15 +536,15 @@ where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$. The imp
 \State $x_i = -\pi/2 + i h$ \quad for $i = 1, \dots,N$
 \State $q_i = \beta^2 \sin^2(2 x_i) - 2 \beta \cos(2 x_i)$ \quad for $i = 1, \dots, N$
 \BlankLine
-\State Assemble tridiagonal matrix $A$ of size $N \times N$:
-\State \quad $A_{i,i} = 24 + 10 h^2 q_i$ \quad for $i = 1, \dots,N$
-\State \quad $A_{i,i+1} = A_{i+1,i} = - 12 + h^2 q_i$ \quad for $i = 1, \dots,N-1$
+\State Assemble tridiagonal matrix $\mathbb{A}$ of size $N \times N$:
+\State \quad $\mathbb{A}_{i,i} = 24 + 10 h^2 q_i$ \quad for $i = 1, \dots,N$
+\State \quad $\mathbb{A}_{i,i+1} = \mathbb{A}_{i+1,i} = - 12 + h^2 q_i$ \quad for $i = 1, \dots,N-1$
 \BlankLine
-\State Assemble tridiagonal matrix $B$ of size $N \times N$:
-\State \quad $B_{i,i} = 10 h^2$ \quad for $i = 1, \dots,N$
-\State \quad $B_{i,i+1} = B_{i+1,i} = h^2$ \quad for $i = 1, \dots,N-1$
+\State Assemble tridiagonal matrix $\mathbb{B}$ of size $N \times N$:
+\State \quad $\mathbb{B}_{i,i} = 10 h^2$ \quad for $i = 1, \dots,N$
+\State \quad $\mathbb{B}_{i,i+1} = \mathbb{B}_{i+1,i} = h^2$ \quad for $i = 1, \dots,N-1$
 \BlankLine
-\State \texttt{eig}($A$,$B$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}($\mathbb{A}$,$\mathbb{B}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \BlankLine
 \State Asymptotic correction:
@@ -552,7 +562,7 @@ where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$. The imp
 \noindent
 The Chebyshev Differentiation Matrix method (CDM) is a high-order spectral collocation technique that approximates the derivatives of a function at specific collocation points using global polynomial interpolation. It will be implemented using MATLAB's chebfun package, utilizing the \texttt{chebpts} and \texttt{diffmat} functions.
 
-Using this method, we first generate the Chebyshev points of the second kind via \texttt{chebpts} on the interval $[-1, \, 1]$. Then, we assemble the second order differentiation matrix $D_{\text{full}}$ via the \texttt{diffmat}.
+Using this method, we first generate the Chebyshev points of the second kind via \texttt{chebpts} on the interval $[-1, \, 1]$. Then, we assemble the second order differentiation matrix $\mathbb{D}_{\text{full}}$ via the \texttt{diffmat}.
 
 For problems with homogeneous Dirichlet boundary conditions
 \begin{equation}
@@ -561,15 +571,15 @@ For problems with homogeneous Dirichlet boundary conditions
         u(-\pi/2) = u(\pi/2) = & \; 0 \, ,
     \end{split}
 \end{equation}
-the first and last rows and columns are removed to obtain the reduced (interior) differentiation matrix $D_{\text{Cheb}}$. This way, we enforce these boundary conditions.
+the first and last rows and columns are removed to obtain the reduced (interior) differentiation matrix $\mathbb{D}_{\text{Cheb}}$. This way, we enforce these boundary conditions.
 
-We find the Chebyshev interior points $t_{\text{int}}$ in a similar manner. Next, we transform these points from the interval $[-1, \, 1]$ to the interval $[0, \, \pi]$ or $[-\pi/2, \, \pi/2]$ with an appropriate scaling factor, and we also scale the matrix $D_{\text{Cheb}}$ accordingly.
+We find the Chebyshev interior points $t_{\text{int}}$ in a similar manner. Next, we transform these points from the interval $[-1, \, 1]$ to the interval $[0, \, \pi]$ or $[-\pi/2, \, \pi/2]$ with an appropriate scaling factor, and we also scale the matrix $\mathbb{D}_{\text{Cheb}}$ accordingly.
 
-Finally, we assemble the matrices $E$, $Q$, $A$ and compute the eigenvalues of the matrix problem
+Finally, we assemble the matrices $\mathbb{E}$, $\mathbb{Q}$, $\mathbb{A}$ and compute the eigenvalues of the matrix problem
 \begin{equation}
-    A\mathbf{u} = \lambda \mathbf{u} \, , \quad \text{where} \; \, \mathbf{u} = [u(x_1), \, u(x_2), \, \dots, \, u(x_N)]^T \, ,
+    \mathbb{A} \mathbf{u} = \lambda \mathbf{u} \, , \quad \text{where} \; \, \mathbf{u} = [u(x_1), \, u(x_2), \, \dots, \, u(x_N)]^T \, ,
 \end{equation}
-and where the matrix $A$ combines the scaled differentiation matrix $D$ with the potential term $E$ or $Q$.\cite{cdm}\cite{trefethen}
+and where the matrix $\mathbb{A}$ combines the scaled differentiation matrix $\mathbb{D}$ with the potential term $\mathbb{E}$ or $\mathbb{Q}$.\cite{cdm}\cite{trefethen}
 
 The implementation of the method can be seen in algorithms \ref{alg_5} and \ref{alg_6}.
 
@@ -579,15 +589,15 @@ The implementation of the method can be seen in algorithms \ref{alg_5} and \ref{
 \begin{algorithmic}[1]
 \State \textbf{input} $N$
 \State $t =$ \texttt{chebpts}(N+2, 2)
-\State $D_{\text{full}} =$ \texttt{diffmat}(N+2, 2)
-\State $D_{\text{Cheb}} = D_{\text{full}}[2:N+1, \, 2:N+1]$
+\State $\mathbb{D}_{\text{full}} =$ \texttt{diffmat}(N+2, 2)
+\State $\mathbb{D}_{\text{Cheb}} = \mathbb{D}_{\text{full}}[2:N+1, \, 2:N+1]$
 \State $t_{\text{int}} = t[2:N+1]$
 \State $x_i = \pi/2 \, (t_{\text{int},i} + 1)$ \quad for $i=1, \dots,N$
-\State $D = (2 / \pi)^2 D_{\text{Cheb}}$
-\State $E = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N}\big)$
-\State $A = -D + E$
+\State $\mathbb{D} = (2 / \pi)^2 \mathbb{D}_{\text{Cheb}}$
+\State $\mathbb{E} = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N}\big)$
+\State $\mathbb{A} = -\mathbb{D} + \mathbb{E}$
 \BlankLine
-\State \texttt{eig}($A$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}($\mathbb{A}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
@@ -598,16 +608,16 @@ The implementation of the method can be seen in algorithms \ref{alg_5} and \ref{
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
 \State $t =$ \texttt{chebpts}(N+2, 2)
-\State $D_{\text{full}} =$ \texttt{diffmat}(N+2, 2)
-\State $D_{\text{Cheb}} = D_{\text{full}}[2:N+1, \, 2:N+1]$ 
+\State $\mathbb{D}_{\text{full}} =$ \texttt{diffmat}(N+2, 2)
+\State $\mathbb{D}_{\text{Cheb}} = \mathbb{D}_{\text{full}}[2:N+1, \, 2:N+1]$ 
 \State $t_{\text{int}} = t[2:N+1]$
 \State $x_i = \pi/2 \, \big( t_{\text{int},i}\big)$ \quad for $i=1, \dots,N$
 \State $q_i =  \beta^2 \sin^2(2 x_i) - 2 \beta \cos(2x_i) $ \quad for $i=1, \dots,N$
-\State $Q = \texttt{diag}\big(q_1, q_2, \dots, q_N \big)$
-\State $D = (2 / \pi)^2 D_{\text{Cheb}}$
-\State $A = -D + Q$
+\State $\mathbb{Q} = \texttt{diag}\big(q_1, q_2, \dots, q_N \big)$
+\State $\mathbb{D} = (2 / \pi)^2 \mathbb{D}_{\text{Cheb}}$
+\State $\mathbb{A} = -\mathbb{D} + \mathbb{Q}$
 \BlankLine
-\State \texttt{eig}($A$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}($\mathbb{A}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
@@ -634,16 +644,16 @@ for the interval $[0, \pi]$ (Paine problem), or
 \end{equation}
 for the symmetric interval $[-\pi/2, \pi/2]$ (Coffey--Evans problem). This nonlinear mapping significantly improves the accuracy of the method for the two highly oscillatory test problems (the Paine and Coffey--Evans equations), especially when computing high-index eigenvalues.
 
-In the computational domain $s \in [-1,1]$, the first and second derivatives are approximated using Barycentric Chebyshev Differentiation Matrices $D_1$ and $D_2$. These are transformed to the physical domain via the chain rule:
+In the computational domain $s \in [-1,1]$, the first and second derivatives are approximated using Barycentric Chebyshev Differentiation Matrices $\mathbb{D}_1$ and $\mathbb{D}_2$. These are transformed to the physical domain via the chain rule:
 \begin{equation}
 \frac{d}{dx} = \frac{ds}{dx} \frac{d}{ds}, \qquad
 \frac{d^2}{dx^2} = \left( \frac{ds}{dx} \right)^2 \frac{d^2}{ds^2} + \frac{d^2 s}{dx^2} \frac{d}{ds} \, .
 \end{equation}
-After incorporating the potential term $q(x)$ as a diagonal matrix ($E$ for the exponential potential in the Paine problem and $Q$ for the trigonometric potential in the Coffey--Evans problem), the discrete operator takes the form
+After incorporating the potential term $q(x)$ as a diagonal matrix ($\mathbb{E}$ for the exponential potential in the Paine problem and $\mathbb{Q}$ for the trigonometric potential in the Coffey--Evans problem), the discrete operator takes the form
 \begin{equation}
-A = -D + \text{potential matrix} \, .
+\mathbb{A} = -\mathbb{D} + \text{potential matrix} \, .
 \end{equation}
-Homogeneous Dirichlet boundary conditions are imposed by removing the first and last rows and columns, yielding the reduced interior matrix $A_{\text{int}}$. The eigenvalues of $A_{\text{int}}$ approximate the continuous spectrum with spectral accuracy.\cite{cdm}
+Homogeneous Dirichlet boundary conditions are imposed by removing the first and last rows and columns, yielding the reduced interior matrix $\mathbb{A}_{\text{int}}$. The eigenvalues of $\mathbb{A}_{\text{int}}$ approximate the continuous spectrum with spectral accuracy.\cite{cdm}
 
 The implementation of this method is in algorithm \ref{alg_MBCDM_Paine} for the Paine equation and in algorithm \ref{alg_MBCDM_CE} for the Coffey--Evans equation.
 
@@ -662,15 +672,15 @@ The implementation of this method is in algorithm \ref{alg_MBCDM_Paine} for the 
 \State $dx/ds = (\pi/2) g'(s)$
 \State $d^2x/ds^2 = (\pi/2) g''(s)$
 \BlankLine
-\State $D_1 =$ \texttt{diffmat}(N+2, 1)
-\State $D_2 = $ \texttt{diffmat}(N+2, 2) 
+\State $\mathbb{D}_1 =$ \texttt{diffmat}(N+2, 1)
+\State $\mathbb{D}_2 = $ \texttt{diffmat}(N+2, 2) 
 \BlankLine
-\State $D = \texttt{diag}\big((dx/ds)^{-2}\big) D_2 - \texttt{diag}\big((d^2x/ds^2)(dx/ds)^{-3}\big) D_1$
-\State $E = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_{N+2}}\big)$
-\State $A = -D + E$
-\State $A_{\text{int}} = A[2:N+1, \, 2:N+1]$
+\State $\mathbb{D} = \texttt{diag}\big((dx/ds)^{-2}\big) \mathbb{D}_2 - \texttt{diag}\big((d^2x/ds^2)(dx/ds)^{-3}\big) \mathbb{D}_1$
+\State $\mathbb{E} = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_{N+2}}\big)$
+\State $\mathbb{A} = -\mathbb{D} + \mathbb{E}$
+\State $\mathbb{A}_{\text{int}} = \mathbb{A}[2:N+1, \, 2:N+1]$
 \BlankLine
-\State \texttt{eig}($A_{init}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}($\mathbb{A}_{init}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
@@ -690,16 +700,16 @@ The implementation of this method is in algorithm \ref{alg_MBCDM_Paine} for the 
 \State $dx/ds = (\pi/2) g'(s)$
 \State $d^2x/ds^2 = (\pi/2) g''(s)$
 \BlankLine
-\State $D_1 =$ \texttt{diffmat}(N+2, 1)
-\State $D_2 = $ \texttt{diffmat}(N+2, 2) 
+\State $\mathbb{D}_1 =$ \texttt{diffmat}(N+2, 1)
+\State $\mathbb{D}_2 = $ \texttt{diffmat}(N+2, 2) 
 \BlankLine
-\State $D = \texttt{diag}\big((dx/ds)^{-2}\big) D_2 - \texttt{diag}\big((d^2x/ds^2)(dx/ds)^{-3}\big) D_1$
+\State $\mathbb{D} = \texttt{diag}\big((dx/ds)^{-2}\big) \mathbb{D}_2 - \texttt{diag}\big((d^2x/ds^2)(dx/ds)^{-3}\big) \mathbb{D}_1$
 \State $q_i =  \beta^2 \sin^2(2 x_i) - 2 \beta \cos(2x_i) $ \quad for $i=1, \dots,N+2$
-\State $Q = \texttt{diag}\big(q_1, q_2, \dots, q_{N+2}\big)$
-\State $A = -D + Q$
-\State $A_{\text{int}} = A[2:N+1, \, 2:N+1]$
+\State $\mathbb{Q} = \texttt{diag}\big(q_1, q_2, \dots, q_{N+2}\big)$
+\State $\mathbb{A} = -\mathbb{D} + \mathbb{Q}$
+\State $\mathbb{A}_{\text{int}} = \mathbb{A}[2:N+1, \, 2:N+1]$
 \BlankLine
-\State \texttt{eig}($A_{init}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}($\mathbb{A}_{init}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \end{algorithmic}
 \end{algorithm}
@@ -729,9 +739,9 @@ The basis functions are chosen as
 \end{equation}
 where $L_k(t)$ denotes the $k$-th Legendre polynomial. These basis functions automatically satisfy the homogeneous Dirichlet boundary conditions. The weak form of the differential eigenvalue problem is then projected onto this basis, leading to the generalized matrix eigenvalue problem
 \begin{equation}
-    (S + \widehat{M})\mathbf{u} = \mu T \mathbf{u} \, ,
+    (\mathbb{S} + \mathbb{\widehat{M}})\mathbf{u} = \mu \mathbb{T} \mathbf{u} \, ,
 \end{equation}
-where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^T$. $S$ is the (diagonal) stiffness matrix, $T$ is the (penta-diagonal) mass matrix, and $\widehat{M}$ is the symmetrized potential matrix obtained via Chebyshev interpolation of the product $q(t)\phi_j(t)$, followed by the extraction of the Legendre coefficients. The eigenvalues $\mu_k$ are finally rescaled to the original problem via $\lambda_k = (2/\pi)^2 \mu_k$ (for the interval length $\pi$).
+where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^T$. $\mathbb{S}$ is the (diagonal) stiffness matrix, $\mathbb{T}$ is the (penta-diagonal) mass matrix, and $\mathbb{\widehat{M}}$ is the symmetrized potential matrix obtained via Chebyshev interpolation of the product $q(t)\phi_j(t)$, followed by the extraction of the Legendre coefficients. The eigenvalues $\mu_k$ are finally rescaled to the original problem via $\lambda_k = (2/\pi)^2 \mu_k$ (for the interval length $\pi$).
 
 The method achieves high accuracy for smooth potentials, thanks to the spectral convergence of the Legendre and Chebyshev expansions, while the special choice of basis ensures the exact enforcement of the Dirichlet boundary conditions.\cite{legendre_galerkin}
 
@@ -745,28 +755,28 @@ The implementation of this method is in algorithm \ref{alg_LGCC_Paine} for the P
 \State $m = N - 1$
 \State $k=0,1,\dots,m-1$
 \BlankLine
-\State Stiffness matrix $S$ (diagonal):
-\State \quad $S_{k, \, k} = 4 k + 6$ \quad for $k = 0, \dots, m-1$
+\State Stiffness matrix $\mathbb{S}$ (diagonal):
+\State \quad $\mathbb{S}_{k, \, k} = 4 k + 6$ \quad for $k = 0, \dots, m-1$
 \BlankLine
-\State Mass matrix $T$ (penta-diagonal):
-\State \quad $T_{k,k} = \dfrac{2}{2 k+1} + \dfrac{2}{2 k+5}$ \quad for $k = 0, \dots, m-1$
-\State \quad $T_{k, \, k+2} = T_{k+2, \, k} = -\dfrac{2}{2 k+5}$ \quad for $k = 0, \dots, m-3$
+\State Mass matrix $\mathbb{T}$ (penta-diagonal):
+\State \quad $\mathbb{T}_{k,k} = \dfrac{2}{2 k+1} + \dfrac{2}{2 k+5}$ \quad for $k = 0, \dots, m-1$
+\State \quad $\mathbb{T}_{k, \, k+2} = \mathbb{T}_{k+2, \, k} = -\dfrac{2}{2 k+5}$ \quad for $k = 0, \dots, m-3$
 \BlankLine
 \State \quad $q(t) = \dfrac{\pi^2}{4} \exp\left( \dfrac{\pi}{2} (t + 1) \right)$
 \State \quad $\phi_k(t) = L_{k}(t) - L_{k+2}(t)$ \quad for $k = 0, \dots, m-1$
 \BlankLine
-\State Matrix $M$ (Galerkin projection of potential):
+\State Matrix $\mathbb{M}$ (Galerkin projection of potential):
 \State \quad for $j = 0, \dots, m-1$:
 \State \quad \quad $f_j(t) = q(t) \phi_j(t)$
 \State \quad \quad $I_{f_j} =$ \texttt{chebfun}($f_j$,$N+1$) 
 \State \quad \quad \texttt{legcoeffs}($I_{f_j}$) $ \to c_0, c_1, \dots, c_N$
 \State \quad \quad for $i = 0, \dots, m-1$:
-\State \quad \quad \quad $M_{i,j} = \dfrac{2}{2 \, i+1} \, c_{i+1} - \dfrac{2}{2 \, i+5} \, c_{i+3} $ \quad (if $i+3 \leq N$)
+\State \quad \quad \quad $\mathbb{M}_{i,j} = \dfrac{2}{2 \, i+1} \, c_{i+1} - \dfrac{2}{2 \, i+5} \, c_{i+3} $ \quad (if $i+3 \leq N$)
 \BlankLine
-\State $\hat{M} = \texttt{triu}(M) + \texttt{triu}(M, \, 1)^T$
-\State $A = S + \hat{M}$
+\State $\mathbb{\hat{M}} = \texttt{triu}(\mathbb{M}) + \texttt{triu}(\mathbb{M}, \, 1)^T$
+\State $\mathbb{A} = \mathbb{S} + \mathbb{\hat{M}}$
 \BlankLine
-\State \texttt{eig}($A$,$T$) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
+\State \texttt{eig}($\mathbb{A}$,$\mathbb{T}$) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
 \State$\lambda_k = (2/ \pi)^2 \mu_k$ \quad for $k = 1, \dots, m$
 \State \textbf{output} $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N-1}$
 \end{algorithmic}
@@ -780,28 +790,28 @@ The implementation of this method is in algorithm \ref{alg_LGCC_Paine} for the P
 \State $m = N - 1$
 \State $k = 0,1,\dots,m-1$
 \BlankLine
-\State Stiffness matrix $S$ (diagonal):
-\State \quad $S_{k,k} = 4 k + 6$  \quad for $k = 0, \dots, m-1$
+\State Stiffness matrix $\mathbb{S}$ (diagonal):
+\State \quad $\mathbb{S}_{k,k} = 4 k + 6$  \quad for $k = 0, \dots, m-1$
 \BlankLine
-\State Mass matrix $T$ (penta-diagonal):
-\State \quad $T_{k,k} = \dfrac{2}{2k+1} + \dfrac{2}{2k+5}$ \quad for $k = 0, \dots, m-1$
-\State \quad $T_{k,k+2} = T_{k+2,k} = -\dfrac{2}{2 k+5}$ \quad for $k = 0, \dots, m-3$
+\State Mass matrix $\mathbb{T}$ (penta-diagonal):
+\State \quad $\mathbb{T}_{k,k} = \dfrac{2}{2k+1} + \dfrac{2}{2k+5}$ \quad for $k = 0, \dots, m-1$
+\State \quad $\mathbb{T}_{k,k+2} = \mathbb{T}_{k+2,k} = -\dfrac{2}{2 k+5}$ \quad for $k = 0, \dots, m-3$
 \BlankLine
 \State $q(t) = \dfrac{\pi^2}{4} \big(\beta^2 \sin^2(\pi t) - 2 \beta \cos(\pi t) \big)$
 \State $\phi_k(t) = L_{k}(t) - L_{k+2}(t)$ \quad for $k = 0, \dots, m-1$
 \BlankLine
-\State Matrix $M$ (Galerkin projection of potential):
+\State Matrix $\mathbb{M}$ (Galerkin projection of potential):
 \State \quad for $j = 0, \dots, m-1$:
 \State \quad \quad $f_j(t) = q(t) \phi_j(t)$
 \State \quad \quad $I_{f_j} =$ \texttt{chebfun}($f_j$,$N+1$) 
 \State \quad \quad \texttt{legcoeffs}($I_{f_j}$) $ \to c_0, c_1, \dots, c_N$
 \State \quad \quad for $i = 0, \dots, m-1$:
-\State \quad \quad \quad $M_{i,j} = \dfrac{2}{2 \, i+1} \, c_{i+1} - \dfrac{2}{2 \, i+5} \, c_{i+3}$ \quad (if $i+3 \leq N$)
+\State \quad \quad \quad $\mathbb{M}_{i,j} = \dfrac{2}{2 \, i+1} \, c_{i+1} - \dfrac{2}{2 \, i+5} \, c_{i+3}$ \quad (if $i+3 \leq N$)
 \BlankLine
-\State $\hat{M} = \texttt{triu}(M) + \texttt{triu}(M,1)^T$
-\State $A = S + \hat{M}$
+\State $\mathbb{\hat{M}} = \texttt{triu}(\mathbb{M}) + \texttt{triu}(\mathbb{M},1)^T$
+\State $\mathbb{A} = \mathbb{S} + \mathbb{\hat{M}}$
 \BlankLine
-\State \texttt{eig}($A$,$T$) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
+\State \texttt{eig}($\mathbb{A}$,$\mathbb{T}$) $ \to \mu_1 \leq \mu_2 \leq \dots \leq \mu_m $
 \State$\lambda_k = (2/ \pi)^2 \mu_k$ \quad for $k = 1, \dots, m$
 \State \textbf{output} $\lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N-1}$
 \end{algorithmic}
@@ -818,21 +828,21 @@ In the DST spectral domain, the second derivative operator becomes a product wit
 \end{equation}
 where \texttt{dst} and \texttt{idst} denote the Discrete Sine Transform and its inverse, respectively. The symbol $\odot$ denotes element-wise (Hadamard) multiplication, and the vector that contains the negative squared wave numbers is in the form $k = [-1^2, \, -2^2, \, \dots, \, -N^2 ]^T$.
 
-The full discrete operator $L_{\mathrm{op}}$ is then assembled by addition
+The full discrete operator $\mathcal{L}_{\mathrm{op}}$ is then assembled by addition
 \begin{equation}
-    L_{\mathrm{op}}(\mathbf{y}) = -\Delta_h \mathbf{y} + q(x) \, ,
+    \mathcal{L}_{\mathrm{op}}(\mathbf{y}) = -\Delta_h \mathbf{y} + q(x) \, ,
 \end{equation}
-where it holds that $\Delta_h \mathbf{y} = \mathrm{idst}(k \odot \mathrm{dst}(\mathbf{y})) = D_{\mathrm{op}}(\mathbf{y})$. For the Paine equation with the potential term operator $E_{\mathrm{op}}(\mathbf{y})$, it is
+where it holds that $\Delta_h \mathbf{y} = \mathrm{idst}(k \odot \mathrm{dst}(\mathbf{y})) = \mathcal{D}_{\mathrm{op}}(\mathbf{y})$. For the Paine equation with the potential term operator $\mathcal{E}_{\mathrm{op}}(\mathbf{y})$, it is
 \begin{equation}
-    L_{\mathrm{op}}(\mathbf{y}) = -D_{\mathrm{op}}(\mathbf{y}) + E_{\mathrm{op}}(\mathbf{y}) \, ,
+    \mathcal{L}_{\mathrm{op}}(\mathbf{y}) = - \mathcal{D}_{\mathrm{op}}(\mathbf{y}) + \mathcal{E}_{\mathrm{op}}(\mathbf{y}) \, ,
 \end{equation}
-and for the Coffey--Evans equation with the potential term operator $Q_{\mathrm{op}}(\mathbf{y})$
+and for the Coffey--Evans equation with the potential term operator $\mathcal{Q}_{\mathrm{op}}(\mathbf{y})$
 \begin{equation}
-    L_{\mathrm{op}}(\mathbf{y}) = -D_{\mathrm{op}}(\mathbf{y}) + Q_{\mathrm{op}}(\mathbf{y}) \, .
+    \mathcal{L}_{\mathrm{op}}(\mathbf{y}) = -\mathcal{D}_{\mathrm{op}}(\mathbf{y}) + \mathcal{Q}_{\mathrm{op}}(\mathbf{y}) \, .
 \end{equation}
 
 
-The corresponding matrix representation $A$ is obtained by applying the operator $L_{\mathrm{op}}$ to the columns of the identity matrix. The eigenvalues of the resulting matrix $A$ approximate the eigenvalues of the continuous problem with spectral accuracy for sufficiently smooth potentials.
+The corresponding matrix representation $\mathbb{A}$ is obtained by applying the operator $\mathcal{L}_{\mathrm{op}}$ to the columns of the identity matrix. The eigenvalues of the resulting matrix $\mathbb{A}$ approximate the eigenvalues of the continuous problem with spectral accuracy for sufficiently smooth potentials.
 
 The implementation of the method for the Paine and Coffey--Evans equations is described in Algorithms \ref{alg_DST_Paine} and \ref{alg_DST_CE}, respectively.
 
@@ -844,12 +854,12 @@ The implementation of the method for the Paine and Coffey--Evans equations is de
 \State $x_i = \frac{\pi}{N+1} i$ \quad for $i = 1, \dots,N$
 \State $k = [-1^2, \, -2^2, \, \dots, \, -N^2]^T$
 \BlankLine
-\State $D_{op}(y) = \texttt{idst}(k \odot \texttt{dst}(y))$
-\State $E_{op}(y) = \exp(x) \odot y$
-\State $L_{op}(y) = -D_{op}(y) + E_{op}(y)$
-\State $A = L_{op}(I_{N})$
+\State $\mathcal{D}_{op}(y) = \texttt{idst}(k \odot \texttt{dst}(y))$
+\State $\mathcal{E}_{op}(y) = \exp(x) \odot y$
+\State $\mathcal{L}_{op}(y) = -\mathcal{D}_{op}(y) + \mathcal{E}_{op}(y)$
+\State $\mathbb{A} = \mathcal{L}_{op}(\mathbb{I}_{N})$
 \BlankLine
-\State \texttt{eig}($A$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
+\State \texttt{eig}($\mathbb{A}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_{N}$
 \end{algorithmic}
 \end{algorithm}
@@ -862,12 +872,12 @@ The implementation of the method for the Paine and Coffey--Evans equations is de
 \State $x_i = -\pi/2 + \frac{\pi}{N+1} i$ \quad for $i = 1, \dots,N$
 \State $k = [-1^2, \, -2^2, \, \dots, \, -N^2]^T$
 \BlankLine
-\State $D_{op}(y) = \texttt{idst}(k \odot \texttt{dst}(y))$
-\State $Q_{op}(y) = \big( \beta^2 \sin^2(2 x) - 2 \beta \cos(2 x) \big) \odot y$
-\State $L_{op}(y) = -D_{op}(y) + Q_{op}(y)$
-\State $A = L_{op}(I_{N})$
+\State $\mathcal{D}_{op}(y) = \texttt{idst}(k \odot \texttt{dst}(y))$
+\State $\mathcal{Q}_{op}(y) = \big( \beta^2 \sin^2(2 x) - 2 \beta \cos(2 x) \big) \odot y$
+\State $\mathcal{L}_{op}(y) = -\mathcal{D}_{op}(y) + \mathcal{Q}_{op}(y)$
+\State $\mathbb{A} = \mathcal{L}_{op}(\mathbb{I}_{N})$
 \BlankLine
-\State \texttt{eig}($A$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
+\State \texttt{eig}($\mathbb{A}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_{N}$
 \end{algorithmic}
 \end{algorithm}
@@ -888,7 +898,7 @@ where $\lambda_{500}^{Matslise}$ is the 500-th eigenvalue computed by the Matsli
 \noindent
 First, we present the computed data for the Paine equation. 
 
-For all the tables below, it holds that in the first column there is an index of the eigenvalue, and in the second column are the reference eigenvalues computed with the Matslise application. The rest of the columns are eigenvalues computed using the particular method. The numbers in the brackets represent the size of the differentiation matrix (e.g. $500 \times 500$) and hence the number of grid points in an interval.
+For all the tables below, it holds that in the first column there is an index of the eigenvalue, and in the second column are the reference eigenvalues computed with the Matslise application. The rest of the columns are eigenvalues computed using the particular method. The numbers in the brackets represent the size of the differentiation matrix (e.g., (500) means a matrix is of size $500 \times 500$) and hence the number of grid points in an interval.
 
 Below the eigenvalues, we have included the relative error $\varepsilon$ and the CPU time for each computation.
 
@@ -1199,28 +1209,28 @@ We can see the plots for both of them in the figures below. For both equations, 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_fix/fix_slp_1_10.eps}
+    \includegraphics[width=0.9\linewidth]{figures_fix/fix_paine_1_10.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 10]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_fix/fix_slp_1_50.eps}
+    \includegraphics[width=0.9\linewidth]{figures_fix/fix_paine_1_50.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 50]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_fix/fix_slp_1_500.eps}
+    \includegraphics[width=0.9\linewidth]{figures_fix/fix_paine_1_500.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 500]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_fix/fix_slp_490_500.eps}
+    \includegraphics[width=0.9\linewidth]{figures_fix/fix_paine_490_500.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalues range in an interval $\lambda_k \in [490, \, 500]$.}
     \label{}
 \end{figure}
@@ -1270,11 +1280,11 @@ Our goal will again be to compare the methods introduced in the previous chapter
 
 The focus of this study will be on two cases of boundary conditions: periodic boundary conditions
 \begin{equation}
-    u(0, t) = u(L, t) \, , \quad \dfrac{\partial u}{\partial x} (0,  t) = \dfrac{\partial u}{\partial x} (L,  t) \, \quad \text{for all} \; t \geq 0 \, ,
+    u(x, t) = u(x + L, t) \,  \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
 and Dirichlet boundary conditions
 \begin{equation}
-    u(0,  t) = u(L, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
+    u(0,  t) = u(L, t) = 0 \,  \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
 where $L$ is the length of our interval. The waves will be in function form
 \begin{equation}\label{eq_wave_general}
@@ -1301,23 +1311,23 @@ First, we introduce exact time evolution and then present the plots from our sim
 Instead of using conventional numerical time-stepping schemes (such as leapfrog or MATLAB's \texttt{ode45}), we employ exact time integration based on the eigen-decomposition of the spatial operator. This procedure consists of the following steps:
 
 \begin{enumerate}
-    \item We discretize the spatial differential operator and obtain a matrix $A$ that approximates the negative second derivative
+    \item We discretize the spatial differential operator and obtain a matrix $\mathbb{D}$ that approximates the second derivative
     \begin{equation}
-        A \approx -\frac{\partial^2}{\partial x^2} \, .
+        \mathbb{D} \approx \frac{\partial^2}{\partial x^2} \, .
     \end{equation}
 
     \item Substituting into the wave equation \ref{eq_wave} (with $c=1$) yields the semi-discrete system
     \begin{equation}
-        \frac{\partial^2 \mathbf{u}}{\partial t^2} = -A \mathbf{u} \, .
+        \frac{\partial^2 \mathbf{u}}{\partial t^2} = \mathbb{D} \mathbf{u} \, .
     \end{equation}
 
     \item We solve the eigenvalue problem
     \begin{equation}
-        A \mathbf{v}_k = \lambda_k \mathbf{v}_k \, , \qquad k=1,\dots,N \, ,
+        \mathbb{D} \mathbf{v}_k = \lambda_k \mathbf{v}_k \, , \qquad k=1,\dots,N \, ,
     \end{equation}
-    where $\lambda_k > 0$ are the eigenvalues and $\mathbf{v}_k$ are the corresponding eigenvectors. The associated angular frequencies are
+    where $\lambda_k < 0$ are the eigenvalues and $\mathbf{v}_k$ are the corresponding eigenvectors. The associated angular frequencies are
     \begin{equation}\label{omega}
-        \omega_k = \sqrt{\lambda_k} \, .
+        \omega_k = \sqrt{-\lambda_k} \, .
     \end{equation}
 
     \item The general solution in the modal basis is
@@ -1346,7 +1356,7 @@ This approach guaranties that the time evolution is exact — there is no time-d
 
 \section{Methods used in the codes}
 \noindent
-The spatial matrix operator $A$ is constructed using several different discretization techniques, depending on the type of boundary conditions.
+The spatial matrix operator $\mathbb{A}$ is constructed using several different discretization techniques, depending on the type of boundary conditions.
 
 \subsubsection*{Discrete Fourier Transform (DFT)}
 \noindent
@@ -1369,7 +1379,7 @@ It is evident that the methods suitable for periodic boundary conditions are FD 
 \noindent
 In this section, we will focus on periodic boundary conditions
 \begin{equation}
-    u(0, t) = u(L, t) \, , \quad \dfrac{\partial u}{\partial x} (0, t) = \dfrac{\partial u}{\partial x} (L, t) \, \quad \text{for all} \; t \geq 0 \, ,
+    u(x, t) = u(x + L, t) \,   \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
 where $L$ is the length of our interval.
 
@@ -1381,7 +1391,7 @@ First, let's look at the simulation of one sine wave in the form \ref{one_wave}.
 \begin{equation}\label{eq_periodic_one}
     \begin{cases}
         \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \\[5pt]
-        u(0, t) = u(L, t) \, , \quad u_x(0, t) = u_x(L, t) \, , \\[5pt]
+        u(x, t) = u(x + L, t) \, , \\[5pt]
         L = \pi \, , \quad N = 128 \, , \quad c = 1 \, , \\[5pt]
         u(x,0) = \sin{(6 x)} \, , \quad u_t(x,0) =  - 6 \cos{(6x)} \, .
     \end{cases}
@@ -1426,7 +1436,7 @@ Next, let's look at the simulation of two sine waves that propagate in the same 
 \begin{equation}\label{}
     \begin{cases}
         \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \\[5pt]
-        u(0, t) = u(L, t) \, , \quad u_x(0, t) = u_x(L, t) \, , \\[5pt]
+        u(x, t) = u(x + L, t) \, ,  \\[5pt]
         L = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, , \\[5pt]
         u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \\[5pt]
         u_t(x,0) =  - 5 \cos{(5x)} - 6 \cos{(6x)} \, . 
@@ -1473,7 +1483,7 @@ Finally, let's look at the simulation of two sine waves that propagate in opposi
 \begin{equation}\label{}
     \begin{cases}
         \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \\[5pt]
-        u(0, t) = u(L, t) \, , \quad u_x(0, t) = u_x(L, t) \, , \\[5pt]
+        u(x, t) = u(x + L, t) \, , \\[5pt]
         L = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, , \\[5pt]
         u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \\[5pt]
         u_t(x,0) =  - 5 \cos{(5x)} + 6 \cos{(6x)} \, .
@@ -1806,37 +1816,37 @@ For the sake of simplicity, we omit the index in $u_1 \to u$ and set
         \sigma^{(N)}
     \end{pmatrix} \, ,
 \end{align}
-where the components of the node values vector $\mathbf{u}$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jh$, $j=1, \dots ,N$. And let $\mathbb{A}$ be our approximation for the differentiation matrix. This will allow us to rewrite our continuous system as a discrete one
+where the components of the node values vector $\mathbf{u}$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jh$, $j=1, \dots ,N$. And let $\mathbb{D}$ be our approximation for the differentiation matrix. This will allow us to rewrite our continuous system as a discrete one
 \begin{equation}\label{}
     \begin{cases}
         m_1 \mathbb{I} \dfrac{d^2 \mathbf{u}}{d t^2} - \mathbb{I} \boldsymbol{\sigma} = 0 \, , \\[5pt]
-        \dfrac{m_2}{k_2} \mathbb{I} \dfrac{d^2 \boldsymbol{\sigma}}{d t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \mathbb{I} \boldsymbol{\sigma}  = \dfrac{m_2 k_1}{k_2} \dfrac{d^2 }{d t^2 } \left( \mathbb{A} \mathbf{u} \right) + k_1 \left( \mathbb{A} \mathbf{u} \right) \, .
+        \dfrac{m_2}{k_2} \mathbb{I} \dfrac{d^2 \boldsymbol{\sigma}}{d t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \mathbb{I} \boldsymbol{\sigma}  = \dfrac{m_2 k_1}{k_2} \dfrac{d^2 }{d t^2 } \left( \mathbb{D} \mathbf{u} \right) + k_1 \left( \mathbb{D} \mathbf{u} \right) \, .
     \end{cases}
 \end{equation}
 Next, rewrite it as
 \begin{equation}
     \begin{cases}
         \mathbb{I} \dfrac{d^2 \mathbf{u}}{dt^2}=\dfrac{1}{m_1} \mathbb{I} \boldsymbol{\sigma} \, ,\\[5pt]
-        \dfrac{d^2 }{dt^2}\Bigl( \mathbb{I} \boldsymbol{\sigma}- k_1\mathbb{A}\mathbf{u}\Bigr)=-\dfrac{k_2}{m_2}\Biggl(1+\dfrac{m_2}{m_1}\Biggr) \mathbb{I} \boldsymbol{\sigma}+\dfrac{k_2 k_1}{m_2}\Bigl(\mathbb{A}\mathbf{u}\Bigr) \, .
+        \dfrac{d^2 }{dt^2}\Bigl( \mathbb{I} \boldsymbol{\sigma}- k_1\mathbb{D}\mathbf{u}\Bigr)=-\dfrac{k_2}{m_2}\Biggl(1+\dfrac{m_2}{m_1}\Biggr) \mathbb{I} \boldsymbol{\sigma}+\dfrac{k_2 k_1}{m_2}\Bigl(\mathbb{D}\mathbf{u}\Bigr) \, .
     \end{cases}
 \end{equation}
 Define
 \begin{equation}
-   \mathbb{I} \mathbf{a} \equiv \mathbb{I} \boldsymbol{\sigma} - k_1\mathbb{A}\mathbf{u} \, ,
+   \mathbb{I} \mathbf{a} \equiv \mathbb{I} \boldsymbol{\sigma} - k_1\mathbb{D}\mathbf{u} \, ,
 \end{equation}
 and get the following discrete system of ordinary differential equations \cite{tozzi} for the unknown vectors $\mathbf{u}$, $\mathbf{a}$
 \begin{equation}\label{eq_meta_step}
     \begin{cases}
-        \mathbb{I} \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1}{m_1}\mathbb{A}\mathbf{u}+\dfrac{1}{m _1} \mathbb{I} \mathbf{a} \, ,\\[5pt]
-        \mathbb{I} \dfrac{d^2}{dt^2}\mathbf{a}=-\dfrac{k_2k_1}{m_1}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{m_2}+\dfrac{1}{m_1}\Biggr) \mathbb{I} \mathbf{a} \, .
+        \mathbb{I} \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1}{m_1}\mathbb{D}\mathbf{u}+\dfrac{1}{m _1} \mathbb{I} \mathbf{a} \, ,\\[5pt]
+        \mathbb{I} \dfrac{d^2}{dt^2}\mathbf{a}=-\dfrac{k_2k_1}{m_1}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{m_2}+\dfrac{1}{m_1}\Biggr) \mathbb{I} \mathbf{a} \, .
     \end{cases}
 \end{equation}
 If we define the matrix $\mathbb{M}$ as
 \begin{equation}
 \mathbb{M} = 
 \begin{bmatrix}
-    \dfrac{k_1}{m_1}\mathbb{A} & \dfrac{1}{m_1} \mathbb{I} \\
-    - \dfrac{k_2 k_1}{m_1}\mathbb{A} & -k_2 \left(\dfrac{1}{m_1} + \dfrac{1}{m_2} \right) \mathbb{I}  \\
+    \dfrac{k_1}{m_1}\mathbb{D} & \dfrac{1}{m_1} \mathbb{I} \\
+    - \dfrac{k_2 k_1}{m_1}\mathbb{D} & -k_2 \left(\dfrac{1}{m_1} + \dfrac{1}{m_2} \right) \mathbb{I}  \\
 \end{bmatrix} \, ,
 \end{equation}
 which is $\mathbb{M} \in \mathbb{R}^{2N \times 2N}$, we can rewrite the system \ref{eq_meta_step} to the form
@@ -1848,8 +1858,8 @@ which is $\mathbb{M} \in \mathbb{R}^{2N \times 2N}$, we can rewrite the system \
     \end{bmatrix}
     = 
     \begin{bmatrix}
-    \dfrac{k_1}{m_1}\mathbb{A} & \dfrac{1}{m_1} \mathbb{I} \\
-    - \dfrac{k_2 k_1}{m_1}\mathbb{A} & -k_2 \left(\dfrac{1}{m_1} + \dfrac{1}{m_2} \right) \mathbb{I}  \\
+    \dfrac{k_1}{m_1}\mathbb{D} & \dfrac{1}{m_1} \mathbb{I} \\
+    - \dfrac{k_2 k_1}{m_1}\mathbb{D} & -k_2 \left(\dfrac{1}{m_1} + \dfrac{1}{m_2} \right) \mathbb{I}  \\
     \end{bmatrix}
     \begin{bmatrix}
     \mathbf{u} \\
@@ -1873,8 +1883,8 @@ and substituting them back to \ref{eq_meta_step}. Overall we get the system
     \begin{cases}
         \dfrac{d}{dt}\mathbf{u}= \mathbf{v} \, ,\\[5pt]
         \dfrac{d}{dt}\mathbf{a}= \mathbf{b} \, ,\\[5pt]
-        \dfrac{d}{dt}\mathbf{v}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a} \, ,\\[5pt]
-        \dfrac{d}{dt}\mathbf{b}=-\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, .
+        \dfrac{d}{dt}\mathbf{v}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a} \, ,\\[5pt]
+        \dfrac{d}{dt}\mathbf{b}=-\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, .
     \end{cases}
 \end{equation}
 
@@ -1886,7 +1896,7 @@ We will therefore conduct simulations using the system of equations \ref{eq_syst
 \noindent
 In this section, we will focus on periodic boundary conditions
 \begin{equation}
-    u(0, t) = u(L, t) \, , \quad \dfrac{\partial u}{\partial x} (0, t) = \dfrac{\partial u}{\partial x} (L, t) \, \quad \text{for all} \; t \geq 0 \, ,
+    u(x, t) = u(x + L, t) \,  \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
 where $L$ is the length of our interval.
 
@@ -1900,9 +1910,9 @@ The problem is
     \begin{cases}
         \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
         \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
-        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
-        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
-        u(-L/2, t) = u(L/2, t) \, , \quad u_x(-L/2, t) = u_x(L/2, t) \, , \\[5pt]
+        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
+        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
+        u(x, t) = u(x + L, t) \, , \\[5pt]
         L = 2\pi \, , \quad N = 128 \, , \\[5pt]
         k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
         u(x,0) = \sin{(3 x)} \, , \quad u_t(x,0) =  - 3 \cos{(3x)} \, \\[5pt]
@@ -1950,9 +1960,9 @@ The problem is
     \begin{cases}
         \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
         \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
-        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
-        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
-        u(-L/2, t) = u(L/2, t) \, , \quad u_x(-L/2, t) = u_x(L/2, t) \, , \\[5pt]
+        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
+        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
+        u(x, t) = u(x + L, t) \, , \\[5pt]
         L = 2\pi \, , \quad N = 128 \, , \\[5pt]
         k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
         u(x,0) = \sin{(4 x)} + \sin{(8 x)} \, , \quad u_t(x,0) =  - 4 \cos{(4x)} - 8 \cos{(8x)} \, \\[5pt]
@@ -1999,9 +2009,9 @@ The problem is
     \begin{cases}
         \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
         \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
-        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
-        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
-        u(-L/2, t) = u(L/2, t) \, , \quad u_x(-L/2, t) = u_x(L/2, t) \, , \\[5pt]
+        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
+        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
+        u(x, t) = u(x + L, t) \, , \\[5pt]
         L = 2\pi \, , \quad N = 128 \, , \\[5pt]
         k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
         u(x,0) = \sin{(3 x)} + \sin{(9 x)} \, , \quad u_t(x,0) =  - 3 \cos{(3x)} + 9 \cos{(9x)} \, \\[5pt]
@@ -2061,8 +2071,8 @@ The problem is
     \begin{cases}
         \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
         \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
-        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
-        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
+        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
+        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
         u(0, t) = u(L, t) = 0 \, , \\[5pt]
         L = 2\pi \, , \quad N = 30 \, , \\[5pt]
         k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
@@ -2131,8 +2141,8 @@ The problem is
     \begin{cases}
         \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
         \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
-        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
-        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
+        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
+        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
         u(0, t) = u(L, t) = 0 \, , \\[5pt]
         L = 2\pi \, , \quad N = 30 \, , \\[5pt]
         k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
@@ -2201,8 +2211,8 @@ The problem is
     \begin{cases}
         \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
         \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
-        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
-        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{A}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
+        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
+        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
         u(0, t) = u(L, t) = 0 \, , \\[5pt]
         L = 2\pi \, , \quad N = 30 \, , \\[5pt]
         k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
