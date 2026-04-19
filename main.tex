@@ -1786,13 +1786,15 @@ From \ref{eq_newton_metamaterial} the following rate-type equations can be deriv
 \end{subequations}
 for $j = 1, \dots,N$. And the standard naive identification of a corresponding spatially homogeneous continuous model is based on the approximation
 \begin{equation}
-    \dfrac{\partial^2 u}{\partial x^2 } \approx \dfrac{u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)}}{L^2} \, , 
+    \dfrac{\partial^2 u(x,t)}{\partial x^2 } \approx \dfrac{u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)}}{L^2} \, , 
 \end{equation}
 where we, for the sake of simplicity, omit the index in $u_1$ and set $u$, which brings us to the continuous model
 \begin{subequations}\label{eq_rate_type_continuous}
     \begin{align}
-        & m_1 \dfrac{\partial^2 u}{\partial t^2} - \sigma  = 0 \, , \\[5pt]
-        & \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma  = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u}{\partial x^2} \right) + k_1 L^2 \dfrac{\partial^2 u}{\partial x^2} \, .
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & \begin{aligned}
+            \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t)  = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, .
+        \end{aligned}
     \end{align}
 \end{subequations}
 This derivation is done precisely in the paper \cite{cichra}.
@@ -1814,38 +1816,37 @@ Now, we will rewrite equations \ref{eq_rate_type_continuous} in a form that is m
         \sigma^{(N)}
     \end{pmatrix} \, ,
 \end{align}
-where the components of the node values vector $\mathbf{u}$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jh$, $j=1, \dots ,N$. And analogously for the vector $\boldsymbol{\sigma}$. Let $\mathbb{D}$ be a differentiation matrix, which is an approximation to the continuous operator of second derivative. \cite{tozzi} This will allow us to rewrite our continuous system \ref{eq_rate_type_continuous} as a semi-discrete one $\mathbf{kam se podělo L?}$
-
+where the components of the node values vector $\mathbf{u}$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jh$, $j=1, \dots ,N$. And analogously for the vector $\boldsymbol{\sigma}$. Let $\mathbb{D}$ be a differentiation matrix, which is an approximation to the continuous operator of second derivative. \cite{tozzi} This will allow us to rewrite our continuous system \ref{eq_rate_type_continuous} as a semi-discrete one
 \begin{subequations}\label{}
     \begin{align}
        & m_1 \dfrac{d^2 \mathbf{u}}{d t^2} - \boldsymbol{\sigma} = 0 \, , \\[5pt]
-        & \dfrac{m_2}{k_2}  \dfrac{d^2 \boldsymbol{\sigma}}{d t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \boldsymbol{\sigma}  = \dfrac{m_2 k_1}{k_2} \dfrac{d^2 }{d t^2 } \bigl( \mathbb{D} \mathbf{u} \bigr) + k_1 \bigl( \mathbb{D} \mathbf{u} \bigl) \, .
+        & \dfrac{m_2}{k_2}  \dfrac{d^2 \boldsymbol{\sigma}}{d t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \boldsymbol{\sigma}  = \dfrac{m_2 k_1 L^2}{k_2} \dfrac{d^2 }{d t^2 } \bigl( \mathbb{D} \mathbf{u} \bigr) + k_1 L^2 \bigl( \mathbb{D} \mathbf{u} \bigl) \, .
     \end{align}
 \end{subequations}
 Next, rearrange to the form
 \begin{subequations}
     \begin{align}
         & \dfrac{d^2 \mathbf{u}}{dt^2}=\dfrac{1}{m_1}\boldsymbol{\sigma} \, ,\\[5pt]
-        & \dfrac{d^2 }{dt^2}\Bigl( \boldsymbol{\sigma}- k_1\mathbb{D}\mathbf{u}\Bigr)=-\dfrac{k_2}{m_2}\Biggl(1+\dfrac{m_2}{m_1}\Biggr) \boldsymbol{\sigma}+\dfrac{k_2 k_1}{m_2}\bigl(\mathbb{D}\mathbf{u}\bigr) \, ,
+        & \dfrac{d^2 }{dt^2}\Bigl( \boldsymbol{\sigma}- k_1 L^2 \mathbb{D}\mathbf{u}\Bigr)=-\dfrac{k_2}{m_2}\Biggl(1+\dfrac{m_2}{m_1}\Biggr) \boldsymbol{\sigma}+\dfrac{k_2 k_1 L^2}{m_2}\bigl(\mathbb{D}\mathbf{u}\bigr) \, ,
     \end{align}
 \end{subequations}
 and define
 \begin{equation}
-    \mathbf{a} \equiv \boldsymbol{\sigma} - k_1\mathbb{D}\mathbf{u} \, .
+    \mathbf{a} \equiv \boldsymbol{\sigma} - k_1 L^2 \mathbb{D}\mathbf{u} \, .
 \end{equation}
 By using this substitution we get the following semi-discrete system of ordinary differential equations for the unknown vectors $\mathbf{u}$, $\mathbf{a}$
 \begin{subequations}\label{eq_meta_step}
     \begin{align}
-       & \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1}{m_1}\mathbb{D}\mathbf{u}+\dfrac{1}{m _1} \mathbf{a} \, ,\\[5pt]
-       & \dfrac{d^2}{dt^2}\mathbf{a}=-\dfrac{k_2k_1}{m_1}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{m_2}+\dfrac{1}{m_1}\Biggr) \mathbf{a} \, .
+       & \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1 L^2}{m_1}\mathbb{D}\mathbf{u}+\dfrac{1}{m _1} \mathbf{a} \, ,\\[5pt]
+       & \dfrac{d^2}{dt^2}\mathbf{a}=-\dfrac{k_2 k_1 L^2}{m_1}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{m_2}+\dfrac{1}{m_1}\Biggr) \mathbf{a} \, .
     \end{align}
 \end{subequations}
 If we define the matrix $\mathbb{M}$ as
 \begin{equation}
 \mathbb{M} = 
 \begin{bmatrix}
-    \dfrac{k_1}{m_1}\mathbb{D} & \dfrac{1}{m_1} \mathbb{I} \\
-    - \dfrac{k_2 k_1}{m_1}\mathbb{D} & -k_2 \left(\dfrac{1}{m_1} + \dfrac{1}{m_2} \right) \mathbb{I}  \\
+    \dfrac{k_1 L^2}{m_1}\mathbb{D} & \dfrac{1}{m_1} \mathbb{I} \\
+    - \dfrac{k_2 k_1 L^2}{m_1}\mathbb{D} & -k_2 \left(\dfrac{1}{m_1} + \dfrac{1}{m_2} \right) \mathbb{I}  \\
 \end{bmatrix} \, ,
 \end{equation}
 which is $\mathbb{M} \in \mathbb{R}^{2N \times 2N}$, we can rewrite the system \ref{eq_meta_step} to the form
@@ -1902,7 +1903,10 @@ Simulations will be done by implementing Finite Differences, Numerov's method, a
 The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & rovnice \, , \\[5pt]
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & \begin{aligned}
+            \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
+        \end{aligned}\\[5pt]
         & u(x, t) = u(x + L, t) \, , \\[5pt]
         & L = 2\pi \, , \quad N = 128 \, , \\[5pt]
         & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
@@ -1950,7 +1954,10 @@ The plot of the initial exact wave is shown in Figure \ref{fig_one_periodic_meta
 The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & rovnice \, , \\[5pt]
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & \begin{aligned}
+            \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
+        \end{aligned}\\[5pt]
         & u(x, t) = u(x + L, t) \, , \\[5pt]
         & L = 2\pi \, , \quad N = 128 \, , \\[5pt]
         & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
@@ -1997,7 +2004,10 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same
 The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & rovnice \, , \\[5pt]
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & \begin{aligned}
+            \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
+        \end{aligned}\\[5pt]
         & u(x, t) = u(x + L, t) \, , \\[5pt]
         & L = 2\pi \, , \quad N = 128 \, , \\[5pt]
         & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
@@ -2057,7 +2067,10 @@ Since all of our methods are suitable for the Dirichlet boundary conditions, we 
 The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & rovnice \, , \\[5pt]
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & \begin{aligned}
+            \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
+        \end{aligned}\\[5pt]
         & u(0, t) = u(L, t) = 0 \, , \\[5pt]
         & L = 2\pi \, , \quad N = 30 \, , \\[5pt]
         & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
@@ -2124,7 +2137,10 @@ The plot of the initial exact wave is shown in Figure \ref{fig_one_dirichlet_met
 The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & rovnice \, , \\[5pt]
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & \begin{aligned}
+            \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
+        \end{aligned}\\[5pt]
         & u(0, t) = u(L, t) = 0 \, , \\[5pt]
         & L = 2\pi \, , \quad N = 30 \, , \\[5pt]
         & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
@@ -2191,7 +2207,10 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_met
 The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & rovnice \, , \\[5pt]
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & \begin{aligned}
+            \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
+        \end{aligned}\\[5pt]
         & u(0, t) = u(L, t) = 0 \, , \\[5pt]
         & L = 2\pi \, , \quad N = 30 \, , \\[5pt]
         & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
@@ -2262,11 +2281,117 @@ DFT is best for periodic, DST is best for Dirichlet... to be continued
 
 \chapter{Comparison of behaviour of metamaterial and classical elastic material}
 \noindent
-In previous chapters, we have shown that the best space approximation is the Discrete Fourier Transform for periodic problems and the Discrete Sine Transform for Dirichlet boundary problems. Now we would like to use these two approximations for comparison between the behavior of metamaterials and classical elastic materials.
+In previous chapters, we have shown that the best spatial approximation is the Discrete Fourier Transform for periodic problems and the Discrete Sine Transform for Dirichlet boundary problems. Now we would like to use these two approximations for comparison between the behavior of metamaterials and classical elastic materials.
 
 \section{Initial text}
 \noindent
 How to do it?
+
+
+\begin{subequations}\label{}
+    \begin{align}
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & \begin{aligned}
+            \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t)  = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, .
+        \end{aligned}
+    \end{align}
+\end{subequations}
+if we choose $m_2 = 0$, we get
+\begin{subequations}\label{}
+    \begin{align}
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & \sigma(x,t)  = k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \, .
+    \end{align}
+\end{subequations}
+substituting above
+\begin{subequations}
+    \begin{align}
+    & \dfrac{\partial^2 u(x,t)}{\partial t^2} = \dfrac{k_1 L^2}{m_1} \dfrac{\partial^2 u(x,t)}{\partial x^2} \, , \\
+    & c = \sqrt{\dfrac{k_1 L^2}{m_1}} \, .
+    \end{align}
+\end{subequations}
+which is a classical wave equation
+
+\section{Comparison of classical wave equation and rate-type equations for metamaterial}
+\noindent
+Now, we will do simulations using only DST or DFT depending on the boundary conditions. A simulate the behaviour of the rate-type equations for smaller and smaller $m_2$.
+
+We would like to observe that the behaviour of rate-type equations will be for smaller and smaller $m_2$ the behaviour will be closer and closer to the classical wave equation.
+
+plots of time evolution for two cases of boundary conditions
+
+
+\section{Periodic boundary conditions}
+\noindent
+In this section, we will focus on periodic boundary conditions
+\begin{equation}
+    u(x, t) = u(x + L, t) \,  \quad \text{for all} \; t \geq 0 \, ,
+\end{equation}
+where $L$ is the length of our interval.
+
+
+\subsection{One wave}
+\noindent
+We will compare for $m_1 = 1$ and $m_2 = 0.1$, $m_2 = 0.01$ and $m_2 = 0.001$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{}
+    \caption{Comparison at time frame $t = 500 \, 000 $.}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{}
+    \caption{Comparison at time frame $t = 500 \, 000 $.}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{}
+    \caption{Comparison at time frame $t = 500 \, 000 $.}
+    \label{}
+\end{figure}
+
+
+\section{Dirichlet boundary conditions}
+\noindent
+In this section, we will focus on Dirichlet boundary conditions
+\begin{equation}
+    u(0, t) = u(L, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
+\end{equation}
+where $L$ is the length of our interval.
+
+
+\subsection{One wave}
+\noindent
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{}
+    \caption{Comparison at time frame $t = 500 \, 000 $.}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{}
+    \caption{Comparison at time frame $t = 500 \, 000 $.}
+    \label{}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{}
+    \caption{Comparison at time frame $t = 500 \, 000 $.}
+    \label{}
+\end{figure}
+
+
+
 
 
 
