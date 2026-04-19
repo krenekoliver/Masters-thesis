@@ -1766,16 +1766,16 @@ The parameter $k_1$ denotes the stiffness of the spring between the outer masses
 The classical Newtonian description of the system in Figure \ref{fig_metamaterial} is
 \begin{subequations}\label{eq_newton_metamaterial}
     \begin{align}
-        & m_1^{(j)} \dfrac{d^2 u_1^{(j)}}{dt^2} + k_1 \left( u_1^{(j)} - u_1^{(j+1)}\right) + k_1 \left( u_1^{(j)} - u_1^{(j-1)} \right) + k_2 \left( u_1^{(j)} - u_2^{(j)} \right) = 0 \, , \\[5pt]
+        & m_1^{(j)} \dfrac{d^2 u_1^{(j)}}{dt^2} + k_1 \bigl( u_1^{(j)} - u_1^{(j+1)}\bigr) + k_1 \left( u_1^{(j)} - u_1^{(j-1)} \right) + k_2 \left( u_1^{(j)} - u_2^{(j)} \right) = 0 \, , \\[5pt]
         & m_2^{(j)} \dfrac{d^2 u_2^{(j)}}{d t^2} +  k_2 \left( u_2^{(j)} - u_1^{(j)}  \right) = 0 \, .
     \end{align}
 \end{subequations}
-We can derive the following rate-type equations from this
+From \ref{eq_newton_metamaterial} the following rate-type equations can be derived in form
 \begin{subequations}\label{eq_rate_type}
     \begin{align}
-    m_1^{(j)} \frac{d^2 u_1^{(j)}}{dt^2} - \sigma^{(j)} = 0 \, , 
+    & m_1^{(j)} \frac{d^2 u_1^{(j)}}{dt^2} - \sigma^{(j)} = 0 \, , 
         \label{} \\[5pt]
-        \begin{aligned}
+        &\begin{aligned}
         \frac{m_2^{(j)}}{k_2} \frac{d^2 \sigma^{(j)}}{dt^2} 
             + \left(1 + \frac{m_2^{(j)}}{m_1^{(j)}} \right) \sigma^{(j)} 
             = \frac{m_2^{(j)} k_1}{k_2} \frac{d^2 }{dt^2 } \bigl( u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)} \bigr) \; \, \\
@@ -1784,28 +1784,20 @@ We can derive the following rate-type equations from this
         \label{}
     \end{align}
 \end{subequations}
-
-for $j = 1, \dots,N$. This derivation is done precisely in the paper \cite{cichra}.
-
-If we want to see how the continuous equations look, we substitute for
+for $j = 1, \dots,N$. And the standard naive identification of a corresponding spatially homogeneous continuous model is based on the approximation
 \begin{equation}
     \dfrac{\partial^2 u}{\partial x^2 } \approx \dfrac{u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)}}{L^2} \, , 
 \end{equation}
-and get
+where we, for the sake of simplicity, omit the index in $u_1$ and set $u$, which brings us to the continuous model
 \begin{subequations}\label{eq_rate_type_continuous}
     \begin{align}
-        m_1 \dfrac{\partial^2 u}{\partial t^2} - \sigma  = 0 \, , \\[5pt]
-        \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma  = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u}{\partial x^2} \right) + k_1 L^2 \dfrac{\partial^2 u}{\partial x^2} \, .
+        & m_1 \dfrac{\partial^2 u}{\partial t^2} - \sigma  = 0 \, , \\[5pt]
+        & \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma  = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u}{\partial x^2} \right) + k_1 L^2 \dfrac{\partial^2 u}{\partial x^2} \, .
     \end{align}
 \end{subequations}
+This derivation is done precisely in the paper \cite{cichra}.
 
-
-
-\subsection*{Semi-discrete system of rate-type equations}
-\noindent
-Now, we will rewrite equation \ref{eq_rate_type} in a form that is more suitable for our simulations. Specifically, we will transform the system from second-order equations to a system that includes only first-order equations.
-
-For the sake of simplicity, we omit the index in $u_1 \to u$ and set
+Now, we will rewrite equations \ref{eq_rate_type_continuous} in a form that is more suitable for our simulations. Next, we denote the vectors
 \begin{align}\label{}
     \mathbf{u}=
     \begin{pmatrix}
@@ -1822,29 +1814,30 @@ For the sake of simplicity, we omit the index in $u_1 \to u$ and set
         \sigma^{(N)}
     \end{pmatrix} \, ,
 \end{align}
-where the components of the node values vector $\mathbf{u}$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jh$, $j=1, \dots ,N$. And let $\mathbb{D}$ be our approximation for the differentiation matrix. This will allow us to rewrite our continuous system as a discrete one
+where the components of the node values vector $\mathbf{u}$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jh$, $j=1, \dots ,N$. And analogously for the vector $\boldsymbol{\sigma}$. Let $\mathbb{D}$ be a differentiation matrix, which is an approximation to the continuous operator of second derivative. \cite{tozzi} This will allow us to rewrite our continuous system \ref{eq_rate_type_continuous} as a semi-discrete one $\mathbf{kam se podělo L?}$
+
 \begin{subequations}\label{}
     \begin{align}
-        m_1 \mathbb{I} \dfrac{d^2 \mathbf{u}}{d t^2} - \mathbb{I} \boldsymbol{\sigma} = 0 \, , \\[5pt]
-        \dfrac{m_2}{k_2} \mathbb{I} \dfrac{d^2 \boldsymbol{\sigma}}{d t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \mathbb{I} \boldsymbol{\sigma}  = \dfrac{m_2 k_1}{k_2} \dfrac{d^2 }{d t^2 } \left( \mathbb{D} \mathbf{u} \right) + k_1 \left( \mathbb{D} \mathbf{u} \right) \, .
+       & m_1 \dfrac{d^2 \mathbf{u}}{d t^2} - \boldsymbol{\sigma} = 0 \, , \\[5pt]
+        & \dfrac{m_2}{k_2}  \dfrac{d^2 \boldsymbol{\sigma}}{d t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \boldsymbol{\sigma}  = \dfrac{m_2 k_1}{k_2} \dfrac{d^2 }{d t^2 } \bigl( \mathbb{D} \mathbf{u} \bigr) + k_1 \bigl( \mathbb{D} \mathbf{u} \bigl) \, .
     \end{align}
 \end{subequations}
-Next, rewrite it as
+Next, rearrange to the form
 \begin{subequations}
     \begin{align}
-        \mathbb{I} \dfrac{d^2 \mathbf{u}}{dt^2}=\dfrac{1}{m_1} \mathbb{I} \boldsymbol{\sigma} \, ,\\[5pt]
-        \dfrac{d^2 }{dt^2}\Bigl( \mathbb{I} \boldsymbol{\sigma}- k_1\mathbb{D}\mathbf{u}\Bigr)=-\dfrac{k_2}{m_2}\Biggl(1+\dfrac{m_2}{m_1}\Biggr) \mathbb{I} \boldsymbol{\sigma}+\dfrac{k_2 k_1}{m_2}\Bigl(\mathbb{D}\mathbf{u}\Bigr) \, .
+        & \dfrac{d^2 \mathbf{u}}{dt^2}=\dfrac{1}{m_1}\boldsymbol{\sigma} \, ,\\[5pt]
+        & \dfrac{d^2 }{dt^2}\Bigl( \boldsymbol{\sigma}- k_1\mathbb{D}\mathbf{u}\Bigr)=-\dfrac{k_2}{m_2}\Biggl(1+\dfrac{m_2}{m_1}\Biggr) \boldsymbol{\sigma}+\dfrac{k_2 k_1}{m_2}\bigl(\mathbb{D}\mathbf{u}\bigr) \, ,
     \end{align}
 \end{subequations}
-Define
+and define
 \begin{equation}
-   \mathbb{I} \mathbf{a} \equiv \mathbb{I} \boldsymbol{\sigma} - k_1\mathbb{D}\mathbf{u} \, ,
+    \mathbf{a} \equiv \boldsymbol{\sigma} - k_1\mathbb{D}\mathbf{u} \, .
 \end{equation}
-and get the following discrete system of ordinary differential equations \cite{tozzi} for the unknown vectors $\mathbf{u}$, $\mathbf{a}$
+By using this substitution we get the following semi-discrete system of ordinary differential equations for the unknown vectors $\mathbf{u}$, $\mathbf{a}$
 \begin{subequations}\label{eq_meta_step}
     \begin{align}
-        \mathbb{I} \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1}{m_1}\mathbb{D}\mathbf{u}+\dfrac{1}{m _1} \mathbb{I} \mathbf{a} \, ,\\[5pt]
-        \mathbb{I} \dfrac{d^2}{dt^2}\mathbf{a}=-\dfrac{k_2k_1}{m_1}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{m_2}+\dfrac{1}{m_1}\Biggr) \mathbb{I} \mathbf{a} \, .
+       & \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1}{m_1}\mathbb{D}\mathbf{u}+\dfrac{1}{m _1} \mathbf{a} \, ,\\[5pt]
+       & \dfrac{d^2}{dt^2}\mathbf{a}=-\dfrac{k_2k_1}{m_1}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{m_2}+\dfrac{1}{m_1}\Biggr) \mathbf{a} \, .
     \end{align}
 \end{subequations}
 If we define the matrix $\mathbb{M}$ as
@@ -1862,15 +1855,6 @@ which is $\mathbb{M} \in \mathbb{R}^{2N \times 2N}$, we can rewrite the system \
     \mathbf{u} \\
     \mathbf{a}  \\
     \end{bmatrix}
-    = 
-    \begin{bmatrix}
-    \dfrac{k_1}{m_1}\mathbb{D} & \dfrac{1}{m_1} \mathbb{I} \\
-    - \dfrac{k_2 k_1}{m_1}\mathbb{D} & -k_2 \left(\dfrac{1}{m_1} + \dfrac{1}{m_2} \right) \mathbb{I}  \\
-    \end{bmatrix}
-    \begin{bmatrix}
-    \mathbf{u} \\
-    \mathbf{a}  \\
-    \end{bmatrix}
     = \mathbb{M} 
     \begin{bmatrix}
     \mathbf{u} \\
@@ -1878,23 +1862,27 @@ which is $\mathbb{M} \in \mathbb{R}^{2N \times 2N}$, we can rewrite the system \
     \end{bmatrix} \, .
 \end{equation}
 
-
-This is not our goal
-Our goal is to transform \ref{eq_meta_step} into a first-order system by introducing the auxiliary functions
+The exact time evolution is obtained by computing the eigen-decomposition of the matrix $\mathbb{M}$,
 \begin{equation}
-    \mathbf{v} \equiv \dfrac{d}{dt}\mathbf{u} \, , \quad \mathbf{b} \equiv \dfrac{d}{dt}\mathbf{a} \, ,
+\mathbb{M} \mathbb{V} = \Lambda \mathbb{V} \, ,
 \end{equation}
-and substituting them back to \ref{eq_meta_step}. Overall we get the system
-\begin{subequations}\label{eq_system_meta}
-    \begin{align}
-        \dfrac{d}{dt}\mathbf{u}= \mathbf{v} \, ,\\[5pt]
-        \dfrac{d}{dt}\mathbf{a}= \mathbf{b} \, ,\\[5pt]
-        \dfrac{d}{dt}\mathbf{v}=\dfrac{k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a} \, ,\\[5pt]
-        \dfrac{d}{dt}\mathbf{b}=-\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, .
-    \end{align}
-\end{subequations}
-
-We will therefore conduct simulations using the system of equations \ref{eq_system_meta}. The matrix $\mathbb{A}$ will be chosen appropriately depending on which method we wish to implement: FD, Num, CDM, MBCDM, LGCC, DFT or DST. \cite{tozzi}
+where the columns of $\mathbb{V}$ are the eigenvectors (spatial modes), the matrix $\Lambda = \texttt{diag}(\lambda_1, \dots, \lambda_N)$, and the angular frequencies are determined by $\omega_k = \sqrt{-\lambda_k}$. Projecting the initial conditions onto the eigenbasis yields the modal coefficients. The solution at any time $t$ is then given by the exact superposition
+\begin{equation}
+\begin{bmatrix}
+\mathbf{u}(t) \\[5pt]
+\mathbf{a}(t)
+\end{bmatrix}
+= \mathbb{V} 
+\begin{bmatrix}
+\texttt{diag}(\cos(\omega_k t)) & \texttt{diag}(\omega_k^{-1} \sin(\omega_k t))
+\end{bmatrix}
+\mathbb{V}^{-1}
+\begin{bmatrix}
+\mathbf{y}_0 \\[5pt]
+\dot{\mathbf{y}}_0
+\end{bmatrix}.
+\end{equation}
+This approach ensures that the time integration is analytically exact; the only source of error is the spatial discretization. The matrix $\mathbb{D}$ will be chosen appropriately depending on which method we wish to implement: FD, Num, CDM, MBCDM, LGCC, DFT or DST.
 
 
 
@@ -1912,19 +1900,17 @@ Simulations will be done by implementing Finite Differences, Numerov's method, a
 \subsection{One wave}
 \noindent
 The problem is
-\begin{equation}\label{}
-    \begin{cases}
-        \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
-        \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
-        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
-        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
-        u(x, t) = u(x + L, t) \, , \\[5pt]
-        L = 2\pi \, , \quad N = 128 \, , \\[5pt]
-        k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
-        u(x,0) = \sin{(3 x)} \, , \quad u_t(x,0) =  - 3 \cos{(3x)} \, \\[5pt]
-        \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
-    \end{cases}
-\end{equation}
+\begin{subequations}\label{}
+    \begin{align}
+        & rovnice \, , \\[5pt]
+        & u(x, t) = u(x + L, t) \, , \\[5pt]
+        & L = 2\pi \, , \quad N = 128 \, , \\[5pt]
+        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
+        & u(x,0) = \sin{(3 x)} \, , \\[5pt]
+        & u_t(x,0) =  - 3 \cos{(3x)} \, , \\[5pt]
+        & \mathbf{a}_0 = \mathbf{b}_0 = 0 \,.
+    \end{align}
+\end{subequations}
 In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_one_periodic_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_dft}.
@@ -1962,19 +1948,17 @@ The plot of the initial exact wave is shown in Figure \ref{fig_one_periodic_meta
 \subsection{Two waves - same direction}
 \noindent
 The problem is
-\begin{equation}\label{}
-    \begin{cases}
-        \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
-        \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
-        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
-        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
-        u(x, t) = u(x + L, t) \, , \\[5pt]
-        L = 2\pi \, , \quad N = 128 \, , \\[5pt]
-        k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
-        u(x,0) = \sin{(4 x)} + \sin{(8 x)} \, , \quad u_t(x,0) =  - 4 \cos{(4x)} - 8 \cos{(8x)} \, \\[5pt]
-        \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
-    \end{cases}
-\end{equation}
+\begin{subequations}\label{}
+    \begin{align}
+        & rovnice \, , \\[5pt]
+        & u(x, t) = u(x + L, t) \, , \\[5pt]
+        & L = 2\pi \, , \quad N = 128 \, , \\[5pt]
+        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
+        & u(x,0) = \sin{(4 x)} + \sin{(8 x)} \, , \\[5pt]
+        & u_t(x,0) =  - 4 \cos{(4x)} - 8 \cos{(8x)} \, , \\[5pt]
+        & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
+    \end{align}
+\end{subequations}
 In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_Num}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_DFT}.
@@ -2011,19 +1995,17 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same
 \subsection{Two waves - opposite direction}
 \noindent
 The problem is
-\begin{equation}\label{}
-    \begin{cases}
-        \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
-        \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
-        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
-        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
-        u(x, t) = u(x + L, t) \, , \\[5pt]
-        L = 2\pi \, , \quad N = 128 \, , \\[5pt]
-        k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
-        u(x,0) = \sin{(3 x)} + \sin{(9 x)} \, , \quad u_t(x,0) =  - 3 \cos{(3x)} + 9 \cos{(9x)} \, \\[5pt]
-        \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
-    \end{cases}
-\end{equation}
+\begin{subequations}\label{}
+    \begin{align}
+        & rovnice \, , \\[5pt]
+        & u(x, t) = u(x + L, t) \, , \\[5pt]
+        & L = 2\pi \, , \quad N = 128 \, , \\[5pt]
+        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
+        & u(x,0) = \sin{(3 x)} + \sin{(9 x)} \, , \\[5pt]
+        & u_t(x,0) =  - 3 \cos{(3x)} + 9 \cos{(9x)} \, , \\[5pt]
+        & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
+    \end{align}
+\end{subequations}
 In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_oppo_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_meta_Num}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_meta_DFT}.
@@ -2073,20 +2055,17 @@ Since all of our methods are suitable for the Dirichlet boundary conditions, we 
 \subsection{One wave}
 \noindent
 The problem is
-\begin{equation}\label{}
-    \begin{cases}
-        \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
-        \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
-        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
-        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
-        u(0, t) = u(L, t) = 0 \, , \\[5pt]
-        L = 2\pi \, , \quad N = 30 \, , \\[5pt]
-        k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
-        u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq \pi \, , \\[5pt]
-        u_t(x,0) = - 16 \cos(16 x)  \quad 0 \leq x \leq \pi \, \\[5pt]
-        \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
-    \end{cases}
-\end{equation}
+\begin{subequations}\label{}
+    \begin{align}
+        & rovnice \, , \\[5pt]
+        & u(0, t) = u(L, t) = 0 \, , \\[5pt]
+        & L = 2\pi \, , \quad N = 30 \, , \\[5pt]
+        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
+        & u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq \pi \, , \\[5pt]
+        & u_t(x,0) = - 16 \cos(16 x)  \quad 0 \leq x \leq \pi \, , \\[5pt]
+        & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
+    \end{align}
+\end{subequations}
 In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth and tenth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_one_dirichlet_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_dst}.
@@ -2143,20 +2122,17 @@ The plot of the initial exact wave is shown in Figure \ref{fig_one_dirichlet_met
 \subsection{Two waves - same direction}
 \noindent
 The problem is
-\begin{equation}\label{}
-    \begin{cases}
-        \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
-        \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
-        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
-        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
-        u(0, t) = u(L, t) = 0 \, , \\[5pt]
-        L = 2\pi \, , \quad N = 30 \, , \\[5pt]
-        k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
-        u(x,0) = \sin{(8 x)} + \sin{(16 x)} \quad 0 \leq x \leq \pi \, , \\[5pt]
-        u_t(x,0) = - 8 \cos(8 x) - 16 \cos(16 x)  \quad 0 \leq x \leq \pi \, \\[5pt]
-        \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
-    \end{cases}
-\end{equation}
+\begin{subequations}\label{}
+    \begin{align}
+        & rovnice \, , \\[5pt]
+        & u(0, t) = u(L, t) = 0 \, , \\[5pt]
+        & L = 2\pi \, , \quad N = 30 \, , \\[5pt]
+        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
+        & u(x,0) = \sin{(8 x)} + \sin{(16 x)} \quad 0 \leq x \leq \pi \, , \\[5pt]
+        & u_t(x,0) = - 8 \cos(8 x) - 16 \cos(16 x)  \quad 0 \leq x \leq \pi \, , \\[5pt]
+        & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
+    \end{align}
+\end{subequations}
 In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth and tenth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_dst}.
@@ -2213,22 +2189,19 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_met
 \subsection{Two waves - opposite direction}
 \noindent
 The problem is
-\begin{equation}\label{}
-    \begin{cases}
-        \dfrac{d}{dt}\mathbf{u} = \mathbf{v},\\[5pt]
-        \dfrac{d}{dt}\mathbf{a} = \mathbf{b},\\[5pt]
-        \dfrac{d}{dt}\mathbf{v} =\dfrac{k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}+\dfrac{1}{\mathbf{m_1}}\mathbf{a},\\[5pt]
-        \dfrac{d}{dt}\mathbf{b} = -\dfrac{k_2k_1}{\mathbf{m_1}}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{\mathbf{m_2}}+\dfrac{1}{\mathbf{m_1}}\Biggr)\mathbf{a} \, , \\[5pt]
-        u(0, t) = u(L, t) = 0 \, , \\[5pt]
-        L = 2\pi \, , \quad N = 30 \, , \\[5pt]
-        k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
-        u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq \pi/2 \, , \\[5pt]
-        u(x,0) = \sin{(24 x)} \quad 3\pi/2 \leq x \leq \pi \, , \\[5pt]
-        u_t(x,0) = - 16 \cos(16 x) \quad 0 \leq x \leq \pi/2 \,  , \\[5pt]
-        u_t(x,0) = + 24 \cos(24 x) \quad 3\pi/2 \leq x \leq \pi \, , \\[5pt]
-        \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
-    \end{cases}
-\end{equation}
+\begin{subequations}\label{}
+    \begin{align}
+        & rovnice \, , \\[5pt]
+        & u(0, t) = u(L, t) = 0 \, , \\[5pt]
+        & L = 2\pi \, , \quad N = 30 \, , \\[5pt]
+        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
+        & u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq \pi/2 \, , \\[5pt]
+        & u(x,0) = \sin{(24 x)} \quad 3\pi/2 \leq x \leq \pi \, , \\[5pt]
+        & u_t(x,0) = - 16 \cos(16 x) \quad 0 \leq x \leq \pi/2 \,  , \\[5pt]
+        & u_t(x,0) = + 24 \cos(24 x) \quad 3\pi/2 \leq x \leq \pi \, , \\[5pt]
+        & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
+    \end{align}
+\end{subequations}
 In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth, tenth, eleventh and twelveth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_dst}.
