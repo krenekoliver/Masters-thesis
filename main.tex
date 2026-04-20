@@ -1778,7 +1778,7 @@ The parameter $k_1$ denotes the stiffness of the spring between the outer masses
 
 \section{Rate-type equations}
 \noindent
-The classical Newtonian description of the system in Figure \ref{fig_metamaterial} is
+The classical Newtonian description of the system in Figure \ref{fig_metamaterial} for displacements $u_1^{(j)} = u_1^{(j)}(t)$ and $u_2^{(j)} = u_2^{(j)}(t)$ for $j = 1, \dots,N$ is
 \begin{subequations}\label{eq_newton_metamaterial}
     \begin{align}
         & m_1^{(j)} \dfrac{d^2 u_1^{(j)}}{dt^2} + k_1 \bigl( u_1^{(j)} - u_1^{(j+1)}\bigr) + k_1 \left( u_1^{(j)} - u_1^{(j-1)} \right) + k_2 \left( u_1^{(j)} - u_2^{(j)} \right) = 0 \, , \\[5pt]
@@ -1799,7 +1799,7 @@ From \ref{eq_newton_metamaterial} the following rate-type equations can be deriv
         \label{}
     \end{align}
 \end{subequations}
-for $j = 1, \dots,N$. And the standard naive identification of a corresponding spatially homogeneous continuous model is based on the approximation
+\textbf{napsat co je to sigma} And the standard naive identification of a corresponding spatially homogeneous continuous model is based on the approximation
 \begin{equation}
     \dfrac{\partial^2 u(x,t)}{\partial x^2 } \approx \dfrac{u_1^{(j+1)} - 2 u_1^{(j)} + u_1^{(j-1)}}{L^2} \, , 
 \end{equation}
@@ -1812,9 +1812,8 @@ where we, for the sake of simplicity, omit the index in $u_1$ and set $u$, which
         \end{aligned}
     \end{align}
 \end{subequations}
-This derivation is done precisely in the paper \cite{cichra}.
-
-\begin{subequations}\label{}
+This derivation is done precisely in the paper \cite{cichra}. Next, we can  rearrange 
+\begin{subequations}\label{eq_meta_derivation}
     \begin{align}
         & \dfrac{\partial^2 u(x,t)}{\partial t^2} = \dfrac{1}{m_1} \sigma(x,t) \, , \\[5pt]
         & \begin{aligned}
@@ -1822,54 +1821,54 @@ This derivation is done precisely in the paper \cite{cichra}.
         \end{aligned}
     \end{align}
 \end{subequations}
+If we denote
+\begin{subequations}\label{a_def}
+    \begin{align}
+    a(x,t) \equiv \sigma(x,t) - k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2}  \, , \\[5pt]
+    \sigma(x,t) \equiv a(x,t) + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2}  \, ,
+    \end{align}
+\end{subequations}
+and substituting in \ref{eq_meta_derivation}, we get the following equations
+\begin{subequations}\label{eq_continuous_meta}
+    \begin{align}
+        & \dfrac{\partial^2 u(x,t)}{\partial t^2} = \dfrac{k_1 L^2}{m_1}\dfrac{\partial^2 u(x,t)}{\partial x^2} + \dfrac{1}{m_1}a(x,t) \, , \\[5pt]
+        & \dfrac{\partial^2 a(x,t)}{\partial t^2} = - \dfrac{k_1 k_2 L^2}{m_1} \dfrac{\partial^2 u(x,t)}{\partial x^2} - k_2 \left( \dfrac{1}{m_1} + \dfrac{1}{m_2} \right) a(x,t) \, .
+    \end{align}
+\end{subequations}
 
-define
-\begin{equation}
-    a(x,t) \equiv \sigma(x,t) - k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2}  \, .
-\end{equation}
 
-Now, we will rewrite equations \ref{eq_rate_type_continuous} in a form that is more suitable for our simulations. First, we denote the vectors
+Now, we discretize our problem and use the approximation matrix. First, we denote the vectors
 \begin{align}\label{}
-    \mathbf{u}=
+    \mathbf{u}(t) =
     \begin{pmatrix}
-        u^{(1)}\\
-        u^{(2)}\\
+        u^{(1)}(t)\\
+        u^{(2)}(t)\\
         \vdots\\
-        u^{(N)}
+        u^{(N)}(t)
     \end{pmatrix},\quad 
-    \boldsymbol{\sigma}=
+    \boldsymbol{\sigma}(t) =
     \begin{pmatrix}
-        \sigma^{(1)}\\
-        \sigma^{(2)}\\
+        \sigma^{(1)}(t)\\
+        \sigma^{(2)}(t)\\
         \vdots\\
-        \sigma^{(N)}
+        \sigma^{(N)}(t)
     \end{pmatrix} \, ,
 \end{align}
-where the components of the node values vector $\mathbf{u}$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jL$, $j=1, \dots ,N$. And analogously for the vector $\boldsymbol{\sigma}$. \cite{tozzi} Let $\mathbb{D}$ be a differentiation matrix, which is an approximation of the continuous operator of the second derivative. This will allow us to rewrite our continuous system \ref{eq_rate_type_continuous} as a semi-discrete one
-\begin{subequations}\label{}
-    \begin{align}
-       & m_1 \dfrac{d^2 \mathbf{u}}{d t^2} - \boldsymbol{\sigma} = 0 \, , \\[5pt]
-        & \dfrac{m_2}{k_2}  \dfrac{d^2 \boldsymbol{\sigma}}{d t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \boldsymbol{\sigma}  = \dfrac{m_2 k_1 L^2}{k_2} \dfrac{d^2 }{d t^2 } \bigl( \mathbb{D} \mathbf{u} \bigr) + k_1 L^2 \bigl( \mathbb{D} \mathbf{u} \bigl) \, .
-    \end{align}
-\end{subequations}
-Next, rearrange it to the form
-\begin{subequations}
-    \begin{align}
-        & \dfrac{d^2 \mathbf{u}}{dt^2}=\dfrac{1}{m_1}\boldsymbol{\sigma} \, ,\\[5pt]
-        & \dfrac{d^2 }{dt^2}\Bigl( \boldsymbol{\sigma}- k_1 L^2 \mathbb{D}\mathbf{u}\Bigr)=-\dfrac{k_2}{m_2}\Biggl(1+\dfrac{m_2}{m_1}\Biggr) \boldsymbol{\sigma}+\dfrac{k_2 k_1 L^2}{m_2}\bigl(\mathbb{D}\mathbf{u}\bigr) \, ,
-    \end{align}
-\end{subequations}
-and define
-\begin{equation}
-    \mathbf{a} \equiv \boldsymbol{\sigma} - k_1 L^2 \mathbb{D}\mathbf{u} \, .
-\end{equation}
-By using this substitution, we get the following semi-discrete system of ordinary differential equations for the unknown vectors $\mathbf{u}$, $\mathbf{a}$
+where the components of the node values vector $\mathbf{u}(t)$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jL$, $j=1, \dots ,N$. And analogously for the vector $\boldsymbol{\sigma}(t)$. \cite{tozzi} Let $\mathbb{D}$ be a differentiation matrix, which is an approximation of the continuous operator of the second derivative. This will allow us to rewrite our continuous system \ref{eq_continuous_meta} as a semi-discrete system of ordinary differential equations for the unknown vectors $\mathbf{u}$, $\mathbf{a}$
 \begin{subequations}\label{eq_meta_step}
     \begin{align}
-       & \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1 L^2}{m_1}\mathbb{D}\mathbf{u}+\dfrac{1}{m _1} \mathbf{a} \, ,\\[5pt]
-       & \dfrac{d^2}{dt^2}\mathbf{a}=-\dfrac{k_2 k_1 L^2}{m_1}\mathbb{D}\mathbf{u}-k_2\Biggl(\dfrac{1}{m_2}+\dfrac{1}{m_1}\Biggr) \mathbf{a} \, .
+       & \dfrac{d^2 \mathbf{u}(t)}{dt^2} = \dfrac{k_1 L^2}{m_1}\mathbb{D}\mathbf{u}(t) + \dfrac{1}{m _1} \mathbf{a}(t) \, ,\\[5pt]
+       & \dfrac{d^2 \mathbf{a}(t)}{dt^2} = -\dfrac{k_2 k_1 L^2}{m_1}\mathbb{D}\mathbf{u}(t)-k_2\Biggl(\dfrac{1}{m_2}+\dfrac{1}{m_1}\Biggr) \mathbf{a}(t) \, .
     \end{align}
 \end{subequations}
+where the relation \ref{a_def} has the discrete form
+\begin{subequations}
+    \begin{align}
+    \mathbf{a}(t) \equiv \boldsymbol{\sigma}(t) - k_1 L^2 \mathbb{D}\mathbf{u}(t) \, , \\[5pt]
+    \boldsymbol{ \sigma }(t) \equiv \boldsymbol{a}(t) + k_1 L^2 \mathbb{D}\mathbf{u}(t) \, .
+    \end{align}
+\end{subequations}
+
 If we define the matrix $\mathbb{M}$ as
 \begin{equation}
 \mathbb{M} = 
@@ -1882,13 +1881,13 @@ where $\mathbb{M} \in \mathbb{R}^{2N \times 2N}$, we can rewrite the system \ref
 \begin{equation}
     \dfrac{d^2}{dt^2}
     \begin{bmatrix}
-    \mathbf{u} \\
-    \mathbf{a}  \\
+    \mathbf{u}(t) \\
+    \mathbf{a}(t)  \\
     \end{bmatrix}
     = \mathbb{M} 
     \begin{bmatrix}
-    \mathbf{u} \\
-    \mathbf{a}  \\
+    \mathbf{u}(t) \\
+    \mathbf{a}(t)  \\
     \end{bmatrix} \, .
 \end{equation}
 
@@ -1932,21 +1931,20 @@ Simulations will be done by implementing Finite Differences, Numerov's method, a
 The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \label{one_periodic_meta_1} \\[5pt]
         & \begin{aligned}
             \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
-        \end{aligned}\\[5pt]
-        & u(x, t) = u(x + I, t) \, , \\[5pt]
-        & I = 2\pi \, , \quad N = 128 \, , \quad L = I/N \, , \\[5pt]
-        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
-        & u(x,0) = \sin{(3 x)} \, , \\[5pt]
-        & u_t(x,0) =  - 3 \cos{(3x)} \, , \\[5pt]
-        & \sigma(x,0) = a(x,0) + k_1 L^2 \dfrac{\partial^2 u(x,0)}{\partial x^2} = k_1 L^2 \dfrac{\partial^2 u(x,0)}{\partial x^2} \\[5pt]
-        & \sigma_t(x,0) = a_t(x,0) + k_1 L^2 \dfrac{\partial}{\partial t} \left(\dfrac{\partial^2 u(x,0)}{\partial x^2} \right) = k_1 L^2 \dfrac{\partial}{\partial t} \left(\dfrac{\partial^2 u(x,0)}{\partial x^2} \right) \\[5pt]
-        & a(x,0) = a_t(x,0) = 0 \,.
+        \end{aligned}\label{one_periodic_meta_2} \\[5pt]
+        & u(x, t) = u(x + I, t) \, , \label{one_periodic_meta_3} \\[5pt]
+        & I = 2\pi \, , \quad N = 128 \, , \quad L = I/N \, , \label{one_periodic_meta_4} \\[5pt]
+        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \label{one_periodic_meta_5} \\[5pt]
+        & u(x,0) = \sin{(3 x)} \, , \label{one_periodic_meta_6} \\[5pt]
+        & u_t(x,0) =  - 3 \cos{(3x)} \, , \label{one_periodic_meta_7} \\[5pt]
+        & \sigma(x,0) = k_1 L^2 \dfrac{\partial^2 u(x,0)}{\partial x^2} \, , \label{one_periodic_meta_8} \\[5pt]
+        & \sigma_t(x,0) = k_1 L^2 \dfrac{\partial}{\partial t} \left(\dfrac{\partial^2 u(x,0)}{\partial x^2} \right) \, . \label{one_periodic_meta_9}
     \end{align}
 \end{subequations}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $I$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
+In \ref{one_periodic_meta_1} and \ref{one_periodic_meta_2} are the evolution equations; in \ref{one_periodic_meta_3} are the boundary conditions; in \ref{one_periodic_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \ref{one_periodic_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in \ref{one_periodic_meta_6}, \ref{one_periodic_meta_7}, \ref{one_periodic_meta_8} and \ref{one_periodic_meta_9} are the initial conditions for $u(x,t)$ and $\sigma(x,t)$.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_one_periodic_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_dft}.
 
@@ -1985,19 +1983,20 @@ The plot of the initial exact wave is shown in Figure \ref{fig_one_periodic_meta
 The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \label{two_same_periodic_meta_1} \\[5pt]
         & \begin{aligned}
             \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
-        \end{aligned}\\[5pt]
-        & u(x, t) = u(x + I, t) \, , \\[5pt]
-        & I = 2\pi \, , \quad N = 128 \, , \quad L = I/N \, , \\[5pt]
-        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
-        & u(x,0) = \sin{(4 x)} + \sin{(8 x)} \, , \\[5pt]
-        & u_t(x,0) =  - 4 \cos{(4x)} - 8 \cos{(8x)} \, , \\[5pt]
-        & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
+        \end{aligned} \label{two_same_periodic_meta_2} \\[5pt]
+        & u(x, t) = u(x + I, t) \, , \label{two_same_periodic_meta_3} \\[5pt]
+        & I = 2\pi \, , \quad N = 128 \, , \quad L = I/N \, , \label{two_same_periodic_meta_4} \\[5pt]
+        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \label{two_same_periodic_meta_5} \\[5pt]
+        & u(x,0) = \sin{(4 x)} + \sin{(8 x)} \, , \label{two_same_periodic_meta_6} \\[5pt]
+        & u_t(x,0) =  - 4 \cos{(4x)} - 8 \cos{(8x)} \, , \label{two_same_periodic_meta_7} \\[5pt]
+        & \sigma(x,0) = k_1 L^2 \dfrac{\partial^2 u(x,0)}{\partial x^2} \, , \label{two_same_periodic_meta_8} \\[5pt]
+        & \sigma_t(x,0) = k_1 L^2 \dfrac{\partial}{\partial t} \left(\dfrac{\partial^2 u(x,0)}{\partial x^2} \right) \, \label{two_same_periodic_meta_9} .
     \end{align}
 \end{subequations}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $I$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
+In \ref{two_same_periodic_meta_1} and \ref{two_same_periodic_meta_2} are the evolution equations; in \ref{two_same_periodic_meta_3} are the boundary conditions; in \ref{two_same_periodic_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \ref{two_same_periodic_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in \ref{two_same_periodic_meta_6}, \ref{two_same_periodic_meta_7}, \ref{two_same_periodic_meta_8} and \ref{two_same_periodic_meta_9} are the initial conditions for $u(x,t)$ and $\sigma(x,t)$.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_Num}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_DFT}.
 
@@ -2035,19 +2034,20 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same
 The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \label{two_oppo_periodic_meta_1} \\[5pt]
         & \begin{aligned}
             \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
-        \end{aligned}\\[5pt]
-        & u(x, t) = u(x + I, t) \, , \\[5pt]
-        & I = 2\pi \, , \quad N = 128 \, , \quad L = I/N \, , \\[5pt]
-        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
-        & u(x,0) = \sin{(3 x)} + \sin{(9 x)} \, , \\[5pt]
-        & u_t(x,0) =  - 3 \cos{(3x)} + 9 \cos{(9x)} \, , \\[5pt]
-        & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
+        \end{aligned} \label{two_oppo_periodic_meta_2} \\[5pt]
+        & u(x, t) = u(x + I, t) \, , \label{two_oppo_periodic_meta_3} \\[5pt]
+        & I = 2\pi \, , \quad N = 128 \, , \quad L = I/N \, , \label{two_oppo_periodic_meta_4} \\[5pt]
+        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \label{two_oppo_periodic_meta_5} \\[5pt]
+        & u(x,0) = \sin{(3 x)} + \sin{(9 x)} \, , \label{two_oppo_periodic_meta_6} \\[5pt]
+        & u_t(x,0) =  - 3 \cos{(3x)} + 9 \cos{(9x)} \, , \label{two_oppo_periodic_meta_7} \\[5pt]
+        & \sigma(x,0) = k_1 L^2 \dfrac{\partial^2 u(x,0)}{\partial x^2} \, , \label{two_oppo_periodic_meta_8} \\[5pt]
+        & \sigma_t(x,0) = k_1 L^2 \dfrac{\partial}{\partial t} \left(\dfrac{\partial^2 u(x,0)}{\partial x^2} \right) \, . \label{two_oppo_periodic_meta_9}
     \end{align}
 \end{subequations}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $I$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
+In \ref{two_oppo_periodic_meta_1} and \ref{two_oppo_periodic_meta_2} are the evolution equations; in \ref{two_oppo_periodic_meta_3} are the boundary conditions; in \ref{two_oppo_periodic_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \ref{two_oppo_periodic_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in \ref{two_oppo_periodic_meta_6}, \ref{two_oppo_periodic_meta_7}, \ref{two_oppo_periodic_meta_8} and \ref{two_oppo_periodic_meta_9} are the initial conditions for $u(x,t)$ and $\sigma(x,t)$.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_oppo_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_meta_Num}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_meta_DFT}.
 
@@ -2098,19 +2098,20 @@ Since all of our methods are suitable for the Dirichlet boundary conditions, we 
 The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \label{one_dirichlet_meta_1} \\[5pt]
         & \begin{aligned}
             \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
-        \end{aligned}\\[5pt]
-        & u(0, t) = u(I, t) = 0 \, , \\[5pt]
-        & I = 2\pi \, , \quad N = 30 \, , \quad L = I/N \, , \\[5pt]
-        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
-        & u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq \pi \, , \\[5pt]
-        & u_t(x,0) = - 16 \cos(16 x)  \quad 0 \leq x \leq \pi \, , \\[5pt]
-        & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
+        \end{aligned} \label{one_dirichlet_meta_2} \\[5pt]
+        & u(0, t) = u(I, t) = 0 \, , \label{one_dirichlet_meta_3} \\[5pt]
+        & I = 2\pi \, , \quad N = 30 \, , \quad L = I/N \, , \label{one_dirichlet_meta_4} \\[5pt]
+        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \label{one_dirichlet_meta_5} \\[5pt]
+        & u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq \pi \, , \label{one_dirichlet_meta_6} \\[5pt]
+        & u_t(x,0) = - 16 \cos(16 x)  \quad 0 \leq x \leq \pi \, , \label{one_dirichlet_meta_7} \\[5pt]
+        & \sigma(x,0) = k_1 L^2 \dfrac{\partial^2 u(x,0)}{\partial x^2} \, , \label{one_dirichlet_meta_8} \\[5pt]
+        & \sigma_t(x,0) = k_1 L^2 \dfrac{\partial}{\partial t} \left(\dfrac{\partial^2 u(x,0)}{\partial x^2} \right) \, . \label{one_dirichlet_meta_9}
     \end{align}
 \end{subequations}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $I$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth and tenth line are the initial conditions.
+In \ref{one_dirichlet_meta_1} and \ref{one_dirichlet_meta_2} are the evolution equations; in \ref{one_dirichlet_meta_3} are the boundary conditions; in \ref{one_dirichlet_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \ref{one_dirichlet_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in \ref{one_dirichlet_meta_6}, \ref{one_dirichlet_meta_7}, \ref{one_dirichlet_meta_8} and \ref{one_dirichlet_meta_9} are the initial conditions for $u(x,t)$ and $\sigma(x,t)$.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_one_dirichlet_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_dst}.
 
@@ -2168,19 +2169,20 @@ The plot of the initial exact wave is shown in Figure \ref{fig_one_dirichlet_met
 The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \label{two_same_dirichlet_meta_1} \\[5pt]
         & \begin{aligned}
             \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
-        \end{aligned}\\[5pt]
-        & u(0, t) = u(I, t) = 0 \, , \\[5pt]
-        & I = 2\pi \, , \quad N = 30 \, , \quad L = I/N \, , \\[5pt]
-        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
-        & u(x,0) = \sin{(8 x)} + \sin{(16 x)} \quad 0 \leq x \leq \pi \, , \\[5pt]
-        & u_t(x,0) = - 8 \cos(8 x) - 16 \cos(16 x)  \quad 0 \leq x \leq \pi \, , \\[5pt]
-        & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
+        \end{aligned} \label{two_same_dirichlet_meta_2} \\[5pt]
+        & u(0, t) = u(I, t) = 0 \, , \label{two_same_dirichlet_meta_3} \\[5pt]
+        & I = 2\pi \, , \quad N = 30 \, , \quad L = I/N \, , \label{two_same_dirichlet_meta_4} \\[5pt]
+        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \label{two_same_dirichlet_meta_5} \\[5pt]
+        & u(x,0) = \sin{(8 x)} + \sin{(16 x)} \quad 0 \leq x \leq \pi \, , \label{two_same_dirichlet_meta_6} \\[5pt]
+        & u_t(x,0) = - 8 \cos(8 x) - 16 \cos(16 x)  \quad 0 \leq x \leq \pi \, , \label{two_same_dirichlet_meta_7} \\[5pt]
+        & \sigma(x,0) = k_1 L^2 \dfrac{\partial^2 u(x,0)}{\partial x^2} \, , \label{two_same_dirichlet_meta_8} \\[5pt]
+        & \sigma_t(x,0) = k_1 L^2 \dfrac{\partial}{\partial t} \left(\dfrac{\partial^2 u(x,0)}{\partial x^2} \right) \, . \label{two_same_dirichlet_meta_9}
     \end{align}
 \end{subequations}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $I$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth and tenth line are the initial conditions.
+In \ref{two_same_dirichlet_meta_1} and \ref{two_same_dirichlet_meta_2} are the evolution equations; in \ref{two_same_dirichlet_meta_3} are the boundary conditions; in \ref{two_same_dirichlet_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \ref{two_same_dirichlet_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in \ref{two_same_dirichlet_meta_6}, \ref{two_same_dirichlet_meta_7}, \ref{two_same_dirichlet_meta_8} and \ref{two_same_dirichlet_meta_9} are the initial conditions for $u(x,t)$ and $\sigma(x,t)$.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_dst}.
 
@@ -2238,21 +2240,22 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_met
 The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
+        & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \label{two_oppo_dirichlet_meta_1} \\[5pt]
         & \begin{aligned}
             \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
-        \end{aligned}\\[5pt]
-        & u(0, t) = u(I, t) = 0 \, , \\[5pt]
-        & I = 2\pi \, , \quad N = 30 \, , \quad L = I/N \, , \\[5pt]
-        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
-        & u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq \pi/2 \, , \\[5pt]
-        & u(x,0) = \sin{(24 x)} \quad 3\pi/2 \leq x \leq \pi \, , \\[5pt]
-        & u_t(x,0) = - 16 \cos(16 x) \quad 0 \leq x \leq \pi/2 \,  , \\[5pt]
-        & u_t(x,0) = + 24 \cos(24 x) \quad 3\pi/2 \leq x \leq \pi \, , \\[5pt]
-        & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
+        \end{aligned} \label{two_oppo_dirichlet_meta_2} \\[5pt]
+        & u(0, t) = u(I, t) = 0 \, , \label{two_oppo_dirichlet_meta_3} \\[5pt]
+        & I = 2\pi \, , \quad N = 30 \, , \quad L = I/N \, , \label{two_oppo_dirichlet_meta_4} \\[5pt]
+        & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \label{two_oppo_dirichlet_meta_5} \\[5pt]
+        & u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq \pi/2 \, , \label{two_oppo_dirichlet_meta_6} \\[5pt]
+        & u(x,0) = \sin{(24 x)} \quad 3\pi/2 \leq x \leq \pi \, , \label{two_oppo_dirichlet_meta_7} \\[5pt]
+        & u_t(x,0) = - 16 \cos(16 x) \quad 0 \leq x \leq \pi/2 \, , \label{two_oppo_dirichlet_meta_8} \\[5pt]
+        & u_t(x,0) = + 24 \cos(24 x) \quad 3\pi/2 \leq x \leq \pi \, , \label{two_oppo_dirichlet_meta_9} \\[5pt]
+        & \sigma(x,0) = k_1 L^2 \dfrac{\partial^2 u(x,0)}{\partial x^2} \, , \label{two_oppo_dirichlet_meta_10} \\[5pt]
+        & \sigma_t(x,0) = k_1 L^2 \dfrac{\partial}{\partial t} \left(\dfrac{\partial^2 u(x,0)}{\partial x^2} \right) \, . \label{two_oppo_dirichlet_meta_11}
     \end{align}
 \end{subequations}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $I$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth, tenth, eleventh and twelveth line are the initial conditions.
+In \ref{two_oppo_dirichlet_meta_1} and \ref{two_oppo_dirichlet_meta_2} are the evolution equations; in \ref{two_oppo_dirichlet_meta_3} are the boundary conditions; in \ref{two_oppo_dirichlet_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \ref{two_oppo_dirichlet_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in \ref{two_oppo_dirichlet_meta_6}, \ref{two_oppo_dirichlet_meta_7}, \ref{two_oppo_dirichlet_meta_8} and \ref{two_oppo_dirichlet_meta_9} are the initial conditions for $u(x,t)$ and $\sigma(x,t)$.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_dst}.
 
