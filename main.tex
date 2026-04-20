@@ -496,7 +496,20 @@ The whole approximation can be rewritten in matrix form
 \begin{equation}
     \mathbb{A} \mathbf{u} = \lambda \mathbb{B} \mathbf{u} \, ,
 \end{equation}
-where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$. The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for the Paine equation and in algorithm \ref{alg_Numerov_CE} for the Coffey--Evans equation. Algorithms contain the basic Numerov's method and the Numerov's method with correction.\cite{numerov}
+where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$ and solved by MATLAB's \texttt{eig} function.
+
+To improve the accuracy of the higher eigenvalues obtained by Numerov's method, an asymptotic correction is applied. First, the standard Numerov's scheme yields approximate eigenvalues $\lambda_k$. These are then corrected using the formulas
+\begin{equation}
+s_k^2 = \sin^2\left(\frac{k h}{2}\right) \, , \quad
+\varepsilon_k^2 = k^2 - \frac{12 s_k^2}{h^2 (3 - s_k^2)} \, ,
+\end{equation}
+where the corrected eigenvalue is given by
+\begin{equation}
+\lambda_k^{\text{corrected}} = \lambda_k + \varepsilon_k^2 \, .
+\end{equation}
+This correction, derived from the asymptotic expansion of the discretization error, significantly reduces the error for larger indices $k$ while preserving the simplicity of the original Numerov's approach. The same correction procedure is used for both the Paine equation and the Coffey--Evans equation.
+
+The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for the Paine equation and in algorithm \ref{alg_Numerov_CE} for the Coffey--Evans equation. Algorithms contain the basic Numerov's method and the Numerov's method with correction.\cite{numerov}
 
 \begin{algorithm}[H]
 \caption{Numerov's method - Paine equation}
@@ -1146,7 +1159,9 @@ From the data above, we can observe that the Discrete Sine Transform (DST) is a 
 
 For the matrix of size $N = 500$, the high-index eigenvalues computed with DST are very similar to the reference values computed by the Matslise application. The relative error for the matrix of this size is $\varepsilon \approx 10^{-6}$ for the Paine equation and $\varepsilon \approx 10^{-5}$ for the Coffey--Evans equation. These values are very small compared to other methods, which range in $\varepsilon \in [10^{-1}, \, 10^{3} ]$ for the Paine equation and $\varepsilon \in [10^{-3}, \, 10^{3} ]$ for Coffey--Evans equation.
 
-For larger matrices, $N = 1 \, 000$, other methods become more competitive. But overall, DST is still our best method. In table \ref{table_comparison}, the methods are sorted by their accuracies from highest to lowest.
+For larger matrices, $N = 1 \, 000$, other methods become more competitive. But overall, DST is still our best method. In table \ref{table_comparison}, the methods are sorted by their accuracies from highest to lowest. 
+
+It should be noted that the corrected Numerov's method (NumC) is applicable only to the computation of eigenvalues of Sturm--Liouville problems. It cannot be used for time-dependent simulations such as the evolution of waves governed by the classical wave equation or rate-type constitutive equations for metamaterials.
 
 \begin{table}[H]
 \centering
@@ -1282,13 +1297,13 @@ Our goal will again be to compare the methods introduced in the previous chapter
 
 The focus of this study will be on two cases of boundary conditions: periodic boundary conditions
 \begin{equation}
-    u(x, t) = u(x + L, t) \,  \quad \text{for all} \; t \geq 0 \, ,
+    u(x, t) = u(x + I, t) \,  \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
 and Dirichlet boundary conditions
 \begin{equation}
-    u(0,  t) = u(L, t) = 0 \,  \quad \text{for all} \; t \geq 0 \, ,
+    u(0,  t) = u(I, t) = 0 \,  \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
-where $L$ is the length of our interval. The waves will be in function form
+where $I$ is the length of our interval. The waves will be in function form
 \begin{equation}\label{eq_wave_general}
     u(x,t) = \sin{(kx - \omega_k t)} + \sin{(lx \pm \omega_l t )} \, ,
 \end{equation}
@@ -1360,11 +1375,11 @@ The spatial matrix operator $\mathbb{A}$ is constructed using several different 
 
 \subsubsection*{Discrete Fourier Transform (DFT)}
 \noindent
-Uses complex exponential modes $e^{i 2\pi k x / L}$ (or equivalently, real sine and cosine pairs) on a periodic interval $[0, \, L]$. The frequencies are exactly $\omega_k = |k|$. This method is designed specifically for periodic boundary conditions. 
+Uses complex exponential modes $e^{i 2\pi k x / I}$ (or equivalently, real sine and cosine pairs) on a periodic interval $[0, \, I]$. The frequencies are exactly $\omega_k = |k|$. This method is designed specifically for periodic boundary conditions. 
 
 \subsubsection*{Discrete Sine Transform (DST)}
 \noindent
-Uses the analytically known eigenmodes $\sin(k \pi x/L)$ on the interval $[0, \, L]$. The frequencies are exactly $\omega_k = k$. This method is designed specifically for Dirichlet boundary conditions.
+Uses the analytically known eigenmodes $\sin(k \pi x/I)$ on the interval $[0, \, I]$. The frequencies are exactly $\omega_k = k$. This method is designed specifically for Dirichlet boundary conditions.
 
 \subsubsection*{FD, Num, CDM, MBCD, LGCC}
 \noindent
@@ -1379,9 +1394,9 @@ It is evident that the methods suitable for periodic boundary conditions are FD 
 \noindent
 In this section, we will focus on periodic boundary conditions
 \begin{equation}
-    u(x, t) = u(x + L, t) \,   \quad \text{for all} \; t \geq 0 \, ,
+    u(x, t) = u(x + I, t) \,   \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
-where $L$ is the length of our interval.
+where $I$ is the length of our interval.
 
 Simulations will be done by implementing Finite Differences, Numerov's method, and the Discrete Fourier Transform. Other methods based on Chebyshev Collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of boundary conditions.
 
@@ -1390,13 +1405,13 @@ Simulations will be done by implementing Finite Differences, Numerov's method, a
 First, let's look at the simulation of one sine wave in the form \ref{one_wave}. The problem is
 \begin{subequations}\label{eq_periodic_one}
         \begin{align}
-            & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \label{eq_periodic_one_1} \\[5pt]
-            & u(x, t) = u(x + L, t) \, , \label{eq_periodic_one_2} \\[5pt]
-            & L = \pi \, , \quad N = 128 \, , \quad c = 1 \, , \label{eq_periodic_one_3} \\[5pt]
+            & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_periodic_one_1} \\[5pt]
+            & u(x, t) = u(x + I, t) \, , \label{eq_periodic_one_2} \\[5pt]
+            & I = \pi \, , \quad N = 128 \, , \quad c = 1 \, , \label{eq_periodic_one_3} \\[5pt]
             & u(x,0) = \sin{(6 x)} \, , \quad u_t(x,0) =  - 6 \cos{(6x)} \, \label{eq_periodic_one_4} .
         \end{align}
 \end{subequations}
-In \ref{eq_periodic_one_1} is the evolution equation; in \ref{eq_periodic_one_2} are the boundary conditions; in \ref{eq_periodic_one_3} are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_periodic_one_4} are the initial conditions.
+In \ref{eq_periodic_one_1} is the evolution equation; in \ref{eq_periodic_one_2} are the boundary conditions; in \ref{eq_periodic_one_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_periodic_one_4} are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_periodic_one_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_periodic_one_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_periodic_one_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_periodic_one_dft}.
 
@@ -1435,14 +1450,14 @@ The plot of the initial exact wave is shown in Figure \ref{fig_periodic_one_init
 Next, let's look at the simulation of two sine waves that propagate in the same direction \ref{two_waves_same}. The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \label{eq_two_wave_same_1} \\[5pt]
-        & u(x, t) = u(x + L, t) \, , \label{eq_two_wave_same_2}  \\[5pt]
-        & L = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, , \label{eq_two_wave_same_3} \\[5pt]
+        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_two_wave_same_1} \\[5pt]
+        & u(x, t) = u(x + I, t) \, , \label{eq_two_wave_same_2}  \\[5pt]
+        & I = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, , \label{eq_two_wave_same_3} \\[5pt]
         & u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \label{eq_two_wave_same_4} \\[5pt]
         & u_t(x,0) =  - 5 \cos{(5x)} - 6 \cos{(6x)} \, \label{eq_two_wave_same_5} . 
     \end{align}
 \end{subequations}
-In \ref{eq_two_wave_same_1} is the evolution equation; in \ref{eq_two_wave_same_2} are the boundary conditions; in \ref{eq_two_wave_same_3} are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_two_wave_same_4} and \ref{eq_two_wave_same_5} are the initial conditions.
+In \ref{eq_two_wave_same_1} is the evolution equation; in \ref{eq_two_wave_same_2} are the boundary conditions; in \ref{eq_two_wave_same_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_two_wave_same_4} and \ref{eq_two_wave_same_5} are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_priodic_same_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_periodic_same_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_two_periodic_same_dft}.
 
@@ -1482,14 +1497,14 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same
 Finally, let's look at the simulation of two sine waves that propagate in opposite directions \ref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \label{eq_two_wave_oppo_1} \\[5pt]
-        & u(x, t) = u(x + L, t) \, , \label{eq_two_wave_oppo_2} \\[5pt]
-        & L = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, , \label{eq_two_wave_oppo_3} \\[5pt]
+        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_two_wave_oppo_1} \\[5pt]
+        & u(x, t) = u(x + I, t) \, , \label{eq_two_wave_oppo_2} \\[5pt]
+        & I = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, , \label{eq_two_wave_oppo_3} \\[5pt]
         & u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \label{eq_two_wave_oppo_4} \\[5pt]
         & u_t(x,0) =  - 5 \cos{(5x)} + 6 \cos{(6x)} \, \label{eq_two_wave_oppo_5} .
     \end{align}
 \end{subequations}
-In \ref{eq_two_wave_oppo_1} is the evolution equation; in \ref{eq_two_wave_oppo_2} are the boundary conditions; in \ref{eq_two_wave_oppo_3} are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_two_wave_oppo_4} and \ref{eq_two_wave_oppo_5} are the initial conditions.
+In \ref{eq_two_wave_oppo_1} is the evolution equation; in \ref{eq_two_wave_oppo_2} are the boundary conditions; in \ref{eq_two_wave_oppo_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_two_wave_oppo_4} and \ref{eq_two_wave_oppo_5} are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_oppo_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_dft}.
 
@@ -1528,9 +1543,9 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_oppo
 \noindent
 In this section, we will focus on Dirichlet boundary conditions
 \begin{equation}
-    u(0,  t) = u(L, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
+    u(0,  t) = u(I, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
-where $L$ is the length of our interval.
+where $I$ is the length of our interval.
 
 Since all of our methods are suitable for the Dirichlet boundary conditions, we will run simulations with all of them.
 
@@ -1540,14 +1555,14 @@ Since all of our methods are suitable for the Dirichlet boundary conditions, we 
 First, let's look at the simulation of one sine wave in the form \ref{one_wave}. The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \label{eq_one_Dirichlet_1} \\[5pt]
-        & u(0, t) = u(L, t) = 0 \, , \label{eq_one_Dirichlet_2} \\[5pt]
-        & L = \pi \, , \quad N = 40 \, , \quad c = 1 \, , \label{eq_one_Dirichlet_3} \\[5pt]
+        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_one_Dirichlet_1} \\[5pt]
+        & u(0, t) = u(I, t) = 0 \, , \label{eq_one_Dirichlet_2} \\[5pt]
+        & I = \pi \, , \quad N = 40 \, , \quad c = 1 \, , \label{eq_one_Dirichlet_3} \\[5pt]
         & u(x,0) = \sin{(20 x)} \quad 0 \leq x \leq \pi/2 \, , \label{eq_one_Dirichlet_4} \\[5pt] 
         & u_t(x,0) =  - 20 \cos{(20x)} \quad 0 \leq x \leq \pi/2 \, \label{eq_one_Dirichlet_5} .
     \end{align}
 \end{subequations}
-In \ref{eq_one_Dirichlet_1} is the evolution equation; in \ref{eq_one_Dirichlet_2} are the boundary conditions; in \ref{eq_one_Dirichlet_3} are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the \ref{eq_one_Dirichlet_4} and \ref{eq_one_Dirichlet_5} are the initial conditions — the functions are identically zero outside the prescribed intervals.
+In \ref{eq_one_Dirichlet_1} is the evolution equation; in \ref{eq_one_Dirichlet_2} are the boundary conditions; in \ref{eq_one_Dirichlet_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the \ref{eq_one_Dirichlet_4} and \ref{eq_one_Dirichlet_5} are the initial conditions — the functions are identically zero outside the prescribed intervals.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_one_dirichlet_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_one_dirichlet_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_one_dirichlet_Numerov}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_one_dirichlet_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_one_dirichlet_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_one_dirichlet_LGCC}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_one_dirichlet_DST}.
 
@@ -1607,14 +1622,14 @@ The plot of the initial exact wave is shown in Figure \ref{fig_one_dirichlet_ini
 Next, let's look at the simulation of two sine waves that propagate in the same direction \ref{two_waves_same}. The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \label{eq_two_same_dirichlet_1} \\[5pt]
-        & u(0, t) = u(L, t) = 0 \, , \label{eq_two_same_dirichlet_2} \\[5pt]
-        & L = \pi \, , \quad N = 50 \, , \quad c = 1 \, , \label{eq_two_same_dirichlet_3} \\[5pt]
+        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_two_same_dirichlet_1} \\[5pt]
+        & u(0, t) = u(I, t) = 0 \, , \label{eq_two_same_dirichlet_2} \\[5pt]
+        & I = \pi \, , \quad N = 50 \, , \quad c = 1 \, , \label{eq_two_same_dirichlet_3} \\[5pt]
         & u(x,0) = \sin{(16 x)} + \sin{(24 x)} \quad 0 \leq x \leq \pi/2 \, , \label{eq_two_same_dirichlet_4} \\[5pt]
         & u_t(x,0) = - 16 \cos(16 x) - 24 \cos(24 x) \quad 0 \leq x \leq \pi/2 \, \label{eq_two_same_dirichlet_5} .
     \end{align}
 \end{subequations}
-In \ref{eq_two_same_dirichlet_1} is the evolution equation; in \ref{eq_two_same_dirichlet_2} are the boundary conditions; in \ref{eq_two_same_dirichlet_3} are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_two_same_dirichlet_4} and \ref{eq_two_same_dirichlet_5} are the initial conditions — the functions are identically zero outside the prescribed intervals.
+In \ref{eq_two_same_dirichlet_1} is the evolution equation; in \ref{eq_two_same_dirichlet_2} are the boundary conditions; in \ref{eq_two_same_dirichlet_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_two_same_dirichlet_4} and \ref{eq_two_same_dirichlet_5} are the initial conditions — the functions are identically zero outside the prescribed intervals.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_same_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_dirichlet_same_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_dirichlet_same_Numerov}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_same_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_same_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_two_dirichlet_same_LGCC}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_two_dirichlet_same_DST}.
 
@@ -1675,16 +1690,16 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_sam
 Next, let's look at the simulation of two sine waves that propagate in the opposite direction \ref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, L] \, , \quad t \geq 0 \, , \label{eq_two_dirichlet_oppo_1} \\[5pt]
-        & u(0, t) = u(L, t) = 0 \, , \label{eq_two_dirichlet_oppo_2} \\[5pt]
-        & L = \pi \, , \quad N = 50 \, , \quad c = 1 \, , \label{eq_two_dirichlet_oppo_3} \\[5pt]
+        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \, \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_two_dirichlet_oppo_1} \\[5pt]
+        & u(0, t) = u(I, t) = 0 \, , \label{eq_two_dirichlet_oppo_2} \\[5pt]
+        & I = \pi \, , \quad N = 50 \, , \quad c = 1 \, , \label{eq_two_dirichlet_oppo_3} \\[5pt]
         & u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq 3\pi/8 \, , \label{eq_two_dirichlet_oppo_4} \\[5pt]
         & u(x,0) = \sin{(24 x)} \quad 3\pi/4 \leq x \leq \pi \, , \label{eq_two_dirichlet_oppo_5} \\[5pt]
         & u_t(x,0) = - 16 \cos(16 x) \quad 0 \leq x \leq 3\pi/8 \,  , \label{eq_two_dirichlet_oppo_6} \\[5pt]
         & u_t(x,0) = + 24 \cos(24 x) \quad 3\pi/4 \leq x \leq \pi \, \label{eq_two_dirichlet_oppo_7} .
     \end{align}
 \end{subequations}
-In \ref{eq_two_dirichlet_oppo_1} is the evolution equation; in \ref{eq_two_dirichlet_oppo_2} are the boundary conditions; in \ref{eq_two_dirichlet_oppo_3} are the length of the interval $L$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_two_dirichlet_oppo_4}, \ref{eq_two_dirichlet_oppo_5}, \ref{eq_two_dirichlet_oppo_6} and \ref{eq_two_dirichlet_oppo_7} are the initial conditions — the functions are identically zero outside the prescribed intervals.
+In \ref{eq_two_dirichlet_oppo_1} is the evolution equation; in \ref{eq_two_dirichlet_oppo_2} are the boundary conditions; in \ref{eq_two_dirichlet_oppo_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_two_dirichlet_oppo_4}, \ref{eq_two_dirichlet_oppo_5}, \ref{eq_two_dirichlet_oppo_6} and \ref{eq_two_dirichlet_oppo_7} are the initial conditions — the functions are identically zero outside the prescribed intervals.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_oppo_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_Numerov}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_LGCC}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_DST}.
 
@@ -1799,7 +1814,21 @@ where we, for the sake of simplicity, omit the index in $u_1$ and set $u$, which
 \end{subequations}
 This derivation is done precisely in the paper \cite{cichra}.
 
-Now, we will rewrite equations \ref{eq_rate_type_continuous} in a form that is more suitable for our simulations. Next, we denote the vectors
+\begin{subequations}\label{}
+    \begin{align}
+        & \dfrac{\partial^2 u(x,t)}{\partial t^2} = \dfrac{1}{m_1} \sigma(x,t) \, , \\[5pt]
+        & \begin{aligned}
+            \dfrac{\partial^2 }{\partial t^2} \left(\sigma(x,t) - k_1 L^2  \dfrac{\partial^2 u(x,t)}{\partial x^2} \right)  = - k_2 \left( \dfrac{1}{m_1} + \dfrac{1}{m_2} \right) \sigma(x,t) & \\ + \dfrac{k_1 k_2 L^2}{m_2} \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, .
+        \end{aligned}
+    \end{align}
+\end{subequations}
+
+define
+\begin{equation}
+    a(x,t) \equiv \sigma(x,t) - k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2}  \, .
+\end{equation}
+
+Now, we will rewrite equations \ref{eq_rate_type_continuous} in a form that is more suitable for our simulations. First, we denote the vectors
 \begin{align}\label{}
     \mathbf{u}=
     \begin{pmatrix}
@@ -1816,14 +1845,14 @@ Now, we will rewrite equations \ref{eq_rate_type_continuous} in a form that is m
         \sigma^{(N)}
     \end{pmatrix} \, ,
 \end{align}
-where the components of the node values vector $\mathbf{u}$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jh$, $j=1, \dots ,N$. And analogously for the vector $\boldsymbol{\sigma}$. Let $\mathbb{D}$ be a differentiation matrix, which is an approximation to the continuous operator of second derivative. \cite{tozzi} This will allow us to rewrite our continuous system \ref{eq_rate_type_continuous} as a semi-discrete one
+where the components of the node values vector $\mathbf{u}$ are denoted by $u^{(j)}=u(x_j)$, with $x_j=jL$, $j=1, \dots ,N$. And analogously for the vector $\boldsymbol{\sigma}$. \cite{tozzi} Let $\mathbb{D}$ be a differentiation matrix, which is an approximation of the continuous operator of the second derivative. This will allow us to rewrite our continuous system \ref{eq_rate_type_continuous} as a semi-discrete one
 \begin{subequations}\label{}
     \begin{align}
        & m_1 \dfrac{d^2 \mathbf{u}}{d t^2} - \boldsymbol{\sigma} = 0 \, , \\[5pt]
         & \dfrac{m_2}{k_2}  \dfrac{d^2 \boldsymbol{\sigma}}{d t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \boldsymbol{\sigma}  = \dfrac{m_2 k_1 L^2}{k_2} \dfrac{d^2 }{d t^2 } \bigl( \mathbb{D} \mathbf{u} \bigr) + k_1 L^2 \bigl( \mathbb{D} \mathbf{u} \bigl) \, .
     \end{align}
 \end{subequations}
-Next, rearrange to the form
+Next, rearrange it to the form
 \begin{subequations}
     \begin{align}
         & \dfrac{d^2 \mathbf{u}}{dt^2}=\dfrac{1}{m_1}\boldsymbol{\sigma} \, ,\\[5pt]
@@ -1834,7 +1863,7 @@ and define
 \begin{equation}
     \mathbf{a} \equiv \boldsymbol{\sigma} - k_1 L^2 \mathbb{D}\mathbf{u} \, .
 \end{equation}
-By using this substitution we get the following semi-discrete system of ordinary differential equations for the unknown vectors $\mathbf{u}$, $\mathbf{a}$
+By using this substitution, we get the following semi-discrete system of ordinary differential equations for the unknown vectors $\mathbf{u}$, $\mathbf{a}$
 \begin{subequations}\label{eq_meta_step}
     \begin{align}
        & \dfrac{d^2 }{dt^2}\mathbf{u}=\dfrac{k_1 L^2}{m_1}\mathbb{D}\mathbf{u}+\dfrac{1}{m _1} \mathbf{a} \, ,\\[5pt]
@@ -1849,7 +1878,7 @@ If we define the matrix $\mathbb{M}$ as
     - \dfrac{k_2 k_1 L^2}{m_1}\mathbb{D} & -k_2 \left(\dfrac{1}{m_1} + \dfrac{1}{m_2} \right) \mathbb{I}  \\
 \end{bmatrix} \, ,
 \end{equation}
-which is $\mathbb{M} \in \mathbb{R}^{2N \times 2N}$, we can rewrite the system \ref{eq_meta_step} to the form
+where $\mathbb{M} \in \mathbb{R}^{2N \times 2N}$, we can rewrite the system \ref{eq_meta_step} in the following form
 \begin{equation}
     \dfrac{d^2}{dt^2}
     \begin{bmatrix}
@@ -1891,9 +1920,9 @@ This approach ensures that the time integration is analytically exact; the only 
 \noindent
 In this section, we will focus on periodic boundary conditions
 \begin{equation}
-    u(x, t) = u(x + L, t) \,  \quad \text{for all} \; t \geq 0 \, ,
+    u(x, t) = u(x + I, t) \,  \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
-where $L$ is the length of our interval.
+where $I$ is the length of our interval.
 
 Simulations will be done by implementing Finite Differences, Numerov's method, and the Discrete Fourier Transform. Other methods based on Chebyshev Collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of boundary conditions.
 
@@ -1907,15 +1936,17 @@ The problem is
         & \begin{aligned}
             \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
         \end{aligned}\\[5pt]
-        & u(x, t) = u(x + L, t) \, , \\[5pt]
-        & L = 2\pi \, , \quad N = 128 \, , \\[5pt]
+        & u(x, t) = u(x + I, t) \, , \\[5pt]
+        & I = 2\pi \, , \quad N = 128 \, , \quad L = I/N \, , \\[5pt]
         & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
         & u(x,0) = \sin{(3 x)} \, , \\[5pt]
         & u_t(x,0) =  - 3 \cos{(3x)} \, , \\[5pt]
-        & \mathbf{a}_0 = \mathbf{b}_0 = 0 \,.
+        & \sigma(x,0) = a(x,0) + k_1 L^2 \dfrac{\partial^2 u(x,0)}{\partial x^2} = k_1 L^2 \dfrac{\partial^2 u(x,0)}{\partial x^2} \\[5pt]
+        & \sigma_t(x,0) = a_t(x,0) + k_1 L^2 \dfrac{\partial}{\partial t} \left(\dfrac{\partial^2 u(x,0)}{\partial x^2} \right) = k_1 L^2 \dfrac{\partial}{\partial t} \left(\dfrac{\partial^2 u(x,0)}{\partial x^2} \right) \\[5pt]
+        & a(x,0) = a_t(x,0) = 0 \,.
     \end{align}
 \end{subequations}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $I$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_one_periodic_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_one_periodic_meta_dft}.
 
@@ -1958,15 +1989,15 @@ The problem is
         & \begin{aligned}
             \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
         \end{aligned}\\[5pt]
-        & u(x, t) = u(x + L, t) \, , \\[5pt]
-        & L = 2\pi \, , \quad N = 128 \, , \\[5pt]
+        & u(x, t) = u(x + I, t) \, , \\[5pt]
+        & I = 2\pi \, , \quad N = 128 \, , \quad L = I/N \, , \\[5pt]
         & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
         & u(x,0) = \sin{(4 x)} + \sin{(8 x)} \, , \\[5pt]
         & u_t(x,0) =  - 4 \cos{(4x)} - 8 \cos{(8x)} \, , \\[5pt]
         & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{align}
 \end{subequations}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $I$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_Num}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_two_periodic_same_meta_DFT}.
 
@@ -2008,15 +2039,15 @@ The problem is
         & \begin{aligned}
             \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
         \end{aligned}\\[5pt]
-        & u(x, t) = u(x + L, t) \, , \\[5pt]
-        & L = 2\pi \, , \quad N = 128 \, , \\[5pt]
+        & u(x, t) = u(x + I, t) \, , \\[5pt]
+        & I = 2\pi \, , \quad N = 128 \, , \quad L = I/N \, , \\[5pt]
         & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
         & u(x,0) = \sin{(3 x)} + \sin{(9 x)} \, , \\[5pt]
         & u_t(x,0) =  - 3 \cos{(3x)} + 9 \cos{(9x)} \, , \\[5pt]
         & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{align}
 \end{subequations}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $I$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth and ninth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_oppo_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_meta_Num}; and lastly, the plot of the Discrete Fourier Transform approximation of our wave is shown in Figure \ref{fig_two_periodic_oppo_meta_DFT}.
 
@@ -2054,9 +2085,9 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_oppo
 \noindent
 In this section, we will focus on Dirichlet boundary conditions
 \begin{equation}
-    u(0, t) = u(L, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
+    u(0, t) = u(I, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
-where $L$ is the length of our interval.
+where $I$ is the length of our interval.
 
 Since all of our methods are suitable for the Dirichlet boundary conditions, we will run simulations with all of them.
 
@@ -2071,15 +2102,15 @@ The problem is
         & \begin{aligned}
             \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
         \end{aligned}\\[5pt]
-        & u(0, t) = u(L, t) = 0 \, , \\[5pt]
-        & L = 2\pi \, , \quad N = 30 \, , \\[5pt]
+        & u(0, t) = u(I, t) = 0 \, , \\[5pt]
+        & I = 2\pi \, , \quad N = 30 \, , \quad L = I/N \, , \\[5pt]
         & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
         & u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq \pi \, , \\[5pt]
         & u_t(x,0) = - 16 \cos(16 x)  \quad 0 \leq x \leq \pi \, , \\[5pt]
         & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{align}
 \end{subequations}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth and tenth line are the initial conditions.
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $I$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth and tenth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_one_dirichlet_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_one_dirichlet_meta_dst}.
 
@@ -2141,15 +2172,15 @@ The problem is
         & \begin{aligned}
             \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
         \end{aligned}\\[5pt]
-        & u(0, t) = u(L, t) = 0 \, , \\[5pt]
-        & L = 2\pi \, , \quad N = 30 \, , \\[5pt]
+        & u(0, t) = u(I, t) = 0 \, , \\[5pt]
+        & I = 2\pi \, , \quad N = 30 \, , \quad L = I/N \, , \\[5pt]
         & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
         & u(x,0) = \sin{(8 x)} + \sin{(16 x)} \quad 0 \leq x \leq \pi \, , \\[5pt]
         & u_t(x,0) = - 8 \cos(8 x) - 16 \cos(16 x)  \quad 0 \leq x \leq \pi \, , \\[5pt]
         & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{align}
 \end{subequations}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth and tenth line are the initial conditions.
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $I$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth and tenth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_two_dirichlet_meta_dst}.
 
@@ -2211,8 +2242,8 @@ The problem is
         & \begin{aligned}
             \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
         \end{aligned}\\[5pt]
-        & u(0, t) = u(L, t) = 0 \, , \\[5pt]
-        & L = 2\pi \, , \quad N = 30 \, , \\[5pt]
+        & u(0, t) = u(I, t) = 0 \, , \\[5pt]
+        & I = 2\pi \, , \quad N = 30 \, , \quad L = I/N \, , \\[5pt]
         & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \\[5pt]
         & u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq \pi/2 \, , \\[5pt]
         & u(x,0) = \sin{(24 x)} \quad 3\pi/2 \leq x \leq \pi \, , \\[5pt]
@@ -2221,7 +2252,7 @@ The problem is
         & \mathbf{a}_0 = \mathbf{b}_0 = 0 \, .
     \end{align}
 \end{subequations}
-In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $L$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth, tenth, eleventh and twelveth line are the initial conditions.
+In the first four lines are the evolution equations; in the fifth line are the boundary conditions; in the sixth line are the length of the interval $I$ and the number of grid points $N$ in the interval; in the seventh line are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; and lastly, in the eighth, ninth, tenth, eleventh and twelveth line are the initial conditions.
 
 The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_initial}; the plot of the Finite Difference approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_FD}; the plot of Numerov's approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of our wave is shown in Figure \ref{fig_two_dirichlet_oppo_meta_dst}.
 
@@ -2325,9 +2356,9 @@ plots of time evolution for two cases of boundary conditions
 \noindent
 In this section, we will focus on periodic boundary conditions
 \begin{equation}
-    u(x, t) = u(x + L, t) \,  \quad \text{for all} \; t \geq 0 \, ,
+    u(x, t) = u(x + I, t) \,  \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
-where $L$ is the length of our interval.
+where $I$ is the length of our interval.
 
 
 \subsection{One wave}
@@ -2360,9 +2391,9 @@ We will compare for $m_1 = 1$ and $m_2 = 0.1$, $m_2 = 0.01$ and $m_2 = 0.001$.
 \noindent
 In this section, we will focus on Dirichlet boundary conditions
 \begin{equation}
-    u(0, t) = u(L, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
+    u(0, t) = u(I, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
-where $L$ is the length of our interval.
+where $I$ is the length of our interval.
 
 
 \subsection{One wave}
