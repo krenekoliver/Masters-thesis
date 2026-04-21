@@ -123,7 +123,7 @@ I would also like to thank my family for their unwavering support and encouragem
 	
     \begin{center}
 		
-		\centerline{\mbox{\includegraphics[width=166mm]{figures_general/logo-en.pdf}}}
+		\centerline{\mbox{\includegraphics[width=166mm]{Figures/figures_general/logo-en.pdf}}}
 		
 		\vspace{-8mm}
 		\vfill
@@ -257,7 +257,7 @@ Our goal is to compare all of these methods and figure out which one is best. Fo
 \noindent
 In this section, we will introduce two regular Sturm--Liouville test problems in Schrödinger form on which we will apply the discretization techniques. The general form of these problems is
 \begin{equation}\label{eq_general_test_problem}
-    -u''(x) + q(x) u(x) = \lambda u(x) \, , \quad x \in [a, \, b] \, , \quad u(a) = u(b) = 0 \, ,
+    -u''(x) + q(x) u(x) = \lambda u(x) \, , \quad x \in (a, \, b) \, , \quad u(a) = u(b) = 0 \, ,
 \end{equation}
 where $q(x)$ is the potential of the problem.
 
@@ -279,7 +279,7 @@ and the problem is defined on the interval where
 
 If we substitute into the relation \ref{eq_general_test_problem}, the resulting Paine equation is
 \begin{equation}\label{eq_SL}
-    -u''(x) + e^x u(x) = \lambda u(x) \, , \quad x \in [0, \, \pi] \, , \quad u(0) = u(\pi) = 0 \, .
+    -u''(x) + e^x u(x) = \lambda u(x) \, , \quad x \in (0, \, \pi) \, , \quad u(0) = u(\pi) = 0 \, .
 \end{equation}
 
 
@@ -301,7 +301,7 @@ If we substitute into \ref{eq_general_test_problem}, we get the resulting Coffey
 \begin{equation}\label{eq_CE}
     \begin{split}
     -u''(x) + \big(\beta^2 \sin^2{(2 x)} - 2 \beta & \cos{(2 x)} \big) u(x) = \lambda  u(x) \, , \\
-     u(-\pi/2) = u(\pi/2) = 0 \, , \quad & x \in [-\pi/2 , \, \pi/2] \, . \\
+     u(-\pi/2) = u(\pi/2) = 0 \, , \quad & x \in (-\pi/2 , \, \pi/2) \, . \\
     \end{split}
 \end{equation}
 In the whole text, we will use the value of parameter $\beta = 30$.
@@ -1178,28 +1178,28 @@ We can see the plots for both of them in the figures below. For both equations, 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_fix_asymptotes/fix_paine_1_10.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_fix_asymptotes/fix_paine_1_10.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 10]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_fix_asymptotes/fix_paine_1_50.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_fix_asymptotes/fix_paine_1_50.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 50]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_fix_asymptotes/fix_paine_1_500.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_fix_asymptotes/fix_paine_1_500.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 500]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_fix_asymptotes/fix_paine_490_500.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_fix_asymptotes/fix_paine_490_500.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Paine equation. Eigenvalues range in an interval $\lambda_k \in [490, \, 500]$.}
     \label{}
 \end{figure}
@@ -1207,28 +1207,28 @@ We can see the plots for both of them in the figures below. For both equations, 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_fix_asymptotes/fix_ce_1_10.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_fix_asymptotes/fix_ce_1_10.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 10]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_fix_asymptotes/fix_ce_1_50.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_fix_asymptotes/fix_ce_1_50.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 50]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_fix_asymptotes/fix_ce_1_500.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_fix_asymptotes/fix_ce_1_500.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalues range in an interval $\lambda_k \in [1, \, 500]$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_fix_asymptotes/fix_ce_490_500.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_fix_asymptotes/fix_ce_490_500.eps}
     \caption{Asymptotic approximation of $\lambda_k$ for Coffey--Evans equation. Eigenvalues range in an interval $\lambda_k \in [490, \, 500]$.}
     \label{}
 \end{figure}
@@ -1369,28 +1369,28 @@ The plot of the initial exact wave is shown in Figure \ref{fig_periodic_one_init
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_periodic/pic_one_periodic_initial.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_periodic/pic_one_periodic_initial.eps}
     \caption{Initial exact wave at $t = 0$. }
     \label{fig_periodic_one_initial}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_periodic/pic_one_periodic_FD.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_periodic/pic_one_periodic_FD.eps}
     \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 200$.}
     \label{fig_periodic_one_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_periodic/pic_one_periodic_Numerov.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_periodic/pic_one_periodic_Numerov.eps}
     \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 150 \, 010 $.}
     \label{fig_periodic_one_Numerov}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_periodic/pic_one_periodic_DFT.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_periodic/pic_one_periodic_DFT.eps}
     \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 5 \, 000 \, 017 $.}
     \label{fig_periodic_one_dft}
 \end{figure}
@@ -1416,28 +1416,28 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_periodic/pic_two_periodic_same_initial.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_periodic/pic_two_periodic_same_initial.eps}
     \caption{Initial exact wave at $t = 0 $. }
     \label{fig_two_periodic_same_initial}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_periodic/pic_two_periodic_same_FD.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_periodic/pic_two_periodic_same_FD.eps}
     \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 50 $. }
     \label{fig_two_priodic_same_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_periodic/pic_two_periodic_same_Numerov.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_periodic/pic_two_periodic_same_Numerov.eps}
     \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 6 \, 421 $. }
     \label{fig_two_periodic_same_Numerov}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_periodic/pic_two_periodic_same_DFT.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_periodic/pic_two_periodic_same_DFT.eps}
     \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 5 \, 000 \, 002 $.}
     \label{fig_two_periodic_same_dft}
 \end{figure}
@@ -1462,28 +1462,28 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_oppo
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_periodic/pic_two_periodic_oppo_initial.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_periodic/pic_two_periodic_oppo_initial.eps}
     \caption{Initial exact wave at $t = 0$. }
     \label{fig_two_periodic_oppo_initial}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_periodic/pic_two_periodic_oppo_FD.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_periodic/pic_two_periodic_oppo_FD.eps}
     \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 25$. }
     \label{fig_two_periodic_oppo_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_periodic/pic_two_periodic_oppo_Numerov.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_periodic/pic_two_periodic_oppo_Numerov.eps}
     \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 5 \, 027 $. }
     \label{fig_two_periodic_oppo_Numerov}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_periodic/pic_two_periodic_oppo_DFT.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_periodic/pic_two_periodic_oppo_DFT.eps}
     \caption{Comparison of Discrete Fourier Transform (magenta wave) and exact solution (black dashed wave) at time frame $t = 5 \, 000 \, 002 $. }
     \label{fig_two_periodic_oppo_dft}
 \end{figure}
@@ -1520,49 +1520,49 @@ The plot of the initial exact wave is shown in Figure \ref{fig_one_dirichlet_ini
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_one_dirichlet_initial.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_one_dirichlet_initial.eps}
     \caption{Initial exact wave at $t = 0$. }
     \label{fig_one_dirichlet_initial}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_one_dirichlet_FD.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_one_dirichlet_FD.eps}
     \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 13$.}
     \label{fig_one_dirichlet_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_one_dirichlet_Numerov.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_one_dirichlet_Numerov.eps}
     \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 38$.}
     \label{fig_one_dirichlet_Numerov}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_one_dirichlet_CDM.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_one_dirichlet_CDM.eps}
     \caption{Comparison of Chebyshev Differentiation matrix approximation (brown wave) and exact solution (black dashed wave) at time frame $t = 18 \, 850$.}
     \label{fig_one_dirichlet_CDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_one_dirichlet_MBCDM.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_one_dirichlet_MBCDM.eps}
     \caption{Comparison of Mapped Barycentric Chebyshev Differentiation Matrix approximation (orange wave) and exact solution (black dashed wave) at time frame $t = 18 \, 850 $.}
     \label{fig_one_dirichlet_MBCDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_one_dirichlet_LGCC.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_one_dirichlet_LGCC.eps}
     \caption{Comparison of Legendre--Galerkin--Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 18 \, 850 $. }
     \label{fig_one_dirichlet_LGCC}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_one_dirichlet_DST.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_one_dirichlet_DST.eps}
     \caption{Comparison of Discrete Sine Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 18 \, 850 $. }
     \label{fig_one_dirichlet_DST}
 \end{figure}
@@ -1587,49 +1587,49 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_sam
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_two_dirichlet_same_initial.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_same_initial.eps}
     \caption{Initial exact wave at $t = 0$.}
     \label{fig_two_dirichlet_same_initial}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_two_dirichlet_same_FD.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_same_FD.eps}
     \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 13$.}
     \label{fig_two_dirichlet_same_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_two_dirichlet_same_Numerov.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_same_Numerov.eps}
     \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 75$.}
     \label{fig_two_dirichlet_same_Numerov}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_two_dirichlet_same_CDM.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_same_CDM.eps}
     \caption{Comparison of Chebyshev Differentiation matrix approximation (brown wave) and exact solution (black dashed wave) at time frame $t = 472 \, 496$.}
     \label{fig_two_dirichlet_same_CDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_two_dirichlet_same_MBCDM.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_same_MBCDM.eps}
     \caption{Comparison of Mapped Barycentric Chebyshev Differentiation Matrix approximation (orange wave) and exact solution (black dashed wave) at time frame $t = 472 \, 496$.}
     \label{fig_two_dirichlet_same_MBCDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_two_dirichlet_same_LGCC.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_same_LGCC.eps}
     \caption{Comparison of Legendre--Galerkin--Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 472 \, 496 $.}
     \label{fig_two_dirichlet_same_LGCC}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_two_dirichlet_same_DST.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_same_DST.eps}
     \caption{Comparison of Discrete Sine Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 472 \, 496$.}
     \label{fig_two_dirichlet_same_DST}
 \end{figure}
@@ -1657,49 +1657,49 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_opp
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_initial.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_initial.eps}
     \caption{Initial exact wave at $t = 0$.}
     \label{fig_two_dirichlet_oppo_initial}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_FD.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_FD.eps}
     \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 6$.}
     \label{fig_two_dirichlet_oppo_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_Numerov.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_Numerov.eps}
     \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 38 $.   }
     \label{fig_two_dirichlet_oppo_Numerov}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_CDM.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_CDM.eps}
     \caption{Comparison of Chebyshev Differentiation matrix approximation (brown wave) and exact solution (black dashed wave) at time frame $t = 472 \, 496 $.}
     \label{fig_two_dirichlet_oppo_CDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_MBCDM.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_MBCDM.eps}
     \caption{Comparison of Mapped Barycentric Chebyshev Differentiation Matrix approximation (orange wave) and exact solution (black dashed wave) at time frame $t = 472 \, 496$. }
     \label{fig_two_dirichlet_oppo_MBCDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_LGCC.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_LGCC.eps}
     \caption{Comparison of Legendre--Galerkin--Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 472 \, 496 $.}
     \label{fig_two_dirichlet_oppo_LGCC}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_DST.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_DST.eps}
     \caption{Comparison of Discrete Sine Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 472 \, 496$.}
     \label{fig_two_dirichlet_oppo_DST}
 \end{figure}
@@ -1721,7 +1721,7 @@ In this chapter, we will focus on simulations analogous to those in the previous
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\linewidth]{figures_general/mass-in-mass-lattice.eps}
+    \includegraphics[width=1\linewidth]{Figures/figures_general/mass-in-mass-lattice.eps}
     \caption{Schematic figure of one-dimensional infinite lattice mass-in-mass system.}
     \label{fig_metamaterial}
 \end{figure}
@@ -1906,28 +1906,28 @@ The plot of the initial exact wave is shown in Figure \ref{fig_one_periodic_meta
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_periodic/one_periodic_meta_initial.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_periodic/one_periodic_meta_initial.eps}
     \caption{Initial exact wave at $t = 0$.}
     \label{fig_one_periodic_meta_initial}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_periodic/one_periodic_meta_FD.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_periodic/one_periodic_meta_FD.eps}
     \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 314$.}
     \label{fig_one_periodic_meta_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_periodic/one_periodic_meta_Num.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_periodic/one_periodic_meta_Num.eps}
     \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 125 \, 000$.}
     \label{fig_one_periodic_meta_Numerov}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_periodic/one_periodic_meta_DFT.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_periodic/one_periodic_meta_DFT.eps}
     \caption{Comparison of Discrete Fourier Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_one_periodic_meta_dft}
 \end{figure}
@@ -1959,28 +1959,28 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_same
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_periodic/two_periodic_same_meta_initial.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_periodic/two_periodic_same_meta_initial.eps}
     \caption{Initial exact wave at $t = 0$.}
     \label{fig_two_periodic_same_meta_initial}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_periodic/two_periodic_same_meta_FD.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_periodic/two_periodic_same_meta_FD.eps}
     \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 18$.}
     \label{fig_two_periodic_same_meta_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_periodic/two_periodic_same_meta_Num.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_periodic/two_periodic_same_meta_Num.eps}
     \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 2 \, 500$.}
     \label{fig_two_periodic_same_meta_Num}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_periodic/two_periodic_same_meta_DFT.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_periodic/two_periodic_same_meta_DFT.eps}
     \caption{Comparison of Discrete Fourier Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_two_periodic_same_meta_DFT}
 \end{figure}
@@ -2011,28 +2011,28 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_periodic_oppo
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_periodic/two_periodic_oppo_meta_initial.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_periodic/two_periodic_oppo_meta_initial.eps}
     \caption{Initial exact wave at $t = 0$.}
     \label{fig_two_periodic_oppo_meta_initial}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_periodic/two_periodic_oppo_meta_FD.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_periodic/two_periodic_oppo_meta_FD.eps}
     \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 6$.}
     \label{fig_two_periodic_oppo_meta_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_periodic/two_periodic_oppo_meta_Num.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_periodic/two_periodic_oppo_meta_Num.eps}
     \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 3 \, 491$.}
     \label{fig_two_periodic_oppo_meta_Num}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_periodic/two_periodic_oppo_meta_DFT.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_periodic/two_periodic_oppo_meta_DFT.eps}
     \caption{Comparison of Discrete Fourier Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 500 \, 006 $.}
     \label{fig_two_periodic_oppo_meta_DFT}
 \end{figure}
@@ -2075,49 +2075,49 @@ The plot of the initial exact wave is shown in Figure \ref{fig_one_dirichlet_met
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/one_dirichlet_meta_initial.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/one_dirichlet_meta_initial.eps}
     \caption{Initial exact wave at $t = 0$.}
     \label{fig_one_dirichlet_meta_initial}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/one_dirichlet_meta_FD}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/one_dirichlet_meta_FD}
     \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 3$.}
     \label{fig_one_dirichlet_meta_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/one_dirichlet_meta_Num.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/one_dirichlet_meta_Num.eps}
     \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 13$.}
     \label{fig_one_dirichlet_meta_Num}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/one_dirichlet_meta_CDM.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/one_dirichlet_meta_CDM.eps}
     \caption{Comparison of Chebyshev Differentiation matrix approximation (brown wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_one_dirichlet_meta_CDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/one_dirichlet_meta_MBCDM.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/one_dirichlet_meta_MBCDM.eps}
     \caption{Comparison of Mapped Barycentric Chebyshev Differentiation Matrix approximation (orange wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_one_dirichlet_meta_MBCDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/one_dirichlet_meta_LGCC.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/one_dirichlet_meta_LGCC.eps}
     \caption{Comparison of Legendre--Galerkin--Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_one_dirichlet_meta_lgcc}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/one_dirichlet_meta_DST.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/one_dirichlet_meta_DST.eps}
     \caption{Comparison of Discrete Fourier Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_one_dirichlet_meta_dst}
 \end{figure}
@@ -2147,49 +2147,49 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_met
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/two_dirichlet_same_meta_initial.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_same_meta_initial.eps}
     \caption{Initial exact wave at $t = 0$.}
     \label{fig_two_dirichlet_meta_initial}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/two_dirichlet_same_meta_FD}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_same_meta_FD}
     \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 10$.}
     \label{fig_two_dirichlet_meta_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/two_dirichlet_same_meta_Num.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_same_meta_Num.eps}
     \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 100$.}
     \label{fig_two_dirichlet_meta_Num}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/two_dirichlet_same_meta_CDM.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_same_meta_CDM.eps}
     \caption{Comparison of Chebyshev Differentiation matrix approximation (brown wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_two_dirichlet_meta_CDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/two_dirichlet_same_meta_MBCDM.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_same_meta_MBCDM.eps}
     \caption{Comparison of Mapped Barycentric Chebyshev Differentiation Matrix approximation (orange wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_two_dirichlet_meta_MBCDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/two_dirichlet_same_meta_LGCC.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_same_meta_LGCC.eps}
     \caption{Comparison of Legendre--Galerkin--Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_two_dirichlet_meta_lgcc}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/two_dirichlet_same_meta_DST.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_same_meta_DST.eps}
     \caption{Comparison of Discrete Fourier Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_two_dirichlet_meta_dst}
 \end{figure}
@@ -2221,49 +2221,49 @@ The plot of the initial exact wave is shown in Figure \ref{fig_two_dirichlet_opp
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_initial.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_initial.eps}
     \caption{Initial exact wave at $t = 0$.}
     \label{fig_two_dirichlet_oppo_meta_initial}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_FD}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_FD}
     \caption{Comparison of Finite Difference approximation (blue wave) and exact solution (black dashed wave) at time frame $t = 2$.}
     \label{fig_two_dirichlet_oppo_meta_FD}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_Num.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_Num.eps}
     \caption{Comparison of Numerov's approximation (red wave) and exact solution (black dashed wave) at time frame $t = 10$.}
     \label{fig_two_dirichlet_oppo_meta_Num}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_CDM.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_CDM.eps}
     \caption{Comparison of Chebyshev Differentiation matrix approximation (brown wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_two_dirichlet_oppo_meta_CDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_MBCDM.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_MBCDM.eps}
     \caption{Comparison of Mapped Barycentric Chebyshev Differentiation Matrix approximation (orange wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_two_dirichlet_oppo_meta_MBCDM}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_LGCC.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_LGCC.eps}
     \caption{Comparison of Legendre--Galerkin--Chebyshev Collocation approximation (green wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_two_dirichlet_oppo_meta_lgcc}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_DST.eps}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_DST.eps}
     \caption{Comparison of Discrete Fourier Transformation approximation (magenta wave) and exact solution (black dashed wave) at time frame $t = 500 \, 000 $.}
     \label{fig_two_dirichlet_oppo_meta_dst}
 \end{figure}
@@ -2350,37 +2350,37 @@ In \ref{eq_mix_one_periodic_1}, \ref{eq_mix_one_periodic_2} and \ref{eq_mix_one_
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_comparison/comparison_periodic_one_initial.eps}
-    \caption{Comparison at time frame $t = 0$.}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_periodic_one_initial.eps}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 0$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_comparison/comparison_periodic_one_10_1.eps}
-    \caption{Comparison at time frame $t = 2$.}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_periodic_one_10_1.eps}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 2$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_comparison/comparison_periodic_one_10_3.eps}
-    \caption{Comparison at time frame $t = 30$.}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_periodic_one_10_3.eps}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 30$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_comparison/comparison_periodic_one_10_5.eps}
-    \caption{Comparison at time frame $t = 3 \, 000$.}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_periodic_one_10_5.eps}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 3 \, 000$.}
     \label{}
 \end{figure}
 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_comparison/comparison_periodic_one_10_10.eps}
-    \caption{Comparison at time frame $t = 500 \, 000 $.}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_periodic_one_10_10.eps}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 500 \, 000 $.}
     \label{}
 \end{figure}
 
@@ -2419,36 +2419,36 @@ In \ref{eq_mix_one_dirichlet_1}, \ref{eq_mix_one_dirichlet_2} and \ref{eq_mix_on
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_comparison/comparison_one_dirichlet_initial.eps}
-    \caption{Comparison at time frame $t = 0$.}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_initial.eps}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 0$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_comparison/comparison_one_dirichlet_10_1.eps}
-    \caption{Comparison at time frame $t = 3$.}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_10_1.eps}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 3$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_comparison/comparison_one_dirichlet_10_3.eps}
-    \caption{Comparison at time frame $t = 31$.}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_10_3.eps}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 31$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_comparison/comparison_one_dirichlet_10_5.eps}
-    \caption{Comparison at time frame $t = 2 \, 999$.}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_10_5.eps}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 2 \, 999$.}
     \label{}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figures_comparison/comparison_one_dirichlet_10_9.eps}
-    \caption{Comparison at time frame $t = 500 \, 000 $.}
+    \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_10_9.eps}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 500 \, 000 $.}
     \label{}
 \end{figure}
 
