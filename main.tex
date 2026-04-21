@@ -94,13 +94,8 @@
 
 \def\StudijniProgram{FMPMP}
 
-\def\Podekovani{%
-	I would like to thank...
-
-
-% Abstrakt (doporučený rozsah cca 80-200 slov; nejedná se o zadání práce)
-
-}
+\def\Podekovani{I would like to express my sincere gratitude to my supervisor, doc. Mgr. Vít Průša, Ph.D., for giving me the opportunity to write my thesis under his expert guidance. I highly appreciate his patience, thoroughness, and the continuous support he provided throughout the process of improving this work.
+I would also like to thank my family for their unwavering support and encouragement during my studies.}
 \def\AbstraktEN{%
 	Metamaterials are materials engineered to have properties that are not exhibited by materials common in nature. These exotic properties are usually related to the wave propagation phenomena in metamaterials, and these exotic properties usually stem from a carefully designed microstructure. A considerable effort has been invested into the developement of mathematical models capable of capturing such exotic response. The thesis will focus on a particular promising class of models for metamaterials behaviour -- both qualitative (refinement of models, qualitative features) and quantitative (numerical simulations) analysis is needed.
 }
@@ -109,7 +104,7 @@
 
 
 \def\KlicovaSlovaEN{%
-	{metamaterials,} {mathematical modelling,} {continuum mechanics,} {spectral methods,} {rate-type models}
+	   {spectral methods,} {numerical discretization,} {second derivative approximation,} {Sturm–-Liouville eigenvalue problems,} {Discrete Fourier Transform,} {Discrete Sine Transform,} {wave equation,} {wave propagation,} {rate-type constitutive equations,} {metamaterials}
 }
 
 %% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
@@ -237,58 +232,15 @@
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 \noindent
-In this work, we will first focus on the eigenvalue computations of the regular Sturm--Liouville problems in Schrödinger form. Two concrete examples are Paine and Coffey--Evans equations for which we will use several different methods for the discretization of the operator of the second derivative. We will compute our data and compare it to one another.
+The accurate numerical approximation of the second derivative operator plays a central role in the solution of many important problems in applied mathematics and physics, including Sturm–Liouville eigenvalue problems and the simulation of wave propagation phenomena. When solving such problems on a computer, the continuous differential operator must be replaced by a discrete matrix that approximates its action on a finite grid. The quality of this spatial discretization significantly influences both the accuracy and efficiency of the subsequent computations.
 
-Next, we will study the classical wave equation and test Finite Differences and Fast Fourier Transform on their propagation.
+This thesis focuses on a systematic comparison of several discretization methods for the second derivative. For problems with periodic boundary conditions, we consider the classical Finite Difference method, Numerov's method, and the Discrete Fourier Transform (DFT). For problems subject to homogeneous Dirichlet boundary conditions, the comparison is extended to include the Finite Difference method, Numerov's method, the Discrete Sine Transform (DST), the Chebyshev Differentiation Matrix, the Mapped Barycentric Chebyshev Differentiation Matrix, and the Legendre–Galerkin–Chebyshev Collocation method.
 
-Finally, we will focus on rate-type models for metamaterials. Our goal will be to use them for simulations of wave propagation.
+The main objective of this work is to evaluate the performance of these methods through carefully designed numerical experiments. First, we solve two classical regular Sturm–Liouville eigenvalue problems — the Paine equation and the Coffey-Evans equation. Next, we simulate wave propagation governed by the classical wave equation, considering both single waves and superpositions of waves propagating in the same and opposite directions. Finally, we perform analogous wave propagation simulations using the rate-type constitutive model describing a one-dimensional mass-in-mass metamaterial lattice.
 
-Metamaterials are, by definition, “A synthetic composite material engineered to display properties not usually found in natural materials.”
+A particular emphasis is placed on investigating the limiting behavior of the metamaterial model. By gradually decreasing the internal mass parameter $m_2$ towards zero, we aim to numerically demonstrate the convergence of the rate-type system to the classical wave equation, as suggested by the theoretical analysis.
 
-These exotic properties are usually related to wave propagation phenomena in metamaterials, and they typically stem from a carefully designed microstructure.  
-
-The thesis will focus on a particularly promising class of models (rate-type models) for metamaterials behavior. Both qualitative (refinement of models, qualitative features) and quantitative (numerical simulations) analyzes are needed.
-	
-
-\chapter{Theoretical framework}
-\noindent
-In this chapter, we will describe the core notions that will be used in the rest of this thesis. Concepts such as metamaterials, spectral methods, and rate-type models.
-
-\section{Metamaterials}
-\noindent
-Metamaterials are artificially engineered composite structures designed to exhibit extraordinary physical properties not typically found in natural materials.
-
-Examples of such properties include a negative refractive index, negative effective mass density, or negative bulk modulus, which enable phenomena like wave cloaking, superlensing, and band gap formation for controlling electromagnetic, acoustic, and elastic waves.
-
-These properties arise from the precise arrangement of subwavelength unit cells or microstructures, rather than the intrinsic characteristics of the constituent materials, allowing for tailored responses to external stimuli through geometric design and material selection.
-
-
-
-\section{Spectral methods}
-\noindent
-Spectral methods represent a class of numerical techniques for solving partial differential equations (PDEs) and other mathematical problems, characterized by their use of global basis functions to approximate solutions. Spectral methods expand the solution as a series of orthogonal polynomials or trigonometric functions, such as Fourier series for periodic problems or Chebyshev polynomials for non-periodic domains.
-
-This global approximation leads to high-order accuracy, often achieving exponential convergence for smooth functions, as the error decreases faster than any algebraic power of the number of basis functions.
-
-The core idea is to transform the problem into the spectral space, where differentiation becomes a simple algebraic operation via differentiation matrices, and then solve the resulting system efficiently \cite{cit2}.
-
-One of the key advantages of spectral methods lies in their efficiency for problems with smooth solutions, where they require fewer degrees of freedom compared to low-order methods to achieve comparable accuracy.
-
-For instance, in the context of wave propagation or elastodynamics, spectral methods preserve essential wave properties, such as phase and group velocities, without introducing artificial dissipation or dispersion that plagues finite difference schemes. 
-
-In applications to metamaterials and elastic wave modeling, spectral methods excel in capturing dispersive behaviors and band gaps inherent to these engineered structures. By leveraging Fourier transforms for periodic lattices or Chebyshev expansions for bounded domains, they accurately resolve high-frequency modes without the numerical artifacts that could distort physical interpretations. As illustrated in \cite{cit2}, examples like the one-dimensional wave equation solved via Fourier spectral methods highlight their ability to maintain energy conservation and spectral accuracy over long simulation times.
-
-This makes spectral methods an ideal choice for theoretical and computational studies in applied mathematics and materials science, providing a robust framework for validating continuum models against discrete lattice systems.
-
-
-
-\section{Rate-type models}
-\noindent
-Rate-type constitutive models, also known as rate-dependent constitutive relations, represent a class of material descriptions in continuum mechanics where the stress (or force) is expressed as a function of the rate of deformation, its time derivatives, and possibly the stress itself, rather than solely depending on the current deformation state as in classical hyperelasticity.
-
-Originating from the works of Truesdell (1955) and Oldroyd (1950), these models incorporate objective time derivatives of the stress tensor to ensure frame-indifference, making them particularly suitable for capturing dynamic and viscoelastic behaviors in complex materials without violating fundamental physical principles like positive definite mass density.
-
-In the context of metamaterials, as demonstrated in \cite{cit1}, rate-type relations avoid the unphysical notion of negative effective mass by embedding the effects of internal microstructures—such as local resonances in mass-in-mass systems—into the constitutive equation for stress $\sigma$, which includes second-order time derivatives of $\sigma$ coupled with spatial derivatives of displacement. This approach maintains Newton's second law in its standard form while accurately reproducing dispersive wave propagation and band gaps, providing a physically consistent framework for modeling elastic waves in engineered structures like those considered in this thesis.
+Through this comprehensive study, we seek to identify the most suitable discretization techniques depending on the type of boundary conditions and the nature of the problem under consideration.
 
 
 \chapter{Eigenvalue computations}
@@ -1317,7 +1269,7 @@ where the relation between wave number $k$ and angular frequency $\omega_k$ is $
 \end{subequations}
 with parameters $k$ and $l$ chosen appropriately to fit our purposes.
 
-First, we introduce exact time evolution and then present the plots from our simulations. The simulations are done in dimensionless time units.
+First, we introduce exact time evolution and then present the plots from our simulations. The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest second.
 
 
 
@@ -1913,6 +1865,8 @@ where the columns of $\mathbb{V}$ are the eigenvectors (spatial modes), the matr
 \end{equation}
 This approach ensures that the time integration is analytically exact; the only source of error is the spatial discretization. The matrix $\mathbb{D}$ will be chosen appropriately depending on which method we wish to implement: FD, Num, CDM, MBCDM, LGCC, DFT or DST.
 
+The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest second.
+
 
 
 \section{Periodic boundary conditions}
@@ -2357,7 +2311,9 @@ which is a classical wave equation with its speed of propagation $c$.
 
 In the following, we conduct simulations to demonstrate that, in the limit as $m_2 \to 0$, the initial wave undergoes the same evolution for the classical wave equation as for the rate-type equations.
 
-The simulations will be done by implementing the Discrete Fourier Transform or the Discrete Sine Transform, depending on the boundary conditions. Because we have shown in previous chapters that these two approaches are the best for these numerical experiments.
+The simulations will be done by implementing the Discrete Fourier Transform or the Discrete Sine Transform, depending on the boundary conditions. Because we have shown in previous chapters that these two approaches are the best for these numerical experiments. In every simulation, the blue color will represent the classical wave equation, and the red color will represent the rate-type metamaterial equation.
+
+The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest second.
 
 
 
@@ -2509,8 +2465,17 @@ In \ref{eq_mix_one_dirichlet_1}, \ref{eq_mix_one_dirichlet_2} and \ref{eq_mix_on
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
 \noindent
-In this work...
+In this thesis, we investigated various numerical methods for the spatial discretization of the second derivative operator. Specifically, we focused on techniques that replace the continuous differential operator with a discrete matrix representation, which can then be used to solve both eigenvalue problems and time-dependent evolution equations.
 
+We examined two distinct classes of boundary conditions. For periodic problems, we compared the Finite Difference method (FD), Numerov's method (Num), and the Discrete Fourier Transform (DFT). For Dirichlet boundary conditions, we extended the comparison to include the Finite Difference method, Numerov's method, the Discrete Sine Transform (DST), the Chebyshev Differentiation Matrix (CDM), the Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM), and the Legendre--Galerkin--Chebyshev Collocation method (LGCC).
+
+Three main groups of numerical experiments were conducted. First, we solved two well-known regular Sturm–-Liouville eigenvalue problems — the Paine equation and the Coffey--Evans equation — and evaluated the accuracy of the computed eigenvalues. Second, we performed extensive simulations of wave propagation governed by the classical wave equation, considering both single waves and superpositions of waves propagating in the same or opposite directions. Finally, we repeated these wave propagation simulations using the rate-type constitutive equation describing a one-dimensional mass-in-mass metamaterial lattice.
+
+Across all experiments, a clear pattern emerged. For problems with periodic boundary conditions, the Discrete Fourier Transform consistently provided the highest accuracy and efficiency. For problems with homogeneous Dirichlet boundary conditions, the Discrete Sine Transform proved to be the most accurate and reliable method among all tested approaches.
+
+These two superior discretization techniques were subsequently employed in the last Chapter to demonstrate a fundamental physical property of the metamaterial model. By systematically decreasing the internal mass parameter $m_2$ toward zero, we showed that the dynamical behavior of the rate-type metamaterial system converges to that of the classical wave equation, as predicted by the theoretical limiting analysis. The numerical simulations confirmed this convergence both qualitatively (through direct visual comparison of wave profiles) and quantitatively.
+
+The results obtained in this work highlight the importance of choosing an appropriate spatial discretization method according to the boundary conditions of the problem. In particular, they confirm that spectral methods based on the Discrete Fourier Transform and Discrete Sine Transform offer significant advantages in accuracy and computational efficiency for wave propagation problems and Sturm–-Liouville eigenvalue computations.
 
 
 
