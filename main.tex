@@ -232,36 +232,38 @@ I would also like to thank my family for their unwavering support and encouragem
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 \noindent
-The accurate numerical approximation of the second derivative operator plays a central role in the solution of many important problems in applied mathematics and physics, including Sturm–Liouville eigenvalue problems and the simulation of wave propagation phenomena. When solving such problems on a computer, the continuous differential operator must be replaced by a discrete matrix that approximates its action on a finite grid. The quality of this spatial discretization significantly influences both the accuracy and efficiency of the subsequent computations.
+The accurate numerical approximation of the second derivative operator plays a central role in the solution of many important problems in applied mathematics and physics, including Sturm--Liouville eigenvalue problems and the simulation of wave propagation phenomena. When solving such problems on a computer, the continuous differential operator must be replaced by a discrete matrix that approximates its action on a finite grid. The quality of this spatial discretization significantly influences both the accuracy and efficiency of the subsequent computations.
 
-This thesis focuses on a systematic comparison of several discretization methods for the second derivative. For problems with periodic boundary conditions, we consider the classical Finite Difference method, Numerov's method, and the Discrete Fourier Transform (DFT). For problems subject to homogeneous Dirichlet boundary conditions, the comparison is extended to include the Finite Difference method, Numerov's method, the Discrete Sine Transform (DST), the Chebyshev Differentiation Matrix, the Mapped Barycentric Chebyshev Differentiation Matrix, and the Legendre–Galerkin–Chebyshev Collocation method.
+This thesis focuses on a systematic comparison of several discretization methods for the second derivative. For problems with periodic boundary conditions, we consider the classical Finite Difference method, Numerov's method, and the Discrete Fourier Transform (DFT). For problems subject to homogeneous Dirichlet boundary conditions, the comparison is extended to include the Finite Difference method, Numerov's method, the Discrete Sine Transform (DST), the Chebyshev Differentiation Matrix, the Mapped Barycentric Chebyshev Differentiation Matrix, and the Legendre--Galerkin--Chebyshev Collocation method.
 
-The main objective of this work is to evaluate the performance of these methods through carefully designed numerical experiments. First, we solve two classical regular Sturm–Liouville eigenvalue problems — the Paine equation and the Coffey-Evans equation. Next, we simulate wave propagation governed by the classical wave equation, considering both single waves and superpositions of waves propagating in the same and opposite directions. Finally, we perform analogous wave propagation simulations using the rate-type constitutive model describing a one-dimensional mass-in-mass metamaterial lattice.
+The main objective of this work is to evaluate the performance of these methods through carefully designed numerical experiments. First, we solve two classical regular Sturm--Liouville eigenvalue problems — the Paine equation and the Coffey--Evans equation. Next, we simulate wave propagation governed by the classical wave equation, considering both single waves and superpositions of waves propagating in the same and opposite directions. Finally, we perform analogous wave propagation simulations using the rate-type constitutive model describing a one-dimensional mass-in-mass metamaterial lattice.
 
 A particular emphasis is placed on investigating the limiting behavior of the metamaterial model. By gradually decreasing the internal mass parameter $m_2$ towards zero, we aim to numerically demonstrate the convergence of the rate-type system to the classical wave equation, as suggested by the theoretical analysis.
 
 Through this comprehensive study, we seek to identify the most suitable discretization techniques depending on the type of boundary conditions and the nature of the problem under consideration.
 
 
-\chapter{Eigenvalue computations}
+\chapter{Regular Sturm--Liouville eigenvalue test problems}
 \noindent
-The aim of this chapter is, first, to introduce two regular Sturm--Liouville eigenvalue test problems: namely, the Paine equation, first introduced in \cite{paine} and the Coffey--Evans equation, first presented in \cite{pryce}.
+The aim of this chapter is to introduce two regular Sturm--Liouville eigenvalue test problems: the Paine equation, first introduced in \cite{paine}, and the Coffey--Evans equation, first presented in \cite{pryce}.
 
-Then, we will describe methods that discretize these continuous problems and allow us to solve them approximately (numerically). Mainly, we will focus on how to discretize the operator of the second derivative, which means we will assemble the differentiation matrix, substitute it for the continuous derivative, and then compute the eigenvalues of the discretized problem using MATLAB's \texttt{eig} function.
+Secondly, we will describe methods that discretize these continuous problems and enable us to solve them approximately (numerically). Our main focus will be on how to discretize the second derivative operator, which involves assembling the differentiation matrix and substituting it for the continuous derivative. We will implement these methods and compute the eigenvalues of the discretized problem using MATLAB's \texttt{eig} function.
 
-The methods that will be introduced are: Finite Differences, Numerov's, Discrete Fourier Transform, Chebyshev Differentiation Matrix, Mapped Barycentric Chebyshev Differentiation Matrix, Legendre--Galerkin--Chebyshev Collocation, and Discrete Sine Transform. 
+The methods that will be introduced are: Finite Differences, Numerov's method, the Discrete Fourier Transform, the Chebyshev Differentiation Matrix, the Mapped Barycentric Chebyshev Differentiation Matrix, the Legendre--Galerkin--Chebyshev Collocation method, and the Discrete Sine Transform. 
 
-Our goal is to compare all of these methods and figure out which one is best. For our purposes, we need some reference values. These will be calculated using the Matslise application.
+Our goal is to compare these methods and determine the most effective one. For this, we need some reference values. These will be calculated using the Matslise application.
 
 \section{Test problems}
 \noindent
-In this section, we will introduce two regular Sturm--Liouville test problems in Schrödinger form on which we will apply the discretization techniques. The general form of these problems is
-\begin{equation}\label{eq_general_test_problem}
-    -u''(x) + q(x) u(x) = \lambda u(x) \, , \quad x \in (a, \, b) \, , \quad u(a) = u(b) = 0 \, ,
-\end{equation}
-where $q(x)$ is the potential of the problem.
-
-Now, let's look in more detail at two specific cases of these test problems.
+In this section, we briefly introduce regular Sturm--Liouville test problems in the Schrödinger form. Their general formulation with potential $q(x)$ is
+\begin{subequations}\label{eq_general_test_problem}
+    \begin{align}
+    - & u''(x) + q(x) u(x) = \lambda u(x) \, , \\[5pt]
+    & u(a) = u(b) = 0 \, , \\[5pt]
+    & x \in (a, b) \, .
+    \end{align}
+\end{subequations}
+Next, let's define two specific examples.
 
 \subsection{Paine equation}
 \noindent
@@ -269,57 +271,60 @@ The Paine equation has the potential
 \begin{equation}
     q(x) = e^x \, ,
 \end{equation}
-and the problem is defined on the interval where
+and is defined on the interval where
 \begin{equation}
     \begin{split}
         a & = 0 \, , \\[2pt]
-        b & = \pi \ . \\[2pt]
+        b & = \pi \ .
     \end{split}
 \end{equation}
-
-If we substitute into the relation \ref{eq_general_test_problem}, the resulting Paine equation is
-\begin{equation}\label{eq_SL}
-    -u''(x) + e^x u(x) = \lambda u(x) \, , \quad x \in (0, \, \pi) \, , \quad u(0) = u(\pi) = 0 \, .
-\end{equation}
+If we substitute this into the relation \ref{eq_general_test_problem}, we get the resulting formulation of the Paine equation
+\begin{subequations}\label{eq_SL}
+    \begin{align}
+    - & u''(x) + e^x u(x) = \lambda u(x) \, , \\[5pt]
+    & u(0) = u(\pi) = 0 \, , \\[5pt]
+    & x \in (0, \pi) \, .
+    \end{align}
+\end{subequations}
 
 
 \subsection{Coffey--Evans equation}
 \noindent 
 The Coffey--Evans equation has the potential
 \begin{equation}
-    q(x) = \beta^2 \sin^2{(2 x)} -2 \beta \cos{(2 x)} \, ,
+    q(x) = \beta^2 \sin^2{(2 x)} - 2 \beta \cos{(2 x)} \, ,
 \end{equation}
-and the problem is defined on the interval where
+and is defined on the interval where
 \begin{equation}\label{eq_CE_coeffs}
     \begin{split}
-        a & = -\pi/2 \, , \\[2pt]
-        b & = \pi/2 \, . \\[2pt]
+        a & = - \pi/2 \, , \\[2pt]
+        b & = \pi/2 \, .
     \end{split}
 \end{equation}
-
-If we substitute into \ref{eq_general_test_problem}, we get the resulting Coffey--Evans equation
-\begin{equation}\label{eq_CE}
-    \begin{split}
-    -u''(x) + \big(\beta^2 \sin^2{(2 x)} - 2 \beta & \cos{(2 x)} \big) u(x) = \lambda  u(x) \, , \\
-     u(-\pi/2) = u(\pi/2) = 0 \, , \quad & x \in (-\pi/2 , \, \pi/2) \, . \\
-    \end{split}
-\end{equation}
-In the whole text, we will use the value of parameter $\beta = 30$.
+If we substitute this into \ref{eq_general_test_problem}, we get the resulting formulation of the Coffey--Evans equation
+\begin{subequations}\label{eq_CE}
+    \begin{align}
+    - & u''(x) + \big(\beta^2 \sin^2{(2 x)} - 2 \beta \cos{(2 x)} \big) u(x) = \lambda  u(x) \, , \\[5pt]
+    & u(-\pi/2) = u(\pi/2) = 0 \, , \\[5pt]
+    & x \in (-\pi/2 , \pi/2) \, .
+    \end{align}
+\end{subequations}
+Throughout the thesis, we will use the value of the parameter $\beta = 30$.
 
 
 \section{Matslise application}
 \noindent
-As we have mentioned before, to obtain highly accurate reference eigenvalues of our test problems, a MATLAB application named Matslise has been implemented. In this thesis, it serves as the reference solver for computing benchmark eigenvalues and for validating results obtained by other numerical methods.
+As we have mentioned before, to obtain highly accurate reference eigenvalues of our test problems, a MATLAB application named Matslise has been implemented. In this thesis, it serves as the reference solver for computing benchmark eigenvalues and validating results obtained by other numerical methods.
 
-Matslise is a MATLAB package for the numerical solution of regular and singular Sturm-–Liouville eigenvalue problems. It belongs to the class of shooting methods: it transforms the two-point boundary value problem into an initial-value problem by guessing a trial eigenvalue $\lambda$, integrating the differential equation from one boundary to the other, and iteratively adjusting $\lambda$ until the second boundary condition is satisfied. The key innovation of Matslise is that the integration step is performed using piecewise constant perturbation methods. On each small subinterval, the potential $q(x)$ is approximated by a constant value (for which the exact analytic solution is known), and higher-order perturbation correction terms are systematically added. \cite{ledoux}
+Matslise is a MATLAB package for the numerical solution of regular and singular Sturm--Liouville eigenvalue problems. It belongs to the class of shooting methods: it transforms the two-point boundary value problem into an initial-value problem by guessing a trial eigenvalue $\lambda$, integrating the differential equation from one boundary to the other, and iteratively adjusting $\lambda$ until the second boundary condition is satisfied. The key innovation of Matslise is that the integration step is performed using piecewise constant perturbation methods. On each small subinterval, the potential $q(x)$ is approximated by a constant value (for which the exact analytic solution is known), and higher-order perturbation correction terms are systematically added. \cite{ledoux}
 
-This approach yields very high accuracy even for large (high-index) eigenvalues (in which we are particularly interested) with relatively few grid points. It all makes Matslise particularly efficient and robust for our test problems. \cite{matslise}
+This approach yields very high accuracy even for large (high-index) eigenvalues, in which we are particularly interested, with relatively few grid points. It all makes Matslise particularly efficient and robust for our test problems. \cite{matslise}
 
 
 
 \section{Discretization methods}
 \noindent
-In this section, we will introduce the discretization methods that will be used for the computation of the eigenvalues of our test problems and later on for spatial discretization in the classical wave equation and the evolution equation for metamaterials.
+In this section, we will introduce the discretization methods that will be used for the approximation of the second derivative operators in our test problems. Later for spatial discretization in the classical wave equation and the evolution equation for metamaterials.
 
 Our aim is to discretize the continuous operator of the second derivative by using an approximation matrix
 \begin{equation}
