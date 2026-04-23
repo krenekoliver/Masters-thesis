@@ -324,15 +324,13 @@ This approach yields very high accuracy even for large (high-index) eigenvalues,
 
 \section{Discretization methods}
 \noindent
-In this section, we will introduce the discretization methods that will be used for the approximation of the second derivative operators in our test problems. Later for spatial discretization in the classical wave equation and the evolution equation for metamaterials.
+This section introduces the discretization methods used to approximate second derivative operators in our test problems. These same methods will later be used for spatial discretization in wave propagation simulations.
 
 Our aim is to discretize the continuous operator of the second derivative by using an approximation matrix
 \begin{equation}
-    \mathbb{D} \approx \dfrac{\partial^2}{\partial  x^2} \, .
+    \mathbb{D} \approx \dfrac{\partial^2}{\partial  x^2} \, ,
 \end{equation}
-These matrices will be assembled using the methods below, and then we will use MATLAB's \texttt{eig} function for the computation of eigenvalues. These eigenvalues will then be compared across the methods, especially the high-index ones.
-
-Our goal is to rewrite the main equation \ref{eq_general_test_problem} to the form
+which will be assembled using the methods below. Next, we want to rewrite the main equation \ref{eq_general_test_problem} in the form
 \begin{equation}
     \big( - \mathbb{D} + \mathbb{E}  \big) u(x) = \lambda u(x) \, ,
 \end{equation}
@@ -347,10 +345,12 @@ And in the case of the Coffey--Evans equation with the potential
     -2 \beta \cos{(2 x_N)} + \beta^2 \sin^2{(2 x_N)} \big) \, ,
     \end{split}
 \end{equation}
-to the form
+rewrite in the form
 \begin{equation}
     \big( - \mathbb{D} + \mathbb{Q}  \big) u(x) = \lambda u(x) \, .
 \end{equation} 
+
+From this formulation of the test problems, the structure of the eigenvalue computation is clear. As previously mentioned, we will use the MATLAB function \texttt{eig} for their computation. We will compare these eigenvalues across the methods, especially the high-index ones.
 
 The differentiation matrices $\mathbb{D}$ will be assembled using the following methods.
 
