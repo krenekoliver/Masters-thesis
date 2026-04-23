@@ -247,7 +247,7 @@ Through this comprehensive study, we seek to identify the most suitable discreti
 \noindent
 The aim of this chapter is to introduce two regular Sturm--Liouville eigenvalue test problems: the Paine equation, first introduced in \cite{paine}, and the Coffey--Evans equation, first presented in \cite{pryce}.
 
-Secondly, we will describe methods that discretize these continuous problems and enable us to solve them approximately (numerically). Our main focus will be on how to discretize the second derivative operator, which involves assembling the differentiation matrix and substituting it for the continuous derivative. We will implement these methods and compute the eigenvalues of the discretized problem using MATLAB's \texttt{eig} function.
+Secondly, we will describe methods that discretize these continuous problems and enable us to solve them approximately (numerically). Our main focus will be on how to discretize the second derivative operator, which involves assembling the differentiation matrix and substituting it for the continuous derivative. We will implement these methods and compute the eigenvalues of the discretized problem using MATLAB \texttt{eig} function.
 
 The methods that will be introduced are: Finite Differences, Numerov's method, the Discrete Fourier Transform, the Chebyshev Differentiation Matrix, the Mapped Barycentric Chebyshev Differentiation Matrix, the Legendre--Galerkin--Chebyshev Collocation method, and the Discrete Sine Transform. 
 
@@ -258,9 +258,9 @@ Our goal is to compare these methods and determine the most effective one. For t
 In this section, we briefly introduce regular Sturm--Liouville test problems in the Schrödinger form. Their general formulation with potential $q(x)$ is
 \begin{subequations}\label{eq_general_test_problem}
     \begin{align}
-    - & u''(x) + q(x) u(x) = \lambda u(x) \, , \\[5pt]
+    - & u''(x) + q(x) u(x) = \lambda u(x) \, , \label{eq_general_SLP_1} \\[5pt]
     & u(a) = u(b) = 0 \, , \\[5pt]
-    & x \in (a, b) \, .
+    & x \in (a, \, b) \, .
     \end{align}
 \end{subequations}
 Next, let's define two specific examples.
@@ -283,7 +283,7 @@ If we substitute this into the relation \ref{eq_general_test_problem}, we get th
     \begin{align}
     - & u''(x) + e^x u(x) = \lambda u(x) \, , \\[5pt]
     & u(0) = u(\pi) = 0 \, , \\[5pt]
-    & x \in (0, \pi) \, .
+    & x \in (0,  \, \pi) \, .
     \end{align}
 \end{subequations}
 
@@ -306,7 +306,7 @@ If we substitute this into \ref{eq_general_test_problem}, we get the resulting f
     \begin{align}
     - & u''(x) + \big(\beta^2 \sin^2{(2 x)} - 2 \beta \cos{(2 x)} \big) u(x) = \lambda  u(x) \, , \\[5pt]
     & u(-\pi/2) = u(\pi/2) = 0 \, , \\[5pt]
-    & x \in (-\pi/2 , \pi/2) \, .
+    & x \in (-\pi/2 ,  \, \pi/2) \, .
     \end{align}
 \end{subequations}
 Throughout the thesis, we will use the value of the parameter $\beta = 30$.
@@ -330,25 +330,30 @@ Our aim is to discretize the continuous operator of the second derivative by usi
 \begin{equation}
     \mathbb{D} \approx \dfrac{\partial^2}{\partial  x^2} \, ,
 \end{equation}
-which will be assembled using the methods below. Next, we want to rewrite the main equation \ref{eq_general_test_problem} in the form
-\begin{equation}
-    \big( - \mathbb{D} + \mathbb{E}  \big) u(x) = \lambda u(x) \, ,
+which will be assembled using the methods below.
+
+Next, we want to rewrite the main equation \ref{eq_general_SLP_1} in the form
+\begin{equation}\label{eq_Paine}
+    \big( - \mathbb{D} + \mathbb{E}  \big) \mathbf{u} = \lambda \mathbf{u} \, ,
 \end{equation}
 for the Paine equation, where
 \begin{equation}
-    \mathbb{E} = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N}\big) \,.
+    \mathbb{E} = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N}\big) \, ,
 \end{equation}
-And in the case of the Coffey--Evans equation with the potential
+and $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$ is the vector of unknowns on the corresponding grid of the implemented method.
+
+For the Coffey--Evans equation with the potential
 \begin{equation}
     \begin{split}
     \mathbb{Q} = \texttt{diag}\big(-2 \beta \cos{(2 x_1)} + \beta^2 \sin^2{(2 x_1)} \, , \dots, \\ 
     -2 \beta \cos{(2 x_N)} + \beta^2 \sin^2{(2 x_N)} \big) \, ,
     \end{split}
 \end{equation}
-rewrite in the form
-\begin{equation}
-    \big( - \mathbb{D} + \mathbb{Q}  \big) u(x) = \lambda u(x) \, .
+we rewrite the equation \ref{eq_general_SLP_1} in the form
+\begin{equation}\label{eq_CE}
+    \big( - \mathbb{D} + \mathbb{Q}  \big) \mathbf{u} = \lambda \mathbf{u} \, .
 \end{equation} 
+where again $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$ is the vector of unknowns on the corresponding grid of the implemented method.
 
 From this formulation of the test problems, the structure of the eigenvalue computation is clear. As previously mentioned, we will use the MATLAB function \texttt{eig} for their computation. We will compare these eigenvalues across the methods, especially the high-index ones.
 
@@ -356,18 +361,18 @@ The differentiation matrices $\mathbb{D}$ will be assembled using the following 
 
 \subsection{Finite Difference method}
 \noindent
-The first numerical method on our list is the Finite Difference method (FD). We will be using the second-order central Finite Difference formula, which approximates the second derivative on a discrete grid for $h$ small enough with equation
+The first numerical method we consider is the Finite Difference method (FD). We use the standard second-order central Finite Difference approximation for the second derivative
 \begin{equation}
-    u''(x_i) \approx \frac{u(x_i - h) - 2 u(x_i) + u(x_i + h) }{h^2} = \big( \mathbb{D} \mathbf{u} \big)_i \, , \quad i = 1, \dots, N \, ,
+    u''(x_i) \approx \frac{u(x_{i-1}) - 2 u(x_i) + u(x_{i+1}) }{h^2} = \left( \mathbb{D} \mathbf{u} \right)_i \, , \quad i = 1, \dots, N \, ,
 \end{equation}
-where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^T$ and $u(x_i+h) = u(x_{i+1})$. Matrix $\mathbb{D}$ is
+where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^T$ is the vector of unknowns on the uniform grid and $h = x_{i+1}-x_i$ is the grid spacing. The second-derivative matrix $\mathbb{D}$ is given by
 \begin{equation}
 \mathbb{D} = \frac{1}{h^2} \begin{bmatrix}
     - 2 & 1 & 0  & \cdots & 0 \\
     1 & - 2 & 1 & \cdots & 0 \\
-    0 & 1 & - 2  & \cdots & 0 \\ 
-    \vdots  & \vdots & \vdots & \ddots & \vdots \\
-    0 & 0 & 0 & \cdots & -2 \\ 
+    0 & 1 & - 2  & \ddots & \vdots \\ 
+    \vdots  & \vdots & \ddots & \ddots & 1 \\
+    0 & 0 & \cdots & 1 & -2 \\ 
 \end{bmatrix} \, .
 \end{equation}
 The implementation of this method is in algorithm \ref{alg_1} for the Paine equation and in algorithm \ref{alg_2} for the Coffey--Evans equation.
@@ -384,7 +389,7 @@ The implementation of this method is in algorithm \ref{alg_1} for the Paine equa
 \State \quad $\mathbb{D}_{i,i} = 2 / h^2$ \quad for $i=1, \dots,N$
 \State \quad $\mathbb{D}_{i,i+1} = \mathbb{D}_{i+1,i} = -1 / h^2$ \quad for $i = 1, \dots,N-1$
 \BlankLine
-\State $\mathbb{E} = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N} \big)$
+\State $\mathbb{E} = \texttt{diag}\big(e^{x_1},  \, e^{x_2},  \, \dots,  \, e^{x_N} \big)$
 \State $\mathbb{A} = -\mathbb{D} + \mathbb{E}$
 \BlankLine
 \State \texttt{eig}($\mathbb{A}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$ 
@@ -405,7 +410,7 @@ The implementation of this method is in algorithm \ref{alg_1} for the Paine equa
 \State \quad $\mathbb{D}_{i,i+1} = \mathbb{D}_{i+1,i} = -1/h^2$  \quad for $i=1, \dots,N-1$
 \BlankLine
 \State $q_i = \beta^2 \sin^2(2 x_i) - 2 \beta \cos(2 x_i)$ \quad for $i=1, \dots,N$
-\State $\mathbb{Q} = \texttt{diag}\big(q_1, q_2, \dots, q_N \big)$
+\State $\mathbb{Q} = \texttt{diag}\big(q_1,  \, q_2,  \, \dots,  \, q_N \big)$
 \State $\mathbb{A} = -\mathbb{D} + \mathbb{Q}$
 \BlankLine
 \State \texttt{eig}($\mathbb{A}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
@@ -415,27 +420,27 @@ The implementation of this method is in algorithm \ref{alg_1} for the Paine equa
 
 \subsection{Numerov's method}
 \noindent
-Numerov's method uses higher-order Finite Differences and approximates \ref{eq_general_test_problem} with equation
+Numerov's method (Num) uses higher-order Finite Differences. It approximates the equation \ref{eq_general_SLP_1} by
 \begin{equation}
     \begin{split}
-    b_{i-1} u(x_{i-1}) + a_{i} u(x_i ) + b_{i+1} u(x_{i+1}) = \lambda h^2 \big(u(x_{i-1}) + 10 u(x_i) + u(x_{i+1}) \big) \, ,
+    b_{i-1} u(x_{i-1}) + a_{i} u(x_i ) + b_{i+1} u(x_{i+1}) = \lambda h^2 \big(u(x_{i-1}) + 10 u(x_i) + u(x_{i+1}) \big) \, 
     \end{split}
 \end{equation}
-that holds for all $i = 1, \dots,N$, where $u(x_i+h) = u(x_{i+1})$ and the coefficients $a_i$ and $b_i$ are
+for all $i = 1, \dots,N$ on the uniform grid where $h = x_{i+1}-x_i$ is the grid spacing. The coefficients $a_i$ and $b_i$ are given by
 \begin{subequations}\label{}
     \begin{align}
-        a_i & = +24 + 10 h^2 q(x_i) \, , \label{} \\
+        a_i & = 24 + 10 h^2 q(x_i) \, , \label{} \\[2pt]
         b_i & = -12 + h^2 q(x_i) \, .   \label{}
     \end{align}
 \end{subequations}
-If we denote the tridiagonal matrices $\mathbb{A}$ and $\mathbb{B}$ by
+We denote the tridiagonal matrices $\mathbb{A}$ and $\mathbb{B}$ by
 \begin{equation}
 \mathbb{A} = \begin{bmatrix}
     a_1 & b_1 & 0  & \cdots & 0 \\
     b_1 & a_2 & b_2  & \cdots & 0 \\
-    0 & b_2 & a_3  & \cdots & 0 \\
-    \vdots & \vdots  & \vdots & \ddots & \vdots \\
-    0 & 0 & 0 & \cdots & a_N  \\
+    0 & b_2 & a_3  &  \ddots & \vdots \\
+    \vdots & \vdots  &  \ddots & \ddots & b_{N-1} \\
+    0 & 0 & \cdots & b_{N-1} & a_N  \\
 \end{bmatrix} ,
 \label{}
 \end{equation}
@@ -443,17 +448,17 @@ If we denote the tridiagonal matrices $\mathbb{A}$ and $\mathbb{B}$ by
 \mathbb{B} = h^2\begin{bmatrix}
     10 & 1 & 0 & \cdots & 0 \\
     1 & 10 & 1 & \cdots & 0 \\
-    0 & 1 & 10 & \cdots & 0 \\
-    \vdots & \vdots  & \vdots & \ddots & \vdots \\
-    0 & 0 & 0 & \cdots & 10  \\
+    0 & 1 & 10 & \ddots & \vdots \\
+    \vdots & \vdots  & \ddots & \ddots & 1 \\
+    0 & 0 & \cdots & 1 & 10  \\
 \end{bmatrix} .
 \label{}
 \end{equation}
-The whole approximation can be rewritten in matrix form
+Then the whole approximation can be rewritten in the matrix form
 \begin{equation}
     \mathbb{A} \mathbf{u} = \lambda \mathbb{B} \mathbf{u} \, ,
 \end{equation}
-where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$ and solved by MATLAB's \texttt{eig} function.
+where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$ is the vector of unknowns on the uniform grid.
 
 To improve the accuracy of the higher eigenvalues obtained by Numerov's method, an asymptotic correction is applied. First, the standard Numerov's scheme yields approximate eigenvalues $\lambda_k$. These are then corrected using the formulas
 \begin{equation}
@@ -464,9 +469,9 @@ where the corrected eigenvalue is given by
 \begin{equation}
 \lambda_k^{\text{corrected}} = \lambda_k + \varepsilon_k^2 \, .
 \end{equation}
-This correction, derived from the asymptotic expansion of the discretization error, significantly reduces the error for larger indices $k$ while preserving the simplicity of the original Numerov's approach. The same correction procedure is used for both the Paine equation and the Coffey--Evans equation.
+This correction, derived from the asymptotic expansion of the discretization error, significantly reduces the error for larger indices $k$ while preserving the simplicity of the original Numerov's approach. The same correction procedure is used for both the Paine equation and the Coffey--Evans equation. \cite{numerov}
 
-The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for the Paine equation and in algorithm \ref{alg_Numerov_CE} for the Coffey--Evans equation. Algorithms contain the basic Numerov's method and the Numerov's method with correction.\cite{numerov}
+The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for the Paine equation and in algorithm \ref{alg_Numerov_CE} for the Coffey--Evans equation. Algorithms contain the basic Numerov's method and the Numerov's method with correction.
 
 \begin{algorithm}[H]
 \caption{Numerov's method - Paine equation}
@@ -485,7 +490,7 @@ The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for th
 \State \quad $\mathbb{B}_{i,i} = 10 h^2$ \quad for $i=1, \dots,N$
 \State \quad $\mathbb{B}_{i,i+1} = \mathbb{B}_{i+1,i} = h^2$ \quad for $i=1, \dots,N-1$
 \BlankLine
-\State \texttt{eig}($\mathbb{A}$,$\mathbb{B}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}($\mathbb{A}$, $\mathbb{B}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \BlankLine
 \State Asymptotic correction:
@@ -514,7 +519,7 @@ The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for th
 \State \quad $\mathbb{B}_{i,i} = 10 h^2$ \quad for $i = 1, \dots,N$
 \State \quad $\mathbb{B}_{i,i+1} = \mathbb{B}_{i+1,i} = h^2$ \quad for $i = 1, \dots,N-1$
 \BlankLine
-\State \texttt{eig}($\mathbb{A}$,$\mathbb{B}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
+\State \texttt{eig}($\mathbb{A}$, $\mathbb{B}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_N$
 \BlankLine
 \State Asymptotic correction:
@@ -530,28 +535,24 @@ The implementation of this method is in algorithm \ref{alg_Numerov_Paine} for th
 
 \subsection{Chebyshev Differentiation Matrix method}
 \noindent
-The Chebyshev Differentiation Matrix method (CDM) is a high-order spectral collocation technique that approximates the derivatives of a function at specific collocation points using global polynomial interpolation. It will be implemented using MATLAB's chebfun package, utilizing the \texttt{chebpts} and \texttt{diffmat} functions.
+The Chebyshev Differentiation Matrix method (CDM) is a high-order spectral collocation technique that approximates the derivatives of a function at specific collocation points using global polynomial interpolation. It will be implemented using MATLAB \textit{chebfun} package, utilizing the \texttt{chebpts} and \texttt{diffmat} functions.
 
-Using this method, we first generate the Chebyshev points of the second kind via \texttt{chebpts} on the interval $[-1, \, 1]$. Then, we assemble the second order differentiation matrix $\mathbb{D}_{\text{full}}$ via the \texttt{diffmat}.
+Using this method, we first generate the Chebyshev points of the second kind via \texttt{chebpts} on the interval $[-1,  \, 1]$. Then, we assemble the second-order differentiation matrix $\mathbb{D}_{\text{full}}$ via the \texttt{diffmat}.
 
-For problems with homogeneous Dirichlet boundary conditions we have two cases
+For problems with homogeneous Dirichlet boundary conditions
 \begin{subequations}
     \begin{align}
-        u(0) = u(\pi) = & \; 0 \, , \quad \text{and} \\
+        u(0) = u(\pi) = & \; 0 \, , \quad \text{or} \\
         u(-\pi/2) = u(\pi/2) = & \; 0 \, ,
     \end{align}
 \end{subequations}
-the first and last rows and columns are removed to obtain the reduced (interior) differentiation matrix $\mathbb{D}_{\text{Cheb}}$. This way, we enforce these boundary conditions.
+the first and last rows and columns are removed to obtain the reduced (interior) differentiation matrix $\mathbb{D}_{\text{Cheb}}$. This way, we enforce these boundary conditions. We find the Chebyshev interior points $t_{\text{int}}$ in a similar manner.
 
-We find the Chebyshev interior points $t_{\text{int}}$ in a similar manner. Next, we transform these points from the interval $[-1, \, 1]$ to the interval $[0, \, \pi]$ or $[-\pi/2, \, \pi/2]$ with an appropriate scaling factor, and we also scale the matrix $\mathbb{D}_{\text{Cheb}}$ accordingly.
+Next, we transform these collocation points from the interval $[-1,  \, 1]$ to the interval $[0,  \, \pi]$ or $[-\pi/2,  \, \pi/2]$, and multiply the matrix $\mathbb{D}_{\text{Cheb}}$ by the appropriate scaling factor to get the correct Chebyshev Differentiation Matrix $\mathbb{D}$. \cite{cdm}\cite{trefethen}
 
-Finally, we assemble the matrices $\mathbb{E}$, $\mathbb{Q}$, $\mathbb{A}$ and compute the eigenvalues of the matrix problem
-\begin{equation}
-    \mathbb{A} \mathbf{u} = \lambda \mathbf{u} \, , \quad \text{where} \; \, \mathbf{u} = [u(x_1), \, u(x_2), \, \dots, \, u(x_N)]^T \, ,
-\end{equation}
-and where the matrix $\mathbb{A}$ combines the scaled differentiation matrix $\mathbb{D}$ with the potential term $\mathbb{E}$ or $\mathbb{Q}$.\cite{cdm}\cite{trefethen}
+Finally, we assemble the potential matrices $\mathbb{E}$ and $\mathbb{Q}$ and solve the eigenvalue problems \ref{eq_Paine} and \ref{eq_CE}.
 
-The implementation of the method can be seen in algorithms \ref{alg_5} and \ref{alg_6}.
+The implementation of this method can be seen in algorithms \ref{alg_5} for Paine equation and in algorithm \ref{alg_6} for Coffey--Evans equation.
 
 \begin{algorithm}[H]
 \caption{Chebyshev Differentiation Matrix - Paine equation}
@@ -562,9 +563,9 @@ The implementation of the method can be seen in algorithms \ref{alg_5} and \ref{
 \State $\mathbb{D}_{\text{full}} =$ \texttt{diffmat}(N+2, 2)
 \State $\mathbb{D}_{\text{Cheb}} = \mathbb{D}_{\text{full}}[2:N+1, \, 2:N+1]$
 \State $t_{\text{int}} = t[2:N+1]$
-\State $x_i = \pi/2 \, (t_{\text{int},i} + 1)$ \quad for $i=1, \dots,N$
+\State $x_i = (\pi/2) \, (t_{\text{int},i} + 1)$ \quad for $i=1, \dots,N$
 \State $\mathbb{D} = (2 / \pi)^2 \mathbb{D}_{\text{Cheb}}$
-\State $\mathbb{E} = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N}\big)$
+\State $\mathbb{E} = \texttt{diag}\big(e^{x_1},  \, e^{x_2},  \, \dots,  \, e^{x_N}\big)$
 \State $\mathbb{A} = -\mathbb{D} + \mathbb{E}$
 \BlankLine
 \State \texttt{eig}($\mathbb{A}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
@@ -581,9 +582,9 @@ The implementation of the method can be seen in algorithms \ref{alg_5} and \ref{
 \State $\mathbb{D}_{\text{full}} =$ \texttt{diffmat}(N+2, 2)
 \State $\mathbb{D}_{\text{Cheb}} = \mathbb{D}_{\text{full}}[2:N+1, \, 2:N+1]$ 
 \State $t_{\text{int}} = t[2:N+1]$
-\State $x_i = \pi/2 \, \big( t_{\text{int},i}\big)$ \quad for $i=1, \dots,N$
+\State $x_i = (\pi/2) \, ( t_{\text{int},i})$ \quad for $i=1, \dots,N$
 \State $q_i =  \beta^2 \sin^2(2 x_i) - 2 \beta \cos(2x_i) $ \quad for $i=1, \dots,N$
-\State $\mathbb{Q} = \texttt{diag}\big(q_1, q_2, \dots, q_N \big)$
+\State $\mathbb{Q} = \texttt{diag}\big(q_1,  \, q_2,  \, \dots,  \, q_N \big)$
 \State $\mathbb{D} = (2 / \pi)^2 \mathbb{D}_{\text{Cheb}}$
 \State $\mathbb{A} = -\mathbb{D} + \mathbb{Q}$
 \BlankLine
@@ -1280,7 +1281,7 @@ First, we introduce exact time evolution and then present the plots from our sim
 
 \section{Exact time evolution}
 \noindent
-Instead of using conventional numerical time-stepping schemes (such as leapfrog or MATLAB's \texttt{ode45}), we employ exact time integration based on the eigen-decomposition of the spatial operator. This procedure consists of the following steps:
+Instead of using conventional numerical time-stepping schemes (such as leapfrog or MATLAB \texttt{ode45} function), we employ exact time integration based on the eigen-decomposition of the spatial operator. This procedure consists of the following steps:
 
 \begin{enumerate}
     \item We discretize the spatial differential operator and obtain a matrix $\mathbb{D}$ that approximates the second derivative
