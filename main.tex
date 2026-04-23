@@ -2352,7 +2352,7 @@ where $I$ is the length of our interval.
 We will conduct a simulation of one sine wave in the form \ref{one_wave}. The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_mix_one_periodic_1} \\[5pt]
+        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, \, I] \, , \quad t \geq 0 \, , \label{eq_mix_one_periodic_1} \\[5pt]
         & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \label{eq_mix_one_periodic_2} \\[5pt]
         & \begin{aligned}
             \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
@@ -2369,35 +2369,38 @@ We will conduct a simulation of one sine wave in the form \ref{one_wave}. The pr
 \end{subequations}
 In \ref{eq_mix_one_periodic_1} is the classical wave equation; in \ref{eq_mix_one_periodic_2} and \ref{eq_mix_one_periodic_3} are the rate-type metamaterial equations; in \ref{eq_mix_one_periodic_4} are the boundary conditions; in \ref{eq_mix_one_periodic_5} are the length of the interval $I$, the number of grid points $N$ in the interval, the spacing between two grid points $L$, and the value of the parameter $c$; in \ref{eq_mix_one_periodic_6} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \ref{eq_mix_one_periodic_7} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \ref{eq_mix_one_periodic_8}, \ref{eq_mix_one_periodic_9}, \ref{eq_mix_one_periodic_10} and \ref{eq_mix_one_periodic_11} are the initial conditions for $u(x,t)$ and $a(x,t)$.
 
-In Figure \ref{fig_comparison_periodic_1}, there is a plot of the initial wave. Figure \ref{fig_comparison_periodic_2} plots the propagation of the initial wave with parameter $m_2 = 10^{-1}$ at time frame $t=2$. As can be seen, the waves are already separated after this short time.
+Figure \ref{fig_comparison_periodic_1} shows a plot of the initial wave. Figure \ref{fig_comparison_periodic_2} plots the propagation of the initial wave with the parameter $m_2 = 10^{-1}$ at the time frame $t=2$. As can be seen, the waves are already separated after such a short time.
 
+Figure \ref{fig_comparison_periodic_3} plots the propagation of the initial wave with parameter $m_2 = 10^{-3}$ at time frame $t=30$. As $m_2$ decreases, the time frame at which the waves separate increases. Figure \ref{fig_comparison_periodic_4} shows the plot at time frame $t = 3 \, 000$ with $m_2 = 10^{-5}$; the time of separation is again longer.
+
+Lastly, Figure \ref{fig_comparison_periodic_5} plots wave propagation at time frame $t = 500 \, 000$ for $m_2 = 10^{-10}$. The waves are indistinguishable there.
 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_periodic_one_initial.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 0$.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 0$.}
     \label{fig_comparison_periodic_1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_periodic_one_10_1.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 2$.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 2$ with $m_2 = 10^{-1}$.}
     \label{fig_comparison_periodic_2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_periodic_one_10_3.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 30$.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 30$ with $m_2 = 10^{-3}$.}
     \label{fig_comparison_periodic_3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_periodic_one_10_5.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 3 \, 000$.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 3 \, 000$ with $m_2 = 10^{-5}$.}
     \label{fig_comparison_periodic_4}
 \end{figure}
 
@@ -2405,7 +2408,7 @@ In Figure \ref{fig_comparison_periodic_1}, there is a plot of the initial wave. 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_periodic_one_10_10.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 500 \, 000 $.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 500 \, 000 $ with $m_2 = 10^{-10}$.}
     \label{fig_comparison_periodic_5}
 \end{figure}
 
@@ -2425,7 +2428,7 @@ where $I$ is the length of our interval.
 We will conduct a simulation of one sine wave in the form \ref{one_wave}. The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_mix_one_dirichlet_1} \\[5pt]
+        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, \, I] \, , \quad t \geq 0 \, , \label{eq_mix_one_dirichlet_1} \\[5pt]
         & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \label{eq_mix_one_dirichlet_2} \\[5pt]
         & \begin{aligned}
             \dfrac{m_2}{k_2} \dfrac{\partial^2 \sigma(x,t)}{\partial t^2}  + \left(1 + \dfrac{m_2}{m_1} \right) \sigma(x,t) = \dfrac{m_2 k_1}{k_2} \dfrac{\partial^2 }{\partial t^2 } \left(L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \right) & \\ + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} & \, ,
@@ -2440,41 +2443,51 @@ We will conduct a simulation of one sine wave in the form \ref{one_wave}. The pr
         & a_t(x,0) = 0 \, . \label{eq_mix_one_dirichlet_11}
     \end{align}
 \end{subequations}
-In \ref{eq_mix_one_dirichlet_1}, \ref{eq_mix_one_dirichlet_2} and \ref{eq_mix_one_dirichlet_3} are the evolution equations; in \ref{eq_mix_one_dirichlet_4} are the boundary conditions; in \ref{eq_mix_one_dirichlet_5} are the length of the interval $I$, the number of grid points $N$ in the interval, the spacing between two grid points $L$, and the value of the parameter $c$; in \ref{eq_mix_one_dirichlet_6} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \ref{eq_mix_one_dirichlet_7} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \ref{eq_mix_one_dirichlet_8}, \ref{eq_mix_one_dirichlet_9}, \ref{eq_mix_one_dirichlet_10} and \ref{eq_mix_one_dirichlet_11} are the initial conditions for $u(x,t)$ and $a(x,t)$.
+In \ref{eq_mix_one_dirichlet_1} is the classical wave equation; in \ref{eq_mix_one_dirichlet_2} and \ref{eq_mix_one_dirichlet_3} are the rate-type metamaterial equations; in \ref{eq_mix_one_dirichlet_4} are the boundary conditions; in \ref{eq_mix_one_dirichlet_5} are the length of the interval $I$, the number of grid points $N$ in the interval, the spacing between two grid points $L$, and the value of the parameter $c$; in \ref{eq_mix_one_dirichlet_6} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \ref{eq_mix_one_dirichlet_7} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \ref{eq_mix_one_dirichlet_8}, \ref{eq_mix_one_dirichlet_9}, \ref{eq_mix_one_dirichlet_10} and \ref{eq_mix_one_dirichlet_11} are the initial conditions for $u(x,t)$ and $a(x,t)$.
+
+Figure \ref{fig_comparison_dirichlet_1} shows a plot of the initial wave. Figure \ref{fig_comparison_dirichlet_2} plots the propagation of the initial wave with the parameter $m_2 = 10^{-1}$ at the time frame $t=3$. As can be seen, the waves are already separated after such a short time.
+
+Figure \ref{fig_comparison_dirichlet_3} plots the propagation of the initial wave with parameter $m_2 = 10^{-3}$ at time frame $t=31$. As $m_2$ decreases, the time frame at which the waves separate increases. Figure \ref{fig_comparison_dirichlet_4} shows the plot at time frame $t = 2 \, 999$ with $m_2 = 10^{-5}$; the time of separation is again longer.
+
+Lastly, Figure \ref{fig_comparison_dirichlet_5} plots wave propagation at time frame $t = 500 \, 000$ for $m_2 = 10^{-10}$. The waves are almost indistinguishable there.
+
+
+
+
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_initial.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 0$.}
-    \label{}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 0$.}
+    \label{fig_comparison_dirichlet_1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_10_1.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 3$.}
-    \label{}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 3$ with $m_2 = 10^{-1}$.}
+    \label{fig_comparison_dirichlet_2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_10_3.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 31$.}
-    \label{}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 31$ with $m_2 = 10^{-3}$.}
+    \label{fig_comparison_dirichlet_3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_10_5.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 2 \, 999$.}
-    \label{}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 2 \, 999$ with $m_2 = 10^{-5}$.}
+    \label{fig_comparison_dirichlet_4}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_10_9.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and wave propagation governed by rate-type metamaterial equation (red wave) at time frame $t = 500 \, 000 $.}
-    \label{}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 500 \, 000 $ with $m_2 = 10^{-10}$.}
+    \label{fig_comparison_dirichlet_5}
 \end{figure}
 
 \section{Conclusion from comparison of wave propagation governed by classical wave equation and rate-type metamaterial equation}
