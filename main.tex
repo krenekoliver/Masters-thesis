@@ -279,7 +279,7 @@ and is defined on the interval where
         b & = \pi \ .
     \end{split}
 \end{equation}
-If we substitute this into the relation \ref{eq_general_test_problem}, we get the resulting formulation of the Paine equation
+If we substitute this into the relation \eqref{eq_general_test_problem}, we get the resulting formulation of the Paine equation
 \begin{subequations}\label{eq_SL}
     \begin{align}
     - & u''(x) + e^x u(x) = \lambda u(x) \, , \\[5pt]
@@ -302,7 +302,7 @@ and is defined on the interval where
         b & = \dfrac{\pi}{2} \, .
     \end{split}
 \end{equation}
-If we substitute this into \ref{eq_general_test_problem}, we get the resulting formulation of the Coffey--Evans equation
+If we substitute this into \eqref{eq_general_test_problem}, we get the resulting formulation of the Coffey--Evans equation
 \begin{subequations}\label{eq_CE}
     \begin{align}
     - & u''(x) + \big(\beta^2 \sin^2{(2 x)} - 2 \beta \cos{(2 x)} \big) u(x) = \lambda  u(x) \, , \\[5pt]
@@ -333,7 +333,7 @@ Our aim is to discretize the continuous operator of the second derivative by usi
 \end{equation}
 which will be assembled using the methods below.
 
-Next, we want to rewrite the main equation \ref{eq_general_SLP_1} in the form
+Next, we want to rewrite the main equation \eqref{eq_general_SLP_1} in the form
 \begin{equation}\label{eq_Paine}
     \big( - \mathbb{D} + \mathbb{E}  \big) \mathbf{u} = \lambda \mathbf{u} \, ,
 \end{equation}
@@ -341,7 +341,7 @@ for the Paine equation, where
 \begin{equation}
     \mathbb{E} = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N}\big) \, ,
 \end{equation}
-and $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$ is the vector of unknowns on the corresponding grid of the implemented method.
+and $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^\top$ is the vector of unknowns on the corresponding grid of the implemented method.
 
 For the Coffey--Evans equation with the potential
 \begin{equation}
@@ -350,11 +350,11 @@ For the Coffey--Evans equation with the potential
     -2 \beta \cos{(2 x_N)} + \beta^2 \sin^2{(2 x_N)} \big) \, ,
     \end{split}
 \end{equation}
-we rewrite the equation \ref{eq_general_SLP_1} in the form
+we rewrite the equation \eqref{eq_general_SLP_1} in the form
 \begin{equation}\label{eq_CE}
     \big( - \mathbb{D} + \mathbb{Q}  \big) \mathbf{u} = \lambda \mathbf{u} \, .
 \end{equation} 
-where again $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$ is the vector of unknowns on the corresponding grid of the implemented method.
+where again $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^\top$ is the vector of unknowns on the corresponding grid of the implemented method.
 
 From this formulation of the test problems, the structure of the eigenvalue computation is clear. As previously mentioned, we will use the MATLAB function \texttt{eig} for their computation. We will compare these eigenvalues across the methods, especially the high-index ones.
 
@@ -366,7 +366,7 @@ The first numerical method we consider is the Finite Difference method (FD). We 
 \begin{equation}
     u''(x_i) \approx \frac{u(x_{i-1}) - 2 u(x_i) + u(x_{i+1}) }{h^2} = \left( \mathbb{D} \mathbf{u} \right)_i \, , \quad i = 1, \dots, N \, ,
 \end{equation}
-where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^T$ is the vector of unknowns on the uniform grid and $h = x_{i+1}-x_i$ is the grid spacing. The second-derivative matrix $\mathbb{D}$ is given by
+where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^\top$ is the vector of unknowns on the uniform grid and $h = x_{i+1}-x_i$ is the grid spacing. The second-derivative matrix $\mathbb{D}$ is given by
 \begin{equation}
 \mathbb{D} = \frac{1}{h^2} \begin{bmatrix}
     - 2 & 1 & 0  & \cdots & 0 \\
@@ -427,7 +427,7 @@ The implementation of this method is in algorithm \ref{alg_1} for the Paine equa
 \noindent
 Numerov's method (Num) is based on a higher-order Finite Difference scheme. The original formulation was proposed by B. V. Numerov in 1927 \cite{numerov1927}. In this thesis, we use a modern adaptation of Numerov's method designed for the numerical solution of Sturm--Liouville eigenvalue problems \cite{numerov}.
 
-It approximates the equation \ref{eq_general_SLP_1} by
+It approximates the equation \eqref{eq_general_SLP_1} by
 \begin{equation}
     \begin{split}
     b_{i-1} u(x_{i-1}) + a_{i} u(x_i ) + b_{i+1} u(x_{i+1}) = \lambda h^2 \big(u(x_{i-1}) + 10 u(x_i) + u(x_{i+1}) \big) \, 
@@ -465,7 +465,7 @@ Then the whole approximation can be rewritten in the matrix form
 \begin{equation}
     \mathbb{A} \mathbf{u} = \lambda \mathbb{B} \mathbf{u} \, ,
 \end{equation}
-where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^T$ is the vector of unknowns on the uniform grid.
+where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^\top$ is the vector of unknowns on the uniform grid.
 
 To improve the accuracy of the higher eigenvalues obtained by Numerov's method, an asymptotic correction is applied. First, the standard Numerov's scheme yields approximate eigenvalues $\lambda_k$. These are then corrected using the formulas
 \begin{equation}
@@ -561,7 +561,7 @@ the first and last rows and columns are removed to obtain the reduced (interior)
 
 Next, we transform these collocation points from the interval $[-1,  \, 1]$ to the interval $[0,  \, \pi]$ or $[-\frac{\pi}{2},  \, \frac{\pi}{2}]$, and multiply the matrix $\mathbb{D}_{\text{Cheb}}$ by the appropriate scaling factor to get the correct Chebyshev Differentiation Matrix $\mathbb{D}$ \cite{cdm}\cite{trefethen}.
 
-Finally, we assemble the potential matrices $\mathbb{E}$ and $\mathbb{Q}$ and solve the eigenvalue problems \ref{eq_Paine} and \ref{eq_CE}.
+Finally, we assemble the potential matrices $\mathbb{E}$ and $\mathbb{Q}$ and solve the eigenvalue problems \eqref{eq_Paine} and \eqref{eq_CE}.
 
 The implementation of this method can be seen in algorithms \ref{alg_5} for Paine equation and in algorithm \ref{alg_6} for Coffey--Evans equation.
 
@@ -741,7 +741,7 @@ where $L_k(t)$ denotes the $k$-th Legendre polynomial. These basis functions aut
 \begin{equation}
     \big(\mathbb{S} + \mathbb{\widehat{M}} \big) \mathbf{u} = \mu \mathbb{T} \mathbf{u} \, ,
 \end{equation}
-where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^T$ is the vector of unknowns at the grid points. $\mathbb{S}$ is the diagonal stiffness matrix, $\mathbb{T}$ is the penta-diagonal mass matrix, and $\mathbb{\widehat{M}}$ is the symmetrized potential matrix obtained via Chebyshev interpolation of the product $q(t)\phi_j(t)$, followed by the extraction of the Legendre coefficients. The eigenvalues $\mu_k$ are finally rescaled for the original interval with length $\pi$ via 
+where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^\top$ is the vector of unknowns at the grid points. $\mathbb{S}$ is the diagonal stiffness matrix, $\mathbb{T}$ is the penta-diagonal mass matrix, and $\mathbb{\widehat{M}}$ is the symmetrized potential matrix obtained via Chebyshev interpolation of the product $q(t)\phi_j(t)$, followed by the extraction of the Legendre coefficients. The eigenvalues $\mu_k$ are finally rescaled for the original interval with length $\pi$ via 
 \begin{equation}
     \lambda_k = \dfrac{4}{\pi^2} \mu_k \, .
 \end{equation}
@@ -831,11 +831,11 @@ In our recent paper \cite{fusi}, we proposed the use of the Discrete Sine Transf
 
 In the present thesis, we further develop and systematically investigate this method across a broader range of problems, including the computation of eigenvalues of regular Sturm--Liouville operators, simulations of wave propagation governed by the classical wave equation, and simulations of wave propagation governed by the rate-type equations for metamaterials. Through detailed comparisons with other common spatial discretization techniques, we aim to assess the accuracy and efficiency of the DST method.
 
-In the DST spectral domain, the second derivative operator becomes a product with a matrix that has the negative squared wave numbers on the diagonal. Altogether, for a vector $\mathbf{y} = [y_1, \dots, y_N ]^T$ of interior grid values, the discrete Laplacian is realized by
+In the DST spectral domain, the second derivative operator becomes a product with a matrix that has the negative squared wave numbers on the diagonal. Altogether, for a vector $\mathbf{y} = [y_1, \dots, y_N ]^\top$ of interior grid values, the discrete Laplacian is realized by
 \begin{equation}
     (\Delta_h \mathbf{y})_j = \mathrm{idst}\bigl(k \odot \mathrm{dst}(\mathbf{y})\bigr)_j \, , \quad j = 1,\dots,N \, ,
 \end{equation}
-where \texttt{dst} and \texttt{idst} denote the Discrete Sine Transform and its inverse, respectively. The symbol $\odot$ denotes element-wise (Hadamard) multiplication, and the vector that contains the negative squared wave numbers is in the form $k = [-1^2, \, -2^2, \, \dots, \, -N^2 ]^T$.
+where \texttt{dst} and \texttt{idst} denote the Discrete Sine Transform and its inverse, respectively. The symbol $\odot$ denotes element-wise (Hadamard) multiplication, and the vector that contains the negative squared wave numbers is in the form $\mathbf{k} = [-1^2, \, -2^2, \, \dots, \, -N^2 ]^\top$.
 
 The full discrete operator $\mathcal{L}_{\mathrm{op}}$ is then assembled by addition
 \begin{equation}
@@ -862,7 +862,7 @@ The implementation of the method for the Paine and Coffey--Evans equations is de
 \begin{algorithmic}[1]
 \State \textbf{input} $N$
 \State $x_i = \dfrac{\pi}{N+1} i$ \quad for $i = 1, \dots,N$
-\State $k = [-1^2, \, -2^2, \, \dots, \, -N^2]^T$
+\State $k = [-1^2, \, -2^2, \, \dots, \, -N^2]^\top$
 \BlankLine
 \State $\mathcal{D}_{op}(y) = \texttt{idst}\big(k \odot \texttt{dst}(y)\big)$
 \State $\mathcal{E}_{op}(y) = \exp(x) \odot y$
@@ -882,7 +882,7 @@ The implementation of the method for the Paine and Coffey--Evans equations is de
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
 \State $x_i = -\dfrac{\pi}{2} + \dfrac{\pi}{N+1} i$ \quad for $i = 1, \dots,N$
-\State $k = [-1^2, \, -2^2, \, \dots, \, -N^2]^T$
+\State $k = [-1^2, \, -2^2, \, \dots, \, -N^2]^\top$
 \BlankLine
 \State $\mathcal{D}_{op}(y) = \texttt{idst}\big(k \odot \texttt{dst}(y)\big)$
 \State $\mathcal{Q}_{op}(y) = \big( \beta^2 \sin^2(2 x) - 2 \beta \cos(2 x) \big) \odot y$
@@ -1220,7 +1220,7 @@ and
     u(0) = u(\pi) = 0 \, .
 \end{equation}
 Then 
-\begin{equation}
+\begin{equation}\label{fix_relation}
     \begin{split}
     \lambda_k^{1/2} = k & + (2\pi k)^{-1}P_1(\pi) \\[2pt]
     & + (4 \pi k^3)^{-1}\left[ \left(\frac{1}{2}\right)P_2(\pi) - \left( \frac{1}{\pi} \right) P_1(\pi)^2 + \left(\frac{1}{2}\right)p'(\pi) - \left( \frac{1}{2} \right) p'(0)  \right] \\[2pt]
@@ -1303,6 +1303,27 @@ We can see the plots for both of them in the figures below. For both equations, 
 
 As we can see from the plots, both asymptotes hold quite well for high-index eigenvalues. The only inaccuracies emerge for low-indexes, that is for $\lambda_k \in [1, \, 10]$.
 
+\subsection{Asymptotic consistency of Discrete Sine Transform eigenvalues}
+\noindent
+The reader might wonder whether the remarkable accuracy of the Discrete Sine Transform (DST) approach is merely coincidental. It is not. The high accuracy stems from the fact that the eigenvalues of the discrete operator obtained via DST are asymptotically consistent with those of the continuous Sturm--Liouville problem.
+
+Recall the asymptotic expansion for the square root of the $k$-th eigenvalue of the continuous problem \ref{theorem} through the relation \eqref{fix_relation}. Squaring this expansion and neglecting higher-order terms yields the asymptotic behaviour of $\lambda_k$ itself
+\begin{equation}
+    \begin{split}
+    \lambda_k = k^2 & + \dfrac{P_1(\pi)}{\pi} + \dfrac{P_1(\pi)}{4 \pi^2 k^2}^2 \\[2pt] & + \dfrac{1}{2 \pi k ^2} \bigg[ \left(\frac{1}{2}\right)P_2(\pi) - \left( \frac{1}{\pi} \right) P_1(\pi)^2 + \left(\frac{1}{2}\right)p'(\pi) - \left( \frac{1}{2} \right) p'(0)\bigg] \\[2pt] 
+    & + O(k^{-3}) \, .
+    \end{split}
+\end{equation}
+As $k \to \infty$, the dominant term is clearly
+\begin{equation}\label{lambda_k2}
+    \lambda_k \sim k^2 \, .
+\end{equation}
+On the other hand, the theory of the Discrete Sine Transform tells us that the matrix representation of the negative second derivative $  -\frac{d^2}{dx^2}  $ (with homogeneous Dirichlet boundary conditions) is diagonalized exactly in the DST basis. Specifically, if we denote by $  \mathbf{k} = [-1^2, -2^2, \dots, -N^2]^\top  $ the vector of eigenvalues of the discrete second-derivative operator $  \Delta_h  $, then the eigenvalues of the operator $ -\Delta_h  $ are precisely
+\begin{equation}
+    [1^2, \, 2^2, \, 3^2, \, \dots, \, N^2] \, .
+\end{equation}
+Thus, in the limit for large $k$, the discrete eigenvalues obtained by the DST approach coincide with the leading-order term of the continuous asymptotic expansion \eqref{lambda_k2}. This perfect matching of the leading asymptotics explains why the DST method reproduces the eigenvalues of the underlying differential operator with spectral accuracy for sufficiently smooth potentials, even on relatively coarse grids.
+
 
 
 \chapter{Semi-discrete simulations of classical wave equation}
@@ -1313,7 +1334,7 @@ The focus of this chapter will be on semi-discrete simulations of the classical 
 \end{equation}
 For the purposes of simplification, it is assumed that $c = 1$.
 
-Our goal will again be to compare the discretization techniques introduced in the previous chapter and determine which one is best. To compare these methods fairly, we implement them in \ref{eq_wave} only in space and solve the resulting system exactly in time; thus, we conduct the semi-discrete simulations.
+Our goal will again be to compare the discretization techniques introduced in the previous chapter and determine which one is best. To compare these methods fairly, we implement them in \eqref{eq_wave} only in space and solve the resulting system exactly in time; thus, we conduct the semi-discrete simulations.
 
 The focus of this study will be on two cases of boundary conditions: periodic boundary conditions
 \begin{equation}
@@ -1337,6 +1358,30 @@ where the relation between wave number $k$ and angular frequency $\omega_k$ is $
 
 First, we introduce exact time evolution and then present the plots from our simulations. The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest second.
 
+\section{Connection between the Sturm--Liouville eigenvalue problem and the wave equation}
+\noindent
+The classical wave equation \eqref{eq_wave} describes the propagation of waves in a one-dimensional homogeneous medium with constant wave speed $c$. A key property of wave phenomena is the dispersion relation, which links the temporal frequency $\omega$ to the spatial behaviour of the solution. In order to preserve the correct dispersion relation in numerical simulations, a highly accurate discretization of the spatial differential operator is needed.
+
+One of the most elegant ways to expose this connection is through separation of variables. Assuming a time-harmonic solution of the form
+\begin{equation}
+    u(x,t) = e^{i \omega t} p(x) \, ,
+\end{equation}
+and substituting it into the wave equation \eqref{eq_wave} yields
+\begin{equation}
+    -\omega^2 p(x) = c^2 \frac{\partial^2 p(x)}{\partial x^2} \, .
+\end{equation}
+Rearranging this equation, we arrive at the Sturm--Liouville eigenvalue problem \eqref{eq_general_test_problem} for the function $p(x)$
+\begin{subequations}
+    \begin{align}
+       & - \frac{\partial^2 p(x)}{\partial x^2} = \frac{\omega^2}{c^2} p(x) \, , \\[5pt]
+       & - p''(x) + q(x) p(x) = \lambda p(x) \, ,
+    \end{align}
+\end{subequations}
+where $\lambda = \frac{\omega^2}{c^2}$ and $q(x)=0$. Consequently, the squared frequencies $\omega^2$ of the time-dependent wave problem are directly determined by the eigenvalues $\lambda$ of the corresponding spatial Sturm--Liouville operator (scaled by $c^2$).
+
+This equivalence reveals a profound link between the two problems: any reliable numerical method for solving the Sturm--Liouville eigenvalue problem can be directly applied to wave propagation simulations while accurately preserving the dispersion relation. In particular, the Discrete Sine Transform (DST) approach presented in the previous chapter provides a spectrally accurate discretization of the spatial operator, ensuring that the discrete dispersion relation closely matches the exact continuous one for a broad range of frequencies.
+
+
 
 
 \section{Exact time evolution}
@@ -1349,7 +1394,7 @@ Instead of using conventional numerical time-stepping schemes, we employ exact t
         \mathbb{D} \approx \frac{\partial^2}{\partial x^2} \, .
     \end{equation}
 
-    \item Substitute into the wave equation \ref{eq_wave} (with $c=1$) and obtain the semi-discrete system
+    \item Substitute into the wave equation \eqref{eq_wave} (with $c=1$) and obtain the semi-discrete system
     \begin{equation}\label{eq_exact_time}
         \frac{\partial^2 \mathbf{u}(t)}{\partial t^2} = \mathbb{D} \mathbf{u}(t) \, .
     \end{equation}
@@ -1364,7 +1409,7 @@ Instead of using conventional numerical time-stepping schemes, we employ exact t
         \omega_k = \sqrt{-\lambda_k} \, .
     \end{equation}
 
-    \item The general solution of \ref{eq_exact_time} in the modal basis is
+    \item The general solution of \eqref{eq_exact_time} in the modal basis is
     \begin{equation}
         \mathbf{u}(t) = \sum_{k=1}^N c_k(t) \mathbf{v}_k,
     \end{equation}
@@ -1403,7 +1448,7 @@ Uses the analytically known eigenmodes $\sin(k \pi x/I)$ on the interval $[0, \,
 
 \subsubsection*{FD, Num, CDM, MBCD, LGCC}
 \noindent
-For these methods, the exact modal time evolution, as described above, is applied. The relation for frequencies is \ref{omega}.
+For these methods, the exact modal time evolution, as described above, is applied. The relation for frequencies is \eqref{omega}.
 
 It is evident that the methods suitable for periodic boundary conditions are FD and Numerov's. For the Dirichlet boundary conditions, all methods are equally applicable.
     
@@ -1422,7 +1467,7 @@ Simulations will be done by implementing Finite Differences, Numerov's method, a
 
 \subsection{One wave}
 \noindent
-First, let's look at the simulation of one sine wave in the form \ref{one_wave}. The problem is
+First, let's look at the simulation of one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{eq_periodic_one}
         \begin{align}
             & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_periodic_one_1} \\[5pt]
@@ -1432,7 +1477,7 @@ First, let's look at the simulation of one sine wave in the form \ref{one_wave}.
             & u_t(x,0) =  - 6 \cos{(6x)} \, \label{eq_periodic_one_5} .
         \end{align}
 \end{subequations}
-In \ref{eq_periodic_one_1} is the evolution equation; in \ref{eq_periodic_one_2} are the boundary conditions; in \ref{eq_periodic_one_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_periodic_one_4} and \ref{eq_periodic_one_5} are the initial conditions.
+In \eqref{eq_periodic_one_1} is the evolution equation; in \eqref{eq_periodic_one_2} are the boundary conditions; in \eqref{eq_periodic_one_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \eqref{eq_periodic_one_4} and \eqref{eq_periodic_one_5} are the initial conditions.
 
 The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{fig_periodic_one_initial}; the plot of the Finite Difference approximation of the exact wave at time frame $t=200$ is shown in Figure \ref{fig_periodic_one_FD}; the plot of Numerov's approximation of the exact wave at time frame $t=150 \, 010$ is shown in Figure \ref{fig_periodic_one_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of the exact wave at time frame $t=5 \, 000 \, 017$ is shown in Figure \ref{fig_periodic_one_dft}.
 
@@ -1468,7 +1513,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \subsection{Superposition of waves - same direction}
 \noindent
-Next, let's look at the superposition of two sine waves that propagate in the same direction \ref{two_waves_same}. The problem is
+Next, let's look at the superposition of two sine waves that propagate in the same direction \eqref{two_waves_same}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_two_wave_same_1} \\[5pt]
@@ -1478,7 +1523,7 @@ Next, let's look at the superposition of two sine waves that propagate in the sa
         & u_t(x,0) =  - 5 \cos{(5x)} - 6 \cos{(6x)} \, \label{eq_two_wave_same_5} . 
     \end{align}
 \end{subequations}
-In \ref{eq_two_wave_same_1} is the evolution equation; in \ref{eq_two_wave_same_2} are the boundary conditions; in \ref{eq_two_wave_same_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_two_wave_same_4} and \ref{eq_two_wave_same_5} are the initial conditions.
+In \eqref{eq_two_wave_same_1} is the evolution equation; in \eqref{eq_two_wave_same_2} are the boundary conditions; in \eqref{eq_two_wave_same_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \eqref{eq_two_wave_same_4} and \eqref{eq_two_wave_same_5} are the initial conditions.
 
 The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{fig_two_periodic_same_initial}; the plot of the Finite Difference approximation of the exact wave at time frame $t=50$ is shown in Figure \ref{fig_two_priodic_same_FD}; the plot of Numerov's approximation of the exact wave at time frame $t=6 \, 421$ is shown in Figure \ref{fig_two_periodic_same_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of the exact wave at time frame $t=5 \, 000 \, 002$ is shown in Figure \ref{fig_two_periodic_same_dft}.
 
@@ -1515,7 +1560,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \subsection{Superposition of waves - opposite direction}
 \noindent
-Finally, let's look at the superposition of two sine waves that propagate in opposite directions \ref{two_waves_oppo}. The problem is
+Finally, let's look at the superposition of two sine waves that propagate in opposite directions \eqref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_two_wave_oppo_1} \\[5pt]
@@ -1525,7 +1570,7 @@ Finally, let's look at the superposition of two sine waves that propagate in opp
         & u_t(x,0) =  - 5 \cos{(5x)} + 6 \cos{(6x)} \, \label{eq_two_wave_oppo_5} .
     \end{align}
 \end{subequations}
-In \ref{eq_two_wave_oppo_1} is the evolution equation; in \ref{eq_two_wave_oppo_2} are the boundary conditions; in \ref{eq_two_wave_oppo_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_two_wave_oppo_4} and \ref{eq_two_wave_oppo_5} are the initial conditions.
+In \eqref{eq_two_wave_oppo_1} is the evolution equation; in \eqref{eq_two_wave_oppo_2} are the boundary conditions; in \eqref{eq_two_wave_oppo_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \eqref{eq_two_wave_oppo_4} and \eqref{eq_two_wave_oppo_5} are the initial conditions.
 
 The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{fig_two_periodic_oppo_initial}; the plot of the Finite Difference approximation of the exact wave at time frame $t=25$ is shown in Figure \ref{fig_two_periodic_oppo_FD}; the plot of Numerov's approximation of the exact wave at time frame $t=5 \, 027$ is shown in Figure \ref{fig_two_periodic_oppo_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of the exact wave at time frame $t=5 \, 000 \, 002$ is shown in Figure \ref{fig_two_periodic_oppo_dft}.
 
@@ -1573,7 +1618,7 @@ Since all of our methods are suitable for Dirichlet boundary conditions, we will
  
 \subsection{One wave}
 \noindent
-First, let's look at the simulation of one sine wave in the form \ref{one_wave}. The problem is
+First, let's look at the simulation of one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_one_Dirichlet_1} \\[5pt]
@@ -1583,7 +1628,7 @@ First, let's look at the simulation of one sine wave in the form \ref{one_wave}.
         & u_t(x,0) =  - 20 \cos{(20x)} \quad 0 \leq x \leq \pi/2 \, \label{eq_one_Dirichlet_5} .
     \end{align}
 \end{subequations}
-In \ref{eq_one_Dirichlet_1} is the evolution equation; in \ref{eq_one_Dirichlet_2} are the boundary conditions; in \ref{eq_one_Dirichlet_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the \ref{eq_one_Dirichlet_4} and \ref{eq_one_Dirichlet_5} are the initial conditions — the functions are identically zero outside the prescribed intervals.
+In \eqref{eq_one_Dirichlet_1} is the evolution equation; in \eqref{eq_one_Dirichlet_2} are the boundary conditions; in \eqref{eq_one_Dirichlet_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the \eqref{eq_one_Dirichlet_4} and \eqref{eq_one_Dirichlet_5} are the initial conditions — the functions are identically zero outside the prescribed intervals.
 
 The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{fig_one_dirichlet_initial}; the plot of the Finite Difference approximation of the exact wave at time frame $t=13$ is shown in Figure \ref{fig_one_dirichlet_FD}; the plot of Numerov's approximation of the exact wave at time frame $t=38$ is shown in Figure \ref{fig_one_dirichlet_Numerov}; the plot of the Chebyshev Differentiation Matrix approximation of the exact wave at time frame $t=18 \,850$ is shown in Figure \ref{fig_one_dirichlet_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of the exact wave at time frame $t=18 \,850$ is shown in Figure \ref{fig_one_dirichlet_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of the exact wave at time frame $t=18 \,850$ is shown in Figure \ref{fig_one_dirichlet_LGCC}; and lastly, the plot of the Discrete Sine Transform approximation of the exact wave at time frame $t=18 \,850$ is shown in Figure \ref{fig_one_dirichlet_DST}.
 
@@ -1640,7 +1685,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \subsection{Superposition of waves - same direction}
 \noindent
-Next, let's look at the superposition of two sine waves that propagate in the same direction \ref{two_waves_same}. The problem is
+Next, let's look at the superposition of two sine waves that propagate in the same direction \eqref{two_waves_same}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_two_same_dirichlet_1} \\[5pt]
@@ -1650,7 +1695,7 @@ Next, let's look at the superposition of two sine waves that propagate in the sa
         & u_t(x,0) = - 16 \cos(16 x) - 24 \cos(24 x) \quad 0 \leq x \leq \pi/2 \, \label{eq_two_same_dirichlet_5} .
     \end{align}
 \end{subequations}
-In \ref{eq_two_same_dirichlet_1} is the evolution equation; in \ref{eq_two_same_dirichlet_2} are the boundary conditions; in \ref{eq_two_same_dirichlet_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_two_same_dirichlet_4} and \ref{eq_two_same_dirichlet_5} are the initial conditions — the functions are identically zero outside the prescribed intervals.
+In \eqref{eq_two_same_dirichlet_1} is the evolution equation; in \eqref{eq_two_same_dirichlet_2} are the boundary conditions; in \eqref{eq_two_same_dirichlet_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \eqref{eq_two_same_dirichlet_4} and \eqref{eq_two_same_dirichlet_5} are the initial conditions — the functions are identically zero outside the prescribed intervals.
 
 The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{fig_two_dirichlet_same_initial}; the plot of the Finite Difference approximation of the exact wave at time frame $t=13$ is shown in Figure \ref{fig_two_dirichlet_same_FD}; the plot of Numerov's approximation of the exact wave at time frame $t=75$ is shown in Figure \ref{fig_two_dirichlet_same_Numerov}; the plot of the Chebyshev Differentiation Matrix approximation of the exact wave at time frame $t=472 \, 496$ is shown in Figure \ref{fig_two_dirichlet_same_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of the exact wave at time frame $t=472 \, 496$ is shown in Figure \ref{fig_two_dirichlet_same_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of the exact wave at time frame $t=472 \, 496$ is shown in Figure \ref{fig_two_dirichlet_same_LGCC}; and lastly, the plot of the Discrete Sine Transform approximation of the exact wave at time frame $t=472 \, 496$ is shown in Figure \ref{fig_two_dirichlet_same_DST}.
 
@@ -1708,7 +1753,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \subsection{Superposition of waves - opposite direction}
 \noindent
-Next, let's look at the superposition of two sine waves that propagate in the opposite direction \ref{two_waves_oppo}. The problem is
+Next, let's look at the superposition of two sine waves that propagate in the opposite direction \eqref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_two_dirichlet_oppo_1} \\[5pt]
@@ -1720,7 +1765,7 @@ Next, let's look at the superposition of two sine waves that propagate in the op
         & u_t(x,0) = + 24 \cos(24 x) \quad 3\pi/4 \leq x \leq \pi \, \label{eq_two_dirichlet_oppo_7} .
     \end{align}
 \end{subequations}
-In \ref{eq_two_dirichlet_oppo_1} is the evolution equation; in \ref{eq_two_dirichlet_oppo_2} are the boundary conditions; in \ref{eq_two_dirichlet_oppo_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_two_dirichlet_oppo_4}, \ref{eq_two_dirichlet_oppo_5}, \ref{eq_two_dirichlet_oppo_6} and \ref{eq_two_dirichlet_oppo_7} are the initial conditions — the functions are identically zero outside the prescribed intervals.
+In \eqref{eq_two_dirichlet_oppo_1} is the evolution equation; in \eqref{eq_two_dirichlet_oppo_2} are the boundary conditions; in \eqref{eq_two_dirichlet_oppo_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_two_dirichlet_oppo_4}, \eqref{eq_two_dirichlet_oppo_5}, \eqref{eq_two_dirichlet_oppo_6} and \eqref{eq_two_dirichlet_oppo_7} are the initial conditions — the functions are identically zero outside the prescribed intervals.
 
 The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{fig_two_dirichlet_oppo_initial}; the plot of the Finite Difference approximation of the exact wave at time frame $t=6$ is shown in Figure \ref{fig_two_dirichlet_oppo_FD}; the plot of Numerov's approximation of the exact wave at time frame $t=38$ is shown in Figure \ref{fig_two_dirichlet_oppo_Numerov}; the plot of the Chebyshev Differentiation Matrix approximation of the exact wave at time frame $t=472 \, 496$ is shown in Figure \ref{fig_two_dirichlet_oppo_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of the exact wave at time frame $t=472 \, 496$ is shown in Figure \ref{fig_two_dirichlet_oppo_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of the exact wave at time frame $t=472 \, 496$ is shown in Figure \ref{fig_two_dirichlet_oppo_LGCC}; and lastly, the plot of the Discrete Sine Transform approximation of the exact wave at time frame $t=472 \, 496$ is shown in Figure \ref{fig_two_dirichlet_oppo_DST}.
 
@@ -1776,7 +1821,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \section{Conclusion from the semi-discrete simulations of classical wave equation}
 \noindent
-A series of simulations has been conducted to analyze the evolution of waves in the form of equation \ref{eq_wave_general} under the influence of the classical wave equation \ref{eq_wave}. We have employed all of our approximation methods.
+A series of simulations has been conducted to analyze the evolution of waves in the form of equation \eqref{eq_wave_general} under the influence of the classical wave equation \eqref{eq_wave}. We have employed all of our approximation methods.
 
 It has been observed that the Discrete Fourier Transform (DFT) is most accurate for periodic boundary problems and that the Discrete Sine Transform (DST) is most accurate for Dirichlet boundary problems.
 
@@ -1806,7 +1851,7 @@ The classical Newtonian description of the system in Figure \ref{fig_metamateria
         & m_2^{(j)} \dfrac{d^2 u_2^{(j)}}{d t^2} +  k_2 \left( u_2^{(j)} - u_1^{(j)}  \right) = 0 \, ,
     \end{align}
 \end{subequations}
-for $j = 1, \dots,N$. The rate-type equations are derived from \ref{eq_newton_metamaterial} and their formulation is
+for $j = 1, \dots,N$. The rate-type equations are derived from \eqref{eq_newton_metamaterial} and their formulation is
 \begin{subequations}\label{eq_rate_type}
     \begin{align}
     & m_1^{(j)} \frac{d^2 u_1^{(j)}}{dt^2} - \sigma^{(j)} = 0 \, , 
@@ -1833,7 +1878,7 @@ where, for the sake of simplicity, we omit the index in $u_1$ and set $u$. This 
         \end{aligned}
     \end{align}
 \end{subequations}
-The derivation of the rate-type model \ref{eq_rate_type} from the initial Newtonian description \ref{eq_newton_metamaterial} is done precisely in the paper \cite{cichra}. 
+The derivation of the rate-type model \eqref{eq_rate_type} from the initial Newtonian description \eqref{eq_newton_metamaterial} is done precisely in the paper \cite{cichra}. 
 
 Next, we can rewrite the equations in the form
 \begin{subequations}\label{eq_meta_derivation}
@@ -1851,7 +1896,7 @@ And if we define a new function $a(x,t)$ through the following relation
     \sigma(x,t) \equiv a(x,t) + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2}  \, ,
     \end{align}
 \end{subequations}
-which can be substituted in \ref{eq_meta_derivation}, we obtain the following equations
+which can be substituted in \eqref{eq_meta_derivation}, we obtain the following equations
 \begin{subequations}\label{eq_continuous_meta}
     \begin{align}
         & \dfrac{\partial^2 u(x,t)}{\partial t^2} = \dfrac{k_1 L^2}{m_1}\dfrac{\partial^2 u(x,t)}{\partial x^2} + \dfrac{1}{m_1}a(x,t) \, , \\[5pt]
@@ -1859,7 +1904,7 @@ which can be substituted in \ref{eq_meta_derivation}, we obtain the following eq
     \end{align}
 \end{subequations}
 
-Now, we discretize \ref{eq_continuous_meta} by denoting the vectors
+Now, we discretize \eqref{eq_continuous_meta} by denoting the vectors
 \begin{align}\label{}
     \mathbf{u}(t) =
     \begin{pmatrix}
@@ -1876,14 +1921,14 @@ Now, we discretize \ref{eq_continuous_meta} by denoting the vectors
         \sigma^{(N)}(t)
     \end{pmatrix} \, ,
 \end{align}
-where the components of the node values vector $\mathbf{u}(t)$ are denoted by $u^{(j)}(t)=u(x_j,t)$, with $x_j=jL$ for $j=1, \dots ,N$ and analogously for the vector $\boldsymbol{\sigma}(t)$.\cite{tozzi} Let $\mathbb{D}$ be our differentiation matrix, which approximates the continuous second derivative operator. And lastly, define the discrete counterpart of relations \ref{a_def} by
+where the components of the node values vector $\mathbf{u}(t)$ are denoted by $u^{(j)}(t)=u(x_j,t)$, with $x_j=jL$ for $j=1, \dots ,N$ and analogously for the vector $\boldsymbol{\sigma}(t)$.\cite{tozzi} Let $\mathbb{D}$ be our differentiation matrix, which approximates the continuous second derivative operator. And lastly, define the discrete counterpart of relations \eqref{a_def} by
 \begin{subequations}
     \begin{align}
     \mathbf{a}(t) \equiv \boldsymbol{\sigma}(t) - k_1 L^2 \mathbb{D}\mathbf{u}(t) \, , \\[5pt]
     \boldsymbol{ \sigma }(t) \equiv \boldsymbol{a}(t) + k_1 L^2 \mathbb{D}\mathbf{u}(t) \, .
     \end{align}
 \end{subequations}
-This allows us to rewrite the continuous equations \ref{eq_continuous_meta} as a semi-discrete system of ordinary differential equations for the unknown vectors $\mathbf{u}(t)$ and $\mathbf{a}(t)$. So, we have
+This allows us to rewrite the continuous equations \eqref{eq_continuous_meta} as a semi-discrete system of ordinary differential equations for the unknown vectors $\mathbf{u}(t)$ and $\mathbf{a}(t)$. So, we have
 \begin{subequations}\label{eq_meta_step}
     \begin{align}
        & \dfrac{d^2 \mathbf{u}(t)}{dt^2} = \dfrac{k_1 L^2}{m_1}\mathbb{D}\mathbf{u}(t) + \dfrac{1}{m _1} \mathbf{a}(t) \, ,\\[5pt]
@@ -1899,7 +1944,7 @@ If we define the matrix $\mathbb{M}$ as
     - \dfrac{k_2 k_1 L^2}{m_1}\mathbb{D} & -k_2 \left(\dfrac{1}{m_1} + \dfrac{1}{m_2} \right) \mathbb{I}  \\
 \end{bmatrix} \, ,
 \end{equation}
-where $\mathbb{M} \in \mathbb{R}^{2N \times 2N}$, we can rewrite the system \ref{eq_meta_step} in the following form
+where $\mathbb{M} \in \mathbb{R}^{2N \times 2N}$, we can rewrite the system \eqref{eq_meta_step} in the following form
 \begin{equation}
     \dfrac{d^2}{dt^2}
     \begin{bmatrix}
@@ -1917,7 +1962,11 @@ In the following simulations, we use the identical exact time integration proced
 \begin{equation}
 \mathbb{M} \mathbb{V} = \Lambda \mathbb{V} \, ,
 \end{equation}
-where the columns of $\mathbb{V}$ are the eigenvectors (spatial modes), the matrix $\Lambda = \texttt{diag}(\lambda_1, \dots, \lambda_N)$, and the angular frequencies are determined by $\omega_k = \sqrt{-\lambda_k}$. Projecting the initial conditions onto the eigenbasis yields the modal coefficients. The solution at any time $t$ is then given by the exact superposition
+where the columns of $\mathbb{V}$ are the eigenvectors (spatial modes), the matrix
+\begin{equation}
+    \Lambda = \texttt{diag} \left(\lambda_1, \dots, \lambda_N \right) \, ,
+\end{equation}
+and the angular frequencies are determined by $\omega_k = \sqrt{-\lambda_k}$. Projecting the initial conditions onto the eigenbasis yields the modal coefficients. The solution at any time $t$ is then given by the exact superposition
 \begin{equation}
 \begin{bmatrix}
 \mathbf{u}(t) \\[5pt]
@@ -1954,7 +2003,7 @@ Simulations will be done by implementing Finite Differences, Numerov's method, a
 
 \subsection{One wave}
 \noindent
-First, let's look at the simulation of one sine wave in the form \ref{one_wave}. The problem is
+First, let's look at the simulation of one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \quad x \in \left[- \frac{I}{2}, \, \frac{I}{2} \right] \, , \quad t \geq 0 \, , \label{one_periodic_meta_1} \\[5pt]
@@ -1971,7 +2020,7 @@ First, let's look at the simulation of one sine wave in the form \ref{one_wave}.
         & a_t(x,0) = 0 \, . \label{one_periodic_meta_9}
     \end{align}
 \end{subequations}
-In \ref{one_periodic_meta_1} and \ref{one_periodic_meta_2} are the evolution equations; in \ref{one_periodic_meta_3} are the boundary conditions; in \ref{one_periodic_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \ref{one_periodic_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \ref{one_periodic_meta_10} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \ref{one_periodic_meta_6}, \ref{one_periodic_meta_7}, \ref{one_periodic_meta_8} and \ref{one_periodic_meta_9} are the initial conditions for $u(x,t)$ and $a(x,t)$.
+In \eqref{one_periodic_meta_1} and \eqref{one_periodic_meta_2} are the evolution equations; in \eqref{one_periodic_meta_3} are the boundary conditions; in \eqref{one_periodic_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \eqref{one_periodic_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \eqref{one_periodic_meta_10} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \eqref{one_periodic_meta_6}, \eqref{one_periodic_meta_7}, \eqref{one_periodic_meta_8} and \eqref{one_periodic_meta_9} are the initial conditions for $u(x,t)$ and $a(x,t)$.
 
 The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{fig_one_periodic_meta_initial}; the plot of the Finite Difference approximation of the exact wave at time frame $t=314$ is shown in Figure \ref{fig_one_periodic_meta_FD}; the plot of Numerov's approximation of the exact wave at time frame $t=125 \, 000$ is shown in Figure \ref{fig_one_periodic_meta_Numerov}; and lastly, the plot of the Discrete Fourier Transform approximation of the exact wave at time frame $t=500 \, 000$ is shown in Figure \ref{fig_one_periodic_meta_dft}.
 
@@ -2007,7 +2056,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \subsection{Superposition of waves - same direction}
 \noindent
-Next, let's look at the superposition of two sine waves that propagate in the same direction \ref{two_waves_same}. The problem is
+Next, let's look at the superposition of two sine waves that propagate in the same direction \eqref{two_waves_same}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \quad x \in \left[- \frac{I}{2}, \, \frac{I}{2} \right] \, , \quad t \geq 0 \, , \label{two_same_periodic_meta_1} \\[5pt]
@@ -2024,7 +2073,7 @@ Next, let's look at the superposition of two sine waves that propagate in the sa
         & a_t(x,0) = 0 \, \label{two_same_periodic_meta_9} .
     \end{align}
 \end{subequations}
-In \ref{two_same_periodic_meta_1} and \ref{two_same_periodic_meta_2} are the evolution equations; in \ref{two_same_periodic_meta_3} are the boundary conditions; in \ref{two_same_periodic_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \ref{two_same_periodic_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \ref{two_same_periodic_meta_10} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \ref{two_same_periodic_meta_6}, \ref{two_same_periodic_meta_7}, \ref{two_same_periodic_meta_8} and \ref{two_same_periodic_meta_9} are the initial conditions for $u(x,t)$ and $a(x,t)$.
+In \eqref{two_same_periodic_meta_1} and \eqref{two_same_periodic_meta_2} are the evolution equations; in \eqref{two_same_periodic_meta_3} are the boundary conditions; in \eqref{two_same_periodic_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \eqref{two_same_periodic_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \eqref{two_same_periodic_meta_10} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \eqref{two_same_periodic_meta_6}, \eqref{two_same_periodic_meta_7}, \eqref{two_same_periodic_meta_8} and \eqref{two_same_periodic_meta_9} are the initial conditions for $u(x,t)$ and $a(x,t)$.
 
 The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{fig_two_periodic_same_meta_initial}; the plot of the Finite Difference approximation of the exact wave at time frame $t=18$ is shown in Figure \ref{fig_two_periodic_same_meta_FD}; the plot of Numerov's approximation of the exact wave at time frame $t=2 \, 500$ is shown in Figure \ref{fig_two_periodic_same_meta_Num}; and lastly, the plot of the Discrete Fourier Transform approximation of the exact wave at time frame $t=500 \, 000$ is shown in Figure \ref{fig_two_periodic_same_meta_DFT}.
 
@@ -2059,7 +2108,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \subsection{Superposition of waves - opposite direction}
 \noindent
-Finally, let's look at the superposition of two sine waves that propagate in opposite directions \ref{two_waves_oppo}. The problem is
+Finally, let's look at the superposition of two sine waves that propagate in opposite directions \eqref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \quad x \in \left[- \frac{I}{2}, \, \frac{I}{2} \right] \, , \quad t \geq 0 \, , \label{two_oppo_periodic_meta_1} \\[5pt]
@@ -2076,7 +2125,7 @@ Finally, let's look at the superposition of two sine waves that propagate in opp
         & a_t(x,0) = 0 \, . \label{two_oppo_periodic_meta_9}
     \end{align}
 \end{subequations}
-In \ref{two_oppo_periodic_meta_1} and \ref{two_oppo_periodic_meta_2} are the evolution equations; in \ref{two_oppo_periodic_meta_3} are the boundary conditions; in \ref{two_oppo_periodic_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \ref{two_oppo_periodic_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \ref{two_oppo_periodic_meta_10} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \ref{two_oppo_periodic_meta_6}, \ref{two_oppo_periodic_meta_7}, \ref{two_oppo_periodic_meta_8} and \ref{two_oppo_periodic_meta_9} are the initial conditions for $u(x,t)$ and $a(x,t)$.
+In \eqref{two_oppo_periodic_meta_1} and \eqref{two_oppo_periodic_meta_2} are the evolution equations; in \eqref{two_oppo_periodic_meta_3} are the boundary conditions; in \eqref{two_oppo_periodic_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \eqref{two_oppo_periodic_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \eqref{two_oppo_periodic_meta_10} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \eqref{two_oppo_periodic_meta_6}, \eqref{two_oppo_periodic_meta_7}, \eqref{two_oppo_periodic_meta_8} and \eqref{two_oppo_periodic_meta_9} are the initial conditions for $u(x,t)$ and $a(x,t)$.
 
 The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{fig_two_periodic_oppo_meta_initial}; the plot of the Finite Difference approximation of the exact wave at time frame $t=30$ is shown in Figure \ref{fig_two_periodic_oppo_meta_FD}; the plot of Numerov's approximation of the exact wave at time frame $t=3 \, 491$ is shown in Figure \ref{fig_two_periodic_oppo_meta_Num}; and lastly, the plot of the Discrete Fourier Transform approximation of the exact wave at time frame $t=500 \, 006$ is shown in Figure \ref{fig_two_periodic_oppo_meta_DFT}.
 
@@ -2124,7 +2173,7 @@ Since all of our methods are suitable for Dirichlet boundary conditions, we will
 
 \subsection{One wave}
 \noindent
-First, let's look at the simulation of one sine wave in the form \ref{one_wave}. The problem is
+First, let's look at the simulation of one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \quad x \in \left[0, \, I \right] \, , \quad t \geq 0 \, , \label{one_dirichlet_meta_1} \\[5pt]
@@ -2141,7 +2190,7 @@ First, let's look at the simulation of one sine wave in the form \ref{one_wave}.
         & a_t(x,0) = 0 \, . \label{one_dirichlet_meta_9}
     \end{align}
 \end{subequations}
-In \ref{one_dirichlet_meta_1} and \ref{one_dirichlet_meta_2} are the evolution equations; in \ref{one_dirichlet_meta_3} are the boundary conditions; in \ref{one_dirichlet_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \ref{one_dirichlet_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \ref{one_dirichlet_meta_10} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \ref{one_dirichlet_meta_6}, \ref{one_dirichlet_meta_7}, \ref{one_dirichlet_meta_8} and \ref{one_dirichlet_meta_9} are the initial conditions for $u(x,t)$ and $a(x,t)$ — the functions are identically zero outside the prescribed intervals.
+In \eqref{one_dirichlet_meta_1} and \eqref{one_dirichlet_meta_2} are the evolution equations; in \eqref{one_dirichlet_meta_3} are the boundary conditions; in \eqref{one_dirichlet_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \eqref{one_dirichlet_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \eqref{one_dirichlet_meta_10} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \eqref{one_dirichlet_meta_6}, \eqref{one_dirichlet_meta_7}, \eqref{one_dirichlet_meta_8} and \eqref{one_dirichlet_meta_9} are the initial conditions for $u(x,t)$ and $a(x,t)$ — the functions are identically zero outside the prescribed intervals.
 
 The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{fig_one_dirichlet_meta_initial}; the plot of the Finite Difference approximation of the exact wave at time frame $t=3$ is shown in Figure \ref{fig_one_dirichlet_meta_FD}; the plot of Numerov's approximation of the exact wave at time frame $t=13$ is shown in Figure \ref{fig_one_dirichlet_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of the exact wave at time frame $t=5 \, 000 \, 000$ is shown in Figure \ref{fig_one_dirichlet_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of the exact wave at time frame $t=5 \, 000 \, 000$ is shown in Figure \ref{fig_one_dirichlet_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of the exact wave at time frame $t=5 \, 000 \, 000$ is shown in Figure \ref{fig_one_dirichlet_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of the exact wave at time frame $t=5 \, 000 \, 000$ is shown in Figure \ref{fig_one_dirichlet_meta_dst}.
 
@@ -2196,7 +2245,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \subsection{Superposition of waves - same direction}
 \noindent
-Next, let's look at the superposition of two sine waves that propagate in the same direction \ref{two_waves_same}. The problem is
+Next, let's look at the superposition of two sine waves that propagate in the same direction \eqref{two_waves_same}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \quad x \in \left[0, \, I \right] \, , \quad t \geq 0 \, , \label{two_same_dirichlet_meta_1} \\[5pt]
@@ -2213,7 +2262,7 @@ Next, let's look at the superposition of two sine waves that propagate in the sa
         & a_t(x,0) = 0 \, . \label{two_same_dirichlet_meta_9}
     \end{align}
 \end{subequations}
-In \ref{two_same_dirichlet_meta_1} and \ref{two_same_dirichlet_meta_2} are the evolution equations; in \ref{two_same_dirichlet_meta_3} are the boundary conditions; in \ref{two_same_dirichlet_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \ref{two_same_dirichlet_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \ref{two_same_dirichlet_meta_10} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \ref{two_same_dirichlet_meta_6}, \ref{two_same_dirichlet_meta_7}, \ref{two_same_dirichlet_meta_8} and \ref{two_same_dirichlet_meta_9} are the initial conditions for $u(x,t)$ and $a(x,t)$ — the functions are identically zero outside the prescribed intervals.
+In \eqref{two_same_dirichlet_meta_1} and \eqref{two_same_dirichlet_meta_2} are the evolution equations; in \eqref{two_same_dirichlet_meta_3} are the boundary conditions; in \eqref{two_same_dirichlet_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \eqref{two_same_dirichlet_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \eqref{two_same_dirichlet_meta_10} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \eqref{two_same_dirichlet_meta_6}, \eqref{two_same_dirichlet_meta_7}, \eqref{two_same_dirichlet_meta_8} and \eqref{two_same_dirichlet_meta_9} are the initial conditions for $u(x,t)$ and $a(x,t)$ — the functions are identically zero outside the prescribed intervals.
 
 The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{fig_two_dirichlet_meta_initial}; the plot of the Finite Difference approximation of the exact wave at time frame $t=10$ is shown in Figure \ref{fig_two_dirichlet_meta_FD}; the plot of Numerov's approximation of the exact wave at time frame $t=100$ is shown in Figure \ref{fig_two_dirichlet_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of the exact wave at time frame $t=500 \, 000$ is shown in Figure \ref{fig_two_dirichlet_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of the exact wave at time frame $t=500 \, 000$ is shown in Figure \ref{fig_two_dirichlet_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of the exact wave at time frame $t=500 \, 000$ is shown in Figure \ref{fig_two_dirichlet_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of the exact wave at time frame $t=500 \, 000$ is shown in Figure \ref{fig_two_dirichlet_meta_dst}.
 
@@ -2268,7 +2317,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \subsection{Superposition of waves - opposite direction}
 \noindent
-Finally, let's look at the superposition of two sine waves that propagate in opposite directions \ref{two_waves_oppo}. The problem is
+Finally, let's look at the superposition of two sine waves that propagate in opposite directions \eqref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \quad x \in \left[0, \, I \right] \, , \quad t \geq 0 \, ,\label{two_oppo_dirichlet_meta_1} \\[5pt]
@@ -2287,7 +2336,7 @@ Finally, let's look at the superposition of two sine waves that propagate in opp
         & a_t(x,0) = 0 \, . \label{two_oppo_dirichlet_meta_11}
     \end{align}
 \end{subequations}
-In \ref{two_oppo_dirichlet_meta_1} and \ref{two_oppo_dirichlet_meta_2} are the evolution equations; in \ref{two_oppo_dirichlet_meta_3} are the boundary conditions; in \ref{two_oppo_dirichlet_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \ref{two_oppo_dirichlet_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \ref{two_oppo_dirichlet_meta_12} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \ref{two_oppo_dirichlet_meta_6}, \ref{two_oppo_dirichlet_meta_7}, \ref{two_oppo_dirichlet_meta_8}, \ref{two_oppo_dirichlet_meta_9}, \ref{two_oppo_dirichlet_meta_10} and \ref{two_oppo_dirichlet_meta_11} are the initial conditions for $u(x,t)$ and $a(x,t)$ — the functions are identically zero outside the prescribed intervals.
+In \eqref{two_oppo_dirichlet_meta_1} and \eqref{two_oppo_dirichlet_meta_2} are the evolution equations; in \eqref{two_oppo_dirichlet_meta_3} are the boundary conditions; in \eqref{two_oppo_dirichlet_meta_4} are the length of the interval $I$, the number of grid points $N$ in the interval, and the spacing between two grid points $L$; in \eqref{two_oppo_dirichlet_meta_5} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \eqref{two_oppo_dirichlet_meta_12} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \eqref{two_oppo_dirichlet_meta_6}, \eqref{two_oppo_dirichlet_meta_7}, \eqref{two_oppo_dirichlet_meta_8}, \eqref{two_oppo_dirichlet_meta_9}, \eqref{two_oppo_dirichlet_meta_10} and \eqref{two_oppo_dirichlet_meta_11} are the initial conditions for $u(x,t)$ and $a(x,t)$ — the functions are identically zero outside the prescribed intervals.
 
 The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{fig_two_dirichlet_oppo_meta_initial}; the plot of the Finite Difference approximation of the exact wave at time frame $t=2$ is shown in Figure \ref{fig_two_dirichlet_oppo_meta_FD}; the plot of Numerov's approximation of the exact wave at time frame $t=10$ is shown in Figure \ref{fig_two_dirichlet_oppo_meta_Num}; the plot of the Chebyshev Differentiation Matrix approximation of the exact wave at time frame $t=500 \, 000$ is shown in Figure \ref{fig_two_dirichlet_oppo_meta_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of the exact wave at time frame $t=500 \, 000$ is shown in Figure \ref{fig_two_dirichlet_oppo_meta_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of the exact wave at time frame $t=500 \, 000$ is shown in Figure \ref{fig_two_dirichlet_oppo_meta_lgcc}; and lastly, the plot of the Discrete Sine Transform approximation of the exact wave at time frame $t=500 \, 000$ is shown in Figure \ref{fig_two_dirichlet_oppo_meta_dst}.
 
@@ -2365,7 +2414,7 @@ The metamaterial consisting of the lattice structure depicted in Figure \ref{fig
         \end{aligned}
     \end{align}
 \end{subequations}
-If we substitute $m_2 = 0$ into \ref{continuous_meta}, we get the equations
+If we substitute $m_2 = 0$ into \eqref{continuous_meta}, we get the equations
 \begin{subequations}\label{}
     \begin{align}
         & m_1 \dfrac{\partial^2 u(x,t)}{\partial t^2} - \sigma(x,t)  = 0 \, , \\[5pt]
@@ -2400,7 +2449,7 @@ where $I$ is the length of our interval.
 
 \subsection{One wave}
 \noindent
-We will conduct a simulation of one sine wave in the form \ref{one_wave}. The problem is
+We will conduct a simulation of one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, \, I] \, , \quad t \geq 0 \, , \label{eq_mix_one_periodic_1} \\[5pt]
@@ -2418,7 +2467,7 @@ We will conduct a simulation of one sine wave in the form \ref{one_wave}. The pr
         & a_t(x,0) = 0 \, . \label{eq_mix_one_periodic_11}
     \end{align}
 \end{subequations}
-In \ref{eq_mix_one_periodic_1} is the classical wave equation; in \ref{eq_mix_one_periodic_2} and \ref{eq_mix_one_periodic_3} are the rate-type metamaterial equations; in \ref{eq_mix_one_periodic_4} are the boundary conditions; in \ref{eq_mix_one_periodic_5} are the length of the interval $I$, the number of grid points $N$ in the interval, the spacing between two grid points $L$, and the value of the parameter $c$; in \ref{eq_mix_one_periodic_6} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \ref{eq_mix_one_periodic_7} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \ref{eq_mix_one_periodic_8}, \ref{eq_mix_one_periodic_9}, \ref{eq_mix_one_periodic_10} and \ref{eq_mix_one_periodic_11} are the initial conditions for $u(x,t)$ and $a(x,t)$.
+In \eqref{eq_mix_one_periodic_1} is the classical wave equation; in \eqref{eq_mix_one_periodic_2} and \eqref{eq_mix_one_periodic_3} are the rate-type metamaterial equations; in \eqref{eq_mix_one_periodic_4} are the boundary conditions; in \eqref{eq_mix_one_periodic_5} are the length of the interval $I$, the number of grid points $N$ in the interval, the spacing between two grid points $L$, and the value of the parameter $c$; in \eqref{eq_mix_one_periodic_6} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \eqref{eq_mix_one_periodic_7} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \eqref{eq_mix_one_periodic_8}, \eqref{eq_mix_one_periodic_9}, \eqref{eq_mix_one_periodic_10} and \eqref{eq_mix_one_periodic_11} are the initial conditions for $u(x,t)$ and $a(x,t)$.
 
 Figure \ref{fig_comparison_periodic_1} shows a plot of the initial wave. Figure \ref{fig_comparison_periodic_2} plots the propagation of the initial wave with the parameter $m_2 = 10^{-1}$ at the time frame $t=2$. As can be seen, the waves are already separated after such a short time.
 
@@ -2476,7 +2525,7 @@ where $I$ is the length of our interval.
 
 \subsection{One wave}
 \noindent
-We will conduct a simulation of one sine wave in the form \ref{one_wave}. The problem is
+We will conduct a simulation of one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, \, I] \, , \quad t \geq 0 \, , \label{eq_mix_one_dirichlet_1} \\[5pt]
@@ -2494,7 +2543,7 @@ We will conduct a simulation of one sine wave in the form \ref{one_wave}. The pr
         & a_t(x,0) = 0 \, . \label{eq_mix_one_dirichlet_11}
     \end{align}
 \end{subequations}
-In \ref{eq_mix_one_dirichlet_1} is the classical wave equation; in \ref{eq_mix_one_dirichlet_2} and \ref{eq_mix_one_dirichlet_3} are the rate-type metamaterial equations; in \ref{eq_mix_one_dirichlet_4} are the boundary conditions; in \ref{eq_mix_one_dirichlet_5} are the length of the interval $I$, the number of grid points $N$ in the interval, the spacing between two grid points $L$, and the value of the parameter $c$; in \ref{eq_mix_one_dirichlet_6} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \ref{eq_mix_one_dirichlet_7} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \ref{eq_mix_one_dirichlet_8}, \ref{eq_mix_one_dirichlet_9}, \ref{eq_mix_one_dirichlet_10} and \ref{eq_mix_one_dirichlet_11} are the initial conditions for $u(x,t)$ and $a(x,t)$.
+In \eqref{eq_mix_one_dirichlet_1} is the classical wave equation; in \eqref{eq_mix_one_dirichlet_2} and \eqref{eq_mix_one_dirichlet_3} are the rate-type metamaterial equations; in \eqref{eq_mix_one_dirichlet_4} are the boundary conditions; in \eqref{eq_mix_one_dirichlet_5} are the length of the interval $I$, the number of grid points $N$ in the interval, the spacing between two grid points $L$, and the value of the parameter $c$; in \eqref{eq_mix_one_dirichlet_6} are the values of parameters $k_1$, $k_2$, $m_1$, and $m_2$; in \eqref{eq_mix_one_dirichlet_7} is the relation between $\sigma(x,t)$ and $a(x,t)$; and lastly, in \eqref{eq_mix_one_dirichlet_8}, \eqref{eq_mix_one_dirichlet_9}, \eqref{eq_mix_one_dirichlet_10} and \eqref{eq_mix_one_dirichlet_11} are the initial conditions for $u(x,t)$ and $a(x,t)$.
 
 Figure \ref{fig_comparison_dirichlet_1} shows a plot of the initial wave. Figure \ref{fig_comparison_dirichlet_2} plots the propagation of the initial wave with the parameter $m_2 = 10^{-1}$ at the time frame $t=3$. As can be seen, the waves are already separated after such a short time.
 
