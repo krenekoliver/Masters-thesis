@@ -1821,11 +1821,12 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \section{Conclusion from the semi-discrete simulations of classical wave equation}
 \noindent
-A series of simulations has been conducted to analyze the evolution of waves in the form of equation \eqref{eq_wave_general} under the influence of the classical wave equation \eqref{eq_wave}. We have employed all of our approximation methods.
+A series of numerical simulations has been performed to investigate the propagation of waves \eqref{eq_wave_general} governed by the classical wave equation \eqref{eq_wave}. All spatial discretization methods developed or considered in this work were employed and mutually compared.
 
-It has been observed that the Discrete Fourier Transform (DFT) is most accurate for periodic boundary problems and that the Discrete Sine Transform (DST) is most accurate for Dirichlet boundary problems.
+To highlight the differences in accuracy between the individual methods, it is essential to use a relatively small number of grid points $N$. When $N$ is chosen sufficiently large, all high-order methods converge to very similar (and highly accurate) results, making their relative performance difficult to distinguish. The true advantage of the Discrete Sine Transform (DST) becomes clearly visible precisely in the regime of small $N$, where DST already delivers highly accurate eigenvalues and eigenfunctions, while the other methods still exhibit noticeable errors.
 
-A comparison of the remaining methods reveals that the Finite Difference method is the least accurate. The next least accurate method is Numerov's method. Methods that are significantly more accurate than these two methods but less accurate than the Discrete Sine Transform include the Chebyshev Differentiation Matrix, the Mapped Barycentric Chebyshev Differentiation Matrix, and the Legendre--Galerkin--Chebyshev Collocation method.
+The numerical experiments confirm that the Discrete Fourier Transform (DFT) provides the highest accuracy for problems with periodic boundary conditions. For Dirichlet boundary conditions, the Discrete Sine Transform (DST) clearly outperforms all other methods. Among the remaining techniques, the standard Finite Difference method is the least accurate, followed by Numerov's method. The Chebyshev Differentiation Matrix (CDM), the Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM), and the Legendre--Galerkin--Chebyshev Collocation (LGCC) method achieve significantly better accuracy than the two lowest-order approaches, yet they remain visibly less accurate than the DST, especially on coarse grids (small $N$).
+
 
 
 
@@ -2391,11 +2392,15 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \section{Conclusion from the semi-discrete simulations of rate-type equations for metamaterials}
 \noindent
-In this chapter, an analysis of the same style as in the previous chapter has been conducted. With the exception that we used the rate-type governing equations. The results indicate that, in the case of simulations with periodic boundary conditions, the Discrete Fourier Transform is the optimal solution. It is evident that Numerov's method has been ranked second, while Finite Differences have been placed third.
+In this chapter, a numerical analysis analogous to the one presented in the previous chapter has been performed, this time using the rate-type governing equations.
 
-In the context of Dirichlet boundary conditions, it has been observed that the most effective approach is the Discrete Sine Transform. It is evident that the approaches of the Chebyshev Differentiation Matrix, Mapped Barycentric Chebyshev Differentiation Matrix, and Legendre–-Galerkin–-Chebyshev Collocation method bear a strong resemblance to DST, albeit with slightly reduced precision. It is evident that the most ineffective methods are Numerov's and Finite Differences.
+As in the previous chapter, a relatively small number of grid points $N$ was deliberately chosen in order to clearly distinguish the performance of the different discretization methods. For large $N$ the differences between the high-order methods become negligible, as already discussed.
 
-The outcomes are analogous to those presented in the preceding chapter, with the Discrete Fourier Transform and the Discrete Sine Transform demonstrating superior performance.
+The results confirm that, for problems with periodic boundary conditions, the Discrete Fourier Transform (DFT) provides the best performance. Numerov's method ranks second, followed by the Finite Difference method.
+
+In the case of Dirichlet boundary conditions, the Discrete Sine Transform (DST) again proves to be the most accurate approach. The Chebyshev Differentiation Matrix (CDM), Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM), and Legendre--Galerkin--Chebyshev Collocation (LGCC) method achieve accuracy close to that of the DST, albeit slightly lower. As before, Numerov's method and the standard Finite Difference method remain the least accurate.
+
+Overall, the outcomes are consistent with those observed in the previous chapter, with the DFT and DST clearly outperforming the other methods.
 
 
 
