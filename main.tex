@@ -96,9 +96,9 @@
 \def\Podekovani{I would like to express my sincere gratitude to my supervisor, doc. Mgr. Vít Průša, Ph.D., for giving me the opportunity to write my thesis under his expert guidance. I highly appreciate his patience, thoroughness, and the continuous support he provided throughout the process of improving this work.
 I would also like to thank my family for their unwavering support and encouragement during my studies.}
 \def\AbstraktEN{%
-This thesis investigates high-order discretization methods for the second derivative operator under different boundary conditions. The compared methods include classical Finite Differences, Numerov's method, Discrete Fourier Transform (DFT), Discrete Sine Transform (DST), and several Chebyshev-based spectral approaches. 
+This thesis investigates various discretization methods for the second derivative operator under different boundary conditions. The compared methods include classical Finite Differences, Numerov's method, Discrete Fourier Transform (DFT), Discrete Sine Transform (DST), and several Chebyshev-based spectral approaches. 
 Performance is evaluated on two Sturm--Liouville eigenvalue problems (Paine and Coffey--Evans equations) and on wave propagation simulations, including a rate-type constitutive model of a mass-in-mass metamaterial. Special attention is given to the limiting behaviour of the metamaterial model as the internal mass parameter approaches zero.
-Numerical results show that spectral methods based on DFT and DST consistently provide the highest accuracy and efficiency.
+Numerical results show that spectral methods based on DFT and DST consistently provide the highest accuracy and efficiency especially regarding high-index eigenvalues computation.
 }
 
 % 3 až 5 klíčových slov (doporučeno), každé uzavřeno ve složených závorkách
@@ -239,13 +239,13 @@ When solving such problems on a computer, the continuous differential operator m
 
 For problems with periodic boundary conditions, we consider the classical Finite Difference method (FD), Numerov's method (Num), and the Discrete Fourier Transform (DFT). For problems subject to homogeneous Dirichlet boundary conditions, the comparison is extended to include the Finite Difference method, Numerov's method, the Discrete Sine Transform (DST), the Chebyshev Differentiation Matrix (CDM), the Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM), and the Legendre--Galerkin--Chebyshev Collocation method (LGCC).
 
-The main objective of this work is to evaluate the performance of these methods through carefully designed numerical experiments. First, we solve two regular Sturm--Liouville eigenvalue problems — the Paine equation and the Coffey--Evans equation. Coffey--Evans is the standard benchmark problem for high-index eigenvalue computation. Next, we simulate wave propagation governed by the classical wave equation, considering both single waves and their superpositions. Finally, we perform analogous wave propagation simulations using the rate-type constitutive model describing a one-dimensional mass-in-mass metamaterial lattice.
+The main objective of this work is to evaluate the performance of these methods through carefully designed numerical experiments. First, we solve two regular Sturm--Liouville eigenvalue problems — the Paine equation and the Coffey--Evans equation (Coffey--Evans is the standard benchmark problem for high-index eigenvalue computation). Next, we simulate wave propagation governed by the classical wave equation, considering both single waves and their superpositions. Finally, we perform analogous wave propagation simulations using the rate-type constitutive model describing a one-dimensional mass-in-mass metamaterial lattice.
 
 A particular emphasis is placed on investigating the limiting behaviour of the metamaterial model. By gradually decreasing the internal mass parameter towards zero, we aim to numerically demonstrate the convergence of the rate-type system to the classical wave equation, as suggested by the theoretical analysis.
 
 Through this thesis, we aim not only to identify the most suitable discretization method for each type of boundary condition, but also to highlight the connection between Sturm--Liouville eigenvalue problems and wave propagation via the dispersion relation. In particular, we show why the Discrete Sine Transform is exceptionally well-suited for Dirichlet problems: its eigenvalues are asymptotically consistent with the analytic expansion of the continuous Sturm--Liouville operator, which in turn ensures an accurate discrete dispersion relation even on relatively coarse grids.
 
-The thesis is organized as follows. Chapter 1 introduces the two regular Sturm--Liouville eigenvalue test problems and describes our discretization techniques. \hbox{Chapter 2} presents semi-discrete simulations of wave propagation governed by the classical wave equation. \hbox{Chapter 3} is devoted to semi-discrete simulations using rate-type constitutive equations for metamaterials. Finally, \hbox{Chapter 4} provides a direct comparison of wave propagation in both the classical wave equation and the rate-type metamaterial~model.
+The thesis is organized as follows. Chapter 1 introduces the two regular Sturm--Liouville eigenvalue test problems and describes our discretization techniques. \hbox{Chapter 2} presents semi-discrete simulations of wave propagation governed by the classical wave equation. Chapter 3 is devoted to semi-discrete simulations using rate-type constitutive equations for metamaterials. Finally, Chapter 4 provides a direct comparison of wave propagation in both the classical wave equation and the rate-type metamaterial~model.
 
 \chapter{Regular Sturm--Liouville eigenvalue test problems}
 \noindent
@@ -255,7 +255,7 @@ Secondly, we will describe methods that discretize these continuous problems and
 
 The discretization methods that will be introduced are: Finite Differences, Numerov's method, the Discrete Fourier Transform, the Chebyshev Differentiation Matrix, the Mapped Barycentric Chebyshev Differentiation Matrix, the Legendre--Galerkin--Chebyshev Collocation method, and the Discrete Sine Transform. 
 
-Our goal is to compare these discretization methods and determine the most effective one. For this, we need some reference values. These will be calculated using the Matslise software.
+Our goal is to compare these discretization methods and determine the most effective one with regard to high-index eigenvalue computation. Since there is no analytical expression for the eigenvalues of the Paine/Coffey--Evans problem, we will use the eigenvalues computed by the specialized Matslise software as the reference values.
 
 \section{Test problems}
 \noindent
@@ -318,11 +318,11 @@ Throughout the thesis, we will use the value of the parameter $\beta = 30$.
 
 \section{Matslise software}
 \noindent
-As we have mentioned before, to obtain accurate reference eigenvalues of our test problems, a MATLAB software named Matslise has been implemented. In this thesis, it serves as the reference solver for computing benchmark eigenvalues and validating results obtained by other numerical methods.
+As mentioned previously, we use the Matslise software \cite{matslise} to compute reference eigenvalues. In this thesis, we use it to validate results obtained by other numerical methods.
 
 Matslise is a MATLAB package for the numerical solution of regular and singular Sturm--Liouville eigenvalue problems. It belongs to the class of shooting methods: it transforms the two-point boundary value problem into an initial-value problem by guessing a trial eigenvalue $\lambda$, integrating the differential equation from one boundary to the other, and iteratively adjusting $\lambda$ until the second boundary condition is satisfied. The key innovation of Matslise is that the integration step is performed using piecewise constant perturbation methods. On each small subinterval, the potential $q(x)$ is approximated by a constant value (for which the exact analytic solution is known), and higher-order perturbation correction terms are systematically added \cite{ledoux}.
 
-This approach yields very high accuracy even for large (high-index) eigenvalues, in which we are particularly interested, with relatively few grid points. It all makes Matslise particularly efficient and robust for our test problems \cite{matslise}.
+This approach is accurate even for large (high-index) eigenvalues, in which we are particularly interested, with relatively few grid points. It all makes Matslise particularly efficient and robust for our test problems \cite{matslise}.
 
 
 
@@ -549,7 +549,7 @@ The implementation of this method is in Algorithm \ref{alg_Numerov_Paine} for th
 
 \subsection{Chebyshev Differentiation Matrix method}
 \noindent
-The Chebyshev Differentiation Matrix method (CDM) is a high-order spectral collocation technique that approximates the derivatives of a function at specific collocation points using global polynomial interpolation. It will be implemented using the MATLAB \textit{Chebfun} package, utilizing the \texttt{chebpts} and \texttt{diffmat} functions.
+The Chebyshev Differentiation Matrix method (CDM) is a spectral collocation technique that approximates the derivatives of a function at specific collocation points using global polynomial interpolation. It will be implemented using the MATLAB \textit{Chebfun}\footnote{\url{https://www.chebfun.org}} package, utilizing the \texttt{chebpts} and \texttt{diffmat} functions.
 
 Using this method, we first generate the Chebyshev points of the second kind via \texttt{chebpts} on the interval $[-1,  \, 1]$. Then, we assemble the second-order differentiation matrix $\mathbb{D}_{\text{full}}$ via the \texttt{diffmat}.
 
@@ -615,7 +615,7 @@ The implementation of this method can be seen in Algorithms \ref{alg_5} for Pain
 
 \subsection{Mapped Barycentric Chebyshev Differentiation Matrix method}
 \noindent
-The Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM) is a high-order spectral collocation method based on Chebyshev points. Its core strength lies in the construction of an accurate dense differentiation matrix for the second derivative.
+The Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM) is a spectral collocation method based on Chebyshev points. Its core strength lies in the construction of an accurate dense differentiation matrix for the second derivative.
 
 This approximation property makes the MBCDM particularly effective for the discretization of second-order differential operators and, consequently, an outstanding tool for solving the Sturm--Liouville eigenvalue problems with homogeneous Dirichlet boundary conditions.
 
@@ -716,7 +716,7 @@ The implementation of this method is in Algorithm \ref{alg_MBCDM_Paine} for the 
 
 \subsection{Legendre--Galerkin--Chebyshev Collocation method}
 \noindent
-The Legendre--Galerkin--Chebyshev Collocation (LGCC) method is a high-order hybrid spectral technique that combines Legendre--Galerkin projection with Chebyshev Collocation.
+The Legendre--Galerkin--Chebyshev Collocation (LGCC) method is a hybrid spectral technique that combines Legendre--Galerkin projection with Chebyshev Collocation.
 
 It can be used to assemble an accurate differentiation matrix for the second derivative operator on Chebyshev points. This approximation property makes LGCC very effective for discretizing second-order differential operators and, consequently, an excellent tool for solving Sturm--Liouville eigenvalue problems with homogeneous Dirichlet boundary conditions.
 
@@ -749,7 +749,7 @@ where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^\top$ is t
     \lambda_k = \dfrac{4}{\pi^2} \mu_k \, .
 \end{equation}
 
-The method achieves high accuracy for smooth potentials, thanks to the spectral convergence of the Legendre and Chebyshev expansions, while the special choice of basis ensures the exact enforcement of the Dirichlet boundary conditions \cite{legendre_galerkin}.
+This method is accurate for smooth potentials, thanks to the spectral convergence of the Legendre and Chebyshev expansions, while the special choice of basis ensures the exact enforcement of the Dirichlet boundary conditions \cite{legendre_galerkin}.
 
 The implementation of this method is in Algorithm \ref{alg_LGCC_Paine} for the Paine equation and in Algorithm \ref{alg_LGCC_CE} for the Coffey--Evans equation.
 
@@ -1181,9 +1181,11 @@ CPU & 1.3 & 0.4 & 1.5 & 32.4 & 226.4 \\
 \noindent
 As shown in the numerical results above, the Discrete Sine Transform (DST) clearly outperforms all other methods in computing the eigenvalues of the Paine and Coffey--Evans equations. It provides the highest accuracy while remaining among the fastest approaches.
 
-A key advantage of the DST is its spectral accuracy, which manifests itself especially on coarse grids: even for relatively small values of $N$, the method delivers precise eigenvalues. For instance, with a matrix of size $N=500$, the high-index eigenvalues computed using DST are already in excellent agreement with the reference values obtained by the Matslise software. The relative error reaches approximately $\varepsilon \approx 10^{-6}$ for the Paine equation and $\varepsilon \approx 10^{-5}$ for the Coffey--Evans equation. In contrast, the errors of the other methods for the same matrix size range from $10^{-1}$ to $10^{3}$ (Paine) and from~$10^{-3}$ to $10^{3}$ (Coffey--Evans), respectively.
+A key advantage of the DST is its spectral accuracy, which manifests itself especially on coarse grids: even for relatively small values of $N$, the method delivers precise eigenvalues. For instance, with a matrix of size $N=500$, the high-index eigenvalues computed using DST are already in excellent agreement with the reference values obtained by the Matslise software. The relative error reaches approximately $\varepsilon \approx 10^{-6}$ for the Paine equation and $\varepsilon \approx 10^{-5}$ for the Coffey--Evans equation. In contrast, the errors of the other methods for the same matrix size range from $10^{-1}$ to $10^{3}$ (Paine) and from~$10^{-3}$ to $10^{3}$ (Coffey--Evans), respectively. 
 
-For larger matrices ($N=1000$), the performance gap narrows as other high-order methods become more competitive. Nevertheless, the DST remains the most accurate overall. Table \ref{table_comparison} summarizes the accuracy of all methods, sorted from best to worst.
+An important feature of the DST method is that accurately computing $N$ eigenvalues requires solving a discrete problem of size $N \times N$. There is no additional overhead in matrix size for the discrete problem.
+
+For larger matrices ($N=1 \,  000$), the performance gap narrows as other spectral methods become more competitive. Nevertheless, the DST remains the most accurate overall. Table \ref{table_comparison} summarizes the accuracy of all methods, sorted from best to worst.
 
 It should be noted that the \textit{corrected} Numerov's method (NumC) is applicable only to the computation of \textit{eigenvalues} of Sturm--Liouville problems. It cannot be used for time-dependent simulations, such as the evolution of waves governed by the classical wave equation or rate-type constitutive models for metamaterials, which are discussed in the subsequent chapters.
 
@@ -1312,7 +1314,7 @@ As we can see from the plots, both asymptotes hold quite well for high-index eig
 
 \subsection{Asymptotic consistency of Discrete Sine Transform eigenvalues}
 \noindent
-The reader might wonder whether the remarkable accuracy of the Discrete Sine Transform (DST) approach is merely coincidental. It is not. The high accuracy stems from the fact that the eigenvalues of the discrete operator obtained via DST are asymptotically consistent with those of the continuous Sturm--Liouville problem.
+The reader might wonder whether the remarkable accuracy of the Discrete Sine Transform (DST) approach is merely coincidental. It is not. The accuracy stems from the fact that the eigenvalues of the discrete operator obtained via DST are asymptotically consistent with those of the continuous Sturm--Liouville problem.
 
 Recall the asymptotic expansion for the square root of the $k$-th eigenvalue of the continuous problem \ref{theorem} through the relation \eqref{fix_relation}. Squaring this expansion and neglecting higher-order terms yields the asymptotic behaviour of $\lambda_k$ itself
 \begin{equation}
@@ -1828,9 +1830,9 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \section{Conclusion from the semi-discrete simulations of classical wave equation}
 \noindent
-A series of numerical simulations has been performed to investigate the propagation of waves \eqref{eq_wave_general} governed by the classical wave equation \eqref{eq_wave}. All spatial discretization methods developed or considered in this work were employed and mutually compared.
+A series of numerical simulations was performed to investigate the propagation of waves \eqref{eq_wave_general} governed by the classical wave equation \eqref{eq_wave}. All spatial discretization methods developed or considered in this work were employed and compared to one another.
 
-To highlight the differences in accuracy between the individual methods, it is essential to use a relatively small number of grid points $N$. When $N$ is chosen sufficiently large, all high-order methods converge to very similar (and accurate) results, making their relative performance difficult to distinguish. The true advantage of the Discrete Sine Transform (DST) becomes clearly visible precisely in the regime of small $N$, where DST already delivers accurate eigenvalues and eigenfunctions, while the other methods still exhibit noticeable errors.
+To highlight the differences in accuracy between the individual methods, it is essential to use a relatively small number of grid points $N$. When $N$ is chosen sufficiently large, all spectral methods converge to very similar (and accurate) results, making their relative performance difficult to distinguish (at least on a short time interval). The true advantage of the Discrete Sine Transform (DST) becomes clearly visible precisely in the regime of small $N$, where DST already delivers accurate eigenvalues and eigenfunctions, while the other methods still exhibit noticeable errors.
 
 The numerical experiments confirm that the Discrete Fourier Transform (DFT) provides the highest accuracy for problems with periodic boundary conditions. For Dirichlet boundary conditions, the Discrete Sine Transform (DST) clearly outperforms all other methods. Among the remaining techniques, the standard Finite Difference method is the least accurate, followed by Numerov's method. The Chebyshev Differentiation Matrix (CDM), the Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM), and the Legendre--Galerkin--Chebyshev Collocation (LGCC) method achieve significantly better accuracy than the two lowest-order approaches, yet they remain visibly less accurate than the DST, especially on coarse grids (small $N$).
 
@@ -2399,9 +2401,9 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \section{Conclusion from the semi-discrete simulations of rate-type equations for metamaterials}
 \noindent
-In this chapter, a numerical analysis analogous to the one presented in the previous chapter has been performed, this time using the rate-type governing equations.
+In this chapter, a numerical analysis analogous to the one presented in the previous chapter was performed, this time using the rate-type governing equations.
 
-As in the previous chapter, a relatively small number of grid points $N$ was deliberately chosen in order to clearly distinguish the performance of the different discretization methods. For large $N$ the differences between the high-order methods become negligible, as already discussed.
+As in the previous chapter, a relatively small number of grid points $N$ was deliberately chosen in order to clearly distinguish the performance of the different discretization methods. For large $N$ the differences between the spectral methods become negligible, as already discussed.
 
 The results confirm that, for problems with periodic boundary conditions, the Discrete Fourier Transform (DFT) provides the best performance. Numerov's method ranks second, followed by the Finite Difference method.
 
