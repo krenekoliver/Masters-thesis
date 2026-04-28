@@ -338,13 +338,13 @@ which will be assembled using the methods below.
 
 Next, we want to rewrite the main equation \eqref{eq_general_SLP_1} in the form
 \begin{equation}\label{eq_Paine}
-    \big( - \mathbb{D} + \mathbb{E}  \big) \mathbf{u} = \lambda \mathbf{u} \, ,
+    \big( - \mathbb{D} + \mathbb{E}  \big) \boldsymbol{u} = \lambda \boldsymbol{u} \, ,
 \end{equation}
 for the Paine equation, where
 \begin{equation}
     \mathbb{E} = \texttt{diag}\big(e^{x_1}, e^{x_2}, \dots, e^{x_N}\big) \, ,
 \end{equation}
-and $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^\top$ is the vector of unknowns on the corresponding grid of the implemented method.
+and $\boldsymbol{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^\top$ is the vector of unknowns on the corresponding grid of the implemented method.
 
 For the Coffey--Evans equation with the potential
 \begin{equation}
@@ -355,9 +355,9 @@ For the Coffey--Evans equation with the potential
 \end{equation}
 we rewrite the equation \eqref{eq_general_SLP_1} in the form
 \begin{equation}\label{eq_CE}
-    \big( - \mathbb{D} + \mathbb{Q}  \big) \mathbf{u} = \lambda \mathbf{u} \, .
+    \big( - \mathbb{D} + \mathbb{Q}  \big) \boldsymbol{u} = \lambda \boldsymbol{u} \, .
 \end{equation} 
-where again $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^\top$ is the vector of unknowns on the corresponding grid of the implemented method.
+where again $\boldsymbol{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^\top$ is the vector of unknowns on the corresponding grid of the implemented method.
 
 From this formulation of the test problems, the structure of the eigenvalue computation is clear. As previously mentioned, we will use the MATLAB function \texttt{eig} for their computation. We will compare these eigenvalues across the methods, especially the high-index ones.
 
@@ -367,9 +367,9 @@ The differentiation matrix $\mathbb{D}$ will be assembled using the following me
 \noindent
 The first numerical method we consider is the Finite Difference method (FD). We use the standard second-order central Finite Difference approximation for the second derivative
 \begin{equation}
-    u''(x_i) \approx \frac{u(x_{i-1}) - 2 u(x_i) + u(x_{i+1}) }{h^2} = \left( \mathbb{D} \mathbf{u} \right)_i \, , \quad i = 1, \dots, N \, ,
+    u''(x_i) \approx \frac{u(x_{i-1}) - 2 u(x_i) + u(x_{i+1}) }{h^2} = \left( \mathbb{D} \boldsymbol{u} \right)_i \, , \quad i = 1, \dots, N \, ,
 \end{equation}
-where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^\top$ is the vector of unknowns on the uniform grid and $h = x_{i+1}-x_i$ is the grid spacing. The second-derivative matrix $\mathbb{D}$ is given by
+where $\boldsymbol{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^\top$ is the vector of unknowns on the uniform grid and $h = x_{i+1}-x_i$ is the grid spacing. The second-derivative matrix $\mathbb{D}$ is given by
 \begin{equation}
 \mathbb{D} = \frac{1}{h^2} \begin{bmatrix}
     - 2 & 1 & 0  & \cdots & 0 \\
@@ -466,9 +466,9 @@ We denote the tridiagonal matrices $\mathbb{A}$ and $\mathbb{B}$ by
 \end{equation}
 Then the whole approximation can be rewritten in the matrix form
 \begin{equation}
-    \mathbb{A} \mathbf{u} = \lambda \mathbb{B} \mathbf{u} \, ,
+    \mathbb{A} \boldsymbol{u} = \lambda \mathbb{B} \boldsymbol{u} \, ,
 \end{equation}
-where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^\top$ is the vector of unknowns on the uniform grid.
+where $\boldsymbol{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^\top$ is the vector of unknowns on the uniform grid.
 
 To improve the accuracy of the high-index eigenvalues obtained by Numerov's method, an asymptotic correction is applied. First, the standard Numerov's scheme yields approximate eigenvalues $\lambda_k$. These are then corrected using the formulas
 \begin{equation}
@@ -574,10 +574,10 @@ The implementation of this method can be seen in Algorithms \ref{alg_5} for Pain
 {\small
 \begin{algorithmic}[1]
 \State \textbf{input} $N$
-\State $t =$ \texttt{chebpts}(N+2, 2)
+\State $\boldsymbol{t} =$ \texttt{chebpts}(N+2, 2)
 \State $\mathbb{D}_{\text{full}} =$ \texttt{diffmat}(N+2, 2)
 \State $\mathbb{D}_{\text{Cheb}} = \mathbb{D}_{\text{full}}[2:N+1, \, 2:N+1]$
-\State $t_{\text{int}} = t[2:N+1]$
+\State $\boldsymbol{t}_{\text{int}} = \boldsymbol{t}[2:N+1]$
 \State $x_i = \dfrac{\pi}{2} (t_{\text{int},i} + 1)$ \quad for $i=1, \dots,N$
 \State $\mathbb{D} = \dfrac{4}{\pi^2} \mathbb{D}_{\text{Cheb}}$
 \State $\mathbb{E} = \texttt{diag}\big(e^{x_1},  \, e^{x_2},  \, \dots,  \, e^{x_N}\big)$
@@ -595,10 +595,10 @@ The implementation of this method can be seen in Algorithms \ref{alg_5} for Pain
 {\small
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
-\State $t =$ \texttt{chebpts}(N+2, 2)
+\State $\boldsymbol{t} =$ \texttt{chebpts}(N+2, 2)
 \State $\mathbb{D}_{\text{full}} =$ \texttt{diffmat}(N+2, 2)
 \State $\mathbb{D}_{\text{Cheb}} = \mathbb{D}_{\text{full}}[2:N+1, \, 2:N+1]$ 
-\State $t_{\text{int}} = t[2:N+1]$
+\State $\boldsymbol{t}_{\text{int}} = \boldsymbol{t}[2:N+1]$
 \State $x_i = \dfrac{\pi}{2}  t_{\text{int},i}$ \quad for $i=1, \dots,N$
 \State $\mathbb{D} = \dfrac{4}{\pi^2} \mathbb{D}_{\text{Cheb}}$
 \State $q_i =  \beta^2 \sin^2(2 x_i) - 2 \beta \cos(2x_i) $ \quad for $i=1, \dots,N$
@@ -657,20 +657,20 @@ The implementation of this method is in Algorithm \ref{alg_MBCDM_Paine} for the 
 {\small
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\alpha$
-\State $s =$ \texttt{chebpts}(N+2)
-\State $g(s) = \dfrac{\arcsin(\alpha s)}{\arcsin(\alpha)}$ 
-\State $x = \dfrac{\pi}{2} (g(s) + 1)$
+\State $\boldsymbol{s} =$ \texttt{chebpts}(N+2)
+\State $g(\boldsymbol{s}) = \dfrac{\arcsin(\alpha \boldsymbol{s})}{\arcsin(\alpha)}$ 
+\State $\boldsymbol{x} = \dfrac{\pi}{2} (g(\boldsymbol{s}) + 1)$
 \BlankLine
-\State $g'(s) = \alpha \big((1-(\alpha s)^2)^{1/2} \, \arcsin(\alpha) \big)^{-1}$
-\State $g''(s) = \alpha^3 s \big((1-\alpha^2 s^2)^{3/2} \, \arcsin(\alpha) \big)^{-1}$
+\State $g'(\boldsymbol{s}) = \alpha \big((1-(\alpha \boldsymbol{s})^2)^{1/2} \, \arcsin(\alpha) \big)^{-1}$
+\State $g''(\boldsymbol{s}) = \alpha^3 \boldsymbol{s} \big((1-\alpha^2 \boldsymbol{s}^2)^{3/2} \, \arcsin(\alpha) \big)^{-1}$
 \BlankLine
-\State $\dfrac{dx}{ds} = \dfrac{\pi}{2} g'(s)$
-\State $\dfrac{d^2 x}{ds^2} = \dfrac{\pi}{2} g''(s)$
+\State $\dfrac{d\boldsymbol{x}}{d\boldsymbol{s}} = \dfrac{\pi}{2} g'(\boldsymbol{s})$
+\State $\dfrac{d^2 \boldsymbol{x}}{d\boldsymbol{s}^2} = \dfrac{\pi}{2} g''(\boldsymbol{s})$
 \BlankLine
 \State $\mathbb{D}_1 =$ \texttt{diffmat}(N+2, 1)
 \State $\mathbb{D}_2 = $ \texttt{diffmat}(N+2, 2) 
 \BlankLine
-\State $\mathbb{D} = \texttt{diag}\big((dx/ds)^{-2}\big) \mathbb{D}_2 - \texttt{diag}\big((d^2x/ds^2)(dx/ds)^{-3}\big) \mathbb{D}_1$
+\State $\mathbb{D} = \texttt{diag}\big((d\boldsymbol{x}/d\boldsymbol{s})^{-2}\big) \mathbb{D}_2 - \texttt{diag}\big((d^2\boldsymbol{x}/d\boldsymbol{s}^2)(d\boldsymbol{x}/d\boldsymbol{s})^{-3}\big) \mathbb{D}_1$
 \State $\mathbb{E} = \texttt{diag}\big(e^{x_1}, \, e^{x_2}, \, \dots, \, e^{x_{N+2}}\big)$
 \State $\mathbb{A} = -\mathbb{D} + \mathbb{E}$
 \State $\mathbb{A}_{\text{int}} = \mathbb{A}[2:N+1, \, 2:N+1]$
@@ -687,20 +687,20 @@ The implementation of this method is in Algorithm \ref{alg_MBCDM_Paine} for the 
 {\small
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$, $\alpha$
-\State $s =$ \texttt{chebpts}(N+2)
-\State $g(s) = \dfrac{\arcsin(\alpha s)}{\arcsin(\alpha)}$ 
-\State $x = \dfrac{\pi}{2} g(s)$
+\State $\boldsymbol{s} =$ \texttt{chebpts}(N+2)
+\State $g(\boldsymbol{s}) = \dfrac{\arcsin(\alpha \boldsymbol{s})}{\arcsin(\alpha)}$ 
+\State $\boldsymbol{x} = \dfrac{\pi}{2} g(\boldsymbol{s})$
 \BlankLine
-\State $g'(s) = \alpha \big((1-(\alpha s)^2)^{1/2} \, \arcsin(\alpha) \big)^{-1}$
-\State $g''(s) = \alpha^3 s \big((1-\alpha^2 s^2)^{3/2} \, \arcsin(\alpha) \big)^{-1}$
+\State $g'(\boldsymbol{s}) = \alpha \big((1-(\alpha \boldsymbol{s})^2)^{1/2} \, \arcsin(\alpha) \big)^{-1}$
+\State $g''(\boldsymbol{s}) = \alpha^3 \boldsymbol{s} \big((1-\alpha^2 \boldsymbol{s}^2)^{3/2} \, \arcsin(\alpha) \big)^{-1}$
 \BlankLine
-\State $\dfrac{dx}{ds} = \dfrac{\pi}{2} g'(s)$
-\State $\dfrac{d^2 x}{ds^2} = \dfrac{\pi}{2} g''(s)$
+\State $\dfrac{d\boldsymbol{x}}{d\boldsymbol{s}} = \dfrac{\pi}{2} g'(\boldsymbol{s})$
+\State $\dfrac{d^2 \boldsymbol{x}}{d\boldsymbol{s}^2} = \dfrac{\pi}{2} g''(\boldsymbol{s})$
 \BlankLine
 \State $\mathbb{D}_1 =$ \texttt{diffmat}(N+2, 1)
 \State $\mathbb{D}_2 = $ \texttt{diffmat}(N+2, 2) 
 \BlankLine
-\State $\mathbb{D} = \texttt{diag}\big((dx/ds)^{-2}\big) \mathbb{D}_2 - \texttt{diag}\big((d^2x/ds^2)(dx/ds)^{-3}\big) \mathbb{D}_1$
+\State $\mathbb{D} = \texttt{diag}\big((d\boldsymbol{x}/d\boldsymbol{s})^{-2}\big) \mathbb{D}_2 - \texttt{diag}\big((d^2\boldsymbol{x}/d\boldsymbol{s}^2)(d\boldsymbol{x}/d\boldsymbol{s})^{-3}\big) \mathbb{D}_1$
 \State $q_i =  \beta^2 \sin^2(2 x_i) - 2 \beta \cos(2x_i) $ \quad for $i=1, \dots,N+2$
 \State $\mathbb{Q} = \texttt{diag}\big(q_1, \, q_2, \, \dots, \, q_{N+2}\big)$
 \State $\mathbb{A} = -\mathbb{D} + \mathbb{Q}$
@@ -742,9 +742,9 @@ The basis functions are chosen as
 \end{equation}
 where $L_k(t)$ denotes the $k$-th Legendre polynomial. These basis functions automatically satisfy the homogeneous Dirichlet boundary conditions. The weak form of the differential eigenvalue problem is then projected onto this basis, leading to the generalized matrix eigenvalue problem
 \begin{equation}
-    \big(\mathbb{S} + \mathbb{\widehat{M}} \big) \mathbf{u} = \mu \mathbb{T} \mathbf{u} \, ,
+    \big(\mathbb{S} + \mathbb{\widehat{M}} \big) \boldsymbol{u} = \mu \mathbb{T} \boldsymbol{u} \, ,
 \end{equation}
-where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^\top$ is the vector of unknowns at the grid points.~$\mathbb{S}$ is the diagonal stiffness matrix, $\mathbb{T}$ is the penta-diagonal mass matrix, and $\mathbb{\widehat{M}}$ is the symmetrized potential matrix obtained via Chebyshev interpolation of the product~$q(t)\phi_j(t)$, followed by the extraction of the Legendre coefficients. The eigenvalues $\mu_k$ are finally rescaled for the original interval with length $\pi$ via 
+where $\boldsymbol{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N) \big]^\top$ is the vector of unknowns at the grid points.~$\mathbb{S}$ is the diagonal stiffness matrix, $\mathbb{T}$ is the penta-diagonal mass matrix, and $\mathbb{\widehat{M}}$ is the symmetrized potential matrix obtained via Chebyshev interpolation of the product~$q(t)\phi_j(t)$, followed by the extraction of the Legendre coefficients. The eigenvalues $\mu_k$ are finally rescaled for the original interval with length $\pi$ via 
 \begin{equation}
     \lambda_k = \dfrac{4}{\pi^2} \mu_k \, .
 \end{equation}
@@ -834,27 +834,27 @@ In our recent paper \cite{fusi}, we proposed the use of the Discrete Sine Transf
 
 In the present thesis, we further develop and systematically investigate this method across a broader range of problems, including the computation of eigenvalues of regular Sturm--Liouville operators, simulations of wave propagation governed by the classical wave equation, and simulations of wave propagation governed by the rate-type equations for metamaterials. Through detailed comparisons with other common spatial discretization techniques, we aim to assess the accuracy and efficiency of the DST method.
 
-In the DST spectral domain, the second derivative operator becomes a product with a matrix that has the negative squared wave numbers on the diagonal. Altogether, for a vector $\mathbf{y} = [y_1, \dots, y_N ]^\top$ of interior grid values, the discrete Laplacian is realized by
+In the DST spectral domain, the second derivative operator becomes a product with a matrix that has the negative squared wave numbers on the diagonal. Altogether, for a vector $\boldsymbol{y} = [y_1, \dots, y_N ]^\top$ of interior grid values, the discrete Laplacian is realized by
 \begin{equation}
-    (\Delta_h \mathbf{y})_j = \mathrm{idst}\bigl(k \odot \mathrm{dst}(\mathbf{y})\bigr)_j \, , \quad j = 1,\dots,N \, ,
+    (\Delta_h \boldsymbol{y})_j = \texttt{idst}\bigl(\boldsymbol{k} \odot \texttt{dst}(\boldsymbol{y})\bigr)_j \, , \quad j = 1,\dots,N \, ,
 \end{equation}
-where \texttt{dst} and \texttt{idst} denote the Discrete Sine Transform and its inverse, respectively. The symbol $\odot$ denotes element-wise (Hadamard) multiplication, and the vector that contains the negative squared wave numbers is in the form $\mathbf{k} = [-1^2, \, -2^2, \, \dots, \, -N^2 ]^\top$.
+where \texttt{dst} and \texttt{idst} denote the Discrete Sine Transform and its inverse, respectively. The symbol $\odot$ denotes element-wise (Hadamard) multiplication, and the vector that contains the negative squared wave numbers is in the form $\boldsymbol{k} = [-1^2, \, -2^2, \, \dots, \, -N^2 ]^\top$.
 
-The full discrete operator $\mathcal{L}_{\mathrm{op}}$ is then assembled by addition
+The full discrete operator $\mathcal{L}$ is then assembled by addition
 \begin{equation}
-    \mathcal{L}_{\mathrm{op}}(\mathbf{y}) = -\Delta_h \mathbf{y} + q(x) \, ,
+    \mathcal{L}(\boldsymbol{y}) = -\Delta_h \boldsymbol{y} + q(x) \, ,
 \end{equation}
-where it holds that $\Delta_h \mathbf{y} = \mathrm{idst}(k \odot \mathrm{dst}(\mathbf{y})) = \mathcal{D}_{\mathrm{op}}(\mathbf{y})$. For the Paine equation with the potential term operator $\mathcal{E}_{\mathrm{op}}(\mathbf{y})$, it is
+where it holds that $\Delta_h \boldsymbol{y} = \texttt{idst}(\boldsymbol{k} \odot \texttt{dst}(\boldsymbol{y})) = \mathcal{D}(\boldsymbol{y})$. For the Paine equation with the potential term operator $\mathcal{E}(\boldsymbol{y})$, it is
 \begin{equation}
-    \mathcal{L}_{\mathrm{op}}(\mathbf{y}) = - \mathcal{D}_{\mathrm{op}}(\mathbf{y}) + \mathcal{E}_{\mathrm{op}}(\mathbf{y}) \, ,
+    \mathcal{L}(\boldsymbol{y}) = - \mathcal{D}(\boldsymbol{y}) + \mathcal{E}(\boldsymbol{y}) \, ,
 \end{equation}
-and for the Coffey--Evans equation with the potential term operator $\mathcal{Q}_{\mathrm{op}}(\mathbf{y})$
+and for the Coffey--Evans equation with the potential term operator $\mathcal{Q}(\boldsymbol{y})$
 \begin{equation}
-    \mathcal{L}_{\mathrm{op}}(\mathbf{y}) = -\mathcal{D}_{\mathrm{op}}(\mathbf{y}) + \mathcal{Q}_{\mathrm{op}}(\mathbf{y}) \, .
+    \mathcal{L}(\boldsymbol{y}) = -\mathcal{D}(\boldsymbol{y}) + \mathcal{Q}(\boldsymbol{y}) \, .
 \end{equation}
 
 
-The corresponding matrix representation $\mathbb{A}$ is obtained by applying the \hbox{operator $\mathcal{L}_{\mathrm{op}}$} to the columns of the identity matrix. The eigenvalues of the resulting matrix $\mathbb{A}$ approximate the eigenvalues of the continuous problem with spectral accuracy for sufficiently smooth potentials.
+The corresponding matrix representation $\mathbb{A}$ is obtained by applying the operator~$\mathcal{L}$ to the columns of the identity matrix. The eigenvalues of the resulting matrix $\mathbb{A}$ approximate the eigenvalues of the continuous problem with spectral accuracy for sufficiently smooth potentials.
 
 The implementation of the method for the Paine and Coffey--Evans equations is described in Algorithms \ref{alg_DST_Paine} and \ref{alg_DST_CE}, respectively.
 
@@ -865,12 +865,12 @@ The implementation of the method for the Paine and Coffey--Evans equations is de
 \begin{algorithmic}[1]
 \State \textbf{input} $N$
 \State $x_i = \dfrac{\pi}{N+1} i$ \quad for $i = 1, \dots,N$
-\State $k = [-1^2, \, -2^2, \, \dots, \, -N^2]^\top$
+\State $\boldsymbol{k} = [-1^2, \, -2^2, \, \dots, \, -N^2]^\top$
 \BlankLine
-\State $\mathcal{D}_{op}(y) = \texttt{idst}\big(k \odot \texttt{dst}(y)\big)$
-\State $\mathcal{E}_{op}(y) = \exp(x) \odot y$
-\State $\mathcal{L}_{op}(y) = -\mathcal{D}_{op}(y) + \mathcal{E}_{op}(y)$
-\State $\mathbb{A} = \mathcal{L}_{op}(\mathbb{I}_{N})$
+\State $\mathcal{D}(\boldsymbol{y}) = \texttt{idst}\big(\boldsymbol{k} \odot \texttt{dst}(\boldsymbol{y})\big)$
+\State $\mathcal{E}(\boldsymbol{y}) = \exp(\boldsymbol{x}) \odot \boldsymbol{y}$
+\State $\mathcal{L}(\boldsymbol{y}) = -\mathcal{D}(\boldsymbol{y}) + \mathcal{E}(\boldsymbol{y})$
+\State $\mathbb{A} = \mathcal{L}(\mathbb{I}_{N})$
 \BlankLine
 \State \texttt{eig}($\mathbb{A}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_{N}$
@@ -885,12 +885,12 @@ The implementation of the method for the Paine and Coffey--Evans equations is de
 \begin{algorithmic}[1]
 \State \textbf{input} $N$, $\beta$
 \State $x_i = -\dfrac{\pi}{2} + \dfrac{\pi}{N+1} i$ \quad for $i = 1, \dots,N$
-\State $k = [-1^2, \, -2^2, \, \dots, \, -N^2]^\top$
+\State $\boldsymbol{k} = [-1^2, \, -2^2, \, \dots, \, -N^2]^\top$
 \BlankLine
-\State $\mathcal{D}_{op}(y) = \texttt{idst}\big(k \odot \texttt{dst}(y)\big)$
-\State $\mathcal{Q}_{op}(y) = \big( \beta^2 \sin^2(2 x) - 2 \beta \cos(2 x) \big) \odot y$
-\State $\mathcal{L}_{op}(y) = -\mathcal{D}_{op}(y) + \mathcal{Q}_{op}(y)$
-\State $\mathbb{A} = \mathcal{L}_{op}(\mathbb{I}_{N})$
+\State $\mathcal{D}(\boldsymbol{y}) = \texttt{idst}\big(\boldsymbol{k} \odot \texttt{dst}(\boldsymbol{y})\big)$
+\State $\mathcal{Q}(\boldsymbol{y}) = \big( \beta^2 \sin^2(2 \boldsymbol{x}) - 2 \beta \cos(2 \boldsymbol{x}) \big) \odot \boldsymbol{y}$
+\State $\mathcal{L}(\boldsymbol{y}) = -\mathcal{D}(\boldsymbol{y}) + \mathcal{Q}(\boldsymbol{y})$
+\State $\mathbb{A} = \mathcal{L}(\mathbb{I}_{N})$
 \BlankLine
 \State \texttt{eig}($\mathbb{A}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_{N}$
 \State \textbf{output} $\lambda_1, \lambda_2, \dots, \lambda_{N}$
@@ -1177,7 +1177,7 @@ CPU & 1.3 & 0.4 & 1.5 & 32.4 & 226.4 \\
 \end{table}
 
 
-\subsection{Conclusion from regular Sturm--Liouvville eigenvalue test problem computations}
+\subsection{Conclusion from regular Sturm--Liouville eigenvalue test problems computation}
 \noindent
 As shown in the numerical results above, the Discrete Sine Transform (DST) clearly outperforms all other methods in computing the eigenvalues of the Paine and Coffey--Evans equations. It provides the highest accuracy while remaining among the fastest approaches.
 
@@ -1222,7 +1222,7 @@ Next, we want to test the asymptotic equation from the paper \cite{fix} for both
 \begin{theorem}[Asymptotic expansion for Dirichlet boundary conditions]\label{theorem}
 Let $\lambda_k$ be the k-th eigenvalue of
 \begin{equation}
-    u'' + [\lambda - p(x)]u = 0 \, , \quad 0 \leq x \leq \pi \, ,
+    u''(x) + [\lambda - p(x)]u(x) = 0 \, , \quad 0 \leq x \leq \pi \, ,
 \end{equation}
 and
 \begin{equation}
@@ -1327,7 +1327,7 @@ As $k \to \infty$, the dominant term is clearly
 \begin{equation}\label{lambda_k2}
     \lambda_k \sim k^2 \, .
 \end{equation}
-On the other hand, the theory of the Discrete Sine Transform tells us that the matrix representation of the negative second derivative $  -\frac{d^2}{dx^2}  $ (with homogeneous Dirichlet boundary conditions) is diagonalized exactly in the DST basis. Specifically, if we denote by $  \mathbf{k} = [-1^2, -2^2, \dots, -N^2]^\top  $ the vector of eigenvalues of the discrete second-derivative operator $  \Delta_h  $, then the eigenvalues of the operator $ -\Delta_h  $ are precisely
+On the other hand, the theory of the Discrete Sine Transform tells us that the matrix representation of the negative second derivative $  -\frac{d^2}{dx^2}  $ (with homogeneous Dirichlet boundary conditions) is diagonalized exactly in the DST basis. Specifically, if we denote by $  \boldsymbol{k} = [-1^2, -2^2, \dots, -N^2]^\top  $ the vector of eigenvalues of the discrete second-derivative operator $  \Delta_h  $, then the eigenvalues of the operator $ -\Delta_h  $ are precisely
 \begin{equation}
     [1^2, \, 2^2, \, 3^2, \, \dots, \, N^2] \, .
 \end{equation}
@@ -1349,7 +1349,7 @@ The focus of this study will be on two cases of boundary conditions: periodic bo
 \begin{equation}
     u(x, t) = u(x + I, t) \,  \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
-and Dirichlet boundary conditions
+and homogeneous Dirichlet boundary conditions
 \begin{equation}
     u(0,  t) = u(I, t) = 0 \,  \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
@@ -1365,7 +1365,7 @@ The initial waves under consideration for our simulations will be in function fo
 \end{subequations}
 where the relation between wave number $k$ and angular frequency $\omega_k$ is $\omega_k = c  k$. And analogously, for wave number $l$ and angular frequency $\omega_l$, the relation is $\omega_k = c  k$. The values $k$ and $l$ are chosen appropriately in each simulation to fit our purposes.
 
-First, we introduce exact time evolution and then present the plots from our simulations. The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest integer.
+First, we introduce exact time evolution and then present the plots from our simulations. The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest whole number.
 
 \section{Connection between the Sturm--Liouville eigenvalue problem and the wave equation}
 \noindent
@@ -1405,22 +1405,22 @@ Instead of using conventional numerical time-stepping schemes, we employ exact t
 
     \item Substitute into the wave equation \eqref{eq_wave} (with $c=1$) and obtain the semi-discrete system
     \begin{equation}\label{eq_exact_time}
-        \frac{\partial^2 \mathbf{u}(t)}{\partial t^2} = \mathbb{D} \mathbf{u}(t) \, .
+        \frac{\partial^2 \boldsymbol{u}(t)}{\partial t^2} = \mathbb{D} \boldsymbol{u}(t) \, .
     \end{equation}
-    where $\mathbf{u}(t) \in \mathbb{R}^N$ is the vector of approximate solution values at the interior grid points at time $t$.
+    where $\boldsymbol{u}(t) \in \mathbb{R}^N$ is the vector of approximate solution values at the interior grid points at time $t$.
 
     \item Solve the eigenvalue problem
     \begin{equation}
-        \mathbb{D} \mathbf{v}_k = \lambda_k \mathbf{v}_k \, , \qquad k=1,\dots,N \, ,
+        \mathbb{D} \boldsymbol{v}_k = \lambda_k \boldsymbol{v}_k \, , \qquad k=1,\dots,N \, ,
     \end{equation}
-    where $\lambda_k < 0$ are the eigenvalues and $\mathbf{v}_k \in \mathbb{R}^N$ are the corresponding discrete eigenvectors. The associated eigenfunctions are denoted by $v_k(x)$ and the associated angular frequencies are
+    where $\lambda_k < 0$ are the eigenvalues and $\boldsymbol{v}_k \in \mathbb{R}^N$ are the corresponding discrete eigenvectors. The associated eigenfunctions are denoted by $v_k(x)$ and the associated angular frequencies are
     \begin{equation}\label{omega}
         \omega_k = \sqrt{-\lambda_k} \, .
     \end{equation}
 
     \item The general solution of \eqref{eq_exact_time} in the modal basis is
     \begin{equation}
-        \mathbf{u}(t) = \sum_{k=1}^N c_k(t) \mathbf{v}_k,
+        \boldsymbol{u}(t) = \sum_{k=1}^N c_k(t) \boldsymbol{v}_k,
     \end{equation}
     where each modal coefficient $c_k(t)$ satisfies the harmonic oscillator equation
     \begin{equation}
@@ -1614,7 +1614,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \section{Dirichlet boundary conditions}
 \noindent
-In this section, we will focus on Dirichlet boundary conditions
+In this section, we will focus on homogeneous Dirichlet boundary conditions
 \begin{equation}
     u(0,  t) = u(I, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
@@ -1832,7 +1832,7 @@ A series of numerical simulations was performed to investigate the propagation o
 
 To highlight the differences in accuracy between the individual methods, it is essential to use a relatively small number of grid points $N$. When $N$ is chosen sufficiently large, all spectral methods converge to very similar (and accurate) results, making their relative performance difficult to distinguish (at least on a short time interval). The true advantage of the Discrete Sine Transform (DST) becomes clearly visible precisely in the regime of small $N$, where DST already delivers accurate eigenvalues and eigenfunctions, while the other methods still exhibit noticeable errors.
 
-The numerical experiments confirm that the Discrete Fourier Transform (DFT) provides the highest accuracy for problems with periodic boundary conditions. For Dirichlet boundary conditions, the Discrete Sine Transform (DST) clearly outperforms all other methods. Among the remaining techniques, the standard Finite Difference method is the least accurate, followed by Numerov's method. The Chebyshev Differentiation Matrix (CDM), the Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM), and the Legendre--Galerkin--Chebyshev Collocation (LGCC) method achieve significantly better accuracy than the two lowest-order approaches, yet they remain visibly less accurate than the DST, especially on coarse grids (small $N$).
+The numerical experiments confirm that the Discrete Fourier Transform (DFT) provides the highest accuracy for problems with periodic boundary conditions. For Dirichlet boundary conditions, the Discrete Sine Transform (DST) clearly outperforms all other methods. Among the remaining techniques, the standard Finite Difference method (FD) is the least accurate, followed by Numerov's method (Num). The Chebyshev Differentiation Matrix (CDM), the Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM), and the Legendre--Galerkin--Chebyshev Collocation (LGCC) method achieve significantly better accuracy than the two lowest-order approaches, yet they remain visibly less accurate than the DST, especially on coarse grids (small $N$).
 
 
 
@@ -1840,14 +1840,13 @@ The numerical experiments confirm that the Discrete Fourier Transform (DFT) prov
 \chapter{Semi-discrete simulations of rate-type equations for metamaterials}
 \noindent
 In this chapter, we will focus on simulations similar to those in the previous chapter. This time, however, we will consider a rate-type equation for the evolution of waves in a one-dimensional metamaterial. The metamaterial consists of an infinite lattice system made of cells with inner mass. Figure \ref{fig_metamaterial} illustrates the configuration of the metamaterial.
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{Figures/figures_general/mass-in-mass-lattice.eps}
     \caption{Schematic figure of one-dimensional infinite lattice mass-in-mass system.}
     \label{fig_metamaterial}
 \end{figure}
-
+\noindent
 The parameter $k_1$ denotes the stiffness of the springs between the outer masses,~$k_2$ signifies the stiffness of the springs between the inner and outer masses, $m_1$ and $m_2$ represent the masses of the outer and inner parts of the cell, respectively, $L$ is the length of one periodic part of the lattice, and finally, $u_1$ and $u_2$ are the displacements of the outer and inner masses, respectively.
 
 \section{Rate-type equations}
@@ -1888,7 +1887,7 @@ where, for the sake of simplicity, we omit the index in $u_1$ and set $u$. This 
 \end{subequations}
 The derivation of the rate-type model \eqref{eq_rate_type} from the initial Newtonian description \eqref{eq_newton_metamaterial} is done in detail in the paper \cite{cichra}. 
 
-Next, we can rewrite the equations in the form
+Next, we can rewrite the equations \eqref{eq_rate_type_continuous} in the form
 \begin{subequations}\label{eq_meta_derivation}
     \begin{align}
         & \dfrac{\partial^2 u(x,t)}{\partial t^2} = \dfrac{1}{m_1} \sigma(x,t) \, , \\[5pt]
@@ -1914,7 +1913,7 @@ which can be substituted in \eqref{eq_meta_derivation}, we obtain the following 
 
 Now, we discretize \eqref{eq_continuous_meta} by denoting the vectors
 \begin{align}\label{}
-    \mathbf{u}(t) =
+    \boldsymbol{u}(t) =
     \begin{pmatrix}
         u^{(1)}(t)\\
         u^{(2)}(t)\\
@@ -1929,18 +1928,18 @@ Now, we discretize \eqref{eq_continuous_meta} by denoting the vectors
         \sigma^{(N)}(t)
     \end{pmatrix} \, ,
 \end{align}
-where the components of the node values vector $\mathbf{u}(t)$ are denoted by $u^{(j)}(t)=u(x_j,t)$, with $x_j=jL$ for $j=1, \dots ,N$ and analogously for the vector $\boldsymbol{\sigma}(t)$.\cite{tozzi} Let $\mathbb{D}$ be our differentiation matrix, which approximates the continuous second derivative operator. And lastly, define the discrete counterpart of relations \eqref{a_def} by
+where the components of the node values vector $\boldsymbol{u}(t)$ are denoted by $u^{(j)}(t)=u(x_j,t)$, with $x_j=jL$ for $j=1, \dots ,N$ and analogously for the vector $\boldsymbol{\sigma}(t)$ \cite{tozzi}. Let $\mathbb{D}$ be our differentiation matrix, which approximates the continuous second derivative operator. And lastly, define the discrete counterpart of relations \eqref{a_def} by
 \begin{subequations}
     \begin{align}
-    \mathbf{a}(t) \equiv \boldsymbol{\sigma}(t) - k_1 L^2 \mathbb{D}\mathbf{u}(t) \, , \\[5pt]
-    \boldsymbol{ \sigma }(t) \equiv \boldsymbol{a}(t) + k_1 L^2 \mathbb{D}\mathbf{u}(t) \, .
+    \boldsymbol{a}(t) \equiv \boldsymbol{\sigma}(t) - k_1 L^2 \mathbb{D}\boldsymbol{u}(t) \, , \\[5pt]
+    \boldsymbol{ \sigma }(t) \equiv \boldsymbol{a}(t) + k_1 L^2 \mathbb{D}\boldsymbol{u}(t) \, .
     \end{align}
 \end{subequations}
-This allows us to rewrite the continuous equations \eqref{eq_continuous_meta} as a semi-discrete system of ordinary differential equations for the unknown vectors $\mathbf{u}(t)$ and $\mathbf{a}(t)$. So, we have
+This allows us to rewrite the continuous equations \eqref{eq_continuous_meta} as a semi-discrete system of ordinary differential equations for the unknown vectors $\boldsymbol{u}(t)$ and $\boldsymbol{a}(t)$. So, we have
 \begin{subequations}\label{eq_meta_step}
     \begin{align}
-       & \dfrac{d^2 \mathbf{u}(t)}{dt^2} = \dfrac{k_1 L^2}{m_1}\mathbb{D}\mathbf{u}(t) + \dfrac{1}{m _1} \mathbf{a}(t) \, ,\\[5pt]
-       & \dfrac{d^2 \mathbf{a}(t)}{dt^2} = -\dfrac{k_2 k_1 L^2}{m_1}\mathbb{D}\mathbf{u}(t)-k_2\left(\dfrac{1}{m_2}+\dfrac{1}{m_1}\right) \mathbf{a}(t) \, .
+       & \dfrac{d^2 \boldsymbol{u}(t)}{dt^2} = \dfrac{k_1 L^2}{m_1}\mathbb{D}\boldsymbol{u}(t) + \dfrac{1}{m _1} \boldsymbol{a}(t) \, ,\\[5pt]
+       & \dfrac{d^2 \boldsymbol{a}(t)}{dt^2} = -\dfrac{k_2 k_1 L^2}{m_1}\mathbb{D}\boldsymbol{u}(t)-k_2\left(\dfrac{1}{m_2}+\dfrac{1}{m_1}\right) \boldsymbol{a}(t) \, .
     \end{align}
 \end{subequations}
 
@@ -1952,17 +1951,17 @@ If we define the matrix $\mathbb{M}$ as
     - \dfrac{k_2 k_1 L^2}{m_1}\mathbb{D} & -k_2 \left(\dfrac{1}{m_1} + \dfrac{1}{m_2} \right) \mathbb{I}  \\
 \end{bmatrix} \, ,
 \end{equation}
-where $\mathbb{M} \in \mathbb{R}^{2N \times 2N}$, we can rewrite the system \eqref{eq_meta_step} in the following form
+where $\mathbb{M} \in \mathbb{R}^{2N \times 2N}$, we can rewrite the system \eqref{eq_meta_step} in the form
 \begin{equation}
     \dfrac{d^2}{dt^2}
     \begin{bmatrix}
-    \mathbf{u}(t) \\
-    \mathbf{a}(t)  \\
+    \boldsymbol{u}(t) \\
+    \boldsymbol{a}(t)  \\
     \end{bmatrix}
     = \mathbb{M} 
     \begin{bmatrix}
-    \mathbf{u}(t) \\
-    \mathbf{a}(t)  \\
+    \boldsymbol{u}(t) \\
+    \boldsymbol{a}(t)  \\
     \end{bmatrix} \, .
 \end{equation}
 
@@ -1977,8 +1976,8 @@ where the columns of $\mathbb{V}$ are the eigenvectors (spatial modes), the matr
 and the angular frequencies are determined by $\omega_k = \sqrt{-\lambda_k}$. Projecting the initial conditions onto the eigenbasis yields the modal coefficients. The solution at any time~$t$ is then given by the exact superposition
 \begin{equation}
 \begin{bmatrix}
-\mathbf{u}(t) \\[5pt]
-\mathbf{a}(t)
+\boldsymbol{u}(t) \\[5pt]
+\boldsymbol{a}(t)
 \end{bmatrix}
 = \mathbb{V} 
 \begin{bmatrix}
@@ -1986,15 +1985,15 @@ and the angular frequencies are determined by $\omega_k = \sqrt{-\lambda_k}$. Pr
 \end{bmatrix}
 \mathbb{V}^{-1}
 \begin{bmatrix}
-\mathbf{y}_0 \\[5pt]
-\dot{\mathbf{y}}_0
+\boldsymbol{y}_0 \\[5pt]
+\dot{\boldsymbol{y}}_0
 \end{bmatrix} \, ,
 \end{equation}
-where $\mathbf{y}_0$ and $\dot{\mathbf{y}}_0$ are the initial conditions.
+where $\boldsymbol{y}_0$ and $\dot{\boldsymbol{y}}_0$ are the initial conditions.
 
 This approach ensures that the time integration is analytically exact; the only source of error is the spatial discretization. The matrix $\mathbb{D}$ will be chosen appropriately depending on which method we wish to implement: FD, Num, CDM, MBCDM, LGCC, DFT or DST.
 
-The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest integer.
+The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest whole number.
 
 
 
@@ -2169,7 +2168,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 \section{Dirichlet boundary conditions}
 \noindent
-In this section, we will focus on Dirichlet boundary conditions
+In this section, we will focus on homogeneous Dirichlet boundary conditions
 \begin{equation}
     u(0, t) = u(I, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
@@ -2411,9 +2410,9 @@ Overall, the outcomes are consistent with those observed in the previous chapter
 
 
 
-\chapter{Comparison of wave propagation governed by classical wave equation and rate-type metamaterial equation}
+\chapter{Comparison of wave propagation governed by classical wave equation and rate-type equations for metamaterials}
 \noindent
-In previous chapters, we have shown that the best spatial approximation is the Discrete Fourier Transform for periodic problems and the Discrete Sine Transform for Dirichlet boundary problems. Now we would like to use these two approximations for comparison between the behaviour of metamaterials and classical elastic materials.
+In the previous chapters, we demonstrated that the best spatial approximation for periodic boundary problems is the Discrete Fourier Transform and the Discrete Sine Transform for Dirichlet boundary problems. Now we would like to use these two approximations for comparison between the behaviour of metamaterials and classical elastic materials.
 
 \section{Governing equations}
 \noindent
@@ -2446,7 +2445,7 @@ In the following, we conduct simulations to demonstrate that, in the limit as~\h
 
 Depending on the boundary conditions, the simulations will be performed using either the Discrete Fourier Transform or the Discrete Sine Transform. As demonstrated in previous chapters, these two approaches are optimal for these numerical wave propagation experiments. In each simulation, blue will represent the classical wave equation and red will represent the rate-type metamaterial equation.
 
-The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest integer.
+The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest whole number.
 
 
 
@@ -2528,7 +2527,7 @@ Lastly, Figure \ref{fig_comparison_periodic_5} plots wave propagation at time fr
 
 \section{Dirichlet boundary conditions}
 \noindent
-In this section, we will focus on Dirichlet boundary conditions
+In this section, we will focus on homogeneous Dirichlet boundary conditions
 \begin{equation}
     u(0, t) = u(I, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
@@ -2602,7 +2601,7 @@ Lastly, Figure \ref{fig_comparison_dirichlet_5} plots wave propagation at time f
     \label{fig_comparison_dirichlet_5}
 \end{figure}
 
-\section{Conclusion from comparison of wave propagation governed by classical wave equation and rate-type metamaterial equation}
+\section{Conclusion from comparison of wave propagation governed by classical wave equation and rate-type equations for metamaterials}
 \noindent
 As the mass parameter $m_2$ approaches zero, the behaviour of the system governed by the rate-type constitutive equation converges to that of the classical wave equation. This observation confirms the theoretical expectation that the rate-type model recovers standard wave propagation in the limit of vanishing inertial contributions associated with the second component.
 
@@ -2616,7 +2615,7 @@ We examined two distinct classes of boundary conditions. For periodic problems, 
 
 Three main groups of numerical experiments were conducted. First, we solved two classical regular Sturm--Liouville problems — the Paine and Coffey--Evans equations — and assessed the accuracy of the computed eigenvalues. Second, we performed extensive simulations of wave propagation governed by the classical wave equation, considering both single waves and superpositions. Finally, these simulations were repeated using the rate-type constitutive equation for a one-dimensional mass-in-mass metamaterial lattice.
 
-Across all experiments, a clear hierarchy emerged. For periodic boundary conditions, the Discrete Fourier Transform consistently delivered the highest accuracy and efficiency. For Dirichlet boundary conditions, the Discrete Sine Transform proved to be the most accurate and reliable method.
+Across all experiments, a clear hierarchy emerged. For periodic boundary conditions, the Discrete Fourier Transform consistently delivered the highest accuracy and efficiency. For homogeneous Dirichlet boundary conditions, the Discrete Sine Transform proved to be the most accurate and reliable method.
 
 The superior performance of the DST, especially regarding high-index eigenvalue computation, can be explained theoretically. Its eigenvalues are asymptotically consistent with the analytic expansion provided by Theorem \ref{theorem} for the Sturm--Liouville problem. Since the eigenvalue problem is directly linked to the wave equation through separation of variables (via the dispersion relation $  \omega^2 = c^2 \lambda  $), the excellent approximation of eigenvalues by DST naturally translates into accurate wave propagation simulations that preserve the correct dispersion relation even on relatively coarse grids.
 
