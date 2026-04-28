@@ -1518,7 +1518,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 
 
-\subsection{Superposition of Waves - Same Direction}
+\subsection{Superposition of Waves Propagating in the Same Direction}
 \noindent
 Next, let us look at the superposition of two sine waves that propagate in the same direction \eqref{two_waves_same}. The problem is
 \begin{subequations}\label{}
@@ -1565,7 +1565,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 
 
-\subsection{Superposition of Waves - Opposite Direction}
+\subsection{Superposition of Waves Propagating in Opposite Directions}
 \noindent
 Finally, let us look at the superposition of two sine waves that propagate in opposite directions \eqref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
@@ -1690,7 +1690,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 
 
-\subsection{Superposition of Waves - Same Direction}
+\subsection{Superposition of Waves Propagating in the Same Direction}
 \noindent
 Next, let us look at the superposition of two sine waves that propagate in the same direction \eqref{two_waves_same}. The problem is
 \begin{subequations}\label{}
@@ -1758,7 +1758,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 
 
-\subsection{Superposition of Waves - Opposite Direction}
+\subsection{Superposition of Waves Propagating in Opposite Directions}
 \noindent
 Next, let us look at the superposition of two sine waves that propagate in the opposite direction \eqref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
@@ -2061,7 +2061,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \end{figure}
 
 
-\subsection{Superposition of Waves - Same Direction}
+\subsection{Superposition of Waves Propagating in the Same Direction}
 \noindent
 Next, let us look at the superposition of two sine waves that propagate in the same direction \eqref{two_waves_same}. The problem is
 \begin{subequations}\label{}
@@ -2113,7 +2113,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
     \label{fig_two_periodic_same_meta_DFT}
 \end{figure}
 
-\subsection{Superposition of Waves - Opposite Direction}
+\subsection{Superposition of Waves Propagating in Opposite Directions}
 \noindent
 Finally, let us look at the superposition of two sine waves that propagate in opposite directions \eqref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
@@ -2250,7 +2250,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
     \label{fig_one_dirichlet_meta_dst}
 \end{figure}
 
-\subsection{Superposition of Waves - Same Direction}
+\subsection{Superposition of Waves Propagating in the Same Direction}
 \noindent
 Next, let us look at the superposition of two sine waves that propagate in the same direction \eqref{two_waves_same}. The problem is
 \begin{subequations}\label{}
@@ -2322,7 +2322,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
     \label{fig_two_dirichlet_meta_dst}
 \end{figure}
 
-\subsection{Superposition of Waves - Opposite Direction}
+\subsection{Superposition of Waves Propagating in Opposite Directions}
 \noindent
 Finally, let us look at the superposition of two sine waves that propagate in opposite directions \eqref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
@@ -2455,12 +2455,7 @@ In this section, we will focus on periodic boundary conditions
 \begin{equation}
     u(x, t) = u(x + I, t) \,  \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
-where $I$ is the interval length.
-
-
-\subsection{One Wave}
-\noindent
-We will conduct a simulation of one sine wave in the form \eqref{one_wave}. The problem is
+where $I$ is the interval length. And we will conduct a simulation of just one type of initial functions \eqref{eq_wave_general}, specifically one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, \, I] \, , \quad t \geq 0 \, , \label{eq_mix_one_periodic_1} \\[5pt]
@@ -2490,28 +2485,28 @@ Lastly, Figure \ref{fig_comparison_periodic_5} plots wave propagation at time fr
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_comparison/comparison_periodic_one_initial.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 0$.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equations (red wave) at time frame $t = 0$.}
     \label{fig_comparison_periodic_1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_comparison/comparison_periodic_one_10_1.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 2$ with~$m_2 = 10^{-1}$.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equations (red wave) at time frame $t = 2$ with~$m_2 = 10^{-1}$.}
     \label{fig_comparison_periodic_2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_comparison/comparison_periodic_one_10_3.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 30$ with $m_2 = 10^{-3}$.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equations (red wave) at time frame $t = 30$ with $m_2 = 10^{-3}$.}
     \label{fig_comparison_periodic_3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_comparison/comparison_periodic_one_10_5.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 3 \, 000$ with~$m_2 = 10^{-5}$.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equations (red wave) at time frame $t = 3 \, 000$ with~$m_2 = 10^{-5}$.}
     \label{fig_comparison_periodic_4}
 \end{figure}
 
@@ -2519,10 +2514,9 @@ Lastly, Figure \ref{fig_comparison_periodic_5} plots wave propagation at time fr
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_comparison/comparison_periodic_one_10_10.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 500 \, 000 $ with~$m_2 = 10^{-10}$.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equations (red wave) at time frame $t = 500 \, 000 $ with~$m_2 = 10^{-10}$.}
     \label{fig_comparison_periodic_5}
 \end{figure}
-
 
 
 \section{Dirichlet Boundary Conditions}
@@ -2531,12 +2525,7 @@ In this section, we will focus on homogeneous Dirichlet boundary conditions
 \begin{equation}
     u(0, t) = u(I, t) = 0 \, \quad \text{for all} \; t \geq 0 \, ,
 \end{equation}
-where $I$ is the interval length.
-
-
-\subsection{One Wave}
-\noindent
-We will conduct a simulation of one sine wave in the form \eqref{one_wave}. The problem is
+where $I$ is the interval length. And we will conduct a simulation of just one type of initial functions \eqref{eq_wave_general}, specifically one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{}
     \begin{align}
         & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, \, I] \, , \quad t \geq 0 \, , \label{eq_mix_one_dirichlet_1} \\[5pt]
@@ -2569,35 +2558,35 @@ Lastly, Figure \ref{fig_comparison_dirichlet_5} plots wave propagation at time f
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_initial.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 0$.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equations (red wave) at time frame $t = 0$.}
     \label{fig_comparison_dirichlet_1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_10_1.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 3$ with~$m_2 = 10^{-1}$.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equations (red wave) at time frame $t = 3$ with~$m_2 = 10^{-1}$.}
     \label{fig_comparison_dirichlet_2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_10_3.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 31$ with $m_2 = 10^{-3}$.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equations (red wave) at time frame $t = 31$ with $m_2 = 10^{-3}$.}
     \label{fig_comparison_dirichlet_3}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_10_5.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 2 \, 999$ with~$m_2 = 10^{-5}$.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equations (red wave) at time frame $t = 2 \, 999$ with~$m_2 = 10^{-5}$.}
     \label{fig_comparison_dirichlet_4}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_comparison/comparison_one_dirichlet_10_9.eps}
-    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equation (red wave) at time frame $t = 500 \, 000 $ with $m_2 = 10^{-10}$.}
+    \caption{Comparison of wave propagation governed by the wave equation (blue wave) and by the rate-type metamaterial equations (red wave) at time frame $t = 500 \, 000 $ with $m_2 = 10^{-10}$.}
     \label{fig_comparison_dirichlet_5}
 \end{figure}
 
