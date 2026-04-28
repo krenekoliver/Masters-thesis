@@ -68,11 +68,11 @@
 \usepackage{paralist}       % lepší enumerate a itemize
 \usepackage{xcolor}         % barevná sazba
 
-\def\NazevPrace{Rate-type models for metamaterials}
+\def\NazevPrace{Rate-Type Models for Metamaterials}
 
 
 \def\NazevPraceEN{
-	Rate-type models for metamaterials}
+	Rate-Type Models for Metamaterials}
 
 
 \def\AutorPrace{Bc. Oliver Křenek}
@@ -247,7 +247,7 @@ Throughout this thesis, we aim not only to identify the most suitable discretiza
 
 The thesis is organized as follows. Chapter 1 introduces the two regular Sturm--Liouville eigenvalue test problems and describes our discretization techniques. \hbox{Chapter 2} presents semi-discrete simulations of wave propagation governed by the classical wave equation. Chapter 3 is devoted to semi-discrete simulations using rate-type constitutive equations for metamaterials. Finally, Chapter 4 provides a direct comparison of wave propagation in both the classical wave equation and the rate-type metamaterial~model.
 
-\chapter{Regular Sturm--Liouville eigenvalue test problems}
+\chapter{Regular Sturm--Liouville Eigenvalue Test Problems}
 \noindent
 The aim of this chapter is to introduce two regular Sturm--Liouville eigenvalue test problems: the Paine equation, first introduced in \cite{paine}, and the Coffey--Evans equation, first presented in \cite{pryce}.
 
@@ -257,7 +257,7 @@ The discretization methods that will be introduced are: Finite Differences, Nume
 
 Our goal is to compare these discretization methods and determine the most effective one with regard to high-index eigenvalue computation. Since there is no analytical expression for the eigenvalues of the Paine/Coffey--Evans problem, we will use the eigenvalues computed by the specialized Matslise software as the reference values.
 
-\section{Test problems}
+\section{Test Problems}
 \noindent
 In this section, we briefly introduce regular Sturm--Liouville test problems in the Schrödinger form. Their general formulation with potential $q(x)$ is
 \begin{subequations}\label{eq_general_test_problem}
@@ -269,7 +269,7 @@ In this section, we briefly introduce regular Sturm--Liouville test problems in 
 \end{subequations}
 Next, we will define two specific cases.
 
-\subsection{Paine equation}
+\subsection{Paine Equation}
 \noindent
 The Paine equation has the potential
 \begin{equation}
@@ -292,7 +292,7 @@ If we substitute this into the relation \eqref{eq_general_test_problem}, we get 
 \end{subequations}
 
 
-\subsection{Coffey--Evans equation}
+\subsection{Coffey--Evans Equation}
 \noindent 
 The Coffey--Evans equation has the potential
 \begin{equation}
@@ -316,7 +316,7 @@ If we substitute this into \eqref{eq_general_test_problem}, we get the resulting
 Throughout the thesis, we will use the value of the parameter $\beta = 30$.
 
 
-\section{Matslise software}
+\section{Matslise Software}
 \noindent
 As mentioned previously, we use the Matslise software \cite{matslise} to compute reference eigenvalues. In this thesis, the reference eigenvalues are used to validate the results obtained by other numerical methods.
 
@@ -326,7 +326,7 @@ This approach is accurate even for large (high-index) eigenvalues, in which we a
 
 
 
-\section{Discretization methods}
+\section{Discretization Methods}
 \noindent
 This section introduces the discretization methods used to approximate the second derivative operator in our test problems. These same methods will later be used for spatial discretization in wave propagation simulations.
 
@@ -363,7 +363,7 @@ From this formulation of the test problems, the structure of the eigenvalue comp
 
 The differentiation matrix $\mathbb{D}$ will be assembled using the following methods.
 
-\subsection{Finite Difference method}
+\subsection{Finite Difference Method}
 \noindent
 The first numerical method we consider is the Finite Difference method (FD). We use the standard second-order central Finite Difference approximation for the second derivative
 \begin{equation}
@@ -426,7 +426,7 @@ The implementation of this method is in Algorithm \ref{alg_1} for the Paine equa
 }
 \end{algorithm}
 
-\subsection{Numerov's method}
+\subsection{Numerov's Method}
 \noindent
 Numerov's method (Num) is based on a higher-order Finite Difference scheme. The original formulation was proposed by B. V. Numerov in 1927 \cite{numerov1927}. In this thesis, we use a modern adaptation of Numerov's method designed for the numerical solution of Sturm--Liouville eigenvalue problems \cite{numerov}.
 
@@ -547,7 +547,7 @@ The implementation of this method is in Algorithm \ref{alg_Numerov_Paine} for th
 
 
 
-\subsection{Chebyshev Differentiation Matrix method}
+\subsection{Chebyshev Differentiation Matrix Method}
 \noindent
 The Chebyshev Differentiation Matrix method (CDM) is a spectral collocation technique that approximates the derivatives of a function at specific collocation points using global polynomial interpolation. It will be implemented using the MATLAB \textit{Chebfun}\footnote{\url{https://www.chebfun.org}} package, utilizing the \texttt{chebpts} and \texttt{diffmat} functions.
 
@@ -613,7 +613,7 @@ The implementation of this method can be seen in Algorithms \ref{alg_5} for Pain
 
 
 
-\subsection{Mapped Barycentric Chebyshev Differentiation Matrix method}
+\subsection{Mapped Barycentric Chebyshev Differentiation Matrix Method}
 \noindent
 The Mapped Barycentric Chebyshev Differentiation Matrix (MBCDM) is a spectral collocation method based on Chebyshev points. Its core strength lies in the construction of an accurate dense differentiation matrix for the second derivative.
 
@@ -714,7 +714,7 @@ The implementation of this method is in Algorithm \ref{alg_MBCDM_Paine} for the 
 
 
 
-\subsection{Legendre--Galerkin--Chebyshev Collocation method}
+\subsection{Legendre--Galerkin--Chebyshev Collocation Method}
 \noindent
 The Legendre--Galerkin--Chebyshev Collocation (LGCC) method is a hybrid spectral technique that combines Legendre--Galerkin projection with Chebyshev Collocation.
 
@@ -909,7 +909,7 @@ This repository contains all the implementations of the discretization methods, 
 
 
 
-\section{Computed eigenvalues}
+\section{Computed Eigenvalues}
 \noindent
 We now present the computed data and compare our methods. Our main interest lies in comparing the high-index eigenvalues because the low-index eigenvalues can be accurately calculated by all methods. Therefore, only by comparing the high-index eigenvalues can we accurately determine the best method.
 
@@ -923,7 +923,7 @@ For all the tables below, the first column contains an index of the eigenvalues,
 
 Below the eigenvalues, we have also included the relative error $\varepsilon$ and the CPU time for each computation. The time is measured in dimensionless time units.
 
-\subsection{Paine equation}
+\subsection{Paine Equation}
 \noindent
 In this section are the computed eigenvalues for the Paine equation. 
 
@@ -1044,7 +1044,7 @@ CPU & 0.7 & 0.4 & 1.5 & 32.8 & 208.3 \\
 \end{table}
 
 
-\subsection{Coffey--Evans equation}
+\subsection{Coffey--Evans Equation}
 \noindent
 In this section are the computed eigenvalues for the Coffey--Evans equation.
 
@@ -1177,7 +1177,7 @@ CPU & 1.3 & 0.4 & 1.5 & 32.4 & 226.4 \\
 \end{table}
 
 
-\subsection{Conclusion from regular Sturm--Liouville eigenvalue test problems computation}
+\subsection{Conclusion from Regular Sturm--Liouville Eigenvalue Test Problems Computation}
 \noindent
 As shown in the numerical results above, the Discrete Sine Transform (DST) clearly outperforms all other methods in computing the eigenvalues of the Paine and Coffey--Evans equations. It provides the highest accuracy while remaining among the fastest approaches.
 
@@ -1215,7 +1215,7 @@ Rank & (500) & (1 000)  & (500) &  (1 000) \\
 
 
 
-\section{Asymptotic behaviour}
+\section{Asymptotic Behaviour}
 \noindent
 Next, we want to test the asymptotic equation from the paper \cite{fix} for both the Paine and Coffey–Evans equations. That means comparing the eigenvalues from the tables above with the asymptotic curve that follows from the Theorem \ref{theorem}.
 
@@ -1312,7 +1312,7 @@ We can see the plots for both of them in the figures below. For both equations, 
 
 As we can see from the plots, both asymptotes hold quite well for high-index eigenvalues. The only inaccuracies emerge for low-indexes, that is for $\lambda_k \in [1, \, 10]$.
 
-\subsection{Asymptotic consistency of Discrete Sine Transform eigenvalues}
+\subsection{Asymptotic Consistency of Discrete Sine Transform Eigenvalues}
 \noindent
 The reader might wonder whether the remarkable accuracy of the Discrete Sine Transform (DST) approach is merely coincidental. It is not. The accuracy stems from the fact that the eigenvalues of the discrete operator obtained via DST are asymptotically consistent with those of the continuous Sturm--Liouville problem.
 
@@ -1335,7 +1335,7 @@ Thus, in the limit for large $k$, the discrete eigenvalues obtained by the DST a
 
 
 
-\chapter{Semi-discrete simulations of classical wave equation}
+\chapter{Semi-Discrete Simulations of Classical Wave Equation}
 \noindent
 The focus of this chapter will be on semi-discrete simulations of the classical wave equation
 \begin{equation}\label{eq_wave}
@@ -1367,7 +1367,7 @@ where the relation between wave number $k$ and angular frequency $\omega_k$ is $
 
 First, we introduce exact time evolution and then present the plots from our simulations. The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest whole number.
 
-\section{Connection between the Sturm--Liouville eigenvalue problem and the wave equation}
+\section{Connection between the Sturm--Liouville Eigenvalue Problem and the Wave Equation}
 \noindent
 The classical wave equation \eqref{eq_wave} describes the propagation of waves in a one-dimensional homogeneous medium with constant wave speed $c$. A key property of wave phenomena is the dispersion relation, which links the temporal frequency $\omega$ to the spatial behaviour of the solution. In order to preserve the correct dispersion relation in numerical simulations, an accurate discretization of the spatial differential operator is needed.
 
@@ -1393,7 +1393,7 @@ This equivalence reveals a profound link between the two problems: any reliable 
 
 
 
-\section{Exact time evolution}
+\section{Exact Time Evolution}
 \noindent
 Instead of using conventional numerical time-stepping schemes, we employ exact time integration based on the eigen-decomposition of the spatial operator. This approach yields analytically exact solutions and consists of the following steps:
 
@@ -1443,7 +1443,7 @@ Instead of using conventional numerical time-stepping schemes, we employ exact t
 This approach guarantees that the time evolution is exact — there is no time-discretization error. The only source of error originates from the spatial discretization of the continuous second-order derivative operator.
 
 
-\section{Methods used in the codes}
+\section{Methods Used in the Codes}
 \noindent
 The spatial matrix operator $\mathbb{A}$ is constructed using several different discretization techniques, depending on the type of boundary conditions.
 
@@ -1462,7 +1462,7 @@ For these methods, the exact modal time evolution, as described above, is applie
 
 
 
-\section{Periodic boundary conditions}
+\section{Periodic Boundary Conditions}
 \noindent
 In this section, we will focus on periodic boundary conditions
 \begin{equation}
@@ -1472,7 +1472,7 @@ where $I$ is the interval length.
 
 Simulations will be done by implementing Finite Differences, Numerov's method, and the Discrete Fourier Transform. Other methods based on Chebyshev Collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of boundary conditions.
 
-\subsection{One wave}
+\subsection{One Wave}
 \noindent
 First, let us look at the simulation of one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{eq_periodic_one}
@@ -1518,7 +1518,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 
 
-\subsection{Superposition of waves - same direction}
+\subsection{Superposition of Waves - Same Direction}
 \noindent
 Next, let us look at the superposition of two sine waves that propagate in the same direction \eqref{two_waves_same}. The problem is
 \begin{subequations}\label{}
@@ -1565,7 +1565,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 
 
-\subsection{Superposition of waves - opposite direction}
+\subsection{Superposition of Waves - Opposite Direction}
 \noindent
 Finally, let us look at the superposition of two sine waves that propagate in opposite directions \eqref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
@@ -1612,7 +1612,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 
 
-\section{Dirichlet boundary conditions}
+\section{Dirichlet Boundary Conditions}
 \noindent
 In this section, we will focus on homogeneous Dirichlet boundary conditions
 \begin{equation}
@@ -1623,7 +1623,7 @@ where $I$ is the interval length.
 Since all of our methods are suitable for Dirichlet boundary conditions, we will run simulations using each method.
 
  
-\subsection{One wave}
+\subsection{One Wave}
 \noindent
 First, let us look at the simulation of one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{}
@@ -1690,7 +1690,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 
 
-\subsection{Superposition of waves - same direction}
+\subsection{Superposition of Waves - Same Direction}
 \noindent
 Next, let us look at the superposition of two sine waves that propagate in the same direction \eqref{two_waves_same}. The problem is
 \begin{subequations}\label{}
@@ -1758,7 +1758,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 
 
 
-\subsection{Superposition of waves - opposite direction}
+\subsection{Superposition of Waves - Opposite Direction}
 \noindent
 Next, let us look at the superposition of two sine waves that propagate in the opposite direction \eqref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
@@ -1826,7 +1826,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \end{figure}
 
 
-\section{Conclusion from the semi-discrete simulations of classical wave equation}
+\section{Conclusion from the Semi-Discrete Simulations of Classical Wave Equation}
 \noindent
 A series of numerical simulations was performed to investigate the propagation of waves \eqref{eq_wave_general} governed by the classical wave equation \eqref{eq_wave}. All spatial discretization methods developed or considered in this work were employed and compared to one another.
 
@@ -1837,7 +1837,7 @@ The numerical experiments confirm that the Discrete Fourier Transform (DFT) prov
 
 
 
-\chapter{Semi-discrete simulations of rate-type equations for metamaterials}
+\chapter{Semi-Discrete Simulations of Rate-Type Equations for Metamaterials}
 \noindent
 In this chapter, we will focus on simulations similar to those in the previous chapter. This time, however, we will consider a rate-type equation for the evolution of waves in a one-dimensional metamaterial. The metamaterial consists of an infinite lattice system made of cells with inner mass. Figure \ref{fig_metamaterial} illustrates the configuration of the metamaterial.
 \begin{figure}[H]
@@ -1849,7 +1849,7 @@ In this chapter, we will focus on simulations similar to those in the previous c
 \noindent
 The parameter $k_1$ denotes the stiffness of the springs between the outer masses,~$k_2$ signifies the stiffness of the springs between the inner and outer masses, $m_1$ and $m_2$ represent the masses of the outer and inner parts of the cell, respectively, $L$ is the length of one periodic part of the lattice, and finally, $u_1$ and $u_2$ are the displacements of the outer and inner masses, respectively.
 
-\section{Rate-type equations}
+\section{Rate-Type Equations}
 \noindent
 The classical Newtonian description of the system in Figure \ref{fig_metamaterial} is
 \begin{subequations}\label{eq_newton_metamaterial}
@@ -1997,7 +1997,7 @@ The simulations are conducted in dimensionless time units, and the measured time
 
 
 
-\section{Periodic boundary conditions}
+\section{Periodic Boundary Conditions}
 \noindent
 In this section, we will focus on periodic boundary conditions
 \begin{equation}
@@ -2008,7 +2008,7 @@ where $I$ is the interval length.
 Simulations will be done by implementing Finite Differences, Numerov's method, and the Discrete Fourier Transform. Other methods based on Chebyshev Collocation points (such as CDM, MBCDM, and LGCC) are completely unsuitable for this kind of boundary conditions.
 
 
-\subsection{One wave}
+\subsection{One Wave}
 \noindent
 First, let us look at the simulation of one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{}
@@ -2061,7 +2061,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \end{figure}
 
 
-\subsection{Superposition of waves - same direction}
+\subsection{Superposition of Waves - Same Direction}
 \noindent
 Next, let us look at the superposition of two sine waves that propagate in the same direction \eqref{two_waves_same}. The problem is
 \begin{subequations}\label{}
@@ -2113,7 +2113,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
     \label{fig_two_periodic_same_meta_DFT}
 \end{figure}
 
-\subsection{Superposition of waves - opposite direction}
+\subsection{Superposition of Waves - Opposite Direction}
 \noindent
 Finally, let us look at the superposition of two sine waves that propagate in opposite directions \eqref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
@@ -2166,7 +2166,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \end{figure}
 
 
-\section{Dirichlet boundary conditions}
+\section{Dirichlet Boundary Conditions}
 \noindent
 In this section, we will focus on homogeneous Dirichlet boundary conditions
 \begin{equation}
@@ -2178,7 +2178,7 @@ Since all of our methods are suitable for Dirichlet boundary conditions, we will
 
 
 
-\subsection{One wave}
+\subsection{One Wave}
 \noindent
 First, let us look at the simulation of one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{}
@@ -2250,7 +2250,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
     \label{fig_one_dirichlet_meta_dst}
 \end{figure}
 
-\subsection{Superposition of waves - same direction}
+\subsection{Superposition of Waves - Same Direction}
 \noindent
 Next, let us look at the superposition of two sine waves that propagate in the same direction \eqref{two_waves_same}. The problem is
 \begin{subequations}\label{}
@@ -2322,7 +2322,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
     \label{fig_two_dirichlet_meta_dst}
 \end{figure}
 
-\subsection{Superposition of waves - opposite direction}
+\subsection{Superposition of Waves - Opposite Direction}
 \noindent
 Finally, let us look at the superposition of two sine waves that propagate in opposite directions \eqref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
@@ -2396,7 +2396,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
     \label{fig_two_dirichlet_oppo_meta_dst}
 \end{figure}
 
-\section{Conclusion from the semi-discrete simulations of rate-type equations for metamaterials}
+\section{Conclusion from the Semi-Discrete Simulations of Rate-Type Equations for Metamaterials}
 \noindent
 In this chapter, a numerical analysis analogous to the one presented in the previous chapter was performed, this time using the rate-type governing equations.
 
@@ -2410,11 +2410,11 @@ Overall, the outcomes are consistent with those observed in the previous chapter
 
 
 
-\chapter{Comparison of wave propagation governed by classical wave equation and rate-type equations for metamaterials}
+\chapter{Comparison of Wave Propagation Governed by Classical Wave Equation and Rate-Type Equations for Metamaterials}
 \noindent
 In the previous chapters, we demonstrated that the best spatial approximation for periodic boundary problems is the Discrete Fourier Transform and the Discrete Sine Transform for Dirichlet boundary problems. Now we would like to use these two approximations for comparison between the behaviour of metamaterials and classical elastic materials.
 
-\section{Governing equations}
+\section{Governing Equations}
 \noindent
 The metamaterial consisting of the lattice structure depicted in Figure \ref{fig_metamaterial} has continuous rate-type governing equations
 \begin{subequations}\label{continuous_meta}
@@ -2449,7 +2449,7 @@ The simulations are conducted in dimensionless time units, and the measured time
 
 
 
-\section{Periodic boundary conditions}
+\section{Periodic Boundary Conditions}
 \noindent
 In this section, we will focus on periodic boundary conditions
 \begin{equation}
@@ -2458,7 +2458,7 @@ In this section, we will focus on periodic boundary conditions
 where $I$ is the interval length.
 
 
-\subsection{One wave}
+\subsection{One Wave}
 \noindent
 We will conduct a simulation of one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{}
@@ -2525,7 +2525,7 @@ Lastly, Figure \ref{fig_comparison_periodic_5} plots wave propagation at time fr
 
 
 
-\section{Dirichlet boundary conditions}
+\section{Dirichlet Boundary Conditions}
 \noindent
 In this section, we will focus on homogeneous Dirichlet boundary conditions
 \begin{equation}
@@ -2534,7 +2534,7 @@ In this section, we will focus on homogeneous Dirichlet boundary conditions
 where $I$ is the interval length.
 
 
-\subsection{One wave}
+\subsection{One Wave}
 \noindent
 We will conduct a simulation of one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{}
@@ -2601,7 +2601,7 @@ Lastly, Figure \ref{fig_comparison_dirichlet_5} plots wave propagation at time f
     \label{fig_comparison_dirichlet_5}
 \end{figure}
 
-\section{Conclusion from comparison of wave propagation governed by classical wave equation and rate-type equations for metamaterials}
+\section{Conclusion from Comparison of Wave Propagation Governed by Classical Wave Equation and Rate-Type Equations for Metamaterials}
 \noindent
 As the mass parameter $m_2$ approaches zero, the behaviour of the system governed by the rate-type constitutive equation converges to that of the classical wave equation. This observation confirms the theoretical expectation that the rate-type model recovers standard wave propagation in the limit of vanishing inertial contributions associated with the second component.
 
