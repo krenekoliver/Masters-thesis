@@ -243,7 +243,7 @@ The main objective of this work is to evaluate the performance of these methods 
 
 A particular emphasis is placed on investigating the limiting behaviour of the metamaterial model. By gradually decreasing the internal mass parameter towards zero, we aim to numerically demonstrate the convergence of the rate-type system to the classical wave equation, as suggested by the theoretical analysis.
 
-Through this thesis, we aim not only to identify the most suitable discretization method for each type of boundary condition, but also to highlight the connection between Sturm--Liouville eigenvalue problems and wave propagation via the dispersion relation. In particular, we show why the Discrete Sine Transform is exceptionally well-suited for Dirichlet problems: its eigenvalues are asymptotically consistent with the analytic expansion of the continuous Sturm--Liouville operator, which in turn ensures an accurate discrete dispersion relation even on relatively coarse grids.
+Throughout this thesis, we aim not only to identify the most suitable discretization method for each type of boundary condition, but also to highlight the connection between Sturm--Liouville eigenvalue problems and wave propagation via the dispersion relation. In particular, we show why the Discrete Sine Transform is exceptionally well-suited for Dirichlet problems: its eigenvalues are asymptotically consistent with the analytic expansion of the continuous Sturm--Liouville operator, which in turn ensures an accurate discrete dispersion relation even on relatively coarse grids.
 
 The thesis is organized as follows. Chapter 1 introduces the two regular Sturm--Liouville eigenvalue test problems and describes our discretization techniques. \hbox{Chapter 2} presents semi-discrete simulations of wave propagation governed by the classical wave equation. Chapter 3 is devoted to semi-discrete simulations using rate-type constitutive equations for metamaterials. Finally, Chapter 4 provides a direct comparison of wave propagation in both the classical wave equation and the rate-type metamaterial~model.
 
@@ -267,7 +267,7 @@ In this section, we briefly introduce regular Sturm--Liouville test problems in 
     & x \in (a, \, b) \, .
     \end{align}
 \end{subequations}
-Next, let us define two specific examples.
+Next, we will define two specific cases.
 
 \subsection{Paine equation}
 \noindent
@@ -282,7 +282,7 @@ and is defined on the interval where
         b & = \pi \ .
     \end{split}
 \end{equation}
-If we substitute this into the relation \eqref{eq_general_test_problem}, we get the resulting formulation of the Paine equation
+If we substitute this into the relation \eqref{eq_general_test_problem}, we get the resulting formulation of the Paine test problem
 \begin{subequations}\label{eq_SL}
     \begin{align}
     - & u''(x) + e^x u(x) = \lambda u(x) \, , \\[5pt]
@@ -305,7 +305,7 @@ and is defined on the interval where
         b & = \dfrac{\pi}{2} \, .
     \end{split}
 \end{equation}
-If we substitute this into \eqref{eq_general_test_problem}, we get the resulting formulation of the Coffey--Evans equation
+If we substitute this into \eqref{eq_general_test_problem}, we get the resulting formulation of the Coffey--Evans test problem
 \begin{subequations}\label{eq_CE}
     \begin{align}
     - & u''(x) + \big(\beta^2 \sin^2{(2 x)} - 2 \beta \cos{(2 x)} \big) u(x) = \lambda  u(x) \, , \\[5pt]
@@ -318,17 +318,17 @@ Throughout the thesis, we will use the value of the parameter $\beta = 30$.
 
 \section{Matslise software}
 \noindent
-As mentioned previously, we use the Matslise software \cite{matslise} to compute reference eigenvalues. In this thesis, we use it to validate results obtained by other numerical methods.
+As mentioned previously, we use the Matslise software \cite{matslise} to compute reference eigenvalues. In this thesis, the reference eigenvalues are used to validate the results obtained by other numerical methods.
 
 Matslise is a MATLAB package for the numerical solution of regular and singular Sturm--Liouville eigenvalue problems. It belongs to the class of shooting methods: it transforms the two-point boundary value problem into an initial-value problem by guessing a trial eigenvalue $\lambda$, integrating the differential equation from one boundary to the other, and iteratively adjusting $\lambda$ until the second boundary condition is satisfied. The key innovation of Matslise is that the integration step is performed using piecewise constant perturbation methods. On each small subinterval, the potential $q(x)$ is approximated by a constant value (for which the exact analytic solution is known), and higher-order perturbation correction terms are systematically added \cite{ledoux}.
 
-This approach is accurate even for large (high-index) eigenvalues, in which we are particularly interested, with relatively few grid points. It all makes Matslise particularly efficient and robust for our test problems \cite{matslise}.
+This approach is accurate even for large (high-index) eigenvalues, in which we are particularly interested, with relatively few grid points. It all makes Matslise particularly efficient and robust for our test problems.
 
 
 
 \section{Discretization methods}
 \noindent
-This section introduces the discretization methods used to approximate second derivative operators in our test problems. These same methods will later be used for spatial discretization in wave propagation simulations.
+This section introduces the discretization methods used to approximate the second derivative operator in our test problems. These same methods will later be used for spatial discretization in wave propagation simulations.
 
 Our aim is to discretize the continuous operator of the second derivative by using an approximation matrix
 \begin{equation}
@@ -361,7 +361,7 @@ where again $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^\top$
 
 From this formulation of the test problems, the structure of the eigenvalue computation is clear. As previously mentioned, we will use the MATLAB function \texttt{eig} for their computation. We will compare these eigenvalues across the methods, especially the high-index ones.
 
-The differentiation matrices $\mathbb{D}$ will be assembled using the following methods.
+The differentiation matrix $\mathbb{D}$ will be assembled using the following methods.
 
 \subsection{Finite Difference method}
 \noindent
@@ -470,7 +470,7 @@ Then the whole approximation can be rewritten in the matrix form
 \end{equation}
 where $\mathbf{u} = \big[u(x_1), \, u(x_2), \, \dots, \, u(x_N)\big]^\top$ is the vector of unknowns on the uniform grid.
 
-To improve the accuracy of the higher eigenvalues obtained by Numerov's method, an asymptotic correction is applied. First, the standard Numerov's scheme yields approximate eigenvalues $\lambda_k$. These are then corrected using the formulas
+To improve the accuracy of the high-index eigenvalues obtained by Numerov's method, an asymptotic correction is applied. First, the standard Numerov's scheme yields approximate eigenvalues $\lambda_k$. These are then corrected using the formulas
 \begin{equation}
 s_k^2 = \sin^2\left(\frac{k h}{2}\right) \, , \quad
 \varepsilon_k^2 = k^2 - \frac{12 s_k^2}{h^2 (3 - s_k^2)} \, ,
@@ -600,9 +600,9 @@ The implementation of this method can be seen in Algorithms \ref{alg_5} for Pain
 \State $\mathbb{D}_{\text{Cheb}} = \mathbb{D}_{\text{full}}[2:N+1, \, 2:N+1]$ 
 \State $t_{\text{int}} = t[2:N+1]$
 \State $x_i = \dfrac{\pi}{2}  t_{\text{int},i}$ \quad for $i=1, \dots,N$
+\State $\mathbb{D} = \dfrac{4}{\pi^2} \mathbb{D}_{\text{Cheb}}$
 \State $q_i =  \beta^2 \sin^2(2 x_i) - 2 \beta \cos(2x_i) $ \quad for $i=1, \dots,N$
 \State $\mathbb{Q} = \texttt{diag}\big(q_1,  \, q_2,  \, \dots,  \, q_N \big)$
-\State $\mathbb{D} = \dfrac{4}{\pi^2} \mathbb{D}_{\text{Cheb}}$
 \State $\mathbb{A} = -\mathbb{D} + \mathbb{Q}$
 \BlankLine
 \State \texttt{eig}($\mathbb{A}$) $ \to \lambda_1 \leq \lambda_2 \leq \dots \leq \lambda_N$
@@ -718,11 +718,11 @@ The implementation of this method is in Algorithm \ref{alg_MBCDM_Paine} for the 
 \noindent
 The Legendre--Galerkin--Chebyshev Collocation (LGCC) method is a hybrid spectral technique that combines Legendre--Galerkin projection with Chebyshev Collocation.
 
-It can be used to assemble an accurate differentiation matrix for the second derivative operator on Chebyshev points. This approximation property makes LGCC very effective for discretizing second-order differential operators and, consequently, an excellent tool for solving Sturm--Liouville eigenvalue problems with homogeneous Dirichlet boundary conditions.
+It can be used to assemble an accurate differentiation matrix for the second derivative operator on Chebyshev points. This approximation property makes LGCC effective for discretizing second-order differential operators and, consequently, an excellent tool for solving Sturm--Liouville eigenvalue problems with homogeneous Dirichlet boundary conditions.
 
 The method is implemented in MATLAB using the \textit{Chebfun} package via the \texttt{chebfun} and \texttt{legcoeffs} functions.
 
-The method begins by mapping the physical interval $[a, \, b]$ to the standard domain~$[-1, \, 1]$ using a linear transformation
+The method begins by mapping the physical interval $[a, \, b]$ to the standard domain~$[-1, \, 1]$ by using a linear transformation
 \begin{equation}
     t = \dfrac{2x - (b+a)}{b-a} \in [-1, \, 1] \, .
 \end{equation}
@@ -763,11 +763,11 @@ The implementation of this method is in Algorithm \ref{alg_LGCC_Paine} for the P
 \State $k=0,1,\dots,m-1$
 \BlankLine
 \State Stiffness matrix $\mathbb{S}$ (diagonal):
-\State \quad $\mathbb{S}_{k, \, k} = 4 k + 6$ \quad for $k = 0,1, \dots, m-1$
+\State \quad $\mathbb{S}_{k, k} = 4 k + 6$ \quad for $k = 0,1, \dots, m-1$
 \BlankLine
 \State Mass matrix $\mathbb{T}$ (penta-diagonal):
 \State \quad $\mathbb{T}_{k,k} = \dfrac{2}{2 k+1} + \dfrac{2}{2 k+5}$ \quad for $k = 0,1, \dots, m-1$
-\State \quad $\mathbb{T}_{k, \, k+2} = \mathbb{T}_{k+2, \, k} = -\dfrac{2}{2 k+5}$ \quad for $k = 0,1, \dots, m-3$
+\State \quad $\mathbb{T}_{k,k+2} = \mathbb{T}_{k+2, k} = -\dfrac{2}{2 k+5}$ \quad for $k = 0,1, \dots, m-3$
 \BlankLine
 \State \quad $q(t) = \dfrac{\pi^2}{4} \exp\left( \dfrac{\pi}{2} (t + 1) \right)$
 \State \quad $\phi_k(t) = L_{k}(t) - L_{k+2}(t)$ \quad for $k = 0,1, \dots, m-1$
@@ -1365,7 +1365,7 @@ The initial waves under consideration for our simulations will be in function fo
 \end{subequations}
 where the relation between wave number $k$ and angular frequency $\omega_k$ is $\omega_k = c  k$. And analogously, for wave number $l$ and angular frequency $\omega_l$, the relation is $\omega_k = c  k$. The values $k$ and $l$ are chosen appropriately in each simulation to fit our purposes.
 
-First, we introduce exact time evolution and then present the plots from our simulations. The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest second.
+First, we introduce exact time evolution and then present the plots from our simulations. The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest integer.
 
 \section{Connection between the Sturm--Liouville eigenvalue problem and the wave equation}
 \noindent
@@ -1457,9 +1457,7 @@ Uses the analytically known eigenmodes $\sin(k \pi x/I)$ on the interval $[0, \,
 
 \subsubsection*{FD, Num, CDM, MBCD, LGCC}
 \noindent
-For these methods, the exact modal time evolution, as described above, is applied. The relation for frequencies is \eqref{omega}.
-
-It is evident that the methods suitable for periodic boundary conditions are FD and Numerov's. For the Dirichlet boundary conditions, all methods are equally applicable.
+For these methods, the exact modal time evolution, as described above, is applied. The relation for frequencies is \eqref{omega}. It is evident that the methods suitable for periodic boundary conditions are Finite Differences and Numerov's method. For the Dirichlet boundary conditions, all methods are equally applicable.
     
 
 
@@ -1479,7 +1477,7 @@ Simulations will be done by implementing Finite Differences, Numerov's method, a
 First, let us look at the simulation of one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{eq_periodic_one}
         \begin{align}
-            & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_periodic_one_1} \\[5pt]
+            & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, \, I] \, , \quad t \geq 0 \, , \label{eq_periodic_one_1} \\[5pt]
             & u(x, t) = u(x + I, t) \, , \label{eq_periodic_one_2} \\[5pt]
             & I = \pi \, , \quad N = 128 \, , \quad c = 1 \, , \label{eq_periodic_one_3} \\[5pt]
             & u(x,0) = \sin{(6 x)} \, , \label{eq_periodic_one_4} \\[5pt]
@@ -1493,7 +1491,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_wave_equation_periodic/pic_one_periodic_initial.eps}
-    \caption{Initial exact wave at $t = 0$. }
+    \caption{Initial exact wave at time frame $t = 0$. }
     \label{fig_periodic_one_initial}
 \end{figure}
 
@@ -1525,7 +1523,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 Next, let us look at the superposition of two sine waves that propagate in the same direction \eqref{two_waves_same}. The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_two_wave_same_1} \\[5pt]
+        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, \, I] \, , \quad t \geq 0 \, , \label{eq_two_wave_same_1} \\[5pt]
         & u(x, t) = u(x + I, t) \, , \label{eq_two_wave_same_2}  \\[5pt]
         & I = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, , \label{eq_two_wave_same_3} \\[5pt]
         & u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \label{eq_two_wave_same_4} \\[5pt]
@@ -1540,7 +1538,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_wave_equation_periodic/pic_two_periodic_same_initial.eps}
-    \caption{Initial exact wave at $t = 0 $. }
+    \caption{Initial exact wave at time frame $t = 0 $. }
     \label{fig_two_periodic_same_initial}
 \end{figure}
 
@@ -1572,7 +1570,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 Finally, let us look at the superposition of two sine waves that propagate in opposite directions \eqref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_two_wave_oppo_1} \\[5pt]
+        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, \, I] \, , \quad t \geq 0 \, , \label{eq_two_wave_oppo_1} \\[5pt]
         & u(x, t) = u(x + I, t) \, , \label{eq_two_wave_oppo_2} \\[5pt]
         & I = 2\pi \, , \quad N = 128 \, , \quad c = 1 \, , \label{eq_two_wave_oppo_3} \\[5pt]
         & u(x,0) = \sin{(5 x)} + \sin{(6 x)} \, , \label{eq_two_wave_oppo_4} \\[5pt]
@@ -1586,7 +1584,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_wave_equation_periodic/pic_two_periodic_oppo_initial.eps}
-    \caption{Initial exact wave at $t = 0$. }
+    \caption{Initial exact wave at time frame $t = 0$. }
     \label{fig_two_periodic_oppo_initial}
 \end{figure}
 
@@ -1630,21 +1628,21 @@ Since all of our methods are suitable for Dirichlet boundary conditions, we will
 First, let us look at the simulation of one sine wave in the form \eqref{one_wave}. The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_one_Dirichlet_1} \\[5pt]
+        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, \, I] \, , \quad t \geq 0 \, , \label{eq_one_Dirichlet_1} \\[5pt]
         & u(0, t) = u(I, t) = 0 \, , \label{eq_one_Dirichlet_2} \\[5pt]
         & I = \pi \, , \quad N = 40 \, , \quad c = 1 \, , \label{eq_one_Dirichlet_3} \\[5pt]
-        & u(x,0) = \sin{(20 x)} \quad 0 \leq x \leq \pi/2 \, , \label{eq_one_Dirichlet_4} \\[5pt] 
-        & u_t(x,0) =  - 20 \cos{(20x)} \quad 0 \leq x \leq \pi/2 \, \label{eq_one_Dirichlet_5} .
+        & u(x,0) = \sin{(20 x)} \quad 0 \leq x \leq \frac{\pi}{2} \, , \label{eq_one_Dirichlet_4} \\[5pt] 
+        & u_t(x,0) =  - 20 \cos{(20x)} \quad 0 \leq x \leq \frac{\pi}{2} \, \label{eq_one_Dirichlet_5} .
     \end{align}
 \end{subequations}
-In \eqref{eq_one_Dirichlet_1} is the evolution equation; in \eqref{eq_one_Dirichlet_2} are the boundary conditions; in \eqref{eq_one_Dirichlet_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the \eqref{eq_one_Dirichlet_4} and \eqref{eq_one_Dirichlet_5} are the initial conditions — the functions are identically zero outside the prescribed intervals.
+In \eqref{eq_one_Dirichlet_1} is the evolution equation; in \eqref{eq_one_Dirichlet_2} are the boundary conditions; in \eqref{eq_one_Dirichlet_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in the \eqref{eq_one_Dirichlet_4} and \eqref{eq_one_Dirichlet_5} are the initial conditions~— the functions are identically zero outside the prescribed intervals.
 
 The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{fig_one_dirichlet_initial}; the plot of the Finite Difference approximation of the exact wave at time frame $t=13$ is shown in Figure \ref{fig_one_dirichlet_FD}; the plot of Numerov's approximation of the exact wave at time frame $t=38$ is shown in Figure \ref{fig_one_dirichlet_Numerov}; the plot of the Chebyshev Differentiation Matrix approximation of the exact wave at time frame $t=18 \,850$ is shown in Figure \ref{fig_one_dirichlet_CDM}; the plot of the Mapped Barycentric Chebyshev Differentiation Matrix approximation of the exact wave at time frame $t=18 \,850$ is shown in Figure \ref{fig_one_dirichlet_MBCDM}; the plot of the Legendre--Galerkin--Chebyshev Collocation approximation of the exact wave at time frame $t=18 \,850$ is shown in Figure \ref{fig_one_dirichlet_LGCC}; and lastly, the plot of the Discrete Sine Transform approximation of the exact wave at time frame $t=18 \,850$ is shown in Figure \ref{fig_one_dirichlet_DST}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_one_dirichlet_initial.eps}
-    \caption{Initial exact wave at $t = 0$. }
+    \caption{Initial exact wave at time frame $t = 0$. }
     \label{fig_one_dirichlet_initial}
 \end{figure}
 
@@ -1697,11 +1695,11 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 Next, let us look at the superposition of two sine waves that propagate in the same direction \eqref{two_waves_same}. The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_two_same_dirichlet_1} \\[5pt]
+        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, \, I] \, , \quad t \geq 0 \, , \label{eq_two_same_dirichlet_1} \\[5pt]
         & u(0, t) = u(I, t) = 0 \, , \label{eq_two_same_dirichlet_2} \\[5pt]
         & I = \pi \, , \quad N = 50 \, , \quad c = 1 \, , \label{eq_two_same_dirichlet_3} \\[5pt]
-        & u(x,0) = \sin{(16 x)} + \sin{(24 x)} \quad 0 \leq x \leq \pi/2 \, , \label{eq_two_same_dirichlet_4} \\[5pt]
-        & u_t(x,0) = - 16 \cos(16 x) - 24 \cos(24 x) \quad 0 \leq x \leq \pi/2 \, \label{eq_two_same_dirichlet_5} .
+        & u(x,0) = \sin{(16 x)} + \sin{(24 x)} \quad 0 \leq x \leq \frac{\pi}{2} \, , \label{eq_two_same_dirichlet_4} \\[5pt]
+        & u_t(x,0) = - 16 \cos(16 x) - 24 \cos(24 x) \quad 0 \leq x \leq \frac{\pi}{2} \, \label{eq_two_same_dirichlet_5} .
     \end{align}
 \end{subequations}
 In \eqref{eq_two_same_dirichlet_1} is the evolution equation; in \eqref{eq_two_same_dirichlet_2} are the boundary conditions; in \eqref{eq_two_same_dirichlet_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \eqref{eq_two_same_dirichlet_4} and \eqref{eq_two_same_dirichlet_5} are the initial conditions — the functions are identically zero outside the prescribed intervals.
@@ -1711,7 +1709,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_same_initial.eps}
-    \caption{Initial exact wave at $t = 0$.}
+    \caption{Initial exact wave at time frame $t = 0$.}
     \label{fig_two_dirichlet_same_initial}
 \end{figure}
 
@@ -1765,13 +1763,13 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 Next, let us look at the superposition of two sine waves that propagate in the opposite direction \eqref{two_waves_oppo}. The problem is
 \begin{subequations}\label{}
     \begin{align}
-        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, I] \, , \quad t \geq 0 \, , \label{eq_two_dirichlet_oppo_1} \\[5pt]
+        & \dfrac{\partial^2 u (x, t)}{\partial t^2 } = c^2 \dfrac{\partial^2 u (x, t)}{\partial x^2} \, , \quad x \in [0, \, I] \, , \quad t \geq 0 \, , \label{eq_two_dirichlet_oppo_1} \\[5pt]
         & u(0, t) = u(I, t) = 0 \, , \label{eq_two_dirichlet_oppo_2} \\[5pt]
         & I = \pi \, , \quad N = 50 \, , \quad c = 1 \, , \label{eq_two_dirichlet_oppo_3} \\[5pt]
-        & u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq 3\pi/8 \, , \label{eq_two_dirichlet_oppo_4} \\[5pt]
-        & u(x,0) = \sin{(24 x)} \quad 3\pi/4 \leq x \leq \pi \, , \label{eq_two_dirichlet_oppo_5} \\[5pt]
-        & u_t(x,0) = - 16 \cos(16 x) \quad 0 \leq x \leq 3\pi/8 \,  , \label{eq_two_dirichlet_oppo_6} \\[5pt]
-        & u_t(x,0) = + 24 \cos(24 x) \quad 3\pi/4 \leq x \leq \pi \, \label{eq_two_dirichlet_oppo_7} .
+        & u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq \frac{3\pi}{8} \, , \label{eq_two_dirichlet_oppo_4} \\[5pt]
+        & u(x,0) = \sin{(24 x)} \quad \frac{3\pi}{4} \leq x \leq \pi \, , \label{eq_two_dirichlet_oppo_5} \\[5pt]
+        & u_t(x,0) = - 16 \cos(16 x) \quad 0 \leq x \leq \frac{3\pi}{8} \,  , \label{eq_two_dirichlet_oppo_6} \\[5pt]
+        & u_t(x,0) = + 24 \cos(24 x) \quad \frac{3\pi}{4} \leq x \leq \pi \, \label{eq_two_dirichlet_oppo_7} .
     \end{align}
 \end{subequations}
 In \eqref{eq_two_dirichlet_oppo_1} is the evolution equation; in \eqref{eq_two_dirichlet_oppo_2} are the boundary conditions; in \eqref{eq_two_dirichlet_oppo_3} are the length of the interval $I$, the number of grid points $N$ in the interval, and the value of the parameter $c$; and lastly, in \ref{eq_two_dirichlet_oppo_4}, \eqref{eq_two_dirichlet_oppo_5}, \eqref{eq_two_dirichlet_oppo_6} and \eqref{eq_two_dirichlet_oppo_7} are the initial conditions — the functions are identically zero outside the prescribed intervals.
@@ -1781,7 +1779,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_wave_equation_Dirichlet/pic_two_dirichlet_oppo_initial.eps}
-    \caption{Initial exact wave at $t = 0$.}
+    \caption{Initial exact wave at time frame $t = 0$.}
     \label{fig_two_dirichlet_oppo_initial}
 \end{figure}
 
@@ -1996,7 +1994,7 @@ where $\mathbf{y}_0$ and $\dot{\mathbf{y}}_0$ are the initial conditions.
 
 This approach ensures that the time integration is analytically exact; the only source of error is the spatial discretization. The matrix $\mathbb{D}$ will be chosen appropriately depending on which method we wish to implement: FD, Num, CDM, MBCDM, LGCC, DFT or DST.
 
-The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest second.
+The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest integer.
 
 
 
@@ -2038,7 +2036,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_meta_equation_periodic/one_periodic_meta_initial.eps}
-    \caption{Initial exact wave at $t = 0$.}
+    \caption{Initial exact wave at time frame $t = 0$.}
     \label{fig_one_periodic_meta_initial}
 \end{figure}
 
@@ -2091,7 +2089,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_meta_equation_periodic/two_periodic_same_meta_initial.eps}
-    \caption{Initial exact wave at $t = 0$.}
+    \caption{Initial exact wave at time frame $t = 0$.}
     \label{fig_two_periodic_same_meta_initial}
 \end{figure}
 
@@ -2143,7 +2141,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_meta_equation_periodic/two_periodic_oppo_meta_initial.eps}
-    \caption{Initial exact wave at $t = 0$.}
+    \caption{Initial exact wave at time frame $t = 0$.}
     \label{fig_two_periodic_oppo_meta_initial}
 \end{figure}
 
@@ -2207,7 +2205,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_meta_equation_Dirichlet/one_dirichlet_meta_initial.eps}
-    \caption{Initial exact wave at $t = 0$.}
+    \caption{Initial exact wave at time frame $t = 0$.}
     \label{fig_one_dirichlet_meta_initial}
 \end{figure}
 
@@ -2279,7 +2277,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_same_meta_initial.eps}
-    \caption{Initial exact wave at $t = 0$.}
+    \caption{Initial exact wave at time frame $t = 0$.}
     \label{fig_two_dirichlet_meta_initial}
 \end{figure}
 
@@ -2338,10 +2336,10 @@ Finally, let us look at the superposition of two sine waves that propagate in op
         & I = 2\pi \, , \quad N = 30 \, , \quad L = I/N \, , \label{two_oppo_dirichlet_meta_4} \\[5pt]
         & k_1 = 5 \, , \quad k_2 = 50 \, , \quad m_1 = 1 \, , \quad m_2 = 0.1 \, , \label{two_oppo_dirichlet_meta_5} \\[5pt]
         & \sigma(x,t) \equiv a(x,t) + k_1 L^2 \dfrac{\partial^2 u(x,t)}{\partial x^2} \, , \label{two_oppo_dirichlet_meta_12} \\[5pt]
-        & u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq \pi/2 \, , \label{two_oppo_dirichlet_meta_6} \\[5pt]
-        & u(x,0) = \sin{(24 x)} \quad 3\pi/2 \leq x \leq \pi \, , \label{two_oppo_dirichlet_meta_7} \\[5pt]
-        & u_t(x,0) = - 16 \cos(16 x) \quad 0 \leq x \leq \pi/2 \, , \label{two_oppo_dirichlet_meta_8} \\[5pt]
-        & u_t(x,0) = + 24 \cos(24 x) \quad 3\pi/2 \leq x \leq \pi \, , \label{two_oppo_dirichlet_meta_9} \\[5pt]
+        & u(x,0) = \sin{(16 x)} \quad 0 \leq x \leq \frac{\pi}{2} \, , \label{two_oppo_dirichlet_meta_6} \\[5pt]
+        & u(x,0) = \sin{(24 x)} \quad \frac{3\pi}{2} \leq x \leq \pi \, , \label{two_oppo_dirichlet_meta_7} \\[5pt]
+        & u_t(x,0) = - 16 \cos(16 x) \quad 0 \leq x \leq \frac{\pi}{2} \, , \label{two_oppo_dirichlet_meta_8} \\[5pt]
+        & u_t(x,0) = + 24 \cos(24 x) \quad \frac{3\pi}{2} \leq x \leq \pi \, , \label{two_oppo_dirichlet_meta_9} \\[5pt]
         & a(x,0) = 0 \, , \label{two_oppo_dirichlet_meta_10} \\[5pt]
         & a_t(x,0) = 0 \, . \label{two_oppo_dirichlet_meta_11}
     \end{align}
@@ -2353,7 +2351,7 @@ The plot of the initial exact wave at time frame $t=0$ is shown in Figure \ref{f
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\linewidth]{Figures/figures_meta_equation_Dirichlet/two_dirichlet_oppo_meta_initial.eps}
-    \caption{Initial exact wave at $t = 0$.}
+    \caption{Initial exact wave at time frame $t = 0$.}
     \label{fig_two_dirichlet_oppo_meta_initial}
 \end{figure}
 
@@ -2448,7 +2446,7 @@ In the following, we conduct simulations to demonstrate that, in the limit as~\h
 
 Depending on the boundary conditions, the simulations will be performed using either the Discrete Fourier Transform or the Discrete Sine Transform. As demonstrated in previous chapters, these two approaches are optimal for these numerical wave propagation experiments. In each simulation, blue will represent the classical wave equation and red will represent the rate-type metamaterial equation.
 
-The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest second.
+The simulations are conducted in dimensionless time units, and the measured time is rounded to the nearest integer.
 
 
 
@@ -2646,15 +2644,15 @@ Future research could extend the presented approaches to two-dimensional problem
     \emph{A test package for Sturm--Liouville solvers}.
     ACM Transactions on Mathematical Software 25 (1999) 21--57.
 
-    \bibitem{ledoux}
-    {\sc Ledoux, V., Van Daele, M. and Vanden Berghe, G.}
-    \emph{Efficient computation of high index Sturm--Liouville eigenvalues for problems in physics}.
-    Comput. Phys. Commun. 180 (2009) 241--250.
-
     \bibitem{matslise}
     {\sc Ledoux, V.}
     \emph{Matslise 2.0: A Matlab toolbox for Sturm--Liouville computations}.
     ACM Transactions on Mathematical Software \textbf{42} (2016), Article 29.
+
+    \bibitem{ledoux}
+    {\sc Ledoux, V., Van Daele, M. and Vanden Berghe, G.}
+    \emph{Efficient computation of high index Sturm--Liouville eigenvalues for problems in physics}.
+    Comput. Phys. Commun. 180 (2009) 241--250.
 
     \bibitem{numerov1927}
     {\sc Numerov, B.\;V.}
